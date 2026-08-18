@@ -1,19 +1,22 @@
 ---
 /**
  * ============================================================
- * ABOUT SECTION
+ * ABOUT / PROFESSIONAL PROFILE
  * ============================================================
  *
- * Professional introduction and technical positioning.
+ * Presentation layer for the professional profile.
  *
- * IMPORTANT:
- * Keep personal/project data inside /src/data/.
- * This component is responsible for presentation only.
+ * Content is intentionally stored separately in:
+ *
+ *     src/data/about.ts
+ *
+ * This keeps the website easy to maintain for a non-technical
+ * person.
  * ============================================================
  */
 
 import SectionHeading from "./SectionHeading.astro";
-import { profile } from "../data/profile";
+import { about, aboutPrinciples } from "../data/about";
 ---
 
 <section
@@ -29,240 +32,170 @@ import { profile } from "../data/profile";
     class="about-background"
     aria-hidden="true"
   >
+    <div class="about-grid"></div>
+
     <div class="about-glow about-glow-one"></div>
     <div class="about-glow about-glow-two"></div>
 
-    <div class="about-grid"></div>
+    <div class="about-particles">
 
-    <div class="about-network">
       <span></span>
       <span></span>
       <span></span>
       <span></span>
       <span></span>
       <span></span>
+
     </div>
   </div>
 
 
   <div class="container">
 
-    <!-- ====================================================
-         SECTION HEADING
-         ==================================================== -->
-
     <SectionHeading
-      eyebrow="02 / About"
-      title="Automation with an architecture mindset."
-      description="I design and deliver automation solutions that connect business processes, enterprise systems and emerging AI capabilities."
+      eyebrow="03 / About"
+      title="Engineering automation with a systems mindset."
+      description="An RPA-focused technology professional building enterprise automation solutions while exploring the next generation of intelligent automation."
     />
 
 
     <!-- ====================================================
-         MAIN ABOUT GRID
+         PROFILE GRID
          ==================================================== -->
 
     <div class="about-layout">
 
-      <!-- ==================================================
-           PROFILE CARD
-           ================================================== -->
+      <!-- ==============================================
+           PROFILE STATEMENT
+           ============================================== -->
 
-      <article class="profile-card glass-card">
+      <div class="about-profile">
 
-        <div class="profile-card-top">
+        <div class="profile-terminal">
 
-          <div class="profile-avatar">
-            <span class="avatar-grid"></span>
+          <div class="terminal-header">
 
-            <span class="avatar-initials">
-              HA
-            </span>
-
-            <span class="avatar-status"></span>
-          </div>
-
-          <div>
-            <span class="profile-label">
-              PROFESSIONAL PROFILE
-            </span>
-
-            <h3>
-              {profile.name}
-            </h3>
-
-            <p class="profile-role">
-              Senior RPA Consultant
-            </p>
-          </div>
-
-        </div>
-
-
-        <div class="profile-divider"></div>
-
-
-        <div class="profile-info">
-
-          <div class="profile-info-row">
-            <span class="info-key">
-              Focus
-            </span>
-
-            <span class="info-value">
-              RPA · Automation · Architecture
-            </span>
-          </div>
-
-          <div class="profile-info-row">
-            <span class="info-key">
-              Current direction
-            </span>
-
-            <span class="info-value">
-              GenAI · LangChain · Intelligent Automation
-            </span>
-          </div>
-
-          <div class="profile-info-row">
-            <span class="info-key">
-              Experience
-            </span>
-
-            <span class="info-value">
-              6+ years in IT
-            </span>
-          </div>
-
-          <div class="profile-info-row">
-            <span class="info-key">
-              Environment
-            </span>
-
-            <span class="info-value">
-              Enterprise · Consulting · Delivery
-            </span>
-          </div>
-
-        </div>
-
-
-        <div class="profile-card-footer">
-
-          <span class="footer-dot"></span>
-
-          <span>
-            Building reliable systems for real-world processes.
-          </span>
-
-        </div>
-
-      </article>
-
-
-      <!-- ==================================================
-           PROFESSIONAL STORY
-           ================================================== -->
-
-      <div class="about-story">
-
-        <p class="story-lead">
-          {profile.aboutIntro}
-        </p>
-
-        <p>
-          My professional journey has evolved from hands-on IT
-          and automation delivery into consulting, solution
-          architecture and enterprise automation. I have worked
-          across different delivery models and technology
-          environments, helping organizations transform
-          repetitive and complex processes into scalable
-          digital workflows.
-        </p>
-
-        <p>
-          My current focus combines the reliability of
-          enterprise RPA with the possibilities of
-          <strong>Generative AI</strong>. I am actively expanding
-          my knowledge of technologies such as
-          <strong>LangChain</strong>, LLM-based applications,
-          AI agents and intelligent automation patterns.
-        </p>
-
-        <p>
-          The goal is not simply to automate tasks. It is to
-          understand the complete process, identify the right
-          architecture and build solutions that are maintainable,
-          measurable and capable of evolving with the business.
-        </p>
-
-
-        <!-- ==================================================
-             CORE CAPABILITIES
-             ================================================== -->
-
-        <div class="capability-list">
-
-          <div class="capability-item">
-
-            <span class="capability-number">
-              01
-            </span>
-
-            <div>
-              <h4>
-                Automation Engineering
-              </h4>
-
-              <p>
-                Designing robust RPA workflows and enterprise
-                automation solutions.
-              </p>
+            <div class="terminal-dots">
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
 
-          </div>
-
-
-          <div class="capability-item">
-
-            <span class="capability-number">
-              02
+            <span class="terminal-title">
+              profile.system
             </span>
 
-            <div>
-              <h4>
-                Solution Architecture
-              </h4>
-
-              <p>
-                Translating business requirements into scalable
-                technical solutions and integration patterns.
-              </p>
-            </div>
+            <span class="terminal-status">
+              ONLINE
+            </span>
 
           </div>
 
 
-          <div class="capability-item">
+          <div class="terminal-body">
 
-            <span class="capability-number">
-              03
-            </span>
-
-            <div>
-              <h4>
-                Intelligent Automation
-              </h4>
-
-              <p>
-                Exploring GenAI, LLMs and agentic approaches to
-                extend traditional automation.
-              </p>
+            <div class="terminal-line">
+              <span class="terminal-prompt">$</span>
+              <span>whoami</span>
             </div>
+
+
+            <div class="terminal-output">
+              {about.identity}
+            </div>
+
+
+            <div class="terminal-line terminal-line-spaced">
+              <span class="terminal-prompt">$</span>
+              <span>specialization</span>
+            </div>
+
+
+            <div class="terminal-output terminal-accent">
+              {about.specialization}
+            </div>
+
+
+            <div class="terminal-line terminal-line-spaced">
+              <span class="terminal-prompt">$</span>
+              <span>experience</span>
+            </div>
+
+
+            <div class="terminal-output">
+              {about.experience}
+            </div>
+
+
+            <div class="terminal-line terminal-line-spaced">
+              <span class="terminal-prompt">$</span>
+              <span>current_focus</span>
+            </div>
+
+
+            <div class="terminal-output terminal-accent">
+              {about.currentFocus}
+            </div>
+
+
+            <span class="terminal-cursor"></span>
 
           </div>
 
         </div>
+
+
+        <div class="about-description">
+
+          {
+            about.paragraphs.map((paragraph) => (
+              <p>
+                {paragraph}
+              </p>
+            ))
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- ==============================================
+           PRINCIPLES / CAPABILITIES
+           ============================================== -->
+
+      <div class="about-principles">
+
+        {
+          aboutPrinciples.map((principle, index) => (
+            <article class="principle-card">
+
+              <div class="principle-number">
+                {String(index + 1).padStart(2, "0")}
+              </div>
+
+
+              <div class="principle-content">
+
+                <div class="principle-icon" aria-hidden="true">
+                  <span></span>
+                </div>
+
+
+                <h3>
+                  {principle.title}
+                </h3>
+
+
+                <p>
+                  {principle.description}
+                </p>
+
+              </div>
+
+            </article>
+          ))
+        }
 
       </div>
 
@@ -270,88 +203,24 @@ import { profile } from "../data/profile";
 
 
     <!-- ====================================================
-         TECHNOLOGY STRIP
+         SPECIALIZATION STRIP
          ==================================================== -->
 
-    <div class="technology-section">
+    <div class="specialization-strip">
 
-      <div class="technology-heading">
-
-        <span>
-          CURRENT TECHNOLOGY INTERESTS
-        </span>
-
-        <div class="technology-line"></div>
-
+      <div class="strip-label">
+        CORE ENGINEERING STACK
       </div>
 
 
-      <div class="technology-grid">
+      <div class="strip-items">
 
-        <div class="technology-card">
-          <span class="tech-icon">RPA</span>
-
-          <div>
-            <strong>
-              Robotic Process Automation
-            </strong>
-
-            <small>
-              Enterprise workflow automation
-            </small>
-          </div>
-        </div>
-
-
-        <div class="technology-card">
-          <span class="tech-icon tech-blue">
-            API
-          </span>
-
-          <div>
-            <strong>
-              APIs & Integration
-            </strong>
-
-            <small>
-              Connecting enterprise systems
-            </small>
-          </div>
-        </div>
-
-
-        <div class="technology-card">
-          <span class="tech-icon tech-violet">
-            AI
-          </span>
-
-          <div>
-            <strong>
-              Generative AI
-            </strong>
-
-            <small>
-              LLM applications & intelligent workflows
-            </small>
-          </div>
-        </div>
-
-
-        <div class="technology-card">
-          <span class="tech-icon tech-green">
-            AG
-          </span>
-
-          <div>
-            <strong>
-              AI Agents
-            </strong>
-
-            <small>
-              Agentic automation exploration
-            </small>
-          </div>
-        </div>
+        <span>RPA</span>
+        <span>AUTOMATION</span>
+        <span>APIs</span>
+        <span>SOLUTION ARCHITECTURE</span>
+        <span>ENTERPRISE SYSTEMS</span>
+        <span>GENAI</span>
 
       </div>
 
@@ -382,11 +251,11 @@ import { profile } from "../data/profile";
     inset:
       0;
 
-    pointer-events:
-      none;
-
     z-index:
       -1;
+
+    pointer-events:
+      none;
   }
 
 
@@ -395,10 +264,10 @@ import { profile } from "../data/profile";
       absolute;
 
     inset:
-      10% 0 0;
+      0;
 
     opacity:
-      0.35;
+      0.2;
 
     background-image:
       linear-gradient(
@@ -412,14 +281,14 @@ import { profile } from "../data/profile";
       );
 
     background-size:
-      80px 80px;
+      65px 65px;
 
     mask-image:
       linear-gradient(
         to bottom,
         transparent,
-        black 20%,
-        black 75%,
+        black 15%,
+        black 80%,
         transparent
       );
   }
@@ -429,120 +298,78 @@ import { profile } from "../data/profile";
     position:
       absolute;
 
+    width:
+      32rem;
+
+    height:
+      32rem;
+
     border-radius:
       50%;
 
     filter:
-      blur(100px);
+      blur(140px);
   }
 
 
   .about-glow-one {
     top:
-      20%;
+      10%;
 
     right:
-      -10%;
-
-    width:
-      30rem;
-
-    height:
-      30rem;
+      -20%;
 
     background:
-      rgba(34, 211, 238, 0.045);
+      rgba(34, 211, 238, 0.035);
   }
 
 
   .about-glow-two {
     bottom:
-      0;
+      5%;
 
     left:
-      -10%;
-
-    width:
-      28rem;
-
-    height:
-      28rem;
+      -20%;
 
     background:
-      rgba(139, 92, 246, 0.04);
+      rgba(139, 92, 246, 0.025);
   }
 
 
   /* ========================================================
-     NETWORK DECORATION
+     PARTICLES
      ======================================================== */
 
-  .about-network {
+  .about-particles {
     position:
       absolute;
 
     top:
-      20%;
+      18%;
 
     right:
-      4%;
+      8%;
 
     width:
-      220px;
+      180px;
 
     height:
-      220px;
+      180px;
 
     opacity:
-      0.5;
+      0.4;
   }
 
 
-  .about-network::before,
-  .about-network::after {
-    content:
-      "";
-
-    position:
-      absolute;
-
-    top:
-      50%;
-
-    left:
-      50%;
-
-    width:
-      100%;
-
-    height:
-      1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        transparent,
-        rgba(34, 211, 238, 0.25),
-        transparent
-      );
-  }
-
-
-  .about-network::after {
-    transform:
-      rotate(90deg);
-  }
-
-
-  .about-network span {
+  .about-particles span {
     position:
       absolute;
 
     width:
-      5px;
+      3px;
 
     height:
-      5px;
+      3px;
 
     border-radius:
       50%;
@@ -551,40 +378,40 @@ import { profile } from "../data/profile";
       var(--color-cyan);
 
     box-shadow:
-      0 0 12px rgba(34, 211, 238, 0.7);
+      0 0 10px rgba(34, 211, 238, 0.5);
 
     animation:
-      about-node 4s ease-in-out infinite;
+      particle-float 5s ease-in-out infinite;
   }
 
 
-  .about-network span:nth-child(1) {
+  .about-particles span:nth-child(1) {
     top:
-      15%;
+      10%;
 
     left:
-      20%;
+      15%;
   }
 
 
-  .about-network span:nth-child(2) {
+  .about-particles span:nth-child(2) {
     top:
-      32%;
+      25%;
 
     right:
-      12%;
+      15%;
 
     animation-delay:
       -1s;
   }
 
 
-  .about-network span:nth-child(3) {
+  .about-particles span:nth-child(3) {
     top:
-      70%;
+      50%;
 
-    right:
-      25%;
+    left:
+      45%;
 
     background:
       var(--color-violet);
@@ -594,57 +421,59 @@ import { profile } from "../data/profile";
   }
 
 
-  .about-network span:nth-child(4) {
+  .about-particles span:nth-child(4) {
     bottom:
-      8%;
+      20%;
 
-    left:
-      30%;
+    right:
+      25%;
 
     animation-delay:
       -3s;
   }
 
 
-  .about-network span:nth-child(5) {
-    top:
-      48%;
+  .about-particles span:nth-child(5) {
+    bottom:
+      8%;
 
     left:
-      5%;
+      20%;
 
     background:
       var(--color-blue);
 
     animation-delay:
-      -1.5s;
+      -4s;
   }
 
 
-  .about-network span:nth-child(6) {
+  .about-particles span:nth-child(6) {
     top:
-      48%;
+      65%;
 
     left:
-      48%;
+      5%;
 
     animation-delay:
       -2.5s;
   }
 
 
-  @keyframes about-node {
+  @keyframes particle-float {
     0%,
     100% {
       transform:
-        scale(0.7);
+        translate(0, 0)
+        scale(0.8);
 
       opacity:
-        0.3;
+        0.35;
     }
 
     50% {
       transform:
+        translate(5px, -8px)
         scale(1.5);
 
       opacity:
@@ -662,11 +491,11 @@ import { profile } from "../data/profile";
       grid;
 
     grid-template-columns:
-      minmax(280px, 0.75fr)
-      minmax(0, 1.25fr);
+      minmax(0, 1.1fr)
+      minmax(280px, 0.9fr);
 
     gap:
-      clamp(2rem, 7vw, 7rem);
+      3rem;
 
     align-items:
       start;
@@ -674,593 +503,28 @@ import { profile } from "../data/profile";
 
 
   /* ========================================================
-     PROFILE CARD
+     TERMINAL PROFILE
      ======================================================== */
 
-  .profile-card {
-    position:
-      relative;
-
-    overflow:
-      hidden;
-
-    padding:
-      clamp(1.25rem, 3vw, 2rem);
-  }
-
-
-  .profile-card::before {
-    content:
-      "";
-
-    position:
-      absolute;
-
-    top:
-      0;
-
-    left:
-      0;
-
-    width:
-      40%;
-
-    height:
-      1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        var(--color-cyan),
-        transparent
-      );
-  }
-
-
-  .profile-card::after {
-    content:
-      "";
-
-    position:
-      absolute;
-
-    right:
-      -30%;
-
-    bottom:
-      -40%;
-
-    width:
-      15rem;
-
-    height:
-      15rem;
-
-    border-radius:
-      50%;
-
-    background:
-      rgba(34, 211, 238, 0.04);
-
-    filter:
-      blur(50px);
-  }
-
-
-  .profile-card-top {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    gap:
-      1rem;
-  }
-
-
-  .profile-avatar {
-    position:
-      relative;
-
-    flex:
-      0 0 auto;
-
-    width:
-      4rem;
-
-    height:
-      4rem;
-
-    display:
-      grid;
-
-    place-items:
-      center;
-
+  .profile-terminal {
     overflow:
       hidden;
 
     border:
-      1px solid rgba(34, 211, 238, 0.2);
+      1px solid var(--color-border);
 
     border-radius:
-      1rem;
+      var(--radius-lg);
 
     background:
-      linear-gradient(
-        135deg,
-        rgba(34, 211, 238, 0.1),
-        rgba(139, 92, 246, 0.08)
-      );
-  }
-
-
-  .avatar-grid {
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    background-image:
-      linear-gradient(
-        rgba(34, 211, 238, 0.08) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        90deg,
-        rgba(34, 211, 238, 0.08) 1px,
-        transparent 1px
-      );
-
-    background-size:
-      10px 10px;
-  }
-
-
-  .avatar-initials {
-    position:
-      relative;
-
-    z-index:
-      2;
-
-    color:
-      var(--color-text);
-
-    font-family:
-      var(--font-display);
-
-    font-size:
-      1.15rem;
-
-    font-weight:
-      600;
-
-    letter-spacing:
-      -0.04em;
-  }
-
-
-  .avatar-status {
-    position:
-      absolute;
-
-    right:
-      0.45rem;
-
-    bottom:
-      0.45rem;
-
-    width:
-      0.4rem;
-
-    height:
-      0.4rem;
-
-    z-index:
-      3;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-green);
+      rgba(5, 9, 15, 0.72);
 
     box-shadow:
-      0 0 10px rgba(34, 197, 94, 0.75);
+      0 20px 70px rgba(0, 0, 0, 0.18);
   }
 
 
-  .profile-label {
-    display:
-      block;
-
-    margin-bottom:
-      0.25rem;
-
-    color:
-      var(--color-cyan);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.58rem;
-
-    letter-spacing:
-      0.1em;
-  }
-
-
-  .profile-card h3 {
-    margin:
-      0;
-
-    font-size:
-      1.15rem;
-
-    letter-spacing:
-      -0.02em;
-  }
-
-
-  .profile-role {
-    margin-top:
-      0.25rem;
-
-    color:
-      var(--color-text-muted);
-
-    font-size:
-      0.78rem;
-  }
-
-
-  .profile-divider {
-    height:
-      1px;
-
-    margin:
-      1.5rem 0;
-
-    background:
-      var(--color-border);
-  }
-
-
-  .profile-info {
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    gap:
-      1rem;
-  }
-
-
-  .profile-info-row {
-    display:
-      grid;
-
-    grid-template-columns:
-      0.7fr 1.3fr;
-
-    gap:
-      1rem;
-
-    font-size:
-      0.75rem;
-  }
-
-
-  .info-key {
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.6rem;
-
-    text-transform:
-      uppercase;
-
-    letter-spacing:
-      0.05em;
-  }
-
-
-  .info-value {
-    color:
-      var(--color-text-secondary);
-
-    text-align:
-      right;
-
-    line-height:
-      1.5;
-  }
-
-
-  .profile-card-footer {
-    position:
-      relative;
-
-    z-index:
-      2;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.55rem;
-
-    margin-top:
-      1.75rem;
-
-    padding-top:
-      1rem;
-
-    border-top:
-      1px solid var(--color-border);
-
-    color:
-      var(--color-text-muted);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.58rem;
-
-    line-height:
-      1.5;
-  }
-
-
-  .footer-dot {
-    flex:
-      0 0 auto;
-
-    width:
-      5px;
-
-    height:
-      5px;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-cyan);
-
-    box-shadow:
-      0 0 10px rgba(34, 211, 238, 0.6);
-  }
-
-
-  /* ========================================================
-     STORY
-     ======================================================== */
-
-  .about-story {
-    max-width:
-      780px;
-
-    color:
-      var(--color-text-secondary);
-
-    font-size:
-      0.98rem;
-
-    line-height:
-      1.85;
-  }
-
-
-  .about-story p {
-    margin-bottom:
-      1.25rem;
-  }
-
-
-  .about-story .story-lead {
-    color:
-      var(--color-text);
-
-    font-family:
-      var(--font-display);
-
-    font-size:
-      clamp(1.25rem, 2.4vw, 1.7rem);
-
-    line-height:
-      1.5;
-
-    letter-spacing:
-      -0.025em;
-  }
-
-
-  .about-story strong {
-    color:
-      var(--color-text);
-
-    font-weight:
-      500;
-  }
-
-
-  /* ========================================================
-     CAPABILITIES
-     ======================================================== */
-
-  .capability-list {
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    margin-top:
-      2.5rem;
-
-    border-top:
-      1px solid var(--color-border);
-  }
-
-
-  .capability-item {
-    display:
-      grid;
-
-    grid-template-columns:
-      3rem 1fr;
-
-    gap:
-      1rem;
-
-    padding:
-      1.35rem 0;
-
-    border-bottom:
-      1px solid var(--color-border);
-
-    transition:
-      padding-left var(--duration-normal) var(--ease-standard),
-      background var(--duration-normal) var(--ease-standard);
-  }
-
-
-  .capability-item:hover {
-    padding-left:
-      0.6rem;
-
-    background:
-      linear-gradient(
-        90deg,
-        rgba(34, 211, 238, 0.035),
-        transparent
-      );
-  }
-
-
-  .capability-number {
-    color:
-      var(--color-cyan);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.65rem;
-  }
-
-
-  .capability-item h4 {
-    margin:
-      0 0 0.35rem;
-
-    color:
-      var(--color-text);
-
-    font-size:
-      0.95rem;
-
-    font-weight:
-      500;
-  }
-
-
-  .capability-item p {
-    margin:
-      0;
-
-    color:
-      var(--color-text-muted);
-
-    font-size:
-      0.78rem;
-
-    line-height:
-      1.6;
-  }
-
-
-  /* ========================================================
-     TECHNOLOGY SECTION
-     ======================================================== */
-
-  .technology-section {
-    margin-top:
-      clamp(4rem, 9vw, 7rem);
-  }
-
-
-  .technology-heading {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    gap:
-      1rem;
-
-    margin-bottom:
-      1.25rem;
-
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.58rem;
-
-    letter-spacing:
-      0.1em;
-  }
-
-
-  .technology-line {
-    flex:
-      1;
-
-    height:
-      1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        var(--color-border),
-        transparent
-      );
-  }
-
-
-  .technology-grid {
-    display:
-      grid;
-
-    grid-template-columns:
-      repeat(4, 1fr);
-
-    gap:
-      0.75rem;
-  }
-
-
-  .technology-card {
+  .terminal-header {
     display:
       flex;
 
@@ -1271,147 +535,516 @@ import { profile } from "../data/profile";
       0.8rem;
 
     min-height:
-      5.5rem;
+      42px;
 
     padding:
-      1rem;
+      0 1rem;
 
-    border:
+    border-bottom:
       1px solid var(--color-border);
 
-    border-radius:
-      var(--radius-md);
-
     background:
-      rgba(148, 163, 184, 0.02);
-
-    transition:
-      border-color var(--duration-normal) var(--ease-standard),
-      background var(--duration-normal) var(--ease-standard),
-      transform var(--duration-normal) var(--ease-standard);
+      rgba(148, 163, 184, 0.018);
   }
 
 
-  .technology-card:hover {
-    transform:
-      translateY(-4px);
-
-    border-color:
-      rgba(34, 211, 238, 0.22);
-
-    background:
-      rgba(34, 211, 238, 0.035);
-  }
-
-
-  .technology-card strong {
+  .terminal-dots {
     display:
-      block;
+      flex;
 
-    margin-bottom:
-      0.25rem;
-
-    color:
-      var(--color-text);
-
-    font-size:
-      0.72rem;
-
-    font-weight:
-      500;
-
-    line-height:
-      1.35;
+    gap:
+      0.3rem;
   }
 
 
-  .technology-card small {
-    display:
-      block;
-
-    color:
-      var(--color-text-subtle);
-
-    font-size:
-      0.6rem;
-
-    line-height:
-      1.4;
-  }
-
-
-  .tech-icon {
-    flex:
-      0 0 auto;
-
-    display:
-      grid;
-
-    place-items:
-      center;
-
+  .terminal-dots span {
     width:
-      2.3rem;
+      6px;
 
     height:
-      2.3rem;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.18);
+      6px;
 
     border-radius:
-      0.65rem;
-
-    color:
-      var(--color-cyan);
+      50%;
 
     background:
-      rgba(34, 211, 238, 0.05);
+      rgba(148, 163, 184, 0.2);
+  }
+
+
+  .terminal-dots span:first-child {
+    background:
+      rgba(239, 68, 68, 0.5);
+  }
+
+
+  .terminal-dots span:nth-child(2) {
+    background:
+      rgba(234, 179, 8, 0.5);
+  }
+
+
+  .terminal-dots span:nth-child(3) {
+    background:
+      rgba(34, 197, 94, 0.5);
+  }
+
+
+  .terminal-title {
+    color:
+      var(--color-text-subtle);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.52rem;
-
-    font-weight:
-      600;
+      0.5rem;
   }
 
 
-  .tech-blue {
-    color:
-      var(--color-blue-bright);
+  .terminal-status {
+    margin-left:
+      auto;
 
+    color:
+      var(--color-cyan);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.44rem;
+
+    letter-spacing:
+      0.06em;
+  }
+
+
+  .terminal-body {
+    position:
+      relative;
+
+    min-height:
+      330px;
+
+    padding:
+      1.5rem;
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.58rem;
+
+    line-height:
+      1.7;
+  }
+
+
+  .terminal-line {
+    display:
+      flex;
+
+    gap:
+      0.55rem;
+
+    color:
+      var(--color-text-subtle);
+  }
+
+
+  .terminal-line-spaced {
+    margin-top:
+      1.15rem;
+  }
+
+
+  .terminal-prompt {
+    color:
+      var(--color-cyan);
+  }
+
+
+  .terminal-output {
+    max-width:
+      650px;
+
+    padding-left:
+      1rem;
+
+    color:
+      var(--color-text-muted);
+  }
+
+
+  .terminal-accent {
+    color:
+      var(--color-cyan);
+  }
+
+
+  .terminal-cursor {
+    display:
+      inline-block;
+
+    width:
+      6px;
+
+    height:
+      12px;
+
+    margin-top:
+      0.8rem;
+
+    background:
+      var(--color-cyan);
+
+    opacity:
+      0.7;
+
+    animation:
+      cursor-blink 1.1s step-end infinite;
+  }
+
+
+  @keyframes cursor-blink {
+    0%,
+    45% {
+      opacity:
+        0.7;
+    }
+
+    46%,
+    100% {
+      opacity:
+        0;
+    }
+  }
+
+
+  /* ========================================================
+     DESCRIPTION
+     ======================================================== */
+
+  .about-description {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      0.9rem;
+
+    margin-top:
+      1.5rem;
+
+    max-width:
+      720px;
+  }
+
+
+  .about-description p {
+    margin:
+      0;
+
+    color:
+      var(--color-text-muted);
+
+    font-size:
+      0.72rem;
+
+    line-height:
+      1.8;
+  }
+
+
+  .about-description p:first-child {
+    color:
+      var(--color-text);
+  }
+
+
+  /* ========================================================
+     PRINCIPLES
+     ======================================================== */
+
+  .about-principles {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      0.8rem;
+  }
+
+
+  .principle-card {
+    display:
+      grid;
+
+    grid-template-columns:
+      34px 1fr;
+
+    gap:
+      0.9rem;
+
+    padding:
+      1.1rem;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      rgba(148, 163, 184, 0.012);
+
+    transition:
+      border-color var(--duration-normal) var(--ease-standard),
+      transform var(--duration-normal) var(--ease-standard),
+      background var(--duration-normal) var(--ease-standard);
+  }
+
+
+  .principle-card:hover {
+    transform:
+      translateX(4px);
+
+    border-color:
+      rgba(34, 211, 238, 0.16);
+
+    background:
+      rgba(148, 163, 184, 0.025);
+  }
+
+
+  .principle-number {
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.48rem;
+  }
+
+
+  .principle-content {
+    position:
+      relative;
+
+    padding-left:
+      1rem;
+
+    border-left:
+      1px solid var(--color-border);
+  }
+
+
+  .principle-icon {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    width:
+      22px;
+
+    height:
+      22px;
+
+    margin-bottom:
+      0.7rem;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.18);
+
+    border-radius:
+      50%;
+  }
+
+
+  .principle-icon span {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 9px var(--color-cyan);
+  }
+
+
+  .principle-card:nth-child(2) .principle-icon {
     border-color:
       rgba(59, 130, 246, 0.2);
-
-    background:
-      rgba(59, 130, 246, 0.05);
   }
 
 
-  .tech-violet {
-    color:
-      var(--color-violet-bright);
+  .principle-card:nth-child(2) .principle-icon span {
+    background:
+      var(--color-blue);
 
+    box-shadow:
+      0 0 9px var(--color-blue);
+  }
+
+
+  .principle-card:nth-child(3) .principle-icon {
     border-color:
       rgba(139, 92, 246, 0.2);
-
-    background:
-      rgba(139, 92, 246, 0.05);
   }
 
 
-  .tech-green {
-    color:
-      #4ade80;
-
-    border-color:
-      rgba(34, 197, 94, 0.18);
-
+  .principle-card:nth-child(3) .principle-icon span {
     background:
-      rgba(34, 197, 94, 0.04);
+      var(--color-violet);
+
+    box-shadow:
+      0 0 9px var(--color-violet);
+  }
+
+
+  .principle-content h3 {
+    margin:
+      0;
+
+    color:
+      var(--color-text);
+
+    font-family:
+      var(--font-display);
+
+    font-size:
+      0.95rem;
+
+    font-weight:
+      500;
+
+    letter-spacing:
+      -0.025em;
+  }
+
+
+  .principle-content p {
+    margin:
+      0.45rem 0 0;
+
+    color:
+      var(--color-text-muted);
+
+    font-size:
+      0.62rem;
+
+    line-height:
+      1.65;
+  }
+
+
+  /* ========================================================
+     SPECIALIZATION STRIP
+     ======================================================== */
+
+  .specialization-strip {
+    display:
+      grid;
+
+    grid-template-columns:
+      170px 1fr;
+
+    gap:
+      1.5rem;
+
+    align-items:
+      center;
+
+    margin-top:
+      4rem;
+
+    padding:
+      1rem 1.2rem;
+
+    border-top:
+      1px solid var(--color-border);
+
+    border-bottom:
+      1px solid var(--color-border);
+  }
+
+
+  .strip-label {
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.47rem;
+
+    letter-spacing:
+      0.07em;
+  }
+
+
+  .strip-items {
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      0.5rem;
+  }
+
+
+  .strip-items span {
+    padding:
+      0.35rem 0.5rem;
+
+    color:
+      var(--color-text-muted);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.45rem;
+
+    letter-spacing:
+      0.04em;
+  }
+
+
+  .strip-items span:not(:last-child)::after {
+    content:
+      " /";
+
+    margin-left:
+      0.5rem;
+
+    color:
+      var(--color-cyan);
+
+    opacity:
+      0.4;
   }
 
 
@@ -1419,88 +1052,107 @@ import { profile } from "../data/profile";
      RESPONSIVE
      ======================================================== */
 
-  @media (max-width: 1000px) {
-    .about-layout {
-      grid-template-columns:
-        minmax(250px, 0.8fr)
-        minmax(0, 1.2fr);
-
-      gap:
-        3rem;
-    }
-
-    .technology-grid {
-      grid-template-columns:
-        repeat(2, 1fr);
-    }
-  }
-
-
-  @media (max-width: 800px) {
+  @media (max-width: 850px) {
     .about-layout {
       grid-template-columns:
         1fr;
-
-      gap:
-        3rem;
     }
 
-    .profile-card {
-      max-width:
-        620px;
+    .about-principles {
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
     }
 
-    .about-network {
-      opacity:
-        0.25;
-    }
-  }
-
-
-  @media (max-width: 560px) {
-    .technology-grid {
+    .principle-card {
       grid-template-columns:
         1fr;
     }
 
-    .profile-info-row {
+    .principle-content {
+      padding-left:
+        0;
+
+      padding-top:
+        0.8rem;
+
+      border-left:
+        0;
+
+      border-top:
+        1px solid var(--color-border);
+    }
+  }
+
+
+  @media (max-width: 650px) {
+    .about-principles {
+      grid-template-columns:
+        1fr;
+    }
+
+    .principle-card {
+      grid-template-columns:
+        34px 1fr;
+    }
+
+    .principle-content {
+      padding-left:
+        1rem;
+
+      padding-top:
+        0;
+
+      border-top:
+        0;
+
+      border-left:
+        1px solid var(--color-border);
+    }
+
+    .specialization-strip {
       grid-template-columns:
         1fr;
 
       gap:
-        0.25rem;
-    }
-
-    .info-value {
-      text-align:
-        left;
-    }
-
-    .about-story {
-      font-size:
-        0.9rem;
-    }
-
-    .about-story .story-lead {
-      font-size:
-        1.25rem;
-    }
-
-    .capability-item {
-      grid-template-columns:
-        2rem 1fr;
+        0.8rem;
     }
   }
 
+
+  @media (max-width: 500px) {
+    .terminal-body {
+      min-height:
+        300px;
+
+      padding:
+        1.1rem;
+
+      font-size:
+        0.51rem;
+    }
+
+    .terminal-output {
+      padding-left:
+        0.8rem;
+    }
+  }
+
+
+  /* ========================================================
+     REDUCED MOTION
+     ======================================================== */
 
   @media (prefers-reduced-motion: reduce) {
-    .about-network span {
+    .terminal-cursor,
+    .about-particles span {
       animation:
         none;
     }
 
-    .technology-card,
-    .capability-item {
+    .principle-card {
       transition:
         none;
     }
