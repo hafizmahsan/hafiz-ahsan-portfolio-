@@ -4,61 +4,70 @@
  * TECH BADGE
  * ============================================================
  *
- * Reusable technology / skill badge.
+ * Small reusable technology / skill badge.
  *
- * Examples:
- *
- * <TechBadge label="UiPath" />
- *
- * <TechBadge
- *   label="LangChain"
- *   category="AI"
- *   accent="violet"
- * />
- *
- * <TechBadge
- *   label="Python"
- *   icon="◆"
- * />
+ * Designed for:
+ * - Skills
+ * - Project technology stacks
+ * - Experience technology stacks
+ * - AI / RPA technologies
+ * - Tools and platforms
  *
  * ============================================================
  */
 
 interface Props {
-  label: string;
+  name: string;
   category?: string;
   icon?: string;
-  accent?: "cyan" | "violet" | "blue" | "green" | "neutral";
-  size?: "small" | "medium";
+  accent?: "cyan" | "violet" | "blue" | "green";
+  href?: string;
+  size?: "small" | "normal" | "large";
 }
 
 const {
-  label,
+  name,
   category,
   icon = "◇",
   accent = "cyan",
-  size = "medium"
+  href,
+  size = "normal"
 } = Astro.props;
+
+const Tag = href ? "a" : "span";
 ---
 
-<div
+<Tag
   class:list={[
     "tech-badge",
     `tech-badge-${accent}`,
-    `tech-badge-${size}`
+    `tech-badge-${size}`,
+    {
+      "tech-badge-link": Boolean(href)
+    }
   ]}
-  data-tech-badge
+  {...(href
+    ? {
+        href,
+        target: "_blank",
+        rel: "noopener noreferrer"
+      }
+    : {})}
 >
 
   <!-- ======================================================
-       ICON
+       NODE
        ====================================================== -->
 
   <span
-    class="tech-badge-icon"
+    class="tech-node"
     aria-hidden="true"
   >
-    {icon}
+
+    <span class="tech-node-core">
+      {icon}
+    </span>
+
   </span>
 
 
@@ -66,15 +75,15 @@ const {
        CONTENT
        ====================================================== -->
 
-  <span class="tech-badge-content">
+  <span class="tech-content">
 
-    <span class="tech-badge-label">
-      {label}
+    <span class="tech-name">
+      {name}
     </span>
 
     {
       category && (
-        <span class="tech-badge-category">
+        <span class="tech-category">
           {category}
         </span>
       )
@@ -84,15 +93,17 @@ const {
 
 
   <!-- ======================================================
-       DECORATIVE NODE
+       SIGNAL
        ====================================================== -->
 
   <span
-    class="tech-badge-node"
+    class="tech-signal"
     aria-hidden="true"
-  ></span>
+  >
+    <span></span>
+  </span>
 
-</div>
+</Tag>
 
 
 <style>
@@ -111,52 +122,63 @@ const {
       center;
 
     gap:
-      0.55rem;
+      0.5rem;
+
+    min-width:
+      0;
+
+    padding:
+      0.45rem 0.6rem;
 
     border:
       1px solid var(--color-border);
 
     border-radius:
-      0.4rem;
+      0.3rem;
 
     color:
       var(--color-text-muted);
 
     background:
-      rgba(148, 163, 184, 0.018);
+      rgba(148, 163, 184, 0.012);
+
+    font-family:
+      var(--font-mono);
+
+    text-decoration:
+      none;
 
     overflow:
       hidden;
 
     transition:
+      color var(--duration-fast) var(--ease-standard),
       border-color var(--duration-fast) var(--ease-standard),
       background var(--duration-fast) var(--ease-standard),
-      transform var(--duration-fast) var(--ease-standard),
-      box-shadow var(--duration-fast) var(--ease-standard);
+      transform var(--duration-fast) var(--ease-standard);
+  }
+
+
+  .tech-badge:hover {
+    border-color:
+      rgba(34, 211, 238, 0.25);
+
+    color:
+      var(--color-cyan);
+
+    background:
+      rgba(34, 211, 238, 0.025);
+
+    transform:
+      translateY(-1px);
   }
 
 
   /* ========================================================
-     SIZES
+     NODE
      ======================================================== */
 
-  .tech-badge-small {
-    padding:
-      0.35rem 0.5rem;
-  }
-
-
-  .tech-badge-medium {
-    padding:
-      0.5rem 0.65rem;
-  }
-
-
-  /* ========================================================
-     ICON
-     ======================================================== */
-
-  .tech-badge-icon {
+  .tech-node {
     display:
       flex;
 
@@ -176,41 +198,53 @@ const {
       0;
 
     border:
-      1px solid rgba(34, 211, 238, 0.15);
+      1px solid rgba(34, 211, 238, 0.18);
 
     border-radius:
-      0.25rem;
+      50%;
+
+    background:
+      rgba(34, 211, 238, 0.025);
+
+    transition:
+      border-color var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard);
+  }
+
+
+  .tech-node-core {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
 
     color:
       var(--color-cyan);
 
-    background:
-      rgba(34, 211, 238, 0.035);
-
-    font-family:
-      var(--font-mono);
-
     font-size:
       0.45rem;
 
-    transition:
-      color var(--duration-fast) var(--ease-standard),
-      border-color var(--duration-fast) var(--ease-standard),
-      background var(--duration-fast) var(--ease-standard);
+    line-height:
+      1;
   }
 
 
-  .tech-badge-small
-    .tech-badge-icon {
+  .tech-badge:hover
+    .tech-node {
 
-    width:
-      16px;
+    border-color:
+      rgba(34, 211, 238, 0.4);
 
-    height:
-      16px;
+    box-shadow:
+      0 0 12px rgba(34, 211, 238, 0.08);
 
-    font-size:
-      0.4rem;
+    transform:
+      rotate(10deg);
   }
 
 
@@ -218,30 +252,30 @@ const {
      CONTENT
      ======================================================== */
 
-  .tech-badge-content {
+  .tech-content {
     display:
       flex;
+
+    min-width:
+      0;
 
     flex-direction:
       column;
 
     gap:
       0.08rem;
-
-    min-width:
-      0;
   }
 
 
-  .tech-badge-label {
-    color:
-      var(--color-text-muted);
+  .tech-name {
+    overflow:
+      hidden;
 
-    font-family:
-      var(--font-mono);
+    color:
+      inherit;
 
     font-size:
-      0.47rem;
+      0.4rem;
 
     line-height:
       1.2;
@@ -249,38 +283,26 @@ const {
     letter-spacing:
       0.02em;
 
+    text-overflow:
+      ellipsis;
+
     white-space:
       nowrap;
-
-    transition:
-      color var(--duration-fast) var(--ease-standard);
   }
 
 
-  .tech-badge-small
-    .tech-badge-label {
-
-    font-size:
-      0.42rem;
-
-  }
-
-
-  .tech-badge-category {
+  .tech-category {
     color:
       var(--color-text-subtle);
 
-    font-family:
-      var(--font-mono);
-
     font-size:
-      0.34rem;
+      0.28rem;
 
     line-height:
       1.2;
 
     letter-spacing:
-      0.04em;
+      0.025em;
 
     text-transform:
       uppercase;
@@ -288,18 +310,21 @@ const {
 
 
   /* ========================================================
-     NODE
+     SIGNAL
      ======================================================== */
 
-  .tech-badge-node {
+  .tech-signal {
     position:
-      absolute;
+      relative;
 
-    right:
-      -2px;
+    display:
+      flex;
 
-    bottom:
-      -2px;
+    align-items:
+      center;
+
+    justify-content:
+      center;
 
     width:
       5px;
@@ -307,85 +332,149 @@ const {
     height:
       5px;
 
+    margin-left:
+      0.1rem;
+
     border:
-      1px solid var(--color-cyan);
+      1px solid rgba(34, 211, 238, 0.18);
+
+    border-radius:
+      50%;
+  }
+
+
+  .tech-signal span {
+    width:
+      2px;
+
+    height:
+      2px;
 
     border-radius:
       50%;
 
     background:
-      var(--color-bg);
-
-    box-shadow:
-      0 0 8px rgba(34, 211, 238, 0.35);
-
-    opacity:
-      0.7;
-  }
-
-
-  /* ========================================================
-     HOVER
-     ======================================================== */
-
-  .tech-badge:hover {
-    border-color:
-      rgba(34, 211, 238, 0.3);
-
-    background:
-      rgba(34, 211, 238, 0.035);
-
-    transform:
-      translateY(-2px);
-
-    box-shadow:
-      0 8px 25px rgba(0, 0, 0, 0.12);
-  }
-
-
-  .tech-badge:hover
-    .tech-badge-label {
-
-    color:
-      var(--color-text);
-
-  }
-
-
-  .tech-badge:hover
-    .tech-badge-icon {
-
-    border-color:
-      rgba(34, 211, 238, 0.35);
-
-    background:
-      rgba(34, 211, 238, 0.08);
-
-    color:
       var(--color-cyan);
+
+    box-shadow:
+      0 0 5px rgba(34, 211, 238, 0.6);
+
+    animation:
+      tech-signal-pulse 2s ease-in-out infinite;
+  }
+
+
+  @keyframes tech-signal-pulse {
+
+    0%,
+    100% {
+      opacity:
+        0.35;
+
+      transform:
+        scale(0.8);
+    }
+
+    50% {
+      opacity:
+        1;
+
+      transform:
+        scale(1.25);
+    }
 
   }
 
 
   /* ========================================================
-     CYAN
+     SIZES
      ======================================================== */
 
-  .tech-badge-cyan
-    .tech-badge-icon {
+  .tech-badge-small {
+    gap:
+      0.35rem;
 
-    color:
-      var(--color-cyan);
-
+    padding:
+      0.3rem 0.4rem;
   }
 
 
-  .tech-badge-cyan
-    .tech-badge-node {
+  .tech-badge-small
+    .tech-node {
 
-    border-color:
-      var(--color-cyan);
+    width:
+      14px;
 
+    height:
+      14px;
+  }
+
+
+  .tech-badge-small
+    .tech-node-core {
+
+    font-size:
+      0.34rem;
+  }
+
+
+  .tech-badge-small
+    .tech-name {
+
+    font-size:
+      0.32rem;
+  }
+
+
+  .tech-badge-small
+    .tech-category {
+
+    display:
+      none;
+  }
+
+
+  .tech-badge-large {
+    gap:
+      0.65rem;
+
+    padding:
+      0.6rem 0.75rem;
+  }
+
+
+  .tech-badge-large
+    .tech-node {
+
+    width:
+      24px;
+
+    height:
+      24px;
+  }
+
+
+  .tech-badge-large
+    .tech-node-core {
+
+    font-size:
+      0.55rem;
+  }
+
+
+  .tech-badge-large
+    .tech-name {
+
+    font-size:
+      0.46rem;
+  }
+
+
+  .tech-badge-large
+    .tech-category {
+
+    font-size:
+      0.3rem;
   }
 
 
@@ -394,38 +483,52 @@ const {
      ======================================================== */
 
   .tech-badge-violet
-    .tech-badge-icon {
-
-    color:
-      var(--color-violet);
+    .tech-node {
 
     border-color:
-      rgba(139, 92, 246, 0.18);
+      rgba(139, 92, 246, 0.2);
 
     background:
-      rgba(139, 92, 246, 0.035);
-
+      rgba(139, 92, 246, 0.025);
   }
 
 
   .tech-badge-violet
-    .tech-badge-node {
+    .tech-node-core {
+
+    color:
+      var(--color-violet);
+  }
+
+
+  .tech-badge-violet
+    .tech-signal {
 
     border-color:
+      rgba(139, 92, 246, 0.2);
+  }
+
+
+  .tech-badge-violet
+    .tech-signal span {
+
+    background:
       var(--color-violet);
 
     box-shadow:
-      0 0 8px rgba(139, 92, 246, 0.35);
-
+      0 0 5px rgba(139, 92, 246, 0.6);
   }
 
 
   .tech-badge-violet:hover {
     border-color:
-      rgba(139, 92, 246, 0.3);
+      rgba(139, 92, 246, 0.28);
+
+    color:
+      var(--color-violet);
 
     background:
-      rgba(139, 92, 246, 0.035);
+      rgba(139, 92, 246, 0.025);
   }
 
 
@@ -434,38 +537,52 @@ const {
      ======================================================== */
 
   .tech-badge-blue
-    .tech-badge-icon {
-
-    color:
-      var(--color-blue);
+    .tech-node {
 
     border-color:
-      rgba(59, 130, 246, 0.18);
+      rgba(59, 130, 246, 0.2);
 
     background:
-      rgba(59, 130, 246, 0.035);
-
+      rgba(59, 130, 246, 0.025);
   }
 
 
   .tech-badge-blue
-    .tech-badge-node {
+    .tech-node-core {
+
+    color:
+      var(--color-blue);
+  }
+
+
+  .tech-badge-blue
+    .tech-signal {
 
     border-color:
+      rgba(59, 130, 246, 0.2);
+  }
+
+
+  .tech-badge-blue
+    .tech-signal span {
+
+    background:
       var(--color-blue);
 
     box-shadow:
-      0 0 8px rgba(59, 130, 246, 0.35);
-
+      0 0 5px rgba(59, 130, 246, 0.6);
   }
 
 
   .tech-badge-blue:hover {
     border-color:
-      rgba(59, 130, 246, 0.3);
+      rgba(59, 130, 246, 0.28);
+
+    color:
+      var(--color-blue);
 
     background:
-      rgba(59, 130, 246, 0.035);
+      rgba(59, 130, 246, 0.025);
   }
 
 
@@ -474,69 +591,52 @@ const {
      ======================================================== */
 
   .tech-badge-green
-    .tech-badge-icon {
-
-    color:
-      #4ade80;
+    .tech-node {
 
     border-color:
-      rgba(74, 222, 128, 0.18);
+      rgba(74, 222, 128, 0.2);
 
     background:
-      rgba(74, 222, 128, 0.035);
-
+      rgba(74, 222, 128, 0.025);
   }
 
 
   .tech-badge-green
-    .tech-badge-node {
+    .tech-node-core {
+
+    color:
+      #4ade80;
+  }
+
+
+  .tech-badge-green
+    .tech-signal {
 
     border-color:
+      rgba(74, 222, 128, 0.2);
+  }
+
+
+  .tech-badge-green
+    .tech-signal span {
+
+    background:
       #4ade80;
 
     box-shadow:
-      0 0 8px rgba(74, 222, 128, 0.35);
-
+      0 0 5px rgba(74, 222, 128, 0.6);
   }
 
 
   .tech-badge-green:hover {
     border-color:
-      rgba(74, 222, 128, 0.3);
-
-    background:
-      rgba(74, 222, 128, 0.035);
-  }
-
-
-  /* ========================================================
-     NEUTRAL
-     ======================================================== */
-
-  .tech-badge-neutral
-    .tech-badge-icon {
+      rgba(74, 222, 128, 0.28);
 
     color:
-      var(--color-text-muted);
-
-    border-color:
-      var(--color-border);
+      #4ade80;
 
     background:
-      rgba(148, 163, 184, 0.025);
-
-  }
-
-
-  .tech-badge-neutral
-    .tech-badge-node {
-
-    border-color:
-      var(--color-text-subtle);
-
-    box-shadow:
-      none;
-
+      rgba(74, 222, 128, 0.025);
   }
 
 
@@ -553,27 +653,18 @@ const {
   }
 
 
-  :global([data-theme="light"])
-    .tech-badge:hover {
-
-    background:
-      rgba(34, 211, 238, 0.025);
-
-    box-shadow:
-      0 8px 25px rgba(15, 23, 42, 0.06);
-
-  }
-
-
   /* ========================================================
-     ACCESSIBILITY
+     REDUCED MOTION
      ======================================================== */
 
   @media (prefers-reduced-motion: reduce) {
 
+    .tech-signal span,
     .tech-badge,
-    .tech-badge-icon,
-    .tech-badge-label {
+    .tech-node {
+      animation:
+        none;
+
       transition:
         none;
     }
