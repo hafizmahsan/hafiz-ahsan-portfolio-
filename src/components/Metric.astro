@@ -1,0 +1,224 @@
+---
+/**
+ * ============================================================
+ * METRIC
+ * ============================================================
+ *
+ * Reusable statistic / numerical highlight.
+ *
+ * ============================================================
+ */
+
+interface Props {
+  value: string;
+
+  label: string;
+
+  description?: string;
+
+  accent?:
+    | "cyan"
+    | "violet"
+    | "blue"
+    | "green"
+    | "neutral";
+
+  align?:
+    | "left"
+    | "center";
+
+  class?: string;
+}
+
+const {
+  value,
+  label,
+  description,
+  accent = "cyan",
+  align = "left",
+  class: className = ""
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "metric",
+    `metric--${accent}`,
+    `metric--${align}`,
+    className
+  ]}
+>
+  <div class="metric__value">
+    {value}
+  </div>
+
+  <div class="metric__label">
+    {label}
+  </div>
+
+  {
+    description && (
+      <p class="metric__description">
+        {description}
+      </p>
+    )
+  }
+</div>
+
+
+<style>
+  .metric {
+    position: relative;
+
+    min-width: 0;
+  }
+
+
+  .metric--left {
+    text-align: left;
+  }
+
+
+  .metric--center {
+    text-align: center;
+  }
+
+
+  /* ========================================================
+     VALUE
+     ======================================================== */
+
+  .metric__value {
+    margin: 0;
+
+    color:
+      #67e8f9;
+
+    font-family:
+      Inter,
+      ui-sans-serif,
+      system-ui,
+      sans-serif;
+
+    font-size:
+      clamp(2.5rem, 6vw, 4.5rem);
+
+    font-weight: 750;
+
+    letter-spacing: -0.06em;
+
+    line-height: 0.9;
+  }
+
+
+  /* ========================================================
+     LABEL
+     ======================================================== */
+
+  .metric__label {
+    margin-top: 0.75rem;
+
+    color:
+      rgba(226, 232, 240, 0.92);
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.68rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    line-height: 1.3;
+
+    text-transform: uppercase;
+  }
+
+
+  /* ========================================================
+     DESCRIPTION
+     ======================================================== */
+
+  .metric__description {
+    max-width: 20rem;
+
+    margin:
+      0.65rem 0 0;
+
+    color:
+      rgba(148, 163, 184, 0.78);
+
+    font-size: 0.82rem;
+
+    line-height: 1.6;
+  }
+
+
+  .metric--center
+  .metric__description {
+    margin-inline: auto;
+  }
+
+
+  /* ========================================================
+     ACCENTS
+     ======================================================== */
+
+  .metric--cyan
+  .metric__value {
+    color:
+      #67e8f9;
+
+    text-shadow:
+      0 0 30px
+      rgba(34, 211, 238, 0.12);
+  }
+
+
+  .metric--violet
+  .metric__value {
+    color:
+      #c4b5fd;
+
+    text-shadow:
+      0 0 30px
+      rgba(139, 92, 246, 0.12);
+  }
+
+
+  .metric--blue
+  .metric__value {
+    color:
+      #93c5fd;
+
+    text-shadow:
+      0 0 30px
+      rgba(59, 130, 246, 0.12);
+  }
+
+
+  .metric--green
+  .metric__value {
+    color:
+      #86efac;
+
+    text-shadow:
+      0 0 30px
+      rgba(34, 197, 94, 0.12);
+  }
+
+
+  .metric--neutral
+  .metric__value {
+    color:
+      #f8fafc;
+
+    text-shadow: none;
+  }
+</style>
