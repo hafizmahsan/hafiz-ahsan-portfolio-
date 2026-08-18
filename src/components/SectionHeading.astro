@@ -1,0 +1,146 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  description?: string;
+  align?: "left" | "center";
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  align = "left",
+} = Astro.props;
+---
+
+<div class:list={["section-heading", `section-heading-${align}`]}>
+
+  <div class="section-eyebrow">
+    <span class="eyebrow-line"></span>
+
+    <span>
+      {eyebrow}
+    </span>
+
+    <span class="eyebrow-index">
+      //
+    </span>
+  </div>
+
+  <h2 class="section-title">
+    {title}
+  </h2>
+
+  {
+    description && (
+      <p class="section-description">
+        {description}
+      </p>
+    )
+  }
+
+</div>
+
+
+<style>
+  .section-heading {
+    position: relative;
+    max-width: 760px;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-heading-center {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 1rem;
+
+    color: var(--color-cyan);
+
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow-line {
+    width: 2rem;
+    height: 1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        var(--color-cyan),
+        transparent
+      );
+  }
+
+  .section-heading-center .eyebrow-line {
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        var(--color-cyan)
+      );
+  }
+
+  .eyebrow-index {
+    color: var(--color-text-subtle);
+  }
+
+  .section-title {
+    margin: 0;
+
+    color: var(--color-text);
+
+    font-family: var(--font-display);
+    font-size: clamp(2.3rem, 5vw, 4.5rem);
+    font-weight: 600;
+
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+  }
+
+  .section-description {
+    max-width: 680px;
+    margin-top: 1.25rem;
+
+    color: var(--color-text-secondary);
+
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .section-heading-center .section-description {
+    margin-inline: auto;
+  }
+
+  @media (max-width: 640px) {
+    .section-heading {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-size: clamp(2.15rem, 11vw, 3.25rem);
+    }
+
+    .section-description {
+      font-size: 0.92rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section-heading * {
+      transition: none;
+      animation: none;
+    }
+  }
+</style>
