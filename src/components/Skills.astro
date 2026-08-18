@@ -1,0 +1,1548 @@
+---
+/**
+ * ============================================================
+ * SKILLS / TECHNOLOGY ECOSYSTEM
+ * ============================================================
+ *
+ * Presentation layer only.
+ *
+ * Skill information will be loaded from:
+ *
+ *   src/data/skills.ts
+ *
+ * This makes the section easy to maintain without editing
+ * the visual component.
+ * ============================================================
+ */
+
+import SectionHeading from "./SectionHeading.astro";
+import { skills } from "../data/skills";
+---
+
+<section
+  id="skills"
+  class="skills-section section"
+  aria-labelledby="skills-title"
+>
+  <!-- ======================================================
+       BACKGROUND
+       ====================================================== -->
+
+  <div
+    class="skills-background"
+    aria-hidden="true"
+  >
+    <div class="skills-grid"></div>
+
+    <div class="skills-orb skills-orb-one"></div>
+    <div class="skills-orb skills-orb-two"></div>
+
+    <div class="skills-network">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+
+  <div class="container">
+
+    <SectionHeading
+      eyebrow="04 / Skills"
+      title="A technology stack built for automation."
+      description="A multidisciplinary toolkit spanning RPA engineering, enterprise integration, solution architecture and the emerging GenAI ecosystem."
+    />
+
+
+    <!-- ====================================================
+         SKILL ECOSYSTEM
+         ==================================================== -->
+
+    <div class="skills-layout">
+
+      <!-- ==================================================
+           FEATURED CORE
+           ================================================== -->
+
+      <div class="skills-core glass-card">
+
+        <div class="core-header">
+
+          <span class="core-status">
+            <span class="status-dot"></span>
+            CORE SPECIALIZATION
+          </span>
+
+          <span class="core-code">
+            SYS / AUTO
+          </span>
+
+        </div>
+
+
+        <div class="core-visual">
+
+          <div class="core-ring core-ring-one"></div>
+          <div class="core-ring core-ring-two"></div>
+          <div class="core-ring core-ring-three"></div>
+
+          <div class="core-center">
+            <span>RPA</span>
+            <small>AUTOMATION</small>
+          </div>
+
+
+          <div class="core-node core-node-one">
+            <span>01</span>
+            <small>PROCESS</small>
+          </div>
+
+          <div class="core-node core-node-two">
+            <span>02</span>
+            <small>API</small>
+          </div>
+
+          <div class="core-node core-node-three">
+            <span>03</span>
+            <small>AI</small>
+          </div>
+
+          <div class="core-node core-node-four">
+            <span>04</span>
+            <small>DATA</small>
+          </div>
+
+        </div>
+
+
+        <div class="core-footer">
+
+          <p>
+            Designing digital workers and automation systems
+            that connect people, processes and enterprise
+            technology.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==================================================
+           SKILL GROUPS
+           ================================================== -->
+
+      <div class="skills-groups">
+
+        {
+          skills.map((group, index) => (
+            <article class="skill-group">
+
+              <div class="skill-group-header">
+
+                <span class="skill-group-number">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <div>
+                  <h3>
+                    {group.category}
+                  </h3>
+
+                  {
+                    group.description && (
+                      <p>
+                        {group.description}
+                      </p>
+                    )
+                  }
+                </div>
+
+              </div>
+
+
+              <div class="skill-tags">
+
+                {
+                  group.items.map((skill) => (
+                    <span
+                      class:list={[
+                        "skill-tag",
+                        {
+                          "skill-featured": skill.featured,
+                          "skill-learning": skill.learning,
+                        },
+                      ]}
+                    >
+
+                      {
+                        skill.learning && (
+                          <span
+                            class="learning-indicator"
+                            title="Currently learning"
+                            aria-label="Currently learning"
+                          ></span>
+                        )
+                      }
+
+                      <span>
+                        {skill.name}
+                      </span>
+
+                      {
+                        skill.featured && (
+                          <span class="featured-marker">
+                            +
+                          </span>
+                        )
+                      }
+
+                    </span>
+                  ))
+
+                }
+
+              </div>
+
+            </article>
+          ))
+        }
+
+      </div>
+
+    </div>
+
+
+    <!-- ====================================================
+         LEARNING DIRECTION
+         ==================================================== -->
+
+    <div class="learning-panel">
+
+      <div class="learning-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+
+      <div class="learning-content">
+
+        <div class="learning-label">
+          CURRENTLY EXPLORING
+        </div>
+
+        <h3>
+          From RPA to intelligent automation.
+        </h3>
+
+        <p>
+          Expanding traditional automation capabilities with
+          Generative AI, LLM applications, LangChain and
+          agentic workflows.
+        </p>
+
+      </div>
+
+
+      <div class="learning-stack">
+
+        <span>GENAI</span>
+        <span>LLMs</span>
+        <span>LANGCHAIN</span>
+        <span>AI AGENTS</span>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<style>
+  /* ========================================================
+     SECTION
+     ======================================================== */
+
+  .skills-section {
+    position:
+      relative;
+
+    overflow:
+      hidden;
+  }
+
+
+  .skills-background {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    z-index:
+      -1;
+
+    pointer-events:
+      none;
+  }
+
+
+  .skills-grid {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    opacity:
+      0.3;
+
+    background-image:
+      linear-gradient(
+        rgba(148, 163, 184, 0.025) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(148, 163, 184, 0.025) 1px,
+        transparent 1px
+      );
+
+    background-size:
+      90px 90px;
+
+    mask-image:
+      radial-gradient(
+        ellipse at center,
+        black,
+        transparent 75%
+      );
+  }
+
+
+  .skills-orb {
+    position:
+      absolute;
+
+    border-radius:
+      50%;
+
+    filter:
+      blur(100px);
+  }
+
+
+  .skills-orb-one {
+    top:
+      15%;
+
+    left:
+      -10%;
+
+    width:
+      30rem;
+
+    height:
+      30rem;
+
+    background:
+      rgba(34, 211, 238, 0.035);
+  }
+
+
+  .skills-orb-two {
+    right:
+      -10%;
+
+    bottom:
+      10%;
+
+    width:
+      35rem;
+
+    height:
+      35rem;
+
+    background:
+      rgba(139, 92, 246, 0.04);
+  }
+
+
+  /* ========================================================
+     NETWORK
+     ======================================================== */
+
+  .skills-network {
+    position:
+      absolute;
+
+    top:
+      12%;
+
+    right:
+      5%;
+
+    width:
+      180px;
+
+    height:
+      180px;
+
+    opacity:
+      0.45;
+  }
+
+
+  .skills-network::before {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      0;
+
+    width:
+      100%;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(34, 211, 238, 0.3),
+        transparent
+      );
+
+    transform:
+      rotate(25deg);
+  }
+
+
+  .skills-network::after {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    top:
+      0;
+
+    left:
+      50%;
+
+    width:
+      1px;
+
+    height:
+      100%;
+
+    background:
+      linear-gradient(
+        180deg,
+        transparent,
+        rgba(139, 92, 246, 0.25),
+        transparent
+      );
+
+    transform:
+      rotate(35deg);
+  }
+
+
+  .skills-network span {
+    position:
+      absolute;
+
+    width:
+      5px;
+
+    height:
+      5px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 12px rgba(34, 211, 238, 0.7);
+
+    animation:
+      skill-node 4s ease-in-out infinite;
+  }
+
+
+  .skills-network span:nth-child(1) {
+    top:
+      10%;
+
+    left:
+      20%;
+  }
+
+
+  .skills-network span:nth-child(2) {
+    top:
+      28%;
+
+    right:
+      10%;
+
+    animation-delay:
+      -1s;
+  }
+
+
+  .skills-network span:nth-child(3) {
+    top:
+      50%;
+
+    left:
+      45%;
+
+    background:
+      var(--color-violet);
+
+    animation-delay:
+      -2s;
+  }
+
+
+  .skills-network span:nth-child(4) {
+    bottom:
+      15%;
+
+    right:
+      22%;
+
+    animation-delay:
+      -3s;
+  }
+
+
+  .skills-network span:nth-child(5) {
+    bottom:
+      8%;
+
+    left:
+      12%;
+
+    background:
+      var(--color-blue);
+
+    animation-delay:
+      -1.5s;
+  }
+
+
+  .skills-network span:nth-child(6) {
+    top:
+      60%;
+
+    left:
+      2%;
+
+    animation-delay:
+      -2.5s;
+  }
+
+
+  .skills-network span:nth-child(7) {
+    top:
+      80%;
+
+    right:
+      3%;
+
+    background:
+      var(--color-violet);
+
+    animation-delay:
+      -0.5s;
+  }
+
+
+  @keyframes skill-node {
+    0%,
+    100% {
+      transform:
+        scale(0.7);
+
+      opacity:
+        0.25;
+    }
+
+    50% {
+      transform:
+        scale(1.6);
+
+      opacity:
+        1;
+    }
+  }
+
+
+  /* ========================================================
+     MAIN LAYOUT
+     ======================================================== */
+
+  .skills-layout {
+    display:
+      grid;
+
+    grid-template-columns:
+      minmax(280px, 0.7fr)
+      minmax(0, 1.3fr);
+
+    gap:
+      clamp(1.5rem, 5vw, 5rem);
+
+    align-items:
+      start;
+  }
+
+
+  /* ========================================================
+     CORE VISUAL
+     ======================================================== */
+
+  .skills-core {
+    position:
+      sticky;
+
+    top:
+      6rem;
+
+    overflow:
+      hidden;
+
+    padding:
+      1.5rem;
+  }
+
+
+  .skills-core::before {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    top:
+      0;
+
+    left:
+      0;
+
+    width:
+      50%;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        var(--color-cyan),
+        transparent
+      );
+  }
+
+
+  .core-header {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    gap:
+      1rem;
+  }
+
+
+  .core-status {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.45rem;
+
+    color:
+      var(--color-cyan);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.55rem;
+
+    letter-spacing:
+      0.08em;
+  }
+
+
+  .status-dot {
+    width:
+      5px;
+
+    height:
+      5px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 10px rgba(34, 211, 238, 0.7);
+  }
+
+
+  .core-code {
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.5rem;
+  }
+
+
+  .core-visual {
+    position:
+      relative;
+
+    width:
+      min(100%, 320px);
+
+    aspect-ratio:
+      1;
+
+    margin:
+      2rem auto;
+  }
+
+
+  .core-ring {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.12);
+
+    border-radius:
+      50%;
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+
+  .core-ring-one {
+    width:
+      38%;
+
+    height:
+      38%;
+  }
+
+
+  .core-ring-two {
+    width:
+      62%;
+
+    height:
+      62%;
+
+    border-color:
+      rgba(59, 130, 246, 0.11);
+
+    animation:
+      core-rotate 18s linear infinite;
+  }
+
+
+  .core-ring-three {
+    width:
+      86%;
+
+    height:
+      86%;
+
+    border-color:
+      rgba(139, 92, 246, 0.08);
+
+    border-style:
+      dashed;
+
+    animation:
+      core-rotate-reverse 30s linear infinite;
+  }
+
+
+  @keyframes core-rotate {
+    to {
+      transform:
+        translate(-50%, -50%)
+        rotate(360deg);
+    }
+  }
+
+
+  @keyframes core-rotate-reverse {
+    to {
+      transform:
+        translate(-50%, -50%)
+        rotate(-360deg);
+    }
+  }
+
+
+  .core-center {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    z-index:
+      3;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    width:
+      30%;
+
+    aspect-ratio:
+      1;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.25);
+
+    border-radius:
+      50%;
+
+    background:
+      radial-gradient(
+        circle,
+        rgba(34, 211, 238, 0.08),
+        rgba(15, 23, 42, 0.8)
+      );
+
+    box-shadow:
+      0 0 40px rgba(34, 211, 238, 0.08);
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+
+  .core-center span {
+    color:
+      var(--color-text);
+
+    font-family:
+      var(--font-display);
+
+    font-size:
+      clamp(1rem, 3vw, 1.5rem);
+
+    font-weight:
+      600;
+
+    letter-spacing:
+      -0.05em;
+  }
+
+
+  .core-center small {
+    margin-top:
+      0.15rem;
+
+    color:
+      var(--color-cyan);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.38rem;
+
+    letter-spacing:
+      0.08em;
+  }
+
+
+  /* ========================================================
+     ORBIT NODES
+     ======================================================== */
+
+  .core-node {
+    position:
+      absolute;
+
+    z-index:
+      4;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      center;
+
+    gap:
+      0.25rem;
+
+    color:
+      var(--color-text-muted);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.45rem;
+  }
+
+
+  .core-node::before {
+    content:
+      "";
+
+    width:
+      0.5rem;
+
+    height:
+      0.5rem;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.3);
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-bg);
+
+    box-shadow:
+      0 0 12px rgba(34, 211, 238, 0.15);
+  }
+
+
+  .core-node span {
+    color:
+      var(--color-cyan);
+  }
+
+
+  .core-node small {
+    color:
+      var(--color-text-subtle);
+
+    font-size:
+      0.4rem;
+  }
+
+
+  .core-node-one {
+    top:
+      8%;
+
+    left:
+      46%;
+  }
+
+
+  .core-node-two {
+    top:
+      46%;
+
+    right:
+      3%;
+  }
+
+
+  .core-node-three {
+    bottom:
+      7%;
+
+    left:
+      46%;
+  }
+
+
+  .core-node-four {
+    top:
+      46%;
+
+    left:
+      3%;
+  }
+
+
+  .core-footer {
+    padding-top:
+      1.25rem;
+
+    border-top:
+      1px solid var(--color-border);
+  }
+
+
+  .core-footer p {
+    margin:
+      0;
+
+    color:
+      var(--color-text-muted);
+
+    font-size:
+      0.72rem;
+
+    line-height:
+      1.7;
+  }
+
+
+  /* ========================================================
+     SKILL GROUPS
+     ======================================================== */
+
+  .skills-groups {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      1.25rem;
+  }
+
+
+  .skill-group {
+    padding:
+      1.35rem;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      rgba(148, 163, 184, 0.015);
+
+    transition:
+      border-color var(--duration-normal) var(--ease-standard),
+      background var(--duration-normal) var(--ease-standard);
+  }
+
+
+  .skill-group:hover {
+    border-color:
+      rgba(34, 211, 238, 0.14);
+
+    background:
+      rgba(34, 211, 238, 0.018);
+  }
+
+
+  .skill-group-header {
+    display:
+      flex;
+
+    gap:
+      0.9rem;
+
+    margin-bottom:
+      1.1rem;
+  }
+
+
+  .skill-group-number {
+    padding-top:
+      0.15rem;
+
+    color:
+      var(--color-cyan);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.55rem;
+  }
+
+
+  .skill-group h3 {
+    margin:
+      0;
+
+    color:
+      var(--color-text);
+
+    font-size:
+      0.9rem;
+
+    font-weight:
+      500;
+  }
+
+
+  .skill-group-header p {
+    margin:
+      0.3rem 0 0;
+
+    color:
+      var(--color-text-subtle);
+
+    font-size:
+      0.65rem;
+
+    line-height:
+      1.5;
+  }
+
+
+  .skill-tags {
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      0.45rem;
+  }
+
+
+  .skill-tag {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.4rem;
+
+    padding:
+      0.48rem 0.65rem;
+
+    border:
+      1px solid rgba(148, 163, 184, 0.1);
+
+    border-radius:
+      0.4rem;
+
+    color:
+      var(--color-text-muted);
+
+    background:
+      rgba(148, 163, 184, 0.025);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.55rem;
+
+    transition:
+      color var(--duration-fast) ease,
+      border-color var(--duration-fast) ease,
+      background var(--duration-fast) ease,
+      transform var(--duration-fast) ease;
+  }
+
+
+  .skill-tag:hover {
+    transform:
+      translateY(-2px);
+
+    color:
+      var(--color-text);
+
+    border-color:
+      rgba(34, 211, 238, 0.22);
+
+    background:
+      rgba(34, 211, 238, 0.045);
+  }
+
+
+  .skill-featured {
+    color:
+      var(--color-cyan);
+
+    border-color:
+      rgba(34, 211, 238, 0.16);
+
+    background:
+      rgba(34, 211, 238, 0.035);
+  }
+
+
+  .skill-learning {
+    border-color:
+      rgba(139, 92, 246, 0.22);
+
+    background:
+      rgba(139, 92, 246, 0.035);
+  }
+
+
+  .learning-indicator {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-violet);
+
+    box-shadow:
+      0 0 8px rgba(139, 92, 246, 0.7);
+  }
+
+
+  .featured-marker {
+    color:
+      var(--color-cyan);
+
+    opacity:
+      0.7;
+  }
+
+
+  /* ========================================================
+     LEARNING PANEL
+     ======================================================== */
+
+  .learning-panel {
+    display:
+      grid;
+
+    grid-template-columns:
+      auto 1fr auto;
+
+    align-items:
+      center;
+
+    gap:
+      1.5rem;
+
+    margin-top:
+      4rem;
+
+    padding:
+      1.5rem;
+
+    border:
+      1px solid rgba(139, 92, 246, 0.16);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(139, 92, 246, 0.04),
+        rgba(34, 211, 238, 0.02)
+      );
+  }
+
+
+  .learning-icon {
+    position:
+      relative;
+
+    width:
+      3rem;
+
+    height:
+      3rem;
+  }
+
+
+  .learning-icon span {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    width:
+      0.45rem;
+
+    height:
+      0.45rem;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-violet);
+
+    box-shadow:
+      0 0 12px rgba(139, 92, 246, 0.6);
+  }
+
+
+  .learning-icon span:nth-child(1) {
+    transform:
+      translate(-50%, -50%);
+  }
+
+
+  .learning-icon span:nth-child(2) {
+    transform:
+      translate(-170%, -50%);
+  }
+
+
+  .learning-icon span:nth-child(3) {
+    transform:
+      translate(70%, -50%);
+  }
+
+
+  .learning-content {
+    min-width:
+      0;
+  }
+
+
+  .learning-label {
+    margin-bottom:
+      0.35rem;
+
+    color:
+      var(--color-violet-bright);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.52rem;
+
+    letter-spacing:
+      0.08em;
+  }
+
+
+  .learning-content h3 {
+    margin:
+      0;
+
+    color:
+      var(--color-text);
+
+    font-family:
+      var(--font-display);
+
+    font-size:
+      1.2rem;
+
+    font-weight:
+      500;
+
+    letter-spacing:
+      -0.025em;
+  }
+
+
+  .learning-content p {
+    max-width:
+      650px;
+
+    margin:
+      0.35rem 0 0;
+
+    color:
+      var(--color-text-muted);
+
+    font-size:
+      0.7rem;
+
+    line-height:
+      1.6;
+  }
+
+
+  .learning-stack {
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    justify-content:
+      flex-end;
+
+    gap:
+      0.4rem;
+
+    max-width:
+      230px;
+  }
+
+
+  .learning-stack span {
+    padding:
+      0.4rem 0.5rem;
+
+    border:
+      1px solid rgba(139, 92, 246, 0.15);
+
+    border-radius:
+      0.35rem;
+
+    color:
+      var(--color-violet-bright);
+
+    background:
+      rgba(139, 92, 246, 0.04);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.48rem;
+  }
+
+
+  /* ========================================================
+     RESPONSIVE
+     ======================================================== */
+
+  @media (max-width: 900px) {
+    .skills-layout {
+      grid-template-columns:
+        1fr;
+    }
+
+    .skills-core {
+      position:
+        relative;
+
+      top:
+        auto;
+
+      max-width:
+        500px;
+
+      width:
+        100%;
+
+      margin:
+        0 auto;
+    }
+  }
+
+
+  @media (max-width: 650px) {
+    .learning-panel {
+      grid-template-columns:
+        auto 1fr;
+    }
+
+    .learning-stack {
+      grid-column:
+        1 / -1;
+
+      justify-content:
+        flex-start;
+
+      max-width:
+        none;
+    }
+  }
+
+
+  @media (max-width: 500px) {
+    .skill-group {
+      padding:
+        1rem;
+    }
+
+    .skill-tag {
+      font-size:
+        0.5rem;
+    }
+
+    .core-visual {
+      max-width:
+        280px;
+    }
+  }
+
+
+  @media (prefers-reduced-motion: reduce) {
+    .skills-network span,
+    .core-ring-two,
+    .core-ring-three {
+      animation:
+        none;
+    }
+
+    .skill-tag,
+    .skill-group {
+      transition:
+        none;
+    }
+  }
+</style>
