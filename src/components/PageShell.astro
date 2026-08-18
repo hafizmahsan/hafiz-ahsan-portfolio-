@@ -12,14 +12,13 @@
  *   ↓
  * Footer
  *
+ * SEO is handled by the global Astro Layout.
+ *
  * ============================================================
  */
 
 import Footer from "./Footer.astro";
 import Navbar from "./Navbar.astro";
-import SEO from "./SEO.astro";
-
-import { portfolio } from "../data/portfolio";
 
 interface Props {
   class?: string;
@@ -37,25 +36,20 @@ const {
     className
   ]}
 >
-  <SEO
-    title={portfolio.seo.title}
-    description={portfolio.seo.description}
-    siteUrl={portfolio.seo.siteUrl}
-    image={portfolio.seo.image}
-    imageAlt={portfolio.seo.imageAlt}
-    themeColor={portfolio.seo.themeColor}
-  />
-
 
   <Navbar />
 
 
-  <main class="page-shell__main">
+  <main
+    id="main-content"
+    class="page-shell__main"
+  >
     <slot />
   </main>
 
 
   <Footer />
+
 </div>
 
 
