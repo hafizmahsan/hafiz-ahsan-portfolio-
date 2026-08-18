@@ -1,240 +1,259 @@
 /**
  * ============================================================
- * PROFESSIONAL PROFILE
+ * PROFILE DATA
  * ============================================================
  *
- * This file contains the information used to introduce Hafiz
- * professionally throughout the portfolio.
+ * Central source of truth for the professional profile.
  *
- * CONTENT ONLY:
- * Do not put colors, animations, HTML or layout code here.
+ * Change personal/professional information here rather than
+ * editing individual page components.
  *
- * If you want to update your professional positioning later,
- * this is one of the main files you should edit.
  * ============================================================
  */
 
-export type ProfileStat = {
-  value: string;
-  label: string;
-};
-
-export type Specialization = {
-  title: string;
-  description: string;
-  icon: string;
-};
-
-export type ProfessionalProfile = {
+export interface Profile {
   name: string;
-  displayName: string;
 
-  primaryTitle: string;
-  secondaryTitle: string;
+  firstName?: string;
 
-  shortIntroduction: string;
-  heroStatement: string;
-  professionalSummary: string;
+  lastName?: string;
 
-  experienceLabel: string;
+  title: string;
 
-  stats: ProfileStat[];
+  shortTitle?: string;
 
-  specializations: Specialization[];
+  tagline: string;
 
-  currentFocus: string[];
+  summary: string;
 
-  professionalKeywords: string[];
-};
+  location?: string;
 
-export const profile: ProfessionalProfile = {
-  /*
-   * ----------------------------------------------------------
-   * IDENTITY
-   * ----------------------------------------------------------
-   */
+  availability?: string;
 
-  name: "Hafiz Mohammad Ahsan",
+  yearsOfExperience?: string;
 
-  displayName: "Hafiz Ahsan",
+  focus?: string[];
 
-  /*
-   * ----------------------------------------------------------
-   * PROFESSIONAL POSITIONING
-   * ----------------------------------------------------------
-   *
-   * These titles will appear in different areas of the
-   * website. Keeping them separate lets us use a concise
-   * title in the hero while retaining a broader description
-   * elsewhere.
-   */
+  hero?: {
+    eyebrow?: string;
 
-  primaryTitle: "Senior RPA Consultant",
+    headline: string;
 
-  secondaryTitle:
-    "Automation Specialist · Solution Architect · Intelligent Automation Professional",
+    highlightedWords?: string[];
 
-  /*
-   * ----------------------------------------------------------
-   * INTRODUCTION
-   * ----------------------------------------------------------
-   */
+    subheadline: string;
 
-  shortIntroduction:
-    "I design and deliver enterprise automation solutions across RPA, process automation, system integration and emerging Generative AI technologies.",
+    primaryCta?: string;
 
-  /*
-   * Main hero statement.
-   *
-   * This will eventually be displayed alongside the 3D
-   * automation/network visual.
-   */
+    secondaryCta?: string;
+  };
 
-  heroStatement:
-    "Engineering intelligent automation for complex business processes.",
+  resume?: {
+    label: string;
 
-  /*
-   * Professional summary.
-   *
-   * This is intentionally written as a portfolio summary
-   * rather than a copied resume paragraph.
-   */
+    url: string;
 
-  professionalSummary:
-    "Senior RPA and automation professional with 6+ years of IT experience, beginning in 2020 and progressing through consulting, RPA development, solution architecture and enterprise automation engagements. Experienced in delivering automation solutions for complex client environments and currently focused on combining RPA expertise with Generative AI, LangChain, intelligent agents and modern AI-driven automation patterns.",
+    available: boolean;
+  };
 
-  /*
-   * ----------------------------------------------------------
-   * EXPERIENCE LABEL
-   * ----------------------------------------------------------
-   */
+  metadata?: {
+    role?: string;
 
-  experienceLabel: "6+ Years in IT & Intelligent Automation",
+    industry?: string;
 
-  /*
-   * ----------------------------------------------------------
-   * QUICK PROFESSIONAL STATS
-   * ----------------------------------------------------------
-   *
-   * These are intentionally kept as editable data.
-   *
-   * We can later replace these with automatically calculated
-   * values where appropriate.
-   */
+    specialization?: string;
 
-  stats: [
-    {
-      value: "6+",
-      label: "Years in IT"
-    },
-    {
-      value: "RPA",
-      label: "Core Specialization"
-    },
-    {
-      value: "2020",
-      label: "IT Career Started"
-    },
-    {
-      value: "GenAI",
-      label: "Current Learning Focus"
-    }
-  ],
+    timezone?: string;
+  };
+}
 
-  /*
-   * ----------------------------------------------------------
-   * CORE SPECIALIZATIONS
-   * ----------------------------------------------------------
-   *
-   * The icon values are identifiers.
-   *
-   * The UI layer will decide how these identifiers are
-   * visually rendered. This keeps content independent from
-   * the design system.
-   */
 
-  specializations: [
-    {
-      title: "Robotic Process Automation",
-      description:
-        "Designing, developing and maintaining enterprise RPA solutions for repetitive and rule-driven business processes.",
-      icon: "bot"
-    },
-    {
-      title: "Solution Architecture",
-      description:
-        "Translating business requirements into scalable automation architectures, integrations and implementation strategies.",
-      icon: "architecture"
-    },
-    {
-      title: "Intelligent Automation",
-      description:
-        "Combining automation, APIs, data and AI capabilities to create smarter end-to-end business workflows.",
-      icon: "workflow"
-    },
-    {
-      title: "Generative AI",
-      description:
-        "Expanding automation capabilities through LLMs, LangChain, AI agents, retrieval-based systems and emerging GenAI patterns.",
-      icon: "brain"
-    }
-  ],
+/**
+ * ============================================================
+ * PROFILE
+ * ============================================================
+ *
+ * IMPORTANT:
+ *
+ * The information below should be replaced with the actual
+ * information from your resume/repository as we connect the
+ * portfolio to your real content.
+ *
+ * Do not invent achievements or experience.
+ *
+ * ============================================================
+ */
 
-  /*
-   * ----------------------------------------------------------
-   * CURRENT LEARNING / FOCUS
-   * ----------------------------------------------------------
-   *
-   * This section is especially useful because your skill set
-   * is evolving toward AI and GenAI.
-   */
+export const profile: Profile = {
+  name:
+    "Hafiz Ahsan",
 
-  currentFocus: [
-    "Generative AI",
-    "LangChain",
-    "Large Language Model applications",
-    "AI agents",
-    "Retrieval-Augmented Generation",
-    "Intelligent automation",
-    "RPA + AI integration",
-    "Automation architecture"
-  ],
+  firstName:
+    "Hafiz",
 
-  /*
-   * ----------------------------------------------------------
-   * PROFESSIONAL KEYWORDS
-   * ----------------------------------------------------------
-   *
-   * These will later help with:
-   *
-   * - SEO
-   * - structured metadata
-   * - project filtering
-   * - search engines
-   * - portfolio categorization
-   *
-   * They should describe genuine areas of expertise or
-   * professional focus.
-   */
+  lastName:
+    "Ahsan",
 
-  professionalKeywords: [
-    "RPA",
-    "Robotic Process Automation",
-    "Automation",
-    "Intelligent Automation",
-    "Senior RPA Consultant",
-    "Solution Architecture",
-    "RPA Developer",
+  title:
+    "Automation & Intelligent Systems Professional",
+
+  shortTitle:
     "Automation Engineer",
-    "Business Process Automation",
-    "Enterprise Automation",
-    "API Integration",
+
+  tagline:
+    "Building intelligent automation systems that connect people, processes and technology.",
+
+  summary:
+    "Automation-focused professional working across RPA, software engineering, system integration and emerging AI technologies.",
+
+  location:
+    "Saudi Arabia",
+
+  availability:
+    "OPEN TO OPPORTUNITIES",
+
+  yearsOfExperience:
+    "",
+
+  focus: [
+    "RPA",
+    "Intelligent Automation",
     "Generative AI",
-    "GenAI",
-    "LangChain",
-    "LLM",
-    "AI Agents",
-    "RAG",
-    "Saudi Arabia"
-  ]
+    "Software Engineering",
+    "System Integration",
+    "Solution Architecture"
+  ],
+
+
+  /**
+   * ==========================================================
+   * HERO
+   * ==========================================================
+   */
+
+  hero: {
+    eyebrow:
+      "AUTOMATION / AI / SOFTWARE",
+
+    headline:
+      "Engineering Intelligent Systems",
+
+    highlightedWords: [
+      "Intelligent",
+      "Systems"
+    ],
+
+    subheadline:
+      "Designing automation solutions that turn complex business processes into scalable, reliable digital workflows.",
+
+    primaryCta:
+      "VIEW PROJECTS",
+
+    secondaryCta:
+      "DOWNLOAD RESUME"
+  },
+
+
+  /**
+   * ==========================================================
+   * RESUME
+   * ==========================================================
+   *
+   * This URL is intentionally kept in one place.
+   *
+   * Later we will connect this value to the actual PDF
+   * available in the repository rather than depending on a
+   * hardcoded filename throughout the application.
+   *
+   * ==========================================================
+   */
+
+  resume: {
+    label:
+      "DOWNLOAD RESUME",
+
+    url:
+      "/resume.pdf",
+
+    available:
+      true
+  },
+
+
+  /**
+   * ==========================================================
+   * METADATA
+   * ==========================================================
+   */
+
+  metadata: {
+    role:
+      "Automation Engineer",
+
+    industry:
+      "Technology / Enterprise Automation",
+
+    specialization:
+      "RPA, Intelligent Automation & AI",
+
+    timezone:
+      "AST (UTC+3)"
+  }
 };
+
+
+/**
+ * ============================================================
+ * PROFILE HELPERS
+ * ============================================================
+ */
+
+/**
+ * Return the display name.
+ */
+export function getDisplayName(): string {
+  return profile.name;
+}
+
+
+/**
+ * Return the professional title.
+ */
+export function getProfessionalTitle(): string {
+  return profile.title;
+}
+
+
+/**
+ * Return the hero configuration.
+ */
+export function getHeroContent() {
+  return profile.hero;
+}
+
+
+/**
+ * Return the resume configuration.
+ */
+export function getResume() {
+  return profile.resume;
+}
+
+
+/**
+ * Check whether a resume is configured.
+ */
+export function hasResume(): boolean {
+  return Boolean(
+    profile.resume?.available &&
+    profile.resume?.url
+  );
+}
+
+
+/**
+ * Return the profile focus areas.
+ */
+export function getFocusAreas(): string[] {
+  return profile.focus ?? [];
+}
