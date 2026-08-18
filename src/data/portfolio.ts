@@ -5,8 +5,8 @@
  *
  * All editable portfolio content lives here.
  *
- * Components should handle presentation.
- * This file should handle content.
+ * Components handle presentation.
+ * This file handles content.
  *
  * ============================================================
  */
@@ -32,16 +32,72 @@ export const portfolio = {
       "#020617"
   },
 
+
   person: {
-    ...
+    name:
+      "YOUR NAME",
+
+    role:
+      "Software Engineer · Automation · AI",
+
+    email:
+      "hello@example.com",
+
+    location:
+      "YOUR LOCATION",
+
+    availability:
+      "AVAILABLE FOR SELECTED PROJECTS"
   },
+
 
   hero: {
-    ...
+    eyebrow:
+      "SOFTWARE ENGINEERING · AUTOMATION · AI",
+
+    title:
+      "YOUR NAME",
+
+    highlightedTitle:
+      "BUILDING USEFUL SYSTEMS.",
+
+    description:
+      "I design and build practical software, automation workflows, and intelligent systems that turn complex problems into reliable solutions."
   },
 
-  // ...
-} as const;
+
+  about: {
+    number: "01",
+
+    eyebrow: "ABOUT",
+
+    title:
+      "Building useful systems.",
+
+    description:
+      "I work at the intersection of software engineering, automation, and AI. My focus is turning repetitive or complex workflows into reliable systems that are easier to operate, maintain, and scale."
+  },
+
+
+  projects: [
+    {
+      title:
+        "YOUR FEATURED PROJECT",
+
+      description:
+        "A concise description of the most important project in your portfolio. Explain the problem, what you built, and the result.",
+
+      technologies: [
+        "Python",
+        "Automation",
+        "APIs"
+      ],
+
+      href:
+        "#contact",
+
+      status:
+        "IN PROGRESS" as const,
 
       featured: true
     },
@@ -138,10 +194,12 @@ export const portfolio = {
           name: "Python",
           level: "CORE"
         },
+
         {
           name: "TypeScript",
           level: "WORKING"
         },
+
         {
           name: "SQL",
           level: "CORE"
@@ -161,10 +219,12 @@ export const portfolio = {
           name: "APIs",
           level: "CORE"
         },
+
         {
           name: "Webhooks",
           level: "CORE"
         },
+
         {
           name: "RPA",
           level: "WORKING"
@@ -184,10 +244,12 @@ export const portfolio = {
           name: "LLM APIs",
           level: "CORE"
         },
+
         {
           name: "AI Agents",
           level: "WORKING"
         },
+
         {
           name: "Prompt Engineering",
           level: "CORE"
@@ -207,10 +269,12 @@ export const portfolio = {
           name: "Git",
           level: "CORE"
         },
+
         {
           name: "Docker",
           level: "CORE"
         },
+
         {
           name: "Linux",
           level: "WORKING"
