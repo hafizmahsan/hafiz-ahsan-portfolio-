@@ -1,0 +1,104 @@
+---
+/**
+ * ============================================================
+ * TAG LIST
+ * ============================================================
+ *
+ * Reusable collection of Badge components.
+ *
+ * ============================================================
+ */
+
+import Badge from "./Badge.astro";
+
+interface Props {
+  items: string[];
+
+  variant?:
+    | "default"
+    | "cyan"
+    | "violet"
+    | "blue"
+    | "green"
+    | "warning"
+    | "danger";
+
+  size?:
+    | "sm"
+    | "md";
+
+  gap?:
+    | "sm"
+    | "md";
+
+  dot?: boolean;
+
+  class?: string;
+}
+
+const {
+  items,
+  variant = "default",
+  size = "sm",
+  gap = "sm",
+  dot = false,
+  class: className = ""
+} = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <ul
+      class:list={[
+        "tag-list",
+        `tag-list--gap-${gap}`,
+        className
+      ]}
+      aria-label="Tags"
+    >
+      {
+        items.map((item) => (
+          <li class="tag-list__item">
+            <Badge
+              label={item}
+              variant={variant}
+              size={size}
+              dot={dot}
+            />
+          </li>
+        ))
+      }
+    </ul>
+  )
+}
+
+
+<style>
+  .tag-list {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+  }
+
+
+  .tag-list--gap-sm {
+    gap: 0.45rem;
+  }
+
+
+  .tag-list--gap-md {
+    gap: 0.65rem;
+  }
+
+
+  .tag-list__item {
+    display: flex;
+  }
+</style>
