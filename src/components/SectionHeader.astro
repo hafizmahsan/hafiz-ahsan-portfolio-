@@ -4,122 +4,143 @@
  * SECTION HEADER
  * ============================================================
  *
- * Reusable heading component for portfolio sections.
+ * Shared heading treatment for major portfolio sections.
  *
  * ============================================================
  */
 
+import Stack from "./Stack.astro";
+
 interface Props {
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  align?: "left" | "center";
-  id?: string;
   number?: string;
+
+  eyebrow?: string;
+
+  title: string;
+
+  description?: string;
+
+  align?:
+    | "left"
+    | "center";
+
+  size?:
+    | "md"
+    | "lg"
+    | "xl";
+
+  class?: string;
 }
 
 const {
+  number,
   eyebrow,
   title,
   description,
   align = "left",
-  id,
-  number
+  size = "lg",
+  class: className = ""
 } = Astro.props;
 ---
 
 <header
-  id={id}
   class:list={[
     "section-header",
-    `section-header--${align}`
+    `section-header--${align}`,
+    `section-header--${size}`,
+    className
   ]}
 >
-  <div class="section-header__top">
+  <Stack gap="sm">
 
     {
-      number && (
-        <span class="section-header__number">
-          {number}
-        </span>
+      (number || eyebrow) && (
+        <div class="section-header__meta">
+
+          {
+            number && (
+              <span class="section-header__number">
+                {number}
+              </span>
+            )
+          }
+
+          {
+            number && eyebrow && (
+              <span
+                class="section-header__separator"
+                aria-hidden="true"
+              >
+                /
+              </span>
+            )
+          }
+
+          {
+            eyebrow && (
+              <span class="section-header__eyebrow">
+                {eyebrow}
+              </span>
+            )
+          }
+
+        </div>
       )
     }
 
+
+    <h2 class="section-header__title">
+      {title}
+    </h2>
+
+
     {
-      eyebrow && (
-        <span class="section-header__eyebrow">
-          {eyebrow}
-        </span>
+      description && (
+        <p class="section-header__description">
+          {description}
+        </p>
       )
     }
 
-  </div>
-
-
-  <h2 class="section-header__title">
-    {title}
-  </h2>
-
-
-  {
-    description && (
-      <p class="section-header__description">
-        {description}
-      </p>
-    )
-  }
-
+  </Stack>
 </header>
 
 
 <style>
   .section-header {
-    position: relative;
     width: 100%;
-    margin-bottom: 3rem;
+  }
+
+
+  .section-header--left {
+    text-align: left;
   }
 
 
   .section-header--center {
+    max-width: 48rem;
+
+    margin-inline: auto;
+
     text-align: center;
   }
 
 
-  .section-header__top {
+  /* ========================================================
+     META
+     ======================================================== */
+
+  .section-header__meta {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-  }
 
+    justify-content: flex-start;
 
-  .section-header--center
-  .section-header__top {
-    justify-content: center;
-  }
-
-
-  .section-header__number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    min-width: 2rem;
-    height: 1.5rem;
-
-    padding: 0 0.5rem;
-
-    border: 1px solid
-      rgba(34, 211, 238, 0.3);
-
-    border-radius: 999px;
+    gap: 0.55rem;
 
     color:
       rgba(103, 232, 249, 0.9);
 
-    background:
-      rgba(34, 211, 238, 0.05);
-
     font-family:
       ui-monospace,
       SFMono-Regular,
@@ -128,60 +149,101 @@ const {
       Consolas,
       monospace;
 
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-  }
+    font-size: 0.68rem;
 
+    font-weight: 700;
 
-  .section-header__eyebrow {
-    color:
-      rgba(103, 232, 249, 0.85);
+    letter-spacing: 0.12em;
 
-    font-family:
-      ui-monospace,
-      SFMono-Regular,
-      Menlo,
-      Monaco,
-      Consolas,
-      monospace;
-
-    font-size: 0.72rem;
-    font-weight: 600;
-
-    letter-spacing: 0.16em;
+    line-height: 1;
 
     text-transform: uppercase;
   }
 
 
+  .section-header--center
+  .section-header__meta {
+    justify-content: center;
+  }
+
+
+  .section-header__number {
+    color:
+      rgba(103, 232, 249, 0.95);
+  }
+
+
+  .section-header__separator {
+    color:
+      rgba(148, 163, 184, 0.35);
+  }
+
+
+  .section-header__eyebrow {
+    color:
+      rgba(148, 163, 184, 0.8);
+  }
+
+
+  /* ========================================================
+     TITLE
+     ======================================================== */
+
   .section-header__title {
     margin: 0;
 
     color:
-      rgba(248, 250, 252, 0.96);
+      #f8fafc;
 
-    font-size:
-      clamp(2rem, 5vw, 3.5rem);
+    font-family:
+      Inter,
+      ui-sans-serif,
+      system-ui,
+      sans-serif;
 
     font-weight: 700;
 
-    line-height: 1.05;
+    letter-spacing: -0.045em;
 
-    letter-spacing:
-      -0.045em;
+    line-height: 0.95;
   }
 
+
+  .section-header--md
+  .section-header__title {
+    font-size:
+      clamp(2rem, 5vw, 3rem);
+  }
+
+
+  .section-header--lg
+  .section-header__title {
+    font-size:
+      clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+
+  .section-header--xl
+  .section-header__title {
+    font-size:
+      clamp(3rem, 8vw, 6rem);
+  }
+
+
+  /* ========================================================
+     DESCRIPTION
+     ======================================================== */
 
   .section-header__description {
     max-width: 42rem;
 
-    margin: 1rem 0 0;
+    margin: 0;
 
     color:
       rgba(148, 163, 184, 0.9);
 
-    font-size: 1rem;
+    font-size:
+      clamp(0.95rem, 1.5vw, 1.05rem);
 
     line-height: 1.75;
   }
@@ -189,25 +251,18 @@ const {
 
   .section-header--center
   .section-header__description {
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
   }
 
 
   @media (max-width: 640px) {
-    .section-header {
-      margin-bottom: 2.25rem;
-    }
-
-
     .section-header__title {
-      font-size:
-        clamp(1.8rem, 10vw, 2.6rem);
+      letter-spacing: -0.035em;
     }
 
 
-    .section-header__description {
-      font-size: 0.95rem;
+    .section-header__meta {
+      font-size: 0.62rem;
     }
   }
 </style>
