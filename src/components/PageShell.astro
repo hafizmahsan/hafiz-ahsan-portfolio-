@@ -1,0 +1,81 @@
+---
+/**
+ * ============================================================
+ * PAGE SHELL
+ * ============================================================
+ *
+ * Global page composition.
+ *
+ * Navbar
+ *   ↓
+ * Main content
+ *   ↓
+ * Footer
+ *
+ * ============================================================
+ */
+
+import Footer from "./Footer.astro";
+import Navbar from "./Navbar.astro";
+
+interface Props {
+  class?: string;
+}
+
+const {
+  class: className = ""
+} = Astro.props;
+---
+
+<div
+  id="top"
+  class:list={[
+    "page-shell",
+    className
+  ]}
+>
+  <Navbar />
+
+
+  <main class="page-shell__main">
+    <slot />
+  </main>
+
+
+  <Footer />
+</div>
+
+
+<style is:global>
+  html {
+    scroll-behavior: smooth;
+  }
+
+
+  body.menu-open {
+    overflow: hidden;
+  }
+
+
+  .page-shell {
+    position: relative;
+
+    min-height: 100vh;
+
+    overflow-x: clip;
+  }
+
+
+  .page-shell__main {
+    position: relative;
+
+    width: 100%;
+  }
+
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+</style>
