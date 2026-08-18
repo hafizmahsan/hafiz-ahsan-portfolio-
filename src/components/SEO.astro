@@ -1,0 +1,135 @@
+---
+/**
+ * ============================================================
+ * SEO
+ * ============================================================
+ *
+ * Global document metadata.
+ *
+ * ============================================================
+ */
+
+interface Props {
+  title: string;
+
+  description: string;
+
+  siteUrl?: string;
+
+  image?: string;
+
+  imageAlt?: string;
+
+  themeColor?: string;
+}
+
+const {
+  title,
+  description,
+  siteUrl,
+  image = "/og-image.png",
+  imageAlt = "",
+  themeColor = "#020617"
+} = Astro.props;
+
+
+const canonicalUrl = siteUrl
+  ? new URL(
+      Astro.url.pathname,
+      siteUrl
+    ).toString()
+  : Astro.url.href;
+
+
+const imageUrl = siteUrl
+  ? new URL(
+      image,
+      siteUrl
+    ).toString()
+  : new URL(
+      image,
+      Astro.url
+    ).toString();
+---
+
+<title>{title}</title>
+
+<meta
+  name="description"
+  content={description}
+/>
+
+<meta
+  name="theme-color"
+  content={themeColor}
+/>
+
+<link
+  rel="canonical"
+  href={canonicalUrl}
+/>
+
+
+<!-- ==========================================================
+     OPEN GRAPH
+     ========================================================== -->
+
+<meta
+  property="og:type"
+  content="website"
+/>
+
+<meta
+  property="og:title"
+  content={title}
+/>
+
+<meta
+  property="og:description"
+  content={description}
+/>
+
+<meta
+  property="og:url"
+  content={canonicalUrl}
+/>
+
+<meta
+  property="og:image"
+  content={imageUrl}
+/>
+
+<meta
+  property="og:image:alt"
+  content={imageAlt}
+/>
+
+
+<!-- ==========================================================
+     TWITTER / X
+     ========================================================== -->
+
+<meta
+  name="twitter:card"
+  content="summary_large_image"
+/>
+
+<meta
+  name="twitter:title"
+  content={title}
+/>
+
+<meta
+  name="twitter:description"
+  content={description}
+/>
+
+<meta
+  name="twitter:image"
+  content={imageUrl}
+/>
+
+<meta
+  name="twitter:image:alt"
+  content={imageAlt}
+/>
