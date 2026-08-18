@@ -4,20 +4,23 @@
  * GLOBAL PORTFOLIO LAYOUT
  * ============================================================
  *
- * This is the shared HTML shell for the portfolio.
+ * Shared HTML shell for the portfolio.
  *
  * Responsibilities:
  *
  * - SEO metadata
  * - Canonical URL
  * - Open Graph metadata
+ * - Twitter / X metadata
+ * - Favicon
  * - Theme initialization
  * - Accessibility foundation
  * - Global document structure
+ * - Structured data
  *
  * DESIGN/CSS DOES NOT BELONG HERE.
  *
- * Visual styles will be maintained separately.
+ * Visual styles are maintained separately.
  * ============================================================
  */
 
@@ -39,7 +42,8 @@ type Props = {
   description?: string;
 
   /**
-   * Allows individual pages to override the canonical URL.
+   * Allows individual pages to override
+   * the canonical URL.
    */
   canonical?: string;
 
@@ -54,36 +58,59 @@ type Props = {
   imageAlt?: string;
 
   /**
-   * Allows a page to explicitly request a different
-   * document type.
+   * Allows a page to explicitly request
+   * a different document type.
    */
   ogType?: "website" | "profile";
 };
 
+
 const {
   title = seoConfig.title,
-  description = seoConfig.description,
-  canonical = seoConfig.canonicalUrl,
-  image = seoConfig.openGraph.image,
-  imageAlt = seoConfig.openGraph.imageAlt,
-  ogType = seoConfig.openGraph.type
+
+  description =
+    seoConfig.description,
+
+  canonical =
+    seoConfig.canonicalUrl,
+
+  image =
+    seoConfig.openGraph.image,
+
+  imageAlt =
+    seoConfig.openGraph.imageAlt,
+
+  ogType =
+    seoConfig.openGraph.type
 } = Astro.props;
 
+
 /**
+ * ============================================================
+ * ABSOLUTE IMAGE URL
+ * ============================================================
+ *
  * Convert relative asset paths into absolute URLs.
  *
  * This is particularly useful for Open Graph images.
+ * ============================================================
  */
-const absoluteImageUrl = image.startsWith("http")
-  ? image
-  : new URL(
-      image,
-      seoConfig.canonicalUrl
-    ).toString();
+
+const absoluteImageUrl =
+  image.startsWith("http")
+    ? image
+    : new URL(
+        image,
+        seoConfig.canonicalUrl
+      ).toString();
+
 
 /**
- * Build the final page title.
+ * ============================================================
+ * PAGE TITLE
+ * ============================================================
  */
+
 const pageTitle =
   title === seoConfig.title
     ? title
@@ -91,16 +118,43 @@ const pageTitle =
         "%s",
         title
       );
+
+
+/**
+ * ============================================================
+ * TWITTER IMAGE
+ * ============================================================
+ */
+
+const absoluteTwitterImage =
+  seoConfig.twitter.image.startsWith(
+    "http"
+  )
+    ? seoConfig.twitter.image
+    : new URL(
+        seoConfig.twitter.image,
+        seoConfig.canonicalUrl
+      ).toString();
 ---
 
+
 <!doctype html>
-<html lang={seoConfig.language} data-theme={siteConfig.appearance.defaultTheme}>
+
+<html
+  lang={seoConfig.language}
+  data-theme={
+    siteConfig.appearance.defaultTheme
+  }
+>
+
   <head>
+
     <!-- ======================================================
          CHARACTER ENCODING
          ====================================================== -->
 
     <meta charset="UTF-8" />
+
 
     <!-- ======================================================
          VIEWPORT
@@ -111,41 +165,51 @@ const pageTitle =
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
 
+
     <!-- ======================================================
          PRIMARY SEO
          ====================================================== -->
 
-    <title>{pageTitle}</title>
+    <title>
+      {pageTitle}
+    </title>
+
 
     <meta
       name="description"
       content={description}
     />
 
+
     <meta
       name="author"
       content={seoConfig.author}
     />
+
 
     <meta
       name="keywords"
       content={seoConfig.keywords.join(", ")}
     />
 
+
     <meta
       name="robots"
       content={seoConfig.robots}
     />
 
+
     <meta
       name="theme-color"
-      content="#070a12"
+      content="#020617"
     />
+
 
     <meta
       name="color-scheme"
       content="dark light"
     />
+
 
     <!-- ======================================================
          CANONICAL URL
@@ -156,6 +220,24 @@ const pageTitle =
       href={canonical}
     />
 
+
+    <!-- ======================================================
+         FAVICON
+         ====================================================== -->
+
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon.svg"
+    />
+
+
+    <link
+      rel="apple-touch-icon"
+      href="/favicon.svg"
+    />
+
+
     <!-- ======================================================
          OPEN GRAPH
          ====================================================== -->
@@ -165,35 +247,42 @@ const pageTitle =
       content={ogType}
     />
 
+
     <meta
       property="og:title"
       content={pageTitle}
     />
+
 
     <meta
       property="og:description"
       content={description}
     />
 
+
     <meta
       property="og:url"
       content={canonical}
     />
+
 
     <meta
       property="og:site_name"
       content={siteConfig.siteName}
     />
 
+
     <meta
       property="og:image"
       content={absoluteImageUrl}
     />
 
+
     <meta
       property="og:image:alt"
       content={imageAlt}
     />
+
 
     <!-- ======================================================
          TWITTER / X CARD
@@ -204,27 +293,24 @@ const pageTitle =
       content={seoConfig.twitter.card}
     />
 
+
     <meta
       name="twitter:title"
       content={pageTitle}
     />
+
 
     <meta
       name="twitter:description"
       content={description}
     />
 
+
     <meta
       name="twitter:image"
-      content={
-        seoConfig.twitter.image.startsWith("http")
-          ? seoConfig.twitter.image
-          : new URL(
-              seoConfig.twitter.image,
-              seoConfig.canonicalUrl
-            ).toString()
-      }
+      content={absoluteTwitterImage}
     />
+
 
     <!-- ======================================================
          PERFORMANCE / CONNECTION HINTS
@@ -235,20 +321,13 @@ const pageTitle =
       href="https://fonts.googleapis.com"
     />
 
+
     <link
       rel="preconnect"
       href="https://fonts.gstatic.com"
       crossorigin="anonymous"
     />
 
-    <!-- ======================================================
-         FAVICON PLACEHOLDER
-         ======================================================
-
-         The actual favicon will be added later.
-
-         We intentionally don't ask you to provide one.
-         ====================================================== -->
 
     <!-- ======================================================
          STRUCTURED DATA
@@ -258,47 +337,57 @@ const pageTitle =
       type="application/ld+json"
       set:html={JSON.stringify({
         "@context": "https://schema.org",
+
         "@type": "Person",
+
         name:
           seoConfig.structuredData.personName,
+
         jobTitle:
           seoConfig.structuredData.jobTitle,
+
         description:
           seoConfig.structuredData.description,
+
         url:
           seoConfig.structuredData.url,
+
         areaServed:
           seoConfig.structuredData.areaServed,
+
         knowsAbout:
           seoConfig.structuredData.knowsAbout,
+
         worksFor: {
           "@type":
-            seoConfig.structuredData.worksFor.type,
+            seoConfig
+              .structuredData
+              .worksFor
+              .type,
+
           name:
-            seoConfig.structuredData.worksFor.name
+            seoConfig
+              .structuredData
+              .worksFor
+              .name
         },
+
         sameAs: [
           "https://github.com/hafizmahsan"
         ]
       })}
     />
 
+
     <!-- ======================================================
          THEME INITIALIZATION
          ======================================================
 
-         This executes before the page becomes visible.
+         Executes before the page becomes visible.
 
-         Why?
+         This prevents a flash of the wrong theme when a
+         previously selected theme exists in localStorage.
 
-         Without this, a user who selected light mode could
-         briefly see the dark page before JavaScript changes
-         the theme.
-
-         Reading localStorage here prevents that flash.
-
-         The user's preference will be implemented later by
-         the theme switcher.
          ====================================================== -->
 
     <script is:inline>
@@ -324,6 +413,7 @@ const pageTitle =
 
           document.documentElement.dataset.theme =
             theme;
+
         } catch {
           document.documentElement.dataset.theme =
             "dark";
@@ -331,14 +421,18 @@ const pageTitle =
       })();
     </script>
 
+
     <!-- ======================================================
          PAGE-SPECIFIC HEAD CONTENT
          ====================================================== -->
 
     <slot name="head" />
+
   </head>
 
+
   <body>
+
     <!-- ======================================================
          ACCESSIBILITY
          ====================================================== -->
@@ -350,6 +444,7 @@ const pageTitle =
       Skip to main content
     </a>
 
+
     <!-- ======================================================
          GLOBAL PAGE CONTAINER
          ====================================================== -->
@@ -358,14 +453,13 @@ const pageTitle =
       <slot />
     </div>
 
+
     <!-- ======================================================
          GLOBAL JAVASCRIPT HOOK
-         ======================================================
-
-         Future interactive components can attach behavior
-         without putting all JavaScript into this layout.
          ====================================================== -->
 
     <slot name="scripts" />
+
   </body>
+
 </html>
