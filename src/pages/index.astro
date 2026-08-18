@@ -1,0 +1,217 @@
+---
+/**
+ * ============================================================
+ * HOMEPAGE
+ * ============================================================
+ *
+ * Main portfolio composition.
+ *
+ * ============================================================
+ */
+
+import AboutSection from "../components/AboutSection.astro";
+import ContactSection from "../components/ContactSection.astro";
+import ExperienceSection from "../components/ExperienceSection.astro";
+import Hero from "../components/Hero.astro";
+import PageShell from "../components/PageShell.astro";
+import ProjectsSection from "../components/ProjectsSection.astro";
+import SkillsSection from "../components/SkillsSection.astro";
+---
+
+<PageShell>
+
+  <Hero
+    eyebrow="SOFTWARE ENGINEERING · AUTOMATION · AI"
+    title="YOUR NAME"
+    highlightedTitle="BUILDING USEFUL SYSTEMS."
+    description="I design and build practical software, automation workflows, and intelligent systems that turn complex problems into reliable solutions."
+    primaryAction={{
+      label: "VIEW MY WORK",
+      href: "#projects"
+    }}
+    secondaryAction={{
+      label: "GET IN TOUCH",
+      href: "#contact"
+    }}
+  />
+
+
+  <AboutSection />
+
+
+  <ProjectsSection
+    projects={[
+      {
+        title: "YOUR FEATURED PROJECT",
+        description:
+          "A concise description of the most important project in your portfolio. Explain the problem, what you built, and the result.",
+        technologies: [
+          "Python",
+          "Automation",
+          "APIs"
+        ],
+        href: "#contact",
+        status: "IN PROGRESS",
+        featured: true
+      },
+
+      {
+        title: "PROJECT TWO",
+        description:
+          "A short description of another meaningful project.",
+        technologies: [
+          "TypeScript",
+          "Astro"
+        ],
+        status: "LIVE"
+      },
+
+      {
+        title: "PROJECT THREE",
+        description:
+          "A short description of another system or automation project.",
+        technologies: [
+          "Python",
+          "PostgreSQL"
+        ],
+        status: "ARCHIVED"
+      }
+    ]}
+  />
+
+
+  <ExperienceSection
+    entries={[
+      {
+        period: "2024 — PRESENT",
+        title: "YOUR CURRENT ROLE",
+        organization: "YOUR COMPANY",
+        description:
+          "Describe your current responsibilities, the systems you work on, and the impact you've had.",
+        technologies: [
+          "Python",
+          "Automation",
+          "AI"
+        ],
+        current: true
+      },
+
+      {
+        period: "2022 — 2024",
+        title: "PREVIOUS ROLE",
+        organization: "PREVIOUS COMPANY",
+        description:
+          "Describe the work you did and the systems or products you contributed to.",
+        technologies: [
+          "Software Engineering",
+          "APIs",
+          "SQL"
+        ]
+      }
+    ]}
+  />
+
+
+  <SkillsSection
+    groups={[
+      {
+        title: "LANGUAGES",
+        description:
+          "Languages I use to build systems.",
+        skills: [
+          {
+            name: "Python",
+            level: "CORE"
+          },
+          {
+            name: "TypeScript",
+            level: "WORKING"
+          },
+          {
+            name: "SQL",
+            level: "CORE"
+          }
+        ]
+      },
+
+      {
+        title: "AUTOMATION",
+        description:
+          "Tools and patterns for workflow automation.",
+        skills: [
+          {
+            name: "APIs",
+            level: "CORE"
+          },
+          {
+            name: "Webhooks",
+            level: "CORE"
+          },
+          {
+            name: "RPA",
+            level: "WORKING"
+          }
+        ]
+      },
+
+      {
+        title: "AI",
+        description:
+          "Technologies for intelligent workflows.",
+        skills: [
+          {
+            name: "LLM APIs",
+            level: "CORE"
+          },
+          {
+            name: "AI Agents",
+            level: "WORKING"
+          },
+          {
+            name: "Prompt Engineering",
+            level: "CORE"
+          }
+        ]
+      },
+
+      {
+        title: "INFRASTRUCTURE",
+        description:
+          "Tools used to ship and operate software.",
+        skills: [
+          {
+            name: "Git",
+            level: "CORE"
+          },
+          {
+            name: "Docker",
+            level: "CORE"
+          },
+          {
+            name: "Linux",
+            level: "WORKING"
+          }
+        ]
+      }
+    ]}
+  />
+
+
+  <ContactSection
+    email="hello@example.com"
+    availability="AVAILABLE FOR SELECTED PROJECTS"
+    links={[
+      {
+        label: "GITHUB",
+        href: "https://github.com/your-profile",
+        external: true
+      },
+      {
+        label: "LINKEDIN",
+        href: "https://www.linkedin.com/in/your-profile/",
+        external: true
+      }
+    ]}
+  />
+
+</PageShell>
