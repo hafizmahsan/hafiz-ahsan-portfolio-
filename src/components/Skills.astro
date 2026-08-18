@@ -1,22 +1,22 @@
 ---
 /**
  * ============================================================
- * SKILLS / TECHNOLOGY ECOSYSTEM
+ * SKILLS / TECHNOLOGY MATRIX
  * ============================================================
  *
- * Presentation layer only.
+ * Presentation layer for the technical skills section.
  *
- * Skill information will be loaded from:
+ * Skill content is maintained separately in:
  *
- *   src/data/skills.ts
+ *     src/data/skills.ts
  *
- * This makes the section easy to maintain without editing
- * the visual component.
+ * This component should generally not need to be edited when
+ * adding or removing technologies.
  * ============================================================
  */
 
 import SectionHeading from "./SectionHeading.astro";
-import { skills } from "../data/skills";
+import { skillGroups } from "../data/skills";
 ---
 
 <section
@@ -34,17 +34,22 @@ import { skills } from "../data/skills";
   >
     <div class="skills-grid"></div>
 
-    <div class="skills-orb skills-orb-one"></div>
-    <div class="skills-orb skills-orb-two"></div>
+    <div class="skills-glow skills-glow-one"></div>
+    <div class="skills-glow skills-glow-two"></div>
 
     <div class="skills-network">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
+
+      <span class="network-node node-one"></span>
+      <span class="network-node node-two"></span>
+      <span class="network-node node-three"></span>
+      <span class="network-node node-four"></span>
+      <span class="network-node node-five"></span>
+
+      <span class="network-line line-one"></span>
+      <span class="network-line line-two"></span>
+      <span class="network-line line-three"></span>
+      <span class="network-line line-four"></span>
+
     </div>
   </div>
 
@@ -52,158 +57,169 @@ import { skills } from "../data/skills";
   <div class="container">
 
     <SectionHeading
-      eyebrow="04 / Skills"
-      title="A technology stack built for automation."
-      description="A multidisciplinary toolkit spanning RPA engineering, enterprise integration, solution architecture and the emerging GenAI ecosystem."
+      eyebrow="06 / Skills"
+      title="A technology stack built around automation."
+      description="A practical combination of RPA, enterprise integration, software engineering and emerging Generative AI capabilities."
     />
 
 
     <!-- ====================================================
-         SKILL ECOSYSTEM
+         SKILL MATRIX
          ==================================================== -->
 
     <div class="skills-layout">
 
-      <!-- ==================================================
-           FEATURED CORE
-           ================================================== -->
+      <!-- ==============================================
+           LEFT: SYSTEM MAP
+           ============================================== -->
 
-      <div class="skills-core glass-card">
+      <div class="skills-system">
 
-        <div class="core-header">
+        <div class="system-header">
 
-          <span class="core-status">
-            <span class="status-dot"></span>
-            CORE SPECIALIZATION
+          <span class="system-label">
+            TECHNOLOGY MAP
           </span>
 
-          <span class="core-code">
-            SYS / AUTO
+          <span class="system-status">
+            <span></span>
+            ACTIVE
           </span>
 
         </div>
 
 
-        <div class="core-visual">
+        <div class="system-map">
 
-          <div class="core-ring core-ring-one"></div>
-          <div class="core-ring core-ring-two"></div>
-          <div class="core-ring core-ring-three"></div>
-
-          <div class="core-center">
-            <span>RPA</span>
-            <small>AUTOMATION</small>
+          <div class="map-rings">
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
 
 
-          <div class="core-node core-node-one">
-            <span>01</span>
-            <small>PROCESS</small>
+          <div class="map-lines">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
 
-          <div class="core-node core-node-two">
-            <span>02</span>
-            <small>API</small>
+
+          <!-- Core node -->
+
+          <div class="core-node">
+
+            <div class="core-node-ring"></div>
+
+            <div class="core-node-inner">
+              <span>RPA</span>
+              <small>CORE</small>
+            </div>
+
           </div>
 
-          <div class="core-node core-node-three">
-            <span>03</span>
-            <small>AI</small>
-          </div>
 
-          <div class="core-node core-node-four">
-            <span>04</span>
-            <small>DATA</small>
-          </div>
+          <!-- Satellite nodes -->
+
+          {
+            skillGroups.slice(0, 5).map((group, index) => (
+              <div
+                class:list={[
+                  "satellite-node",
+                  `satellite-${index + 1}`,
+                ]}
+              >
+                <span class="satellite-dot"></span>
+                <span>{group.shortName ?? group.title}</span>
+              </div>
+            ))
+          }
 
         </div>
 
 
-        <div class="core-footer">
+        <div class="system-footer">
 
-          <p>
-            Designing digital workers and automation systems
-            that connect people, processes and enterprise
-            technology.
-          </p>
+          <span>
+            ENTERPRISE AUTOMATION
+          </span>
+
+          <span>
+            SYS / 06
+          </span>
 
         </div>
 
       </div>
 
 
-      <!-- ==================================================
-           SKILL GROUPS
-           ================================================== -->
+      <!-- ==============================================
+           RIGHT: SKILL GROUPS
+           ============================================== -->
 
-      <div class="skills-groups">
+      <div class="skill-groups">
 
         {
-          skills.map((group, index) => (
+          skillGroups.map((group, index) => (
             <article class="skill-group">
 
               <div class="skill-group-header">
 
-                <span class="skill-group-number">
+                <div class="skill-group-number">
                   {String(index + 1).padStart(2, "0")}
-                </span>
+                </div>
+
 
                 <div>
+
+                  <span class="skill-group-code">
+                    {group.code ?? `SYS-${String(index + 1).padStart(2, "0")}`}
+                  </span>
+
                   <h3>
-                    {group.category}
+                    {group.title}
                   </h3>
 
-                  {
-                    group.description && (
-                      <p>
-                        {group.description}
-                      </p>
-                    )
-                  }
                 </div>
 
               </div>
 
 
-              <div class="skill-tags">
+              {
+                group.description && (
+                  <p class="skill-group-description">
+                    {group.description}
+                  </p>
+                )
+              }
+
+
+              <div class="skill-items">
 
                 {
-                  group.items.map((skill) => (
-                    <span
-                      class:list={[
-                        "skill-tag",
-                        {
-                          "skill-featured": skill.featured,
-                          "skill-learning": skill.learning,
-                        },
-                      ]}
-                    >
+                  group.skills.map((skill) => (
+                    <div class="skill-item">
 
-                      {
-                        skill.learning && (
-                          <span
-                            class="learning-indicator"
-                            title="Currently learning"
-                            aria-label="Currently learning"
-                          ></span>
-                        )
-                      }
+                      <span
+                        class="skill-indicator"
+                        aria-hidden="true"
+                      ></span>
 
-                      <span>
+                      <span class="skill-name">
                         {skill.name}
                       </span>
 
                       {
-                        skill.featured && (
-                          <span class="featured-marker">
-                            +
+                        skill.level && (
+                          <span class="skill-level">
+                            {skill.level}
                           </span>
                         )
                       }
 
-                    </span>
+                    </div>
                   ))
-
                 }
 
               </div>
@@ -218,43 +234,46 @@ import { skills } from "../data/skills";
 
 
     <!-- ====================================================
-         LEARNING DIRECTION
+         AI FOCUS
          ==================================================== -->
 
-    <div class="learning-panel">
+    <div class="ai-focus">
 
-      <div class="learning-icon">
-        <span></span>
-        <span></span>
-        <span></span>
+      <div class="ai-focus-visual" aria-hidden="true">
+
+        <div class="ai-orbit ai-orbit-one"></div>
+        <div class="ai-orbit ai-orbit-two"></div>
+
+        <div class="ai-core">
+          <span></span>
+        </div>
+
       </div>
 
 
-      <div class="learning-content">
+      <div class="ai-focus-content">
 
-        <div class="learning-label">
-          CURRENTLY EXPLORING
-        </div>
+        <span class="ai-eyebrow">
+          CURRENT LEARNING VECTOR
+        </span>
 
         <h3>
-          From RPA to intelligent automation.
+          Exploring the convergence of RPA &amp; Generative AI.
         </h3>
 
         <p>
-          Expanding traditional automation capabilities with
-          Generative AI, LLM applications, LangChain and
-          agentic workflows.
+          Currently expanding into LangChain, LLM-based applications,
+          AI agents and intelligent automation patterns to complement
+          traditional enterprise RPA.
         </p>
 
-      </div>
-
-
-      <div class="learning-stack">
-
-        <span>GENAI</span>
-        <span>LLMs</span>
-        <span>LANGCHAIN</span>
-        <span>AI AGENTS</span>
+        <div class="ai-tags">
+          <span>GenAI</span>
+          <span>LLMs</span>
+          <span>LangChain</span>
+          <span>AI Agents</span>
+          <span>Intelligent Automation</span>
+        </div>
 
       </div>
 
@@ -301,7 +320,7 @@ import { skills } from "../data/skills";
       0;
 
     opacity:
-      0.3;
+      0.18;
 
     background-image:
       linear-gradient(
@@ -315,62 +334,58 @@ import { skills } from "../data/skills";
       );
 
     background-size:
-      90px 90px;
+      70px 70px;
 
     mask-image:
-      radial-gradient(
-        ellipse at center,
-        black,
-        transparent 75%
+      linear-gradient(
+        to bottom,
+        transparent,
+        black 15%,
+        black 85%,
+        transparent
       );
   }
 
 
-  .skills-orb {
+  .skills-glow {
     position:
       absolute;
+
+    width:
+      30rem;
+
+    height:
+      30rem;
 
     border-radius:
       50%;
 
     filter:
-      blur(100px);
+      blur(150px);
   }
 
 
-  .skills-orb-one {
+  .skills-glow-one {
     top:
-      15%;
+      10%;
 
     left:
-      -10%;
-
-    width:
-      30rem;
-
-    height:
-      30rem;
+      -18%;
 
     background:
-      rgba(34, 211, 238, 0.035);
+      rgba(34, 211, 238, 0.03);
   }
 
 
-  .skills-orb-two {
+  .skills-glow-two {
     right:
-      -10%;
+      -18%;
 
     bottom:
       10%;
 
-    width:
-      35rem;
-
-    height:
-      35rem;
-
     background:
-      rgba(139, 92, 246, 0.04);
+      rgba(139, 92, 246, 0.03);
   }
 
 
@@ -383,95 +398,31 @@ import { skills } from "../data/skills";
       absolute;
 
     top:
-      12%;
+      10%;
 
     right:
-      5%;
+      7%;
 
     width:
-      180px;
+      200px;
 
     height:
-      180px;
+      200px;
 
     opacity:
-      0.45;
+      0.3;
   }
 
 
-  .skills-network::before {
-    content:
-      "";
-
-    position:
-      absolute;
-
-    top:
-      50%;
-
-    left:
-      0;
-
-    width:
-      100%;
-
-    height:
-      1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        transparent,
-        rgba(34, 211, 238, 0.3),
-        transparent
-      );
-
-    transform:
-      rotate(25deg);
-  }
-
-
-  .skills-network::after {
-    content:
-      "";
-
-    position:
-      absolute;
-
-    top:
-      0;
-
-    left:
-      50%;
-
-    width:
-      1px;
-
-    height:
-      100%;
-
-    background:
-      linear-gradient(
-        180deg,
-        transparent,
-        rgba(139, 92, 246, 0.25),
-        transparent
-      );
-
-    transform:
-      rotate(35deg);
-  }
-
-
-  .skills-network span {
+  .network-node {
     position:
       absolute;
 
     width:
-      5px;
+      4px;
 
     height:
-      5px;
+      4px;
 
     border-radius:
       50%;
@@ -480,116 +431,166 @@ import { skills } from "../data/skills";
       var(--color-cyan);
 
     box-shadow:
-      0 0 12px rgba(34, 211, 238, 0.7);
+      0 0 10px var(--color-cyan);
 
     animation:
-      skill-node 4s ease-in-out infinite;
+      node-float 5s ease-in-out infinite;
   }
 
 
-  .skills-network span:nth-child(1) {
+  .node-one {
     top:
-      10%;
+      15%;
 
     left:
       20%;
   }
 
 
-  .skills-network span:nth-child(2) {
+  .node-two {
     top:
-      28%;
+      45%;
 
-    right:
-      10%;
+    left:
+      55%;
 
     animation-delay:
       -1s;
   }
 
 
-  .skills-network span:nth-child(3) {
+  .node-three {
     top:
-      50%;
+      70%;
 
     left:
-      45%;
+      20%;
 
     background:
       var(--color-violet);
+
+    box-shadow:
+      0 0 10px var(--color-violet);
 
     animation-delay:
       -2s;
   }
 
 
-  .skills-network span:nth-child(4) {
-    bottom:
-      15%;
+  .node-four {
+    top:
+      25%;
 
     right:
-      22%;
+      10%;
+
+    background:
+      var(--color-blue);
+
+    box-shadow:
+      0 0 10px var(--color-blue);
 
     animation-delay:
       -3s;
   }
 
 
-  .skills-network span:nth-child(5) {
-    bottom:
-      8%;
-
-    left:
-      12%;
-
-    background:
-      var(--color-blue);
-
-    animation-delay:
-      -1.5s;
-  }
-
-
-  .skills-network span:nth-child(6) {
-    top:
-      60%;
-
-    left:
-      2%;
-
-    animation-delay:
-      -2.5s;
-  }
-
-
-  .skills-network span:nth-child(7) {
-    top:
-      80%;
-
+  .node-five {
     right:
-      3%;
+      20%;
 
-    background:
-      var(--color-violet);
+    bottom:
+      10%;
 
     animation-delay:
-      -0.5s;
+      -4s;
   }
 
 
-  @keyframes skill-node {
+  .network-line {
+    position:
+      absolute;
+
+    height:
+      1px;
+
+    width:
+      70px;
+
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(34, 211, 238, 0.2),
+        transparent
+      );
+
+    transform-origin:
+      left center;
+  }
+
+
+  .line-one {
+    top:
+      20%;
+
+    left:
+      22%;
+
+    transform:
+      rotate(28deg);
+  }
+
+
+  .line-two {
+    top:
+      47%;
+
+    left:
+      25%;
+
+    transform:
+      rotate(-18deg);
+  }
+
+
+  .line-three {
+    top:
+      48%;
+
+    left:
+      55%;
+
+    transform:
+      rotate(-38deg);
+  }
+
+
+  .line-four {
+    top:
+      70%;
+
+    left:
+      22%;
+
+    transform:
+      rotate(18deg);
+  }
+
+
+  @keyframes node-float {
     0%,
     100% {
       transform:
-        scale(0.7);
+        translate(0, 0);
 
       opacity:
-        0.25;
+        0.4;
     }
 
     50% {
       transform:
-        scale(1.6);
+        translate(5px, -7px);
 
       opacity:
         1;
@@ -598,7 +599,7 @@ import { skills } from "../data/skills";
 
 
   /* ========================================================
-     MAIN LAYOUT
+     LAYOUT
      ======================================================== */
 
   .skills-layout {
@@ -606,65 +607,47 @@ import { skills } from "../data/skills";
       grid;
 
     grid-template-columns:
-      minmax(280px, 0.7fr)
-      minmax(0, 1.3fr);
+      minmax(320px, 0.9fr)
+      minmax(0, 1.1fr);
 
     gap:
-      clamp(1.5rem, 5vw, 5rem);
+      1rem;
 
     align-items:
-      start;
+      stretch;
   }
 
 
   /* ========================================================
-     CORE VISUAL
+     SYSTEM MAP
      ======================================================== */
 
-  .skills-core {
-    position:
-      sticky;
+  .skills-system {
+    display:
+      flex;
 
-    top:
-      6rem;
+    flex-direction:
+      column;
+
+    min-height:
+      600px;
 
     overflow:
       hidden;
 
-    padding:
-      1.5rem;
-  }
+    border:
+      1px solid var(--color-border);
 
-
-  .skills-core::before {
-    content:
-      "";
-
-    position:
-      absolute;
-
-    top:
-      0;
-
-    left:
-      0;
-
-    width:
-      50%;
-
-    height:
-      1px;
+    border-radius:
+      var(--radius-lg);
 
     background:
-      linear-gradient(
-        90deg,
-        var(--color-cyan),
-        transparent
-      );
+      rgba(148, 163, 184, 0.012);
   }
 
 
-  .core-header {
+  .system-header,
+  .system-footer {
     display:
       flex;
 
@@ -674,12 +657,39 @@ import { skills } from "../data/skills";
     justify-content:
       space-between;
 
-    gap:
-      1rem;
+    padding:
+      0.8rem 1rem;
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.45rem;
+
+    letter-spacing:
+      0.06em;
   }
 
 
-  .core-status {
+  .system-header {
+    border-bottom:
+      1px solid var(--color-border);
+  }
+
+
+  .system-footer {
+    margin-top:
+      auto;
+
+    border-top:
+      1px solid var(--color-border);
+  }
+
+
+  .system-status {
     display:
       inline-flex;
 
@@ -687,23 +697,262 @@ import { skills } from "../data/skills";
       center;
 
     gap:
-      0.45rem;
+      0.35rem;
 
     color:
       var(--color-cyan);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.55rem;
-
-    letter-spacing:
-      0.08em;
   }
 
 
-  .status-dot {
+  .system-status span {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 7px var(--color-cyan);
+  }
+
+
+  .system-map {
+    position:
+      relative;
+
+    flex:
+      1;
+
+    min-height:
+      500px;
+
+    overflow:
+      hidden;
+
+    background:
+      radial-gradient(
+        circle at center,
+        rgba(34, 211, 238, 0.035),
+        transparent 48%
+      );
+  }
+
+
+  /* ========================================================
+     MAP RINGS
+     ======================================================== */
+
+  .map-rings {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    width:
+      330px;
+
+    height:
+      330px;
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+
+  .map-rings div {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.08);
+
+    border-radius:
+      50%;
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+
+  .map-rings div:nth-child(1) {
+    width:
+      100%;
+
+    height:
+      100%;
+
+    animation:
+      ring-pulse 7s ease-in-out infinite;
+  }
+
+
+  .map-rings div:nth-child(2) {
+    width:
+      68%;
+
+    height:
+      68%;
+
+    border-color:
+      rgba(59, 130, 246, 0.08);
+
+    animation:
+      ring-pulse 7s ease-in-out -2s infinite;
+  }
+
+
+  .map-rings div:nth-child(3) {
+    width:
+      36%;
+
+    height:
+      36%;
+
+    border-color:
+      rgba(139, 92, 246, 0.08);
+
+    animation:
+      ring-pulse 7s ease-in-out -4s infinite;
+  }
+
+
+  @keyframes ring-pulse {
+    0%,
+    100% {
+      opacity:
+        0.45;
+    }
+
+    50% {
+      opacity:
+        1;
+    }
+  }
+
+
+  /* ========================================================
+     MAP CONNECTIONS
+     ======================================================== */
+
+  .map-lines span {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    width:
+      145px;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(34, 211, 238, 0.25),
+        transparent
+      );
+
+    transform-origin:
+      left center;
+  }
+
+
+  .map-lines span:nth-child(1) {
+    transform:
+      rotate(-35deg);
+  }
+
+
+  .map-lines span:nth-child(2) {
+    transform:
+      rotate(30deg);
+  }
+
+
+  .map-lines span:nth-child(3) {
+    transform:
+      rotate(145deg);
+  }
+
+
+  .map-lines span:nth-child(4) {
+    transform:
+      rotate(210deg);
+  }
+
+
+  /* ========================================================
+     CORE NODE
+     ======================================================== */
+
+  .core-node {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    width:
+      92px;
+
+    height:
+      92px;
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+
+  .core-node-ring {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.25);
+
+    border-radius:
+      50%;
+
+    animation:
+      core-rotate 12s linear infinite;
+  }
+
+
+  .core-node-ring::before,
+  .core-node-ring::after {
+    content:
+      "";
+
+    position:
+      absolute;
+
     width:
       5px;
 
@@ -717,130 +966,48 @@ import { skills } from "../data/skills";
       var(--color-cyan);
 
     box-shadow:
-      0 0 10px rgba(34, 211, 238, 0.7);
+      0 0 10px var(--color-cyan);
   }
 
 
-  .core-code {
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.5rem;
-  }
-
-
-  .core-visual {
-    position:
-      relative;
-
-    width:
-      min(100%, 320px);
-
-    aspect-ratio:
-      1;
-
-    margin:
-      2rem auto;
-  }
-
-
-  .core-ring {
-    position:
-      absolute;
-
+  .core-node-ring::before {
     top:
-      50%;
+      -3px;
 
     left:
       50%;
 
-    border:
-      1px solid rgba(34, 211, 238, 0.12);
+    transform:
+      translateX(-50%);
+  }
 
-    border-radius:
+
+  .core-node-ring::after {
+    right:
+      -3px;
+
+    top:
       50%;
 
     transform:
-      translate(-50%, -50%);
-  }
-
-
-  .core-ring-one {
-    width:
-      38%;
-
-    height:
-      38%;
-  }
-
-
-  .core-ring-two {
-    width:
-      62%;
-
-    height:
-      62%;
-
-    border-color:
-      rgba(59, 130, 246, 0.11);
-
-    animation:
-      core-rotate 18s linear infinite;
-  }
-
-
-  .core-ring-three {
-    width:
-      86%;
-
-    height:
-      86%;
-
-    border-color:
-      rgba(139, 92, 246, 0.08);
-
-    border-style:
-      dashed;
-
-    animation:
-      core-rotate-reverse 30s linear infinite;
+      translateY(-50%);
   }
 
 
   @keyframes core-rotate {
     to {
       transform:
-        translate(-50%, -50%)
         rotate(360deg);
     }
   }
 
 
-  @keyframes core-rotate-reverse {
-    to {
-      transform:
-        translate(-50%, -50%)
-        rotate(-360deg);
-    }
-  }
-
-
-  .core-center {
+  .core-node-inner {
     position:
       absolute;
 
-    top:
-      50%;
-
-    left:
-      50%;
-
-    z-index:
-      3;
+    inset:
+      15px;
 
     display:
       flex;
@@ -854,199 +1021,169 @@ import { skills } from "../data/skills";
     justify-content:
       center;
 
-    width:
-      30%;
-
-    aspect-ratio:
-      1;
-
     border:
-      1px solid rgba(34, 211, 238, 0.25);
+      1px solid rgba(34, 211, 238, 0.15);
 
     border-radius:
       50%;
 
     background:
-      radial-gradient(
-        circle,
-        rgba(34, 211, 238, 0.08),
-        rgba(15, 23, 42, 0.8)
-      );
+      rgba(5, 9, 15, 0.85);
 
     box-shadow:
-      0 0 40px rgba(34, 211, 238, 0.08);
-
-    transform:
-      translate(-50%, -50%);
+      0 0 35px rgba(34, 211, 238, 0.07);
   }
 
 
-  .core-center span {
+  .core-node-inner span {
     color:
-      var(--color-text);
+      var(--color-cyan);
 
     font-family:
       var(--font-display);
 
     font-size:
-      clamp(1rem, 3vw, 1.5rem);
+      0.7rem;
 
     font-weight:
       600;
 
     letter-spacing:
-      -0.05em;
+      0.05em;
   }
 
 
-  .core-center small {
+  .core-node-inner small {
     margin-top:
-      0.15rem;
+      0.1rem;
 
     color:
-      var(--color-cyan);
+      var(--color-text-subtle);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.38rem;
-
-    letter-spacing:
-      0.08em;
+      0.34rem;
   }
 
 
   /* ========================================================
-     ORBIT NODES
+     SATELLITE NODES
      ======================================================== */
 
-  .core-node {
+  .satellite-node {
     position:
       absolute;
 
-    z-index:
-      4;
-
     display:
       flex;
-
-    flex-direction:
-      column;
 
     align-items:
       center;
 
     gap:
-      0.25rem;
+      0.35rem;
+
+    padding:
+      0.35rem 0.5rem;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      var(--radius-pill);
+
+    background:
+      rgba(5, 9, 15, 0.7);
 
     color:
-      var(--color-text-muted);
+      var(--color-text-subtle);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.45rem;
+      0.4rem;
+
+    white-space:
+      nowrap;
+
+    transition:
+      border-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard);
   }
 
 
-  .core-node::before {
-    content:
-      "";
+  .satellite-node:hover {
+    border-color:
+      rgba(34, 211, 238, 0.2);
 
-    width:
-      0.5rem;
-
-    height:
-      0.5rem;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.3);
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-bg);
-
-    box-shadow:
-      0 0 12px rgba(34, 211, 238, 0.15);
-  }
-
-
-  .core-node span {
     color:
       var(--color-cyan);
   }
 
 
-  .core-node small {
-    color:
-      var(--color-text-subtle);
+  .satellite-dot {
+    width:
+      4px;
 
-    font-size:
-      0.4rem;
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 7px var(--color-cyan);
   }
 
 
-  .core-node-one {
+  .satellite-1 {
     top:
-      8%;
+      25%;
 
     left:
-      46%;
+      12%;
   }
 
 
-  .core-node-two {
+  .satellite-2 {
     top:
-      46%;
+      25%;
 
     right:
-      3%;
+      10%;
   }
 
 
-  .core-node-three {
-    bottom:
+  .satellite-3 {
+    right:
       7%;
 
-    left:
-      46%;
+    bottom:
+      27%;
   }
 
 
-  .core-node-four {
+  .satellite-4 {
+    bottom:
+      22%;
+
+    left:
+      9%;
+  }
+
+
+  .satellite-5 {
     top:
-      46%;
+      47%;
 
     left:
-      3%;
-  }
-
-
-  .core-footer {
-    padding-top:
-      1.25rem;
-
-    border-top:
-      1px solid var(--color-border);
-  }
-
-
-  .core-footer p {
-    margin:
-      0;
-
-    color:
-      var(--color-text-muted);
-
-    font-size:
-      0.72rem;
-
-    line-height:
-      1.7;
+      4%;
   }
 
 
@@ -1054,21 +1191,21 @@ import { skills } from "../data/skills";
      SKILL GROUPS
      ======================================================== */
 
-  .skills-groups {
+  .skill-groups {
     display:
-      flex;
+      grid;
 
-    flex-direction:
-      column;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
 
     gap:
-      1.25rem;
+      0.8rem;
   }
 
 
   .skill-group {
     padding:
-      1.35rem;
+      1rem;
 
     border:
       1px solid var(--color-border);
@@ -1077,38 +1214,56 @@ import { skills } from "../data/skills";
       var(--radius-lg);
 
     background:
-      rgba(148, 163, 184, 0.015);
+      rgba(148, 163, 184, 0.012);
 
     transition:
       border-color var(--duration-normal) var(--ease-standard),
-      background var(--duration-normal) var(--ease-standard);
+      transform var(--duration-normal) var(--ease-standard);
   }
 
 
   .skill-group:hover {
+    transform:
+      translateY(-2px);
+
     border-color:
       rgba(34, 211, 238, 0.14);
-
-    background:
-      rgba(34, 211, 238, 0.018);
   }
 
 
   .skill-group-header {
     display:
-      flex;
+      grid;
+
+    grid-template-columns:
+      26px 1fr;
 
     gap:
-      0.9rem;
+      0.65rem;
 
-    margin-bottom:
-      1.1rem;
+    align-items:
+      start;
   }
 
 
   .skill-group-number {
-    padding-top:
-      0.15rem;
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.43rem;
+  }
+
+
+  .skill-group-code {
+    display:
+      block;
+
+    margin-bottom:
+      0.2rem;
 
     color:
       var(--color-cyan);
@@ -1117,7 +1272,10 @@ import { skills } from "../data/skills";
       var(--font-mono);
 
     font-size:
-      0.55rem;
+      0.4rem;
+
+    letter-spacing:
+      0.05em;
   }
 
 
@@ -1128,274 +1286,11 @@ import { skills } from "../data/skills";
     color:
       var(--color-text);
 
-    font-size:
-      0.9rem;
-
-    font-weight:
-      500;
-  }
-
-
-  .skill-group-header p {
-    margin:
-      0.3rem 0 0;
-
-    color:
-      var(--color-text-subtle);
-
-    font-size:
-      0.65rem;
-
-    line-height:
-      1.5;
-  }
-
-
-  .skill-tags {
-    display:
-      flex;
-
-    flex-wrap:
-      wrap;
-
-    gap:
-      0.45rem;
-  }
-
-
-  .skill-tag {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.4rem;
-
-    padding:
-      0.48rem 0.65rem;
-
-    border:
-      1px solid rgba(148, 163, 184, 0.1);
-
-    border-radius:
-      0.4rem;
-
-    color:
-      var(--color-text-muted);
-
-    background:
-      rgba(148, 163, 184, 0.025);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.55rem;
-
-    transition:
-      color var(--duration-fast) ease,
-      border-color var(--duration-fast) ease,
-      background var(--duration-fast) ease,
-      transform var(--duration-fast) ease;
-  }
-
-
-  .skill-tag:hover {
-    transform:
-      translateY(-2px);
-
-    color:
-      var(--color-text);
-
-    border-color:
-      rgba(34, 211, 238, 0.22);
-
-    background:
-      rgba(34, 211, 238, 0.045);
-  }
-
-
-  .skill-featured {
-    color:
-      var(--color-cyan);
-
-    border-color:
-      rgba(34, 211, 238, 0.16);
-
-    background:
-      rgba(34, 211, 238, 0.035);
-  }
-
-
-  .skill-learning {
-    border-color:
-      rgba(139, 92, 246, 0.22);
-
-    background:
-      rgba(139, 92, 246, 0.035);
-  }
-
-
-  .learning-indicator {
-    width:
-      4px;
-
-    height:
-      4px;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-violet);
-
-    box-shadow:
-      0 0 8px rgba(139, 92, 246, 0.7);
-  }
-
-
-  .featured-marker {
-    color:
-      var(--color-cyan);
-
-    opacity:
-      0.7;
-  }
-
-
-  /* ========================================================
-     LEARNING PANEL
-     ======================================================== */
-
-  .learning-panel {
-    display:
-      grid;
-
-    grid-template-columns:
-      auto 1fr auto;
-
-    align-items:
-      center;
-
-    gap:
-      1.5rem;
-
-    margin-top:
-      4rem;
-
-    padding:
-      1.5rem;
-
-    border:
-      1px solid rgba(139, 92, 246, 0.16);
-
-    border-radius:
-      var(--radius-lg);
-
-    background:
-      linear-gradient(
-        135deg,
-        rgba(139, 92, 246, 0.04),
-        rgba(34, 211, 238, 0.02)
-      );
-  }
-
-
-  .learning-icon {
-    position:
-      relative;
-
-    width:
-      3rem;
-
-    height:
-      3rem;
-  }
-
-
-  .learning-icon span {
-    position:
-      absolute;
-
-    top:
-      50%;
-
-    left:
-      50%;
-
-    width:
-      0.45rem;
-
-    height:
-      0.45rem;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-violet);
-
-    box-shadow:
-      0 0 12px rgba(139, 92, 246, 0.6);
-  }
-
-
-  .learning-icon span:nth-child(1) {
-    transform:
-      translate(-50%, -50%);
-  }
-
-
-  .learning-icon span:nth-child(2) {
-    transform:
-      translate(-170%, -50%);
-  }
-
-
-  .learning-icon span:nth-child(3) {
-    transform:
-      translate(70%, -50%);
-  }
-
-
-  .learning-content {
-    min-width:
-      0;
-  }
-
-
-  .learning-label {
-    margin-bottom:
-      0.35rem;
-
-    color:
-      var(--color-violet-bright);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.52rem;
-
-    letter-spacing:
-      0.08em;
-  }
-
-
-  .learning-content h3 {
-    margin:
-      0;
-
-    color:
-      var(--color-text);
-
     font-family:
       var(--font-display);
 
     font-size:
-      1.2rem;
+      0.8rem;
 
     font-weight:
       500;
@@ -1405,57 +1300,101 @@ import { skills } from "../data/skills";
   }
 
 
-  .learning-content p {
-    max-width:
-      650px;
-
+  .skill-group-description {
     margin:
-      0.35rem 0 0;
+      0.75rem 0 0;
 
     color:
-      var(--color-text-muted);
+      var(--color-text-subtle);
 
     font-size:
-      0.7rem;
+      0.54rem;
 
     line-height:
       1.6;
   }
 
 
-  .learning-stack {
+  /* ========================================================
+     SKILL ITEMS
+     ======================================================== */
+
+  .skill-items {
     display:
       flex;
 
-    flex-wrap:
-      wrap;
-
-    justify-content:
-      flex-end;
+    flex-direction:
+      column;
 
     gap:
-      0.4rem;
+      0.35rem;
 
-    max-width:
-      230px;
+    margin-top:
+      0.9rem;
   }
 
 
-  .learning-stack span {
+  .skill-item {
+    display:
+      grid;
+
+    grid-template-columns:
+      7px 1fr auto;
+
+    gap:
+      0.45rem;
+
+    align-items:
+      center;
+
+    min-height:
+      24px;
+
     padding:
-      0.4rem 0.5rem;
+      0.3rem 0.4rem;
 
     border:
-      1px solid rgba(139, 92, 246, 0.15);
+      1px solid transparent;
 
     border-radius:
-      0.35rem;
+      0.25rem;
 
-    color:
-      var(--color-violet-bright);
+    transition:
+      background var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard);
+  }
+
+
+  .skill-item:hover {
+    border-color:
+      var(--color-border);
 
     background:
-      rgba(139, 92, 246, 0.04);
+      rgba(148, 163, 184, 0.025);
+  }
+
+
+  .skill-indicator {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 6px rgba(34, 211, 238, 0.5);
+  }
+
+
+  .skill-name {
+    color:
+      var(--color-text-muted);
 
     font-family:
       var(--font-mono);
@@ -1465,81 +1404,417 @@ import { skills } from "../data/skills";
   }
 
 
+  .skill-level {
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.37rem;
+
+    text-transform:
+      uppercase;
+  }
+
+
+  /* ========================================================
+     AI FOCUS
+     ======================================================== */
+
+  .ai-focus {
+    position:
+      relative;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      150px 1fr;
+
+    gap:
+      2rem;
+
+    align-items:
+      center;
+
+    margin-top:
+      1rem;
+
+    padding:
+      1.5rem;
+
+    overflow:
+      hidden;
+
+    border:
+      1px solid rgba(139, 92, 246, 0.12);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      linear-gradient(
+        120deg,
+        rgba(139, 92, 246, 0.025),
+        rgba(34, 211, 238, 0.018)
+      );
+  }
+
+
+  .ai-focus-visual {
+    position:
+      relative;
+
+    width:
+      120px;
+
+    height:
+      120px;
+
+    margin:
+      auto;
+  }
+
+
+  .ai-orbit {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    border:
+      1px solid rgba(139, 92, 246, 0.18);
+
+    border-radius:
+      50%;
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+
+  .ai-orbit-one {
+    width:
+      110px;
+
+    height:
+      55px;
+
+    animation:
+      ai-orbit 8s linear infinite;
+  }
+
+
+  .ai-orbit-two {
+    width:
+      55px;
+
+    height:
+      110px;
+
+    transform:
+      translate(-50%, -50%)
+      rotate(60deg);
+
+    animation:
+      ai-orbit-reverse 11s linear infinite;
+  }
+
+
+  @keyframes ai-orbit {
+    to {
+      transform:
+        translate(-50%, -50%)
+        rotate(360deg);
+    }
+  }
+
+
+  @keyframes ai-orbit-reverse {
+    to {
+      transform:
+        translate(-50%, -50%)
+        rotate(-300deg);
+    }
+  }
+
+
+  .ai-core {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    width:
+      38px;
+
+    height:
+      38px;
+
+    border:
+      1px solid rgba(139, 92, 246, 0.3);
+
+    border-radius:
+      50%;
+
+    background:
+      rgba(5, 9, 15, 0.85);
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+
+  .ai-core span {
+    width:
+      8px;
+
+    height:
+      8px;
+
+    border-radius:
+      50%;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-violet),
+        var(--color-cyan)
+      );
+
+    box-shadow:
+      0 0 18px rgba(139, 92, 246, 0.5);
+
+    animation:
+      ai-pulse 2.5s ease-in-out infinite;
+  }
+
+
+  @keyframes ai-pulse {
+    0%,
+    100% {
+      transform:
+        scale(0.8);
+    }
+
+    50% {
+      transform:
+        scale(1.35);
+    }
+  }
+
+
+  .ai-eyebrow {
+    color:
+      var(--color-violet);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.44rem;
+
+    letter-spacing:
+      0.07em;
+  }
+
+
+  .ai-focus-content h3 {
+    max-width:
+      650px;
+
+    margin:
+      0.4rem 0 0;
+
+    color:
+      var(--color-text);
+
+    font-family:
+      var(--font-display);
+
+    font-size:
+      clamp(1rem, 2vw, 1.35rem);
+
+    font-weight:
+      500;
+
+    letter-spacing:
+      -0.035em;
+  }
+
+
+  .ai-focus-content p {
+    max-width:
+      700px;
+
+    margin:
+      0.65rem 0 0;
+
+    color:
+      var(--color-text-muted);
+
+    font-size:
+      0.6rem;
+
+    line-height:
+      1.7;
+  }
+
+
+  .ai-tags {
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      0.4rem;
+
+    margin-top:
+      0.9rem;
+  }
+
+
+  .ai-tags span {
+    padding:
+      0.32rem 0.45rem;
+
+    border:
+      1px solid rgba(139, 92, 246, 0.12);
+
+    border-radius:
+      0.25rem;
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.42rem;
+  }
+
+
   /* ========================================================
      RESPONSIVE
      ======================================================== */
 
-  @media (max-width: 900px) {
+  @media (max-width: 950px) {
     .skills-layout {
       grid-template-columns:
         1fr;
     }
 
-    .skills-core {
-      position:
-        relative;
-
-      top:
-        auto;
-
-      max-width:
+    .skills-system {
+      min-height:
         500px;
+    }
 
-      width:
-        100%;
-
-      margin:
-        0 auto;
+    .system-map {
+      min-height:
+        400px;
     }
   }
 
 
-  @media (max-width: 650px) {
-    .learning-panel {
+  @media (max-width: 700px) {
+    .skill-groups {
       grid-template-columns:
-        auto 1fr;
+        1fr;
     }
 
-    .learning-stack {
-      grid-column:
-        1 / -1;
+    .ai-focus {
+      grid-template-columns:
+        1fr;
 
+      text-align:
+        center;
+    }
+
+    .ai-focus-visual {
+      margin:
+        0 auto;
+    }
+
+    .ai-tags {
       justify-content:
-        flex-start;
-
-      max-width:
-        none;
+        center;
     }
   }
 
 
   @media (max-width: 500px) {
-    .skill-group {
-      padding:
-        1rem;
+    .skills-system {
+      min-height:
+        430px;
     }
 
-    .skill-tag {
+    .system-map {
+      min-height:
+        330px;
+    }
+
+    .map-rings {
+      width:
+        260px;
+
+      height:
+        260px;
+    }
+
+    .map-lines span {
+      width:
+        110px;
+    }
+
+    .satellite-node {
       font-size:
-        0.5rem;
+        0.35rem;
     }
 
-    .core-visual {
-      max-width:
-        280px;
+    .satellite-5 {
+      display:
+        none;
     }
   }
 
 
+  /* ========================================================
+     REDUCED MOTION
+     ======================================================== */
+
   @media (prefers-reduced-motion: reduce) {
-    .skills-network span,
-    .core-ring-two,
-    .core-ring-three {
+    .network-node,
+    .map-rings div,
+    .core-node-ring,
+    .ai-orbit-one,
+    .ai-orbit-two,
+    .ai-core span {
       animation:
         none;
     }
 
-    .skill-tag,
     .skill-group {
       transition:
         none;
