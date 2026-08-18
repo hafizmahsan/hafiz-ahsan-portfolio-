@@ -1,0 +1,476 @@
+---
+/**
+ * ============================================================
+ * SKILLS SECTION
+ * ============================================================
+ *
+ * Technical skills grouped by category.
+ *
+ * ============================================================
+ */
+
+import SectionHeader from "./SectionHeader.astro";
+
+interface Skill {
+  name: string;
+
+  level?: string;
+}
+
+interface SkillGroup {
+  title: string;
+
+  description?: string;
+
+  skills: Skill[];
+}
+
+interface Props {
+  number?: string;
+
+  eyebrow?: string;
+
+  title?: string;
+
+  description?: string;
+
+  groups?: SkillGroup[];
+
+  class?: string;
+}
+
+const {
+  number = "04",
+
+  eyebrow = "CAPABILITIES",
+
+  title = "Tools I use.",
+
+  description =
+    "A practical toolkit built around software engineering, automation, data, and intelligent systems.",
+
+  groups = [],
+
+  class: className = ""
+} = Astro.props;
+---
+
+<section
+  id="skills"
+  class:list={[
+    "skills-section",
+    className
+  ]}
+>
+  <div class="skills-section__inner">
+
+    <SectionHeader
+      number={number}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+    />
+
+
+    {
+      groups.length > 0 ? (
+        <div class="skills-section__grid">
+
+          {
+            groups.map(
+              (group, index) => (
+                <article
+                  class="skills-group"
+                >
+
+                  <div class="skills-group__header">
+
+                    <span class="skills-group__number">
+                      {String(
+                        index + 1
+                      ).padStart(
+                        2,
+                        "0"
+                      )}
+                    </span>
+
+                    <div>
+                      <h3>
+                        {group.title}
+                      </h3>
+
+                      {
+                        group.description && (
+                          <p>
+                            {group.description}
+                          </p>
+                        )
+                      }
+                    </div>
+
+                  </div>
+
+
+                  <ul class="skills-group__list">
+
+                    {
+                      group.skills.map(
+                        (skill) => (
+                          <li>
+                            <span>
+                              {skill.name}
+                            </span>
+
+                            {
+                              skill.level && (
+                                <small>
+                                  {skill.level}
+                                </small>
+                              )
+                            }
+                          </li>
+                        )
+                      )
+                    }
+
+                  </ul>
+
+                </article>
+              )
+            )
+          }
+
+        </div>
+      ) : (
+        <div class="skills-section__empty">
+          <span>
+            / CAPABILITIES
+          </span>
+
+          <p>
+            Skill categories will appear here.
+          </p>
+        </div>
+      )
+    }
+
+  </div>
+</section>
+
+
+<style>
+  .skills-section {
+    padding:
+      7rem 0;
+  }
+
+
+  .skills-section__inner {
+    width:
+      min(
+        calc(100% - 2.5rem),
+        76rem
+      );
+
+    margin-inline: auto;
+  }
+
+
+  /* ========================================================
+     GRID
+     ======================================================== */
+
+  .skills-section__grid {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 1px;
+
+    margin-top: 4rem;
+
+    border:
+      1px solid
+      rgba(148, 163, 184, 0.1);
+
+    background:
+      rgba(148, 163, 184, 0.1);
+  }
+
+
+  /* ========================================================
+     GROUP
+     ======================================================== */
+
+  .skills-group {
+    min-width: 0;
+
+    padding:
+      clamp(1.35rem, 3vw, 2rem);
+
+    background:
+      #020617;
+  }
+
+
+  .skills-group__header {
+    display: grid;
+
+    grid-template-columns:
+      auto minmax(0, 1fr);
+
+    gap: 1rem;
+
+    padding-bottom:
+      1.25rem;
+
+    border-bottom:
+      1px solid
+      rgba(148, 163, 184, 0.08);
+  }
+
+
+  .skills-group__number {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 2rem;
+    height: 2rem;
+
+    border:
+      1px solid
+      rgba(103, 232, 249, 0.18);
+
+    color:
+      rgba(103, 232, 249, 0.65);
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.55rem;
+
+    font-weight: 700;
+  }
+
+
+  .skills-group h3 {
+    margin: 0;
+
+    color:
+      #f8fafc;
+
+    font-size: 0.95rem;
+
+    font-weight: 700;
+
+    letter-spacing: -0.02em;
+  }
+
+
+  .skills-group__header p {
+    margin:
+      0.45rem 0 0;
+
+    color:
+      rgba(100, 116, 139, 0.8);
+
+    font-size: 0.7rem;
+
+    line-height: 1.55;
+  }
+
+
+  /* ========================================================
+     SKILL LIST
+     ======================================================== */
+
+  .skills-group__list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+  }
+
+
+  .skills-group__list li {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    min-height: 2.65rem;
+
+    border-bottom:
+      1px solid
+      rgba(148, 163, 184, 0.055);
+
+    color:
+      rgba(203, 213, 225, 0.82);
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.68rem;
+
+    font-weight: 600;
+  }
+
+
+  .skills-group__list li:last-child {
+    border-bottom: 0;
+  }
+
+
+  .skills-group__list li span {
+    transition:
+      color 160ms ease;
+  }
+
+
+  .skills-group__list li:hover span {
+    color:
+      #67e8f9;
+  }
+
+
+  .skills-group__list small {
+    flex-shrink: 0;
+
+    color:
+      rgba(100, 116, 139, 0.65);
+
+    font-family:
+      inherit;
+
+    font-size: 0.5rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+  }
+
+
+  /* ========================================================
+     EMPTY STATE
+     ======================================================== */
+
+  .skills-section__empty {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    min-height: 14rem;
+
+    margin-top: 4rem;
+
+    padding: 2rem;
+
+    border:
+      1px dashed
+      rgba(148, 163, 184, 0.14);
+
+    text-align: center;
+  }
+
+
+  .skills-section__empty span {
+    color:
+      #67e8f9;
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.6rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+  }
+
+
+  .skills-section__empty p {
+    margin:
+      0.75rem 0 0;
+
+    color:
+      rgba(100, 116, 139, 0.75);
+
+    font-size: 0.8rem;
+  }
+
+
+  /* ========================================================
+     RESPONSIVE
+     ======================================================== */
+
+  @media (max-width: 900px) {
+    .skills-section {
+      padding:
+        5rem 0;
+    }
+
+
+    .skills-section__grid {
+      margin-top: 3rem;
+    }
+  }
+
+
+  @media (max-width: 680px) {
+    .skills-section__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+
+  @media (max-width: 640px) {
+    .skills-section__inner {
+      width:
+        min(
+          calc(100% - 2rem),
+          76rem
+        );
+    }
+  }
+
+
+  @media (prefers-reduced-motion: reduce) {
+    .skills-group__list li span {
+      transition: none;
+    }
+  }
+</style>
