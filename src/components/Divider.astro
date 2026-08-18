@@ -1,0 +1,101 @@
+---
+/**
+ * ============================================================
+ * DIVIDER
+ * ============================================================
+ *
+ * Reusable visual separator.
+ *
+ * ============================================================
+ */
+
+interface Props {
+  variant?:
+    | "default"
+    | "accent"
+    | "subtle";
+
+  spacing?:
+    | "sm"
+    | "md"
+    | "lg";
+
+  class?: string;
+}
+
+const {
+  variant = "default",
+  spacing = "md",
+  class: className = ""
+} = Astro.props;
+---
+
+<hr
+  class:list={[
+    "divider",
+    `divider--${variant}`,
+    `divider--spacing-${spacing}`,
+    className
+  ]}
+/>
+
+
+<style>
+  .divider {
+    width: 100%;
+    height: 1px;
+
+    margin-inline: 0;
+
+    border: 0;
+
+    background:
+      rgba(148, 163, 184, 0.12);
+  }
+
+
+  .divider--default {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(148, 163, 184, 0.02),
+        rgba(148, 163, 184, 0.2),
+        rgba(148, 163, 184, 0.02)
+      );
+  }
+
+
+  .divider--accent {
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(34, 211, 238, 0.5),
+        transparent
+      );
+  }
+
+
+  .divider--subtle {
+    background:
+      rgba(148, 163, 184, 0.07);
+  }
+
+
+  .divider--spacing-sm {
+    margin-block:
+      1.25rem;
+  }
+
+
+  .divider--spacing-md {
+    margin-block:
+      2rem;
+  }
+
+
+  .divider--spacing-lg {
+    margin-block:
+      3rem;
+  }
+</style>
