@@ -6,154 +6,125 @@
  *
  * Reusable project showcase component.
  *
- * Supports:
- * - Project imagery
- * - Project metadata
- * - Technology chips
- * - GitHub / live links
- * - Featured projects
- * - Technical network overlays
- * - Responsive layouts
+ * Designed for:
+ * - RPA projects
+ * - Automation solutions
+ * - AI / Gen AI projects
+ * - Architecture projects
+ * - Web applications
+ * - Open-source projects
+ *
+ * Project content is supplied through props so that the actual
+ * portfolio data can live in a central editable data file.
  *
  * ============================================================
  */
 
-interface Technology {
-  name: string;
-  accent?: "cyan" | "violet" | "blue" | "green";
-}
-
-interface Props {
+interface ProjectItem {
   title: string;
+  category: string;
   description: string;
-  category?: string;
+  impact?: string;
   image?: string;
-  imageAlt?: string;
-  technologies?: Technology[];
-  githubUrl?: string;
-  liveUrl?: string;
-  index?: string;
-  status?: "LIVE" | "ARCHIVED" | "CONCEPT" | "IN DEVELOPMENT";
+  technologies?: string[];
+  github?: string;
+  demo?: string;
   featured?: boolean;
+  status?: string;
   year?: string;
 }
 
+interface Props {
+  project: ProjectItem;
+  index?: string;
+  accent?: "cyan" | "violet" | "blue" | "green";
+}
+
 const {
-  title,
-  description,
-  category = "PROJECT",
-  image,
-  imageAlt = "",
-  technologies = [],
-  githubUrl,
-  liveUrl,
+  project,
   index = "01",
-  status = "LIVE",
-  featured = false,
-  year
+  accent = "cyan"
 } = Astro.props;
+
+const projectStatus =
+  project.status ?? "COMPLETED";
 ---
 
 <article
   class:list={[
     "project-card",
+    `project-card-${accent}`,
     {
-      "project-card-featured": featured
+      "project-card-featured": project.featured
     }
   ]}
 >
 
   <!-- ======================================================
-       PROJECT VISUAL
+       VISUAL PANEL
        ====================================================== -->
 
   <div class="project-visual">
 
     {
-      image ? (
+      project.image ? (
         <img
-          src={image}
-          alt={imageAlt || title}
+          src={project.image}
+          alt={`${project.title} project preview`}
           class="project-image"
           loading="lazy"
-          decoding="async"
         />
       ) : (
         <div
-          class="project-image-placeholder"
+          class="project-generated-visual"
           aria-hidden="true"
         >
-          <span class="placeholder-grid"></span>
+
+          <div class="visual-grid"></div>
+
+          <div class="visual-orbit visual-orbit-one">
+            <span></span>
+          </div>
+
+          <div class="visual-orbit visual-orbit-two">
+            <span></span>
+          </div>
+
+          <div class="visual-core">
+
+            <span class="core-ring"></span>
+
+            <span class="core-dot"></span>
+
+          </div>
+
+          <div class="visual-node node-one"></div>
+          <div class="visual-node node-two"></div>
+          <div class="visual-node node-three"></div>
+          <div class="visual-node node-four"></div>
+
+          <div class="visual-connection connection-one"></div>
+          <div class="visual-connection connection-two"></div>
+          <div class="visual-connection connection-three"></div>
+
         </div>
       )
     }
 
 
     <!-- ====================================================
-         IMAGE OVERLAY
+         VISUAL OVERLAY
          ==================================================== -->
 
     <div class="visual-overlay"></div>
 
 
     <!-- ====================================================
-         TECHNICAL GRID
+         PROJECT INDEX
          ==================================================== -->
 
-    <div
-      class="visual-grid"
-      aria-hidden="true"
-    ></div>
-
-
-    <!-- ====================================================
-         NETWORK
-         ==================================================== -->
-
-    <div
-      class="visual-network"
-      aria-hidden="true"
-    >
-
-      <span class="network-line network-line-1"></span>
-
-      <span class="network-line network-line-2"></span>
-
-      <span class="network-line network-line-3"></span>
-
-      <span class="network-node network-node-1"></span>
-
-      <span class="network-node network-node-2"></span>
-
-      <span class="network-node network-node-3"></span>
-
-      <span class="network-node network-node-4"></span>
-
-    </div>
-
-
-    <!-- ====================================================
-         TOP META
-         ==================================================== -->
-
-    <div class="visual-top">
-
-      <span class="project-index">
-        {index}
-      </span>
-
-      <span class="project-category">
-        {category}
-      </span>
-
-      {
-        year && (
-          <span class="project-year">
-            {year}
-          </span>
-        )
-      }
-
+    <div class="project-index">
+      PROJECT_{index}
     </div>
 
 
@@ -163,23 +134,27 @@ const {
 
     <div class="project-status">
 
-      <span class="status-indicator"></span>
+      <span
+        class="project-status-dot"
+        aria-hidden="true"
+      ></span>
 
-      {status}
+      {projectStatus}
 
     </div>
 
 
     <!-- ====================================================
-         HOVER ARROW
+         YEAR
          ==================================================== -->
 
-    <span
-      class="project-arrow"
-      aria-hidden="true"
-    >
-      ↗
-    </span>
+    {
+      project.year && (
+        <div class="project-year">
+          {project.year}
+        </div>
+      )
+    }
 
   </div>
 
@@ -191,23 +166,25 @@ const {
   <div class="project-content">
 
     <!-- ====================================================
+         CATEGORY
+         ==================================================== -->
+
+    <div class="project-category">
+
+      <span class="category-line"></span>
+
+      {project.category}
+
+    </div>
+
+
+    <!-- ====================================================
          TITLE
          ==================================================== -->
 
-    <div class="project-title-row">
-
-      <h3 class="project-title">
-        {title}
-      </h3>
-
-      <span
-        class="title-node"
-        aria-hidden="true"
-      >
-        ◇
-      </span>
-
-    </div>
+    <h3 class="project-title">
+      {project.title}
+    </h3>
 
 
     <!-- ====================================================
@@ -215,8 +192,29 @@ const {
          ==================================================== -->
 
     <p class="project-description">
-      {description}
+      {project.description}
     </p>
+
+
+    <!-- ====================================================
+         IMPACT
+         ==================================================== -->
+
+    {
+      project.impact && (
+        <div class="project-impact">
+
+          <span class="impact-label">
+            IMPACT
+          </span>
+
+          <span class="impact-value">
+            {project.impact}
+          </span>
+
+        </div>
+      )
+    }
 
 
     <!-- ====================================================
@@ -224,29 +222,77 @@ const {
          ==================================================== -->
 
     {
-      technologies.length > 0 && (
+      project.technologies?.length && (
         <div class="project-technologies">
 
           {
-            technologies.map((technology) => (
-              <span
-                class:list={[
-                  "technology-chip",
-                  `technology-${technology.accent || "cyan"}`
-                ]}
-              >
-
-                <span
-                  class="chip-node"
-                  aria-hidden="true"
-                >
-                  •
-                </span>
-
-                {technology.name}
-
+            project.technologies.map((technology) => (
+              <span class="project-tech">
+                {technology}
               </span>
             ))
+          }
+
+        </div>
+      )
+    }
+
+
+    <!-- ====================================================
+         ACTIONS
+         ==================================================== -->
+
+    {
+      (project.github || project.demo) && (
+        <div class="project-actions">
+
+          {
+            project.demo && (
+              <a
+                href={project.demo}
+                class="project-action project-action-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+
+                <span>
+                  VIEW PROJECT
+                </span>
+
+                <span
+                  class="action-arrow"
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+
+              </a>
+            )
+          }
+
+
+          {
+            project.github && (
+              <a
+                href={project.github}
+                class="project-action project-action-secondary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+
+                <span>
+                  SOURCE
+                </span>
+
+                <span
+                  class="action-arrow"
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+
+              </a>
+            )
           }
 
         </div>
@@ -258,64 +304,24 @@ const {
          FOOTER
          ==================================================== -->
 
-    <footer class="project-footer">
+    <div
+      class="project-footer"
+      aria-hidden="true"
+    >
 
-      <div class="project-links">
+      <span class="footer-pulse"></span>
 
-        {
-          githubUrl && (
-            <a
-              href={githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="project-link"
-              aria-label={`View ${title} source code on GitHub`}
-            >
-              <span class="link-icon">
-                ↗
-              </span>
+      <span class="footer-line"></span>
 
-              <span>
-                GITHUB
-              </span>
-            </a>
-          )
-        }
+      <span class="footer-code">
+        NODE_{index}
+      </span>
 
+      <span class="footer-line"></span>
 
-        {
-          liveUrl && (
-            <a
-              href={liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="project-link project-link-primary"
-              aria-label={`View ${title} live project`}
-            >
-              <span class="link-icon">
-                ◉
-              </span>
+      <span class="footer-end"></span>
 
-              <span>
-                LIVE
-              </span>
-            </a>
-          )
-        }
-
-      </div>
-
-
-      <div
-        class="project-signal"
-        aria-hidden="true"
-      >
-
-        <span></span>
-
-      </div>
-
-    </footer>
+    </div>
 
   </div>
 
@@ -328,11 +334,27 @@ const {
      ======================================================== */
 
   .project-card {
+    --project-accent:
+      #22d3ee;
+
+    --project-accent-soft:
+      rgba(34, 211, 238, 0.08);
+
+    --project-accent-border:
+      rgba(34, 211, 238, 0.16);
+
     position:
       relative;
 
-    min-width:
-      0;
+    display:
+      grid;
+
+    grid-template-columns:
+      minmax(280px, 0.9fr)
+      minmax(0, 1fr);
+
+    min-height:
+      360px;
 
     border:
       1px solid var(--color-border);
@@ -340,32 +362,39 @@ const {
     border-radius:
       0.65rem;
 
-    background:
-      rgba(148, 163, 184, 0.012);
-
     overflow:
       hidden;
 
+    background:
+      rgba(148, 163, 184, 0.012);
+
     transition:
+      transform var(--duration-slow) var(--ease-standard),
       border-color var(--duration-normal) var(--ease-standard),
-      transform var(--duration-normal) var(--ease-standard),
-      background var(--duration-normal) var(--ease-standard),
-      box-shadow var(--duration-normal) var(--ease-standard);
+      box-shadow var(--duration-slow) var(--ease-standard);
   }
 
 
   .project-card:hover {
     transform:
-      translateY(-6px);
+      translateY(-5px);
 
     border-color:
-      rgba(34, 211, 238, 0.2);
-
-    background:
-      rgba(34, 211, 238, 0.012);
+      var(--project-accent-border);
 
     box-shadow:
-      0 25px 70px rgba(0, 0, 0, 0.13);
+      0 25px 70px rgba(0, 0, 0, 0.18),
+      0 0 45px var(--project-accent-soft);
+  }
+
+
+  /* ========================================================
+     FEATURED
+     ======================================================== */
+
+  .project-card-featured {
+    border-color:
+      var(--project-accent-border);
   }
 
 
@@ -377,20 +406,16 @@ const {
     position:
       relative;
 
-    aspect-ratio:
-      16 / 10;
+    min-height:
+      100%;
 
     overflow:
       hidden;
 
     background:
-      #07111d;
+      #020617;
   }
 
-
-  /* ========================================================
-     IMAGE
-     ======================================================== */
 
   .project-image {
     position:
@@ -409,90 +434,515 @@ const {
       cover;
 
     opacity:
-      0.72;
-
-    transform:
-      scale(1.01);
+      0.78;
 
     filter:
-      saturate(0.75)
-      contrast(1.08);
+      saturate(0.8)
+      contrast(1.05);
 
     transition:
-      transform 700ms var(--ease-standard),
-      opacity 500ms var(--ease-standard),
-      filter 500ms var(--ease-standard);
+      transform 0.8s var(--ease-standard),
+      opacity 0.8s var(--ease-standard);
   }
 
 
   .project-card:hover
     .project-image {
 
-    opacity:
-      0.88;
-
     transform:
-      scale(1.055);
+      scale(1.06);
 
-    filter:
-      saturate(1)
-      contrast(1.04);
+    opacity:
+      0.9;
   }
 
 
   /* ========================================================
-     PLACEHOLDER
+     GENERATED VISUAL
      ======================================================== */
 
-  .project-image-placeholder {
+  .project-generated-visual {
     position:
       absolute;
 
     inset:
       0;
+
+    overflow:
+      hidden;
 
     background:
       radial-gradient(
-        circle at 25% 25%,
-        rgba(34, 211, 238, 0.08),
-        transparent 28%
-      ),
-      radial-gradient(
-        circle at 75% 75%,
-        rgba(139, 92, 246, 0.09),
-        transparent 30%
-      ),
-      #07111d;
+        circle at center,
+        var(--project-accent-soft),
+        transparent 48%
+      );
   }
 
 
-  .placeholder-grid {
+  .visual-grid {
     position:
       absolute;
 
     inset:
-      0;
+      -30%;
 
     background-image:
       linear-gradient(
-        rgba(148, 163, 184, 0.06) 1px,
+        rgba(148, 163, 184, 0.045) 1px,
         transparent 1px
       ),
       linear-gradient(
         90deg,
-        rgba(148, 163, 184, 0.06) 1px,
+        rgba(148, 163, 184, 0.045) 1px,
         transparent 1px
       );
 
     background-size:
       30px 30px;
 
-    mask-image:
-      linear-gradient(
-        135deg,
-        black,
+    transform:
+      perspective(500px)
+      rotateX(62deg)
+      translateY(22%);
+
+    transform-origin:
+      center bottom;
+
+    opacity:
+      0.8;
+
+    animation:
+      project-grid-drift 12s linear infinite;
+  }
+
+
+  @keyframes project-grid-drift {
+
+    from {
+      transform:
+        perspective(500px)
+        rotateX(62deg)
+        translateY(22%)
+        translateX(0);
+    }
+
+    to {
+      transform:
+        perspective(500px)
+        rotateX(62deg)
+        translateY(22%)
+        translateX(30px);
+    }
+
+  }
+
+
+  /* ========================================================
+     ORBITS
+     ======================================================== */
+
+  .visual-orbit {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    border:
+      1px solid var(--project-accent-border);
+
+    border-radius:
+      50%;
+
+    transform:
+      translate(-50%, -50%)
+      rotateX(65deg)
+      rotateZ(20deg);
+
+    transform-style:
+      preserve-3d;
+  }
+
+
+  .visual-orbit-one {
+    width:
+      210px;
+
+    height:
+      210px;
+
+    animation:
+      orbit-one 12s linear infinite;
+  }
+
+
+  .visual-orbit-two {
+    width:
+      150px;
+
+    height:
+      150px;
+
+    border-color:
+      rgba(139, 92, 246, 0.2);
+
+    transform:
+      translate(-50%, -50%)
+      rotateX(70deg)
+      rotateZ(-25deg);
+
+    animation:
+      orbit-two 9s linear infinite reverse;
+  }
+
+
+  .visual-orbit span {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      -3px;
+
+    width:
+      6px;
+
+    height:
+      6px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--project-accent);
+
+    box-shadow:
+      0 0 14px var(--project-accent);
+  }
+
+
+  .visual-orbit-two span {
+    background:
+      #8b5cf6;
+
+    box-shadow:
+      0 0 14px #8b5cf6;
+  }
+
+
+  @keyframes orbit-one {
+
+    from {
+      transform:
+        translate(-50%, -50%)
+        rotateX(65deg)
+        rotateZ(0deg);
+    }
+
+    to {
+      transform:
+        translate(-50%, -50%)
+        rotateX(65deg)
+        rotateZ(360deg);
+    }
+
+  }
+
+
+  @keyframes orbit-two {
+
+    from {
+      transform:
+        translate(-50%, -50%)
+        rotateX(70deg)
+        rotateZ(0deg);
+    }
+
+    to {
+      transform:
+        translate(-50%, -50%)
+        rotateX(70deg)
+        rotateZ(360deg);
+    }
+
+  }
+
+
+  /* ========================================================
+     CORE
+     ======================================================== */
+
+  .visual-core {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    width:
+      55px;
+
+    height:
+      55px;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    border:
+      1px solid var(--project-accent-border);
+
+    border-radius:
+      50%;
+
+    background:
+      rgba(2, 6, 23, 0.8);
+
+    box-shadow:
+      0 0 35px var(--project-accent-soft);
+
+    transform:
+      translate(-50%, -50%);
+
+    z-index:
+      3;
+  }
+
+
+  .core-ring {
+    position:
+      absolute;
+
+    inset:
+      7px;
+
+    border:
+      1px solid
+      color-mix(
+        in srgb,
+        var(--project-accent) 25%,
         transparent
       );
+
+    border-radius:
+      50%;
+
+    animation:
+      core-ring-spin 8s linear infinite;
+  }
+
+
+  .core-dot {
+    width:
+      10px;
+
+    height:
+      10px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--project-accent);
+
+    box-shadow:
+      0 0 20px var(--project-accent);
+  }
+
+
+  @keyframes core-ring-spin {
+
+    from {
+      transform:
+        rotate(0deg);
+    }
+
+    to {
+      transform:
+        rotate(360deg);
+    }
+
+  }
+
+
+  /* ========================================================
+     NODES
+     ======================================================== */
+
+  .visual-node {
+    position:
+      absolute;
+
+    width:
+      6px;
+
+    height:
+      6px;
+
+    border:
+      1px solid var(--project-accent);
+
+    border-radius:
+      50%;
+
+    background:
+      rgba(2, 6, 23, 0.8);
+
+    box-shadow:
+      0 0 10px var(--project-accent);
+
+    z-index:
+      2;
+
+    animation:
+      visual-node-float 4s ease-in-out infinite;
+  }
+
+
+  .node-one {
+    top:
+      22%;
+
+    left:
+      22%;
+  }
+
+
+  .node-two {
+    top:
+      25%;
+
+    right:
+      18%;
+
+    animation-delay:
+      0.8s;
+  }
+
+
+  .node-three {
+    bottom:
+      20%;
+
+    left:
+      18%;
+
+    animation-delay:
+      1.4s;
+  }
+
+
+  .node-four {
+    right:
+      22%;
+
+    bottom:
+      25%;
+
+    animation-delay:
+      2s;
+  }
+
+
+  @keyframes visual-node-float {
+
+    0%,
+    100% {
+      transform:
+        translateY(0);
+    }
+
+    50% {
+      transform:
+        translateY(-8px);
+    }
+
+  }
+
+
+  /* ========================================================
+     CONNECTIONS
+     ======================================================== */
+
+  .visual-connection {
+    position:
+      absolute;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        var(--project-accent-border),
+        transparent
+      );
+
+    transform-origin:
+      left center;
+
+    z-index:
+      1;
+  }
+
+
+  .connection-one {
+    top:
+      25%;
+
+    left:
+      25%;
+
+    width:
+      105px;
+
+    transform:
+      rotate(20deg);
+  }
+
+
+  .connection-two {
+    top:
+      27%;
+
+    left:
+      53%;
+
+    width:
+      100px;
+
+    transform:
+      rotate(145deg);
+  }
+
+
+  .connection-three {
+    top:
+      54%;
+
+    left:
+      24%;
+
+    width:
+      110px;
+
+    transform:
+      rotate(-25deg);
   }
 
 
@@ -507,12 +957,15 @@ const {
     inset:
       0;
 
+    z-index:
+      4;
+
     background:
       linear-gradient(
-        180deg,
-        rgba(2, 6, 23, 0.55),
-        transparent 40%,
-        rgba(2, 6, 23, 0.88)
+        135deg,
+        rgba(2, 6, 23, 0.05),
+        rgba(2, 6, 23, 0.2) 45%,
+        rgba(2, 6, 23, 0.72)
       );
 
     pointer-events:
@@ -521,357 +974,17 @@ const {
 
 
   /* ========================================================
-     GRID
+     VISUAL META
      ======================================================== */
-
-  .visual-grid {
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    background-image:
-      linear-gradient(
-        rgba(148, 163, 184, 0.045) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        90deg,
-        rgba(148, 163, 184, 0.045) 1px,
-        transparent 1px
-      );
-
-    background-size:
-      32px 32px;
-
-    opacity:
-      0.35;
-
-    mask-image:
-      linear-gradient(
-        to bottom,
-        black,
-        transparent 75%
-      );
-
-    pointer-events:
-      none;
-  }
-
-
-  /* ========================================================
-     NETWORK
-     ======================================================== */
-
-  .visual-network {
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    pointer-events:
-      none;
-
-    opacity:
-      0.75;
-  }
-
-
-  .network-line {
-    position:
-      absolute;
-
-    height:
-      1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        transparent,
-        rgba(34, 211, 238, 0.5),
-        transparent
-      );
-
-    transform-origin:
-      left center;
-  }
-
-
-  .network-line-1 {
-    top:
-      34%;
-
-    left:
-      7%;
-
-    width:
-      44%;
-
-    transform:
-      rotate(18deg);
-  }
-
-
-  .network-line-2 {
-    top:
-      67%;
-
-    left:
-      34%;
-
-    width:
-      48%;
-
-    background:
-      linear-gradient(
-        90deg,
-        transparent,
-        rgba(139, 92, 246, 0.48),
-        transparent
-      );
-
-    transform:
-      rotate(-13deg);
-  }
-
-
-  .network-line-3 {
-    top:
-      45%;
-
-    right:
-      9%;
-
-    width:
-      32%;
-
-    background:
-      linear-gradient(
-        90deg,
-        transparent,
-        rgba(34, 211, 238, 0.4),
-        transparent
-      );
-
-    transform:
-      rotate(38deg);
-  }
-
-
-  .network-node {
-    position:
-      absolute;
-
-    width:
-      5px;
-
-    height:
-      5px;
-
-    border:
-      1px solid var(--color-cyan);
-
-    border-radius:
-      50%;
-
-    background:
-      rgba(7, 17, 29, 0.9);
-
-    box-shadow:
-      0 0 9px rgba(34, 211, 238, 0.45);
-
-    animation:
-      project-node-pulse 3s ease-in-out infinite;
-  }
-
-
-  .network-node-1 {
-    top:
-      30%;
-
-    left:
-      8%;
-  }
-
-
-  .network-node-2 {
-    top:
-      50%;
-
-    left:
-      49%;
-
-    animation-delay:
-      0.7s;
-  }
-
-
-  .network-node-3 {
-    top:
-      68%;
-
-    right:
-      12%;
-
-    border-color:
-      var(--color-violet);
-
-    box-shadow:
-      0 0 9px rgba(139, 92, 246, 0.45);
-
-    animation-delay:
-      1.2s;
-  }
-
-
-  .network-node-4 {
-    top:
-      38%;
-
-    right:
-      34%;
-
-    animation-delay:
-      1.8s;
-  }
-
-
-  @keyframes project-node-pulse {
-
-    0%,
-    100% {
-      opacity:
-        0.35;
-
-      transform:
-        scale(0.8);
-    }
-
-    50% {
-      opacity:
-        1;
-
-      transform:
-        scale(1.25);
-    }
-
-  }
-
-
-  /* ========================================================
-     TOP META
-     ======================================================== */
-
-  .visual-top {
-    position:
-      absolute;
-
-    top:
-      0.75rem;
-
-    left:
-      0.75rem;
-
-    right:
-      0.75rem;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.5rem;
-  }
-
 
   .project-index,
-  .project-category,
+  .project-status,
   .project-year {
-    padding:
-      0.25rem 0.38rem;
-
-    border:
-      1px solid rgba(148, 163, 184, 0.15);
-
-    border-radius:
-      0.2rem;
-
-    background:
-      rgba(2, 6, 23, 0.5);
-
-    backdrop-filter:
-      blur(8px);
-
-    color:
-      rgba(226, 232, 240, 0.75);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.27rem;
-
-    letter-spacing:
-      0.035em;
-
-    text-transform:
-      uppercase;
-  }
-
-
-  .project-category {
-    color:
-      var(--color-cyan);
-  }
-
-
-  .project-year {
-    margin-left:
-      auto;
-  }
-
-
-  /* ========================================================
-     STATUS
-     ======================================================== */
-
-  .project-status {
     position:
       absolute;
 
-    bottom:
-      0.7rem;
-
-    left:
-      0.75rem;
-
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.35rem;
-
-    padding:
-      0.28rem 0.4rem;
-
-    border:
-      1px solid rgba(148, 163, 184, 0.12);
-
-    border-radius:
-      0.2rem;
-
-    background:
-      rgba(2, 6, 23, 0.5);
-
-    backdrop-filter:
-      blur(8px);
+    z-index:
+      5;
 
     color:
       rgba(226, 232, 240, 0.65);
@@ -880,14 +993,71 @@ const {
       var(--font-mono);
 
     font-size:
-      0.25rem;
+      0.21rem;
 
     letter-spacing:
-      0.035em;
+      0.03em;
   }
 
 
-  .status-indicator {
+  .project-index {
+    top:
+      1rem;
+
+    left:
+      1rem;
+
+    padding:
+      0.3rem 0.45rem;
+
+    border:
+      1px solid rgba(148, 163, 184, 0.12);
+
+    border-radius:
+      0.15rem;
+
+    background:
+      rgba(2, 6, 23, 0.55);
+
+    backdrop-filter:
+      blur(8px);
+  }
+
+
+  .project-status {
+    top:
+      1rem;
+
+    right:
+      1rem;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.3rem;
+
+    padding:
+      0.3rem 0.45rem;
+
+    border:
+      1px solid rgba(74, 222, 128, 0.15);
+
+    border-radius:
+      999px;
+
+    background:
+      rgba(2, 6, 23, 0.55);
+
+    backdrop-filter:
+      blur(8px);
+  }
+
+
+  .project-status-dot {
     width:
       4px;
 
@@ -901,77 +1071,19 @@ const {
       #4ade80;
 
     box-shadow:
-      0 0 7px rgba(74, 222, 128, 0.7);
+      0 0 7px rgba(74, 222, 128, 0.65);
   }
 
 
-  /* ========================================================
-     ARROW
-     ======================================================== */
-
-  .project-arrow {
-    position:
-      absolute;
-
+  .project-year {
     right:
-      0.75rem;
+      1rem;
 
     bottom:
-      0.65rem;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    width:
-      30px;
-
-    height:
-      30px;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.18);
-
-    border-radius:
-      50%;
-
-    background:
-      rgba(2, 6, 23, 0.45);
-
-    backdrop-filter:
-      blur(8px);
+      1rem;
 
     color:
-      var(--color-cyan);
-
-    font-size:
-      0.8rem;
-
-    opacity:
-      0;
-
-    transform:
-      translate(-5px, 5px);
-
-    transition:
-      opacity var(--duration-fast) var(--ease-standard),
-      transform var(--duration-fast) var(--ease-standard);
-  }
-
-
-  .project-card:hover
-    .project-arrow {
-
-    opacity:
-      1;
-
-    transform:
-      translate(0, 0);
+      rgba(226, 232, 240, 0.45);
   }
 
 
@@ -980,33 +1092,68 @@ const {
      ======================================================== */
 
   .project-content {
+    position:
+      relative;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    min-width:
+      0;
+
     padding:
-      1rem 1.05rem 0.9rem;
+      1.4rem;
+
+    overflow:
+      hidden;
   }
 
 
-  /* ========================================================
-     TITLE
-     ======================================================== */
-
-  .project-title-row {
+  .project-category {
     display:
-      flex;
+      inline-flex;
 
     align-items:
       center;
 
-    justify-content:
-      space-between;
-
     gap:
-      0.75rem;
+      0.45rem;
+
+    color:
+      var(--project-accent);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.24rem;
+
+    letter-spacing:
+      0.035em;
+
+    text-transform:
+      uppercase;
+  }
+
+
+  .category-line {
+    width:
+      22px;
+
+    height:
+      1px;
+
+    background:
+      var(--project-accent);
   }
 
 
   .project-title {
     margin:
-      0;
+      0.7rem 0 0;
 
     color:
       var(--color-text);
@@ -1015,44 +1162,22 @@ const {
       var(--font-display);
 
     font-size:
-      clamp(1rem, 2vw, 1.25rem);
+      clamp(1.35rem, 2.8vw, 2rem);
 
     font-weight:
       600;
 
     letter-spacing:
-      -0.025em;
+      -0.045em;
 
     line-height:
-      1.25;
+      1.05;
   }
 
-
-  .title-node {
-    flex-shrink:
-      0;
-
-    color:
-      var(--color-cyan);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.55rem;
-
-    opacity:
-      0.6;
-  }
-
-
-  /* ========================================================
-     DESCRIPTION
-     ======================================================== */
 
   .project-description {
     margin:
-      0.55rem 0 0;
+      0.8rem 0 0;
 
     color:
       var(--color-text-muted);
@@ -1061,10 +1186,68 @@ const {
       var(--font-body);
 
     font-size:
-      0.7rem;
+      0.66rem;
 
     line-height:
       1.7;
+  }
+
+
+  /* ========================================================
+     IMPACT
+     ======================================================== */
+
+  .project-impact {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      0.25rem;
+
+    margin-top:
+      1rem;
+
+    padding:
+      0.7rem;
+
+    border-left:
+      1px solid var(--project-accent-border);
+
+    background:
+      var(--project-accent-soft);
+  }
+
+
+  .impact-label {
+    color:
+      var(--project-accent);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.2rem;
+
+    letter-spacing:
+      0.035em;
+  }
+
+
+  .impact-value {
+    color:
+      var(--color-text);
+
+    font-family:
+      var(--font-body);
+
+    font-size:
+      0.57rem;
+
+    line-height:
+      1.5;
   }
 
 
@@ -1080,28 +1263,19 @@ const {
       wrap;
 
     gap:
-      0.35rem;
+      0.3rem;
 
     margin-top:
-      0.8rem;
+      1rem;
   }
 
 
-  .technology-chip {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.25rem;
-
+  .project-tech {
     padding:
-      0.27rem 0.38rem;
+      0.25rem 0.45rem;
 
     border:
-      1px solid rgba(34, 211, 238, 0.1);
+      1px solid var(--color-border);
 
     border-radius:
       0.18rem;
@@ -1110,64 +1284,137 @@ const {
       var(--color-text-subtle);
 
     background:
-      rgba(34, 211, 238, 0.012);
+      rgba(148, 163, 184, 0.015);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.25rem;
+      0.2rem;
+
+    letter-spacing:
+      0.02em;
+
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard);
   }
 
 
-  .chip-node {
+  .project-tech:hover {
     color:
-      var(--color-cyan);
+      var(--project-accent);
+
+    border-color:
+      var(--project-accent-border);
+  }
+
+
+  /* ========================================================
+     ACTIONS
+     ======================================================== */
+
+  .project-actions {
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      0.5rem;
+
+    margin-top:
+      auto;
+
+    padding-top:
+      1.2rem;
+  }
+
+
+  .project-action {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    gap:
+      0.45rem;
+
+    min-height:
+      32px;
+
+    padding:
+      0.3rem 0.65rem;
+
+    border:
+      1px solid var(--project-accent-border);
+
+    border-radius:
+      0.2rem;
+
+    color:
+      var(--color-text);
+
+    font-family:
+      var(--font-mono);
 
     font-size:
-      0.4rem;
+      0.21rem;
+
+    letter-spacing:
+      0.025em;
+
+    text-decoration:
+      none;
+
+    transition:
+      background var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard);
   }
 
 
-  .technology-violet {
+  .project-action:hover {
+    transform:
+      translateY(-1px);
+
     border-color:
-      rgba(139, 92, 246, 0.12);
+      var(--project-accent);
+
+    background:
+      var(--project-accent-soft);
   }
 
 
-  .technology-violet
-    .chip-node {
+  .project-action-primary {
+    background:
+      var(--project-accent-soft);
+  }
 
+
+  .project-action-secondary {
     color:
-      var(--color-violet);
-  }
+      var(--color-text-muted);
 
-
-  .technology-blue {
     border-color:
-      rgba(59, 130, 246, 0.12);
+      var(--color-border);
+
+    background:
+      transparent;
   }
 
 
-  .technology-blue
-    .chip-node {
-
+  .action-arrow {
     color:
-      var(--color-blue);
-  }
+      var(--project-accent);
 
-
-  .technology-green {
-    border-color:
-      rgba(74, 222, 128, 0.12);
-  }
-
-
-  .technology-green
-    .chip-node {
-
-    color:
-      #4ade80;
+    font-size:
+      0.55rem;
   }
 
 
@@ -1182,54 +1429,61 @@ const {
     align-items:
       center;
 
-    justify-content:
-      space-between;
-
-    gap:
-      0.75rem;
-
-    margin-top:
-      1rem;
-
-    padding-top:
-      0.75rem;
-
-    border-top:
-      1px solid rgba(148, 163, 184, 0.06);
-  }
-
-
-  .project-links {
-    display:
-      flex;
-
-    flex-wrap:
-      wrap;
-
-    gap:
-      0.4rem;
-  }
-
-
-  .project-link {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
     gap:
       0.3rem;
 
-    padding:
-      0.3rem 0.45rem;
+    margin-top:
+      1.3rem;
+
+    padding-top:
+      0.7rem;
+
+    border-top:
+      1px solid var(--color-border);
+  }
+
+
+  .footer-pulse,
+  .footer-end {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    flex-shrink:
+      0;
 
     border:
-      1px solid var(--color-border);
+      1px solid var(--project-accent-border);
 
     border-radius:
-      0.2rem;
+      50%;
+  }
 
+
+  .footer-pulse {
+    background:
+      var(--project-accent);
+
+    box-shadow:
+      0 0 7px var(--project-accent);
+  }
+
+
+  .footer-line {
+    flex:
+      0 1 35px;
+
+    height:
+      1px;
+
+    background:
+      var(--color-border);
+  }
+
+
+  .footer-code {
     color:
       var(--color-text-subtle);
 
@@ -1237,110 +1491,62 @@ const {
       var(--font-mono);
 
     font-size:
-      0.26rem;
+      0.18rem;
 
-    text-decoration:
-      none;
-
-    transition:
-      color var(--duration-fast) var(--ease-standard),
-      border-color var(--duration-fast) var(--ease-standard),
-      background var(--duration-fast) var(--ease-standard);
-  }
-
-
-  .project-link:hover {
-    border-color:
-      rgba(34, 211, 238, 0.2);
-
-    color:
-      var(--color-cyan);
-
-    background:
-      rgba(34, 211, 238, 0.02);
-  }
-
-
-  .project-link-primary {
-    border-color:
-      rgba(34, 211, 238, 0.14);
-
-    color:
-      var(--color-cyan);
-  }
-
-
-  .link-icon {
-    font-size:
-      0.4rem;
-  }
-
-
-  .project-signal {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    width:
-      10px;
-
-    height:
-      10px;
-
-    border:
-      1px solid var(--color-border);
-
-    border-radius:
-      50%;
-  }
-
-
-  .project-signal span {
-    width:
-      2px;
-
-    height:
-      2px;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-cyan);
-
-    box-shadow:
-      0 0 6px rgba(34, 211, 238, 0.6);
+    letter-spacing:
+      0.025em;
   }
 
 
   /* ========================================================
-     FEATURED
+     ACCENTS
      ======================================================== */
 
-  .project-card-featured {
-    border-color:
-      rgba(34, 211, 238, 0.12);
+  .project-card-cyan {
+    --project-accent:
+      #22d3ee;
+
+    --project-accent-soft:
+      rgba(34, 211, 238, 0.08);
+
+    --project-accent-border:
+      rgba(34, 211, 238, 0.16);
   }
 
 
-  .project-card-featured
-    .project-visual {
+  .project-card-violet {
+    --project-accent:
+      #8b5cf6;
 
-    aspect-ratio:
-      16 / 9;
+    --project-accent-soft:
+      rgba(139, 92, 246, 0.08);
+
+    --project-accent-border:
+      rgba(139, 92, 246, 0.16);
   }
 
 
-  .project-card-featured
-    .project-title {
+  .project-card-blue {
+    --project-accent:
+      #3b82f6;
 
-    font-size:
-      clamp(1.1rem, 2.4vw, 1.4rem);
+    --project-accent-soft:
+      rgba(59, 130, 246, 0.08);
+
+    --project-accent-border:
+      rgba(59, 130, 246, 0.16);
+  }
+
+
+  .project-card-green {
+    --project-accent:
+      #4ade80;
+
+    --project-accent-soft:
+      rgba(74, 222, 128, 0.08);
+
+    --project-accent-border:
+      rgba(74, 222, 128, 0.16);
   }
 
 
@@ -1353,19 +1559,26 @@ const {
 
     background:
       rgba(15, 23, 42, 0.012);
-
   }
 
 
   :global([data-theme="light"])
-    .project-card:hover {
+    .project-visual {
 
     background:
-      rgba(14, 116, 144, 0.012);
+      #f1f5f9;
+  }
 
-    box-shadow:
-      0 25px 70px rgba(15, 23, 42, 0.07);
 
+  :global([data-theme="light"])
+    .project-generated-visual {
+
+    background:
+      radial-gradient(
+        circle at center,
+        var(--project-accent-soft),
+        transparent 48%
+      );
   }
 
 
@@ -1373,73 +1586,94 @@ const {
      RESPONSIVE
      ======================================================== */
 
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
+
+    .project-card {
+      grid-template-columns:
+        1fr;
+
+      min-height:
+        auto;
+    }
+
+
+    .project-visual {
+      min-height:
+        280px;
+    }
+
 
     .project-content {
-      padding:
-        0.9rem;
-    }
-
-
-    .project-description {
-      font-size:
-        0.67rem;
-    }
-
-
-    .project-arrow {
-      opacity:
-        1;
-
-      transform:
-        translate(0, 0);
-
-      width:
-        26px;
-
-      height:
-        26px;
+      min-height:
+        320px;
     }
 
   }
 
 
-  @media (max-width: 480px) {
+  @media (max-width: 600px) {
 
     .project-visual {
-      aspect-ratio:
-        4 / 3;
+      min-height:
+        230px;
     }
 
 
-    .project-card-featured
-      .project-visual {
+    .project-content {
+      min-height:
+        0;
 
-      aspect-ratio:
-        4 / 3;
-    }
-
-
-    .project-index,
-    .project-category,
-    .project-year {
-      font-size:
-        0.24rem;
+      padding:
+        1rem;
     }
 
 
     .project-title {
       font-size:
-        0.95rem;
+        1.35rem;
     }
 
 
     .project-description {
       font-size:
-        0.64rem;
+        0.62rem;
+    }
 
-      line-height:
-        1.65;
+
+    .project-action {
+      min-height:
+        34px;
+
+      padding:
+        0.3rem 0.55rem;
+    }
+
+  }
+
+
+  @media (max-width: 400px) {
+
+    .project-visual {
+      min-height:
+        210px;
+    }
+
+
+    .visual-orbit-one {
+      width:
+        160px;
+
+      height:
+        160px;
+    }
+
+
+    .visual-orbit-two {
+      width:
+        115px;
+
+      height:
+        115px;
     }
 
   }
@@ -1451,13 +1685,19 @@ const {
 
   @media (prefers-reduced-motion: reduce) {
 
-    .project-card,
-    .project-image,
-    .project-arrow,
-    .network-node {
+    .visual-grid,
+    .visual-orbit,
+    .core-ring,
+    .visual-node {
       animation:
         none;
+    }
 
+
+    .project-card,
+    .project-image,
+    .project-action,
+    .project-tech {
       transition:
         none;
     }
