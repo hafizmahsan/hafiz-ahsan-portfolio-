@@ -6,25 +6,27 @@
  *
  * Reusable heading for major portfolio sections.
  *
- * Keeps typography, numbering and visual treatment
- * consistent throughout the entire website.
+ * Everything is configurable through props so that section
+ * content remains independent from presentation.
  *
  * ============================================================
  */
 
 interface Props {
-  number: string;
   eyebrow?: string;
   title: string;
   description?: string;
+  number?: string;
+  accent?: "cyan" | "violet" | "blue" | "green";
   align?: "left" | "center";
 }
 
 const {
-  number,
   eyebrow,
   title,
   description,
+  number,
+  accent = "cyan",
   align = "left"
 } = Astro.props;
 ---
@@ -32,6 +34,7 @@ const {
 <header
   class:list={[
     "section-header",
+    `section-header-${accent}`,
     `section-header-${align}`
   ]}
 >
@@ -41,17 +44,25 @@ const {
        ====================================================== -->
 
   <div
-    class="section-system-line"
+    class="section-header-system"
     aria-hidden="true"
   >
 
-    <span class="system-line-number">
-      {number}
-    </span>
+    <span class="system-node"></span>
 
-    <span class="system-line-track"></span>
+    <span class="system-line"></span>
 
-    <span class="system-line-node"></span>
+    {
+      number && (
+        <span class="system-number">
+          SECTION_{number}
+        </span>
+      )
+    }
+
+    <span class="system-line system-line-short"></span>
+
+    <span class="system-node system-node-secondary"></span>
 
   </div>
 
@@ -65,7 +76,7 @@ const {
       <div class="section-eyebrow">
 
         <span
-          class="eyebrow-node"
+          class="eyebrow-indicator"
           aria-hidden="true"
         ></span>
 
@@ -101,19 +112,21 @@ const {
 
 
   <!-- ======================================================
-       DECORATIVE SIGNAL
+       BOTTOM SIGNAL
        ====================================================== -->
 
   <div
-    class="section-signal"
+    class="section-header-bottom"
     aria-hidden="true"
   >
 
-    <span class="signal-dot"></span>
+    <span class="bottom-line"></span>
 
-    <span class="signal-line"></span>
+    <span class="bottom-node"></span>
 
-    <span class="signal-dot signal-dot-last"></span>
+    <span class="bottom-code">
+      SYSTEM.SECTION_READY
+    </span>
 
   </div>
 
@@ -126,6 +139,15 @@ const {
      ======================================================== */
 
   .section-header {
+    --section-accent:
+      #22d3ee;
+
+    --section-accent-soft:
+      rgba(34, 211, 238, 0.08);
+
+    --section-accent-border:
+      rgba(34, 211, 238, 0.16);
+
     position:
       relative;
 
@@ -136,6 +158,10 @@ const {
       3rem;
   }
 
+
+  /* ========================================================
+     ALIGNMENT
+     ======================================================== */
 
   .section-header-left {
     text-align:
@@ -153,45 +179,65 @@ const {
      SYSTEM LINE
      ======================================================== */
 
-  .section-system-line {
+  .section-header-system {
     display:
       flex;
 
     align-items:
       center;
 
-    width:
-      100%;
+    gap:
+      0.4rem;
 
     margin-bottom:
-      1.25rem;
+      1.1rem;
   }
 
 
-  .system-line-number {
+  .section-header-center
+    .section-header-system {
+
+    justify-content:
+      center;
+  }
+
+
+  .system-node {
+    width:
+      5px;
+
+    height:
+      5px;
+
     flex-shrink:
       0;
 
-    margin-right:
-      0.65rem;
+    border:
+      1px solid var(--section-accent);
 
-    color:
-      var(--color-cyan);
+    border-radius:
+      50%;
 
-    font-family:
-      var(--font-mono);
+    background:
+      var(--section-accent-soft);
 
-    font-size:
-      0.3rem;
-
-    letter-spacing:
-      0.04em;
+    box-shadow:
+      0 0 8px var(--section-accent-soft);
   }
 
 
-  .system-line-track {
+  .system-node-secondary {
+    border-color:
+      rgba(139, 92, 246, 0.35);
+
+    background:
+      rgba(139, 92, 246, 0.04);
+  }
+
+
+  .system-line {
     width:
-      min(90px, 15vw);
+      55px;
 
     height:
       1px;
@@ -199,75 +245,37 @@ const {
     background:
       linear-gradient(
         90deg,
-        rgba(34, 211, 238, 0.5),
-        transparent
+        var(--section-accent-border),
+        var(--color-border)
       );
   }
 
 
-  .system-line-node {
+  .system-line-short {
     width:
-      4px;
+      25px;
 
-    height:
-      4px;
-
-    margin-left:
-      0.35rem;
-
-    border:
-      1px solid var(--color-cyan);
-
-    border-radius:
-      50%;
-
-    box-shadow:
-      0 0 7px rgba(34, 211, 238, 0.35);
-
-    animation:
-      section-node-pulse 2.8s ease-in-out infinite;
+    background:
+      linear-gradient(
+        90deg,
+        var(--color-border),
+        rgba(139, 92, 246, 0.2)
+      );
   }
 
 
-  @keyframes section-node-pulse {
+  .system-number {
+    color:
+      var(--color-text-subtle);
 
-    0%,
-    100% {
-      opacity:
-        0.35;
+    font-family:
+      var(--font-mono);
 
-      transform:
-        scale(0.8);
-    }
+    font-size:
+      0.2rem;
 
-    50% {
-      opacity:
-        1;
-
-      transform:
-        scale(1.15);
-    }
-
-  }
-
-
-  /* ========================================================
-     CENTER ALIGNMENT
-     ======================================================== */
-
-  .section-header-center
-    .section-system-line {
-
-    justify-content:
-      center;
-  }
-
-
-  .section-header-center
-    .system-line-number {
-
-    margin-right:
-      0.65rem;
+    letter-spacing:
+      0.04em;
   }
 
 
@@ -286,16 +294,19 @@ const {
       0.45rem;
 
     margin-bottom:
-      0.7rem;
+      0.5rem;
 
     color:
-      var(--color-text-subtle);
+      var(--section-accent);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.29rem;
+      0.25rem;
+
+    font-weight:
+      500;
 
     letter-spacing:
       0.06em;
@@ -305,24 +316,51 @@ const {
   }
 
 
-  .eyebrow-node {
+  .section-header-center
+    .section-eyebrow {
+
+    justify-content:
+      center;
+  }
+
+
+  .eyebrow-indicator {
     width:
-      5px;
+      6px;
 
     height:
-      5px;
+      6px;
 
     border:
-      1px solid var(--color-cyan);
+      1px solid var(--section-accent);
 
     border-radius:
       50%;
 
     background:
-      rgba(34, 211, 238, 0.08);
+      var(--section-accent-soft);
 
     box-shadow:
-      0 0 7px rgba(34, 211, 238, 0.35);
+      0 0 8px var(--section-accent-soft);
+
+    animation:
+      section-indicator-pulse 2.5s ease-in-out infinite;
+  }
+
+
+  @keyframes section-indicator-pulse {
+
+    0%,
+    100% {
+      opacity:
+        0.45;
+    }
+
+    50% {
+      opacity:
+        1;
+    }
+
   }
 
 
@@ -344,7 +382,7 @@ const {
       var(--font-display);
 
     font-size:
-      clamp(2rem, 5vw, 3.8rem);
+      clamp(2rem, 5vw, 4rem);
 
     font-weight:
       600;
@@ -353,7 +391,7 @@ const {
       -0.055em;
 
     line-height:
-      0.98;
+      0.95;
   }
 
 
@@ -383,10 +421,10 @@ const {
       var(--font-body);
 
     font-size:
-      0.82rem;
+      0.72rem;
 
     line-height:
-      1.8;
+      1.75;
   }
 
 
@@ -399,33 +437,49 @@ const {
 
 
   /* ========================================================
-     SIGNAL
+     BOTTOM SIGNAL
      ======================================================== */
 
-  .section-signal {
+  .section-header-bottom {
     display:
       flex;
 
     align-items:
       center;
 
-    width:
-      min(180px, 35vw);
+    gap:
+      0.4rem;
 
     margin-top:
-      1.35rem;
+      1.1rem;
   }
 
 
   .section-header-center
-    .section-signal {
+    .section-header-bottom {
 
-    margin-inline:
-      auto;
+    justify-content:
+      center;
   }
 
 
-  .signal-dot {
+  .bottom-line {
+    width:
+      70px;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        var(--section-accent-border),
+        transparent
+      );
+  }
+
+
+  .bottom-node {
     width:
       4px;
 
@@ -436,41 +490,80 @@ const {
       0;
 
     border:
-      1px solid var(--color-cyan);
+      1px solid var(--section-accent-border);
 
     border-radius:
       50%;
 
     background:
-      var(--color-bg);
-
-    box-shadow:
-      0 0 7px rgba(34, 211, 238, 0.4);
+      var(--section-accent);
   }
 
 
-  .signal-line {
-    flex:
-      1;
+  .bottom-code {
+    color:
+      var(--color-text-subtle);
 
-    height:
-      1px;
+    font-family:
+      var(--font-mono);
 
-    background:
-      linear-gradient(
-        90deg,
-        rgba(34, 211, 238, 0.4),
-        var(--color-border)
-      );
+    font-size:
+      0.18rem;
+
+    letter-spacing:
+      0.035em;
   }
 
 
-  .signal-dot-last {
-    border-color:
-      var(--color-border);
+  /* ========================================================
+     ACCENTS
+     ======================================================== */
 
-    box-shadow:
-      none;
+  .section-header-cyan {
+    --section-accent:
+      #22d3ee;
+
+    --section-accent-soft:
+      rgba(34, 211, 238, 0.08);
+
+    --section-accent-border:
+      rgba(34, 211, 238, 0.16);
+  }
+
+
+  .section-header-violet {
+    --section-accent:
+      #8b5cf6;
+
+    --section-accent-soft:
+      rgba(139, 92, 246, 0.08);
+
+    --section-accent-border:
+      rgba(139, 92, 246, 0.16);
+  }
+
+
+  .section-header-blue {
+    --section-accent:
+      #3b82f6;
+
+    --section-accent-soft:
+      rgba(59, 130, 246, 0.08);
+
+    --section-accent-border:
+      rgba(59, 130, 246, 0.16);
+  }
+
+
+  .section-header-green {
+    --section-accent:
+      #4ade80;
+
+    --section-accent-soft:
+      rgba(74, 222, 128, 0.08);
+
+    --section-accent-border:
+      rgba(74, 222, 128, 0.16);
   }
 
 
@@ -479,10 +572,14 @@ const {
      ======================================================== */
 
   :global([data-theme="light"])
-    .section-title {
+    .section-header {
 
-    color:
-      var(--color-text);
+    --section-accent-soft:
+      color-mix(
+        in srgb,
+        var(--section-accent) 5%,
+        transparent
+      );
   }
 
 
@@ -500,38 +597,68 @@ const {
 
     .section-title {
       font-size:
-        clamp(1.8rem, 9vw, 2.7rem);
+        clamp(1.8rem, 9vw, 3rem);
     }
 
 
     .section-description {
       font-size:
-        0.72rem;
+        0.65rem;
+    }
 
-      line-height:
-        1.7;
+
+    .system-line {
+      width:
+        35px;
+    }
+
+
+    .system-line-short {
+      width:
+        18px;
     }
 
   }
 
 
-  @media (max-width: 480px) {
+  @media (max-width: 430px) {
 
-    .section-system-line {
+    .section-header-system {
       margin-bottom:
-        1rem;
+        0.85rem;
+    }
+
+
+    .system-number {
+      font-size:
+        0.18rem;
     }
 
 
     .section-eyebrow {
       font-size:
-        0.26rem;
+        0.22rem;
     }
 
 
     .section-title {
-      letter-spacing:
-        -0.045em;
+      font-size:
+        1.9rem;
+    }
+
+
+    .section-description {
+      margin-top:
+        0.8rem;
+
+      font-size:
+        0.61rem;
+    }
+
+
+    .bottom-code {
+      font-size:
+        0.16rem;
     }
 
   }
@@ -543,7 +670,7 @@ const {
 
   @media (prefers-reduced-motion: reduce) {
 
-    .system-line-node {
+    .eyebrow-indicator {
       animation:
         none;
     }
