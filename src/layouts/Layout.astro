@@ -12,7 +12,6 @@
  * - Canonical URL
  * - Open Graph metadata
  * - Twitter / X metadata
- * - Favicon
  * - Theme initialization
  * - Accessibility foundation
  * - Global document structure
@@ -20,7 +19,6 @@
  *
  * DESIGN/CSS DOES NOT BELONG HERE.
  *
- * Visual styles are maintained separately.
  * ============================================================
  */
 
@@ -28,39 +26,18 @@ import { siteConfig } from "../data/site";
 import { seoConfig } from "../data/seo";
 import "../styles/global.css";
 
+
 type Props = {
-  /**
-   * Page-specific title.
-   *
-   * If omitted, the global SEO title is used.
-   */
   title?: string;
 
-  /**
-   * Page-specific description.
-   */
   description?: string;
 
-  /**
-   * Allows individual pages to override
-   * the canonical URL.
-   */
   canonical?: string;
 
-  /**
-   * Optional Open Graph image.
-   */
   image?: string;
 
-  /**
-   * Optional Open Graph image description.
-   */
   imageAlt?: string;
 
-  /**
-   * Allows a page to explicitly request
-   * a different document type.
-   */
   ogType?: "website" | "profile";
 };
 
@@ -82,17 +59,13 @@ const {
 
   ogType =
     seoConfig.openGraph.type
+
 } = Astro.props;
 
 
 /**
  * ============================================================
- * ABSOLUTE IMAGE URL
- * ============================================================
- *
- * Convert relative asset paths into absolute URLs.
- *
- * This is particularly useful for Open Graph images.
+ * ABSOLUTE OPEN GRAPH IMAGE
  * ============================================================
  */
 
@@ -122,7 +95,7 @@ const pageTitle =
 
 /**
  * ============================================================
- * TWITTER IMAGE
+ * ABSOLUTE TWITTER IMAGE
  * ============================================================
  */
 
@@ -222,23 +195,6 @@ const absoluteTwitterImage =
 
 
     <!-- ======================================================
-         FAVICON
-         ====================================================== -->
-
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="/favicon.svg"
-    />
-
-
-    <link
-      rel="apple-touch-icon"
-      href="/favicon.svg"
-    />
-
-
-    <!-- ======================================================
          OPEN GRAPH
          ====================================================== -->
 
@@ -285,7 +241,7 @@ const absoluteTwitterImage =
 
 
     <!-- ======================================================
-         TWITTER / X CARD
+         TWITTER / X
          ====================================================== -->
 
     <meta
@@ -330,6 +286,19 @@ const absoluteTwitterImage =
 
 
     <!-- ======================================================
+         FAVICON
+         ======================================================
+
+         IMPORTANT:
+         The existing favicon.svg remains in the repository
+         root exactly where it currently is.
+
+         We are intentionally NOT moving or duplicating it.
+
+         ====================================================== -->
+
+
+    <!-- ======================================================
          STRUCTURED DATA
          ====================================================== -->
 
@@ -341,22 +310,34 @@ const absoluteTwitterImage =
         "@type": "Person",
 
         name:
-          seoConfig.structuredData.personName,
+          seoConfig
+            .structuredData
+            .personName,
 
         jobTitle:
-          seoConfig.structuredData.jobTitle,
+          seoConfig
+            .structuredData
+            .jobTitle,
 
         description:
-          seoConfig.structuredData.description,
+          seoConfig
+            .structuredData
+            .description,
 
         url:
-          seoConfig.structuredData.url,
+          seoConfig
+            .structuredData
+            .url,
 
         areaServed:
-          seoConfig.structuredData.areaServed,
+          seoConfig
+            .structuredData
+            .areaServed,
 
         knowsAbout:
-          seoConfig.structuredData.knowsAbout,
+          seoConfig
+            .structuredData
+            .knowsAbout,
 
         worksFor: {
           "@type":
@@ -381,13 +362,6 @@ const absoluteTwitterImage =
 
     <!-- ======================================================
          THEME INITIALIZATION
-         ======================================================
-
-         Executes before the page becomes visible.
-
-         This prevents a flash of the wrong theme when a
-         previously selected theme exists in localStorage.
-
          ====================================================== -->
 
     <script is:inline>
