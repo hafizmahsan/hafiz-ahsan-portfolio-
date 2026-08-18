@@ -3,270 +3,413 @@
  * SITE CONFIGURATION
  * ============================================================
  *
- * This file contains the global settings for the portfolio.
+ * CENTRAL WEBSITE SETTINGS
  *
- * IMPORTANT:
- * You can safely edit the values in this file without needing
- * to understand the website's components, animations, or 3D
- * code.
+ * This file contains the most frequently changed information
+ * about the portfolio.
  *
- * More detailed information such as experience, projects,
- * skills, education and social links will live in separate
- * files inside this same /data directory.
+ * NON-TECHNICAL EDITING
+ * ------------------------------------------------------------
+ * If you want to change your:
+ *
+ * - Name
+ * - Professional title
+ * - Tagline
+ * - Location
+ * - Navigation labels
+ * - Social profiles
+ * - SEO title
+ * - SEO description
+ * - CV settings
+ *
+ * start here.
+ *
+ * The visual components should normally NOT need to be edited.
  * ============================================================
  */
 
-export type ThemeMode = "dark" | "light";
 
-export type SiteConfig = {
-  /**
-   * Basic identity
-   */
+export interface NavigationItem {
+  label: string;
+  href: string;
+}
+
+
+export interface SocialLink {
+  label: string;
+  href: string;
+  icon:
+    | "linkedin"
+    | "github"
+    | "email"
+    | "website";
+  external?: boolean;
+}
+
+
+export interface SiteConfig {
+
+  /* ==========================================================
+     PERSONAL IDENTITY
+     ========================================================== */
+
   name: string;
+
   shortName: string;
+
   professionalTitle: string;
+
+  secondaryTitle: string;
+
   tagline: string;
 
-  /**
-   * Location and availability
-   */
   location: string;
-  country: string;
-  availability: string;
 
-  /**
-   * Website information
-   */
-  siteUrl: string;
+
+  /* ==========================================================
+     WEBSITE
+     ========================================================== */
+
   siteName: string;
 
-  /**
-   * Temporary repository path.
-   *
-   * This will be changed when the project moves from:
-   *
-   * hafiz-ahsan-portfolio
-   *
-   * to:
-   *
-   * hafizmahsan.github.io
-   */
-  basePath: string;
+  siteUrl: string;
 
-  /**
-   * CV configuration
-   *
-   * The final deployment workflow will automatically locate
-   * the PDF resume from the configured source repository.
-   */
+  language: string;
+
+  copyrightName: string;
+
+
+  /* ==========================================================
+     SEO
+     ========================================================== */
+
+  seoTitle: string;
+
+  seoDescription: string;
+
+  seoKeywords: string[];
+
+  ogImage: string;
+
+
+  /* ==========================================================
+     NAVIGATION
+     ========================================================== */
+
+  navigation: NavigationItem[];
+
+
+  /* ==========================================================
+     SOCIAL / PROFESSIONAL LINKS
+     ========================================================== */
+
+  socialLinks: SocialLink[];
+
+
+  /* ==========================================================
+     CV / RESUME
+     ========================================================== */
+
   cv: {
     enabled: boolean;
+
+    label: string;
+
+    description: string;
+
     sourceRepository: string;
-    sourceBranch: string;
-    downloadFileName: string;
-    buttonLabel: string;
-    viewLabel: string;
+
+    repositoryUrl: string;
+
+    /**
+     * The resume file will be detected dynamically from the
+     * repository during the build.
+     *
+     * Do NOT put a hardcoded PDF filename here.
+     *
+     * This allows you to replace the PDF in the repository
+     * without changing this configuration.
+     */
+    autoDetect: boolean;
   };
 
-  /**
-   * Visual configuration
-   */
-  appearance: {
-    defaultTheme: ThemeMode;
-    allowThemeSwitch: boolean;
-    enableAnimations: boolean;
-    enable3D: boolean;
-    enableParticles: boolean;
+
+  /* ==========================================================
+     FOOTER
+     ========================================================== */
+
+  footer: {
+    message: string;
+
+    status: string;
+
+    statusLabel: string;
   };
+}
 
-  /**
-   * Contact configuration
-   *
-   * The actual contact details will be maintained separately
-   * later. This section controls whether the related UI
-   * features are displayed.
-   */
-  contact: {
-    showContactSection: boolean;
-    showEmailButton: boolean;
-    showLinkedInButton: boolean;
-    showGitHubButton: boolean;
-  };
 
-  /**
-   * Portfolio behavior
-   */
-  features: {
-    showExperience: boolean;
-    showProjects: boolean;
-    showSkills: boolean;
-    showEducation: boolean;
-    showCertifications: boolean;
-    showTestimonials: boolean;
-    showBlog: boolean;
-  };
-};
+/**
+ * ============================================================
+ * MAIN SITE CONFIGURATION
+ * ============================================================
+ */
 
-export const siteConfig: SiteConfig = {
-  /*
-   * ----------------------------------------------------------
-   * BASIC IDENTITY
-   * ----------------------------------------------------------
-   */
+export const site: SiteConfig = {
 
-  name: "Hafiz Mohammad Ahsan",
+  /* ==========================================================
+     PERSONAL IDENTITY
+     ========================================================== */
 
-  shortName: "Hafiz Ahsan",
+  name:
+    "Hafiz Ahsan",
+
+  shortName:
+    "HA",
 
   professionalTitle:
-    "Senior RPA Consultant · Automation Specialist · Solution Architect",
+    "Senior RPA Consultant",
+
+  secondaryTitle:
+    "RPA Developer · Solution Architect · Automation Specialist",
 
   tagline:
-    "Designing intelligent automation solutions that connect people, processes, technology and AI.",
+    "Designing intelligent automation systems that connect people, processes and technology.",
 
-  /*
-   * ----------------------------------------------------------
-   * LOCATION
-   * ----------------------------------------------------------
+  location:
+    "Saudi Arabia",
+
+
+  /* ==========================================================
+     WEBSITE
+     ========================================================== */
+
+  siteName:
+    "Hafiz Ahsan — RPA & Intelligent Automation",
+
+  /**
+   * GitHub Pages project repository.
+   *
+   * IMPORTANT:
+   * During testing this is the portfolio repository.
+   *
+   * When the final website is moved to:
+   *
+   *     hafizmahsan.github.io
+   *
+   * change this to:
+   *
+   *     https://hafizmahsan.github.io
    */
 
-  location: "Saudi Arabia",
+  siteUrl:
+    "https://hafizmahsan.github.io/hafiz-ahsan-portfolio",
 
-  country: "Saudi Arabia",
+  language:
+    "en",
 
-  availability: "Open to selected opportunities and collaborations",
+  copyrightName:
+    "Hafiz Ahsan",
 
-  /*
-   * ----------------------------------------------------------
-   * WEBSITE
-   * ----------------------------------------------------------
+
+  /* ==========================================================
+     SEO
+     ========================================================== */
+
+  seoTitle:
+    "Hafiz Ahsan | Senior RPA Consultant & Solution Architect",
+
+  seoDescription:
+    "Professional portfolio of Hafiz Ahsan, a Senior RPA Consultant and automation specialist with 6+ years of IT experience across RPA development, solution architecture, enterprise automation and emerging Generative AI technologies.",
+
+  seoKeywords: [
+    "Hafiz Ahsan",
+    "RPA Consultant",
+    "Senior RPA Consultant",
+    "RPA Developer",
+    "RPA Solution Architect",
+    "Robotic Process Automation",
+    "Intelligent Automation",
+    "Automation Consultant",
+    "UiPath",
+    "Enterprise Automation",
+    "Solution Architecture",
+    "Generative AI",
+    "LangChain",
+    "Saudi Arabia",
+    "IT Consultant",
+    "Automation Architect"
+  ],
+
+  /**
+   * This will be replaced by the actual social preview
+   * graphic when we build the SEO/Open Graph assets.
    */
+  ogImage:
+    "/og-image.png",
 
-  siteUrl: "https://hafizmahsan.github.io",
 
-  siteName: "Hafiz Mohammad Ahsan — Portfolio",
+  /* ==========================================================
+     NAVIGATION
+     ========================================================== */
 
-  /*
-   * Temporary GitHub Pages repository path.
-   *
-   * DO NOT change this yet.
-   *
-   * When we move the completed project to the main
-   * hafizmahsan.github.io repository, this will become:
-   *
-   * basePath: ""
-   */
+  navigation: [
 
-  basePath: "/hafiz-ahsan-portfolio",
+    {
+      label:
+        "Home",
 
-  /*
-   * ----------------------------------------------------------
-   * CV / RESUME
-   * ----------------------------------------------------------
-   *
-   * The source repository contains the authoritative resume.
-   *
-   * We intentionally do NOT specify the current PDF filename.
-   *
-   * The GitHub Actions workflow that we create later will:
-   *
-   * 1. Inspect the source repository.
-   * 2. Find the appropriate PDF.
-   * 3. Prefer filenames containing "resume" or "cv".
-   * 4. Fall back to an available PDF when necessary.
-   * 5. Publish it using a stable website URL.
-   *
-   * Therefore, changing the filename of your resume will not
-   * require changing the portfolio itself.
-   */
+      href:
+        "#top"
+    },
+
+    {
+      label:
+        "About",
+
+      href:
+        "#about"
+    },
+
+    {
+      label:
+        "Experience",
+
+      href:
+        "#experience"
+    },
+
+    {
+      label:
+        "Skills",
+
+      href:
+        "#skills"
+    },
+
+    {
+      label:
+        "Projects",
+
+      href:
+        "#projects"
+    },
+
+    {
+      label:
+        "Contact",
+
+      href:
+        "#contact"
+    }
+
+  ],
+
+
+  /* ==========================================================
+     PROFESSIONAL LINKS
+     ========================================================== */
+
+  socialLinks: [
+
+    {
+      label:
+        "LinkedIn",
+
+      href:
+        "https://www.linkedin.com/",
+
+      icon:
+        "linkedin",
+
+      external:
+        true
+    },
+
+
+    {
+      label:
+        "GitHub",
+
+      href:
+        "https://github.com/hafizmahsan",
+
+      icon:
+        "github",
+
+      external:
+        true
+    },
+
+
+    {
+      label:
+        "Email",
+
+      href:
+        "mailto:your.email@example.com",
+
+      icon:
+        "email"
+    }
+
+  ],
+
+
+  /* ==========================================================
+     CV / RESUME
+     ========================================================== */
 
   cv: {
-    enabled: true,
 
-    sourceRepository: "hafizmahsan/hafiz-ahsan-portfolio",
+    enabled:
+      true,
 
-    sourceBranch: "main",
+    label:
+      "Download CV",
 
-    downloadFileName: "cv.pdf",
+    description:
+      "Download the latest version of my professional CV.",
 
-    buttonLabel: "Download CV",
+    /**
+     * Resume repository supplied for this portfolio.
+     */
 
-    viewLabel: "View CV"
+    sourceRepository:
+      "hafizmahsan/hafiz-ahsan-portfolio",
+
+    repositoryUrl:
+      "https://github.com/hafizmahsan/hafiz-ahsan-portfolio",
+
+    /**
+     * IMPORTANT
+     *
+     * Keep this TRUE.
+     *
+     * The website will later contain logic to identify the
+     * PDF resume from the repository rather than requiring
+     * you to manually update a filename every time.
+     */
+
+    autoDetect:
+      true
+
   },
 
-  /*
-   * ----------------------------------------------------------
-   * APPEARANCE
-   * ----------------------------------------------------------
-   *
-   * The initial design will be dark and futuristic.
-   *
-   * The user will still be able to switch to light mode
-   * through the theme control that we create later.
-   */
 
-  appearance: {
-    defaultTheme: "dark",
+  /* ==========================================================
+     FOOTER
+     ========================================================== */
 
-    allowThemeSwitch: true,
+  footer: {
 
-    enableAnimations: true,
+    message:
+      "Built around automation, architecture and continuous learning.",
 
-    enable3D: true,
+    status:
+      "AVAILABLE",
 
-    enableParticles: true
-  },
-
-  /*
-   * ----------------------------------------------------------
-   * CONTACT
-   * ----------------------------------------------------------
-   *
-   * The actual contact/social information will be stored in
-   * separate data files.
-   *
-   * These switches control whether particular UI elements
-   * should appear.
-   */
-
-  contact: {
-    showContactSection: true,
-
-    showEmailButton: true,
-
-    showLinkedInButton: true,
-
-    showGitHubButton: true
-  },
-
-  /*
-   * ----------------------------------------------------------
-   * OPTIONAL PORTFOLIO FEATURES
-   * ----------------------------------------------------------
-   *
-   * We can turn entire areas of the website on/off from here.
-   *
-   * For example, if you later decide that you don't want a
-   * Testimonials section, change:
-   *
-   * showTestimonials: false
-   *
-   * The components will be designed to respect these settings.
-   */
-
-  features: {
-    showExperience: true,
-
-    showProjects: true,
-
-    showSkills: true,
-
-    showEducation: true,
-
-    showCertifications: true,
-
-    showTestimonials: false,
-
-    showBlog: false
+    statusLabel:
+      "Professional Network"
   }
+
 };
