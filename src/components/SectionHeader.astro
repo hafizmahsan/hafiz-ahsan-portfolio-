@@ -4,34 +4,28 @@
  * SECTION HEADER
  * ============================================================
  *
- * Reusable heading system for major portfolio sections.
+ * Reusable heading for major portfolio sections.
  *
- * Keeps section presentation consistent while allowing
- * content to be changed independently.
+ * Keeps typography, numbering and visual treatment
+ * consistent throughout the entire website.
  *
  * ============================================================
  */
 
 interface Props {
-  number?: string;
+  number: string;
   eyebrow?: string;
   title: string;
-  highlight?: string;
   description?: string;
   align?: "left" | "center";
-  status?: string;
-  id?: string;
 }
 
 const {
   number,
-  eyebrow = "SYSTEM / SECTION",
+  eyebrow,
   title,
-  highlight,
   description,
-  align = "left",
-  status,
-  id
+  align = "left"
 } = Astro.props;
 ---
 
@@ -40,73 +34,56 @@ const {
     "section-header",
     `section-header-${align}`
   ]}
-  id={id}
 >
 
   <!-- ======================================================
-       TECHNICAL META
+       TOP SYSTEM LINE
        ====================================================== -->
 
-  <div class="section-meta">
+  <div
+    class="section-system-line"
+    aria-hidden="true"
+  >
 
-    <div class="section-identifier">
+    <span class="system-line-number">
+      {number}
+    </span>
 
-      {
-        number && (
-          <span class="section-number">
-            {number}
-          </span>
-        )
-      }
+    <span class="system-line-track"></span>
 
-      <span class="section-slash">
-        //
-      </span>
-
-      <span class="section-eyebrow">
-        {eyebrow}
-      </span>
-
-    </div>
-
-
-    {
-      status && (
-        <span class="section-status">
-
-          <span class="status-node"></span>
-
-          {status}
-
-        </span>
-      )
-    }
+    <span class="system-line-node"></span>
 
   </div>
 
 
   <!-- ======================================================
-       HEADING
+       EYEBROW
+       ====================================================== -->
+
+  {
+    eyebrow && (
+      <div class="section-eyebrow">
+
+        <span
+          class="eyebrow-node"
+          aria-hidden="true"
+        ></span>
+
+        <span>
+          {eyebrow}
+        </span>
+
+      </div>
+    )
+  }
+
+
+  <!-- ======================================================
+       TITLE
        ====================================================== -->
 
   <h2 class="section-title">
-
-    <span>
-      {title}
-    </span>
-
-    {
-      highlight && (
-        <>
-          {" "}
-
-          <span class="section-highlight">
-            {highlight}
-          </span>
-        </>
-      )
-    }
-
+    {title}
   </h2>
 
 
@@ -124,21 +101,19 @@ const {
 
 
   <!-- ======================================================
-       DECORATIVE TERMINAL LINE
+       DECORATIVE SIGNAL
        ====================================================== -->
 
   <div
-    class="section-line"
+    class="section-signal"
     aria-hidden="true"
   >
 
-    <span class="line-start"></span>
+    <span class="signal-dot"></span>
 
-    <span class="line-main"></span>
+    <span class="signal-line"></span>
 
-    <span class="line-node"></span>
-
-    <span class="line-end"></span>
+    <span class="signal-dot signal-dot-last"></span>
 
   </div>
 
@@ -147,15 +122,24 @@ const {
 
 <style>
   /* ========================================================
-     HEADER
+     BASE
      ======================================================== */
 
   .section-header {
+    position:
+      relative;
+
     width:
       100%;
 
     margin-bottom:
       3rem;
+  }
+
+
+  .section-header-left {
+    text-align:
+      left;
   }
 
 
@@ -166,83 +150,132 @@ const {
 
 
   /* ========================================================
-     META
+     SYSTEM LINE
      ======================================================== */
 
-  .section-meta {
+  .section-system-line {
     display:
       flex;
 
     align-items:
       center;
 
-    justify-content:
-      space-between;
-
-    gap:
-      1rem;
+    width:
+      100%;
 
     margin-bottom:
-      0.85rem;
+      1.25rem;
   }
 
 
-  .section-identifier {
-    display:
-      flex;
+  .system-line-number {
+    flex-shrink:
+      0;
 
-    align-items:
-      center;
-
-    gap:
-      0.45rem;
+    margin-right:
+      0.65rem;
 
     color:
-      var(--color-text-subtle);
+      var(--color-cyan);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.38rem;
+      0.3rem;
 
     letter-spacing:
-      0.055em;
-
-    text-transform:
-      uppercase;
+      0.04em;
   }
 
 
-  .section-number {
-    color:
-      var(--color-cyan);
+  .system-line-track {
+    width:
+      min(90px, 15vw);
 
-    opacity:
-      0.85;
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(34, 211, 238, 0.5),
+        transparent
+      );
   }
 
 
-  .section-slash {
-    color:
-      var(--color-text-subtle);
+  .system-line-node {
+    width:
+      4px;
 
-    opacity:
-      0.55;
+    height:
+      4px;
+
+    margin-left:
+      0.35rem;
+
+    border:
+      1px solid var(--color-cyan);
+
+    border-radius:
+      50%;
+
+    box-shadow:
+      0 0 7px rgba(34, 211, 238, 0.35);
+
+    animation:
+      section-node-pulse 2.8s ease-in-out infinite;
   }
 
 
-  .section-eyebrow {
-    color:
-      var(--color-text-subtle);
+  @keyframes section-node-pulse {
+
+    0%,
+    100% {
+      opacity:
+        0.35;
+
+      transform:
+        scale(0.8);
+    }
+
+    50% {
+      opacity:
+        1;
+
+      transform:
+        scale(1.15);
+    }
+
   }
 
 
   /* ========================================================
-     STATUS
+     CENTER ALIGNMENT
      ======================================================== */
 
-  .section-status {
+  .section-header-center
+    .section-system-line {
+
+    justify-content:
+      center;
+  }
+
+
+  .section-header-center
+    .system-line-number {
+
+    margin-right:
+      0.65rem;
+  }
+
+
+  /* ========================================================
+     EYEBROW
+     ======================================================== */
+
+  .section-eyebrow {
     display:
       inline-flex;
 
@@ -250,71 +283,46 @@ const {
       center;
 
     gap:
-      0.35rem;
+      0.45rem;
 
-    padding:
-      0.3rem 0.45rem;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.12);
-
-    border-radius:
-      0.25rem;
+    margin-bottom:
+      0.7rem;
 
     color:
       var(--color-text-subtle);
-
-    background:
-      rgba(34, 211, 238, 0.02);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.32rem;
+      0.29rem;
 
     letter-spacing:
-      0.04em;
+      0.06em;
 
     text-transform:
       uppercase;
   }
 
 
-  .status-node {
+  .eyebrow-node {
     width:
-      4px;
+      5px;
 
     height:
-      4px;
+      5px;
+
+    border:
+      1px solid var(--color-cyan);
 
     border-radius:
       50%;
 
     background:
-      var(--color-cyan);
+      rgba(34, 211, 238, 0.08);
 
     box-shadow:
-      0 0 8px rgba(34, 211, 238, 0.6);
-
-    animation:
-      section-status-pulse 2.2s ease-in-out infinite;
-  }
-
-
-  @keyframes section-status-pulse {
-
-    0%,
-    100% {
-      opacity:
-        0.35;
-    }
-
-    50% {
-      opacity:
-        1;
-    }
-
+      0 0 7px rgba(34, 211, 238, 0.35);
   }
 
 
@@ -324,7 +332,7 @@ const {
 
   .section-title {
     max-width:
-      850px;
+      900px;
 
     margin:
       0;
@@ -336,40 +344,24 @@ const {
       var(--font-display);
 
     font-size:
-      clamp(
-        2rem,
-        5vw,
-        4.2rem
-      );
+      clamp(2rem, 5vw, 3.8rem);
 
     font-weight:
-      500;
+      600;
+
+    letter-spacing:
+      -0.055em;
 
     line-height:
       0.98;
-
-    letter-spacing:
-      -0.065em;
   }
 
 
-  .section-highlight {
-    color:
-      transparent;
+  .section-header-center
+    .section-title {
 
-    background:
-      linear-gradient(
-        100deg,
-        var(--color-cyan),
-        #7dd3fc 45%,
-        var(--color-violet)
-      );
-
-    background-clip:
-      text;
-
-    -webkit-background-clip:
-      text;
+    margin-inline:
+      auto;
   }
 
 
@@ -379,16 +371,19 @@ const {
 
   .section-description {
     max-width:
-      650px;
+      680px;
 
     margin:
-      1.15rem 0 0;
+      1rem 0 0;
 
     color:
       var(--color-text-muted);
 
+    font-family:
+      var(--font-body);
+
     font-size:
-      0.62rem;
+      0.82rem;
 
     line-height:
       1.8;
@@ -398,20 +393,16 @@ const {
   .section-header-center
     .section-description {
 
-    margin-right:
+    margin-inline:
       auto;
-
-    margin-left:
-      auto;
-
   }
 
 
   /* ========================================================
-     DECORATIVE LINE
+     SIGNAL
      ======================================================== */
 
-  .section-line {
+  .section-signal {
     display:
       flex;
 
@@ -419,37 +410,30 @@ const {
       center;
 
     width:
-      min(
-        100%,
-        360px
-      );
+      min(180px, 35vw);
 
     margin-top:
-      1.5rem;
-
-    overflow:
-      hidden;
+      1.35rem;
   }
 
 
   .section-header-center
-    .section-line {
+    .section-signal {
 
-    margin-right:
+    margin-inline:
       auto;
-
-    margin-left:
-      auto;
-
   }
 
 
-  .line-start {
+  .signal-dot {
     width:
       4px;
 
     height:
       4px;
+
+    flex-shrink:
+      0;
 
     border:
       1px solid var(--color-cyan);
@@ -461,76 +445,32 @@ const {
       var(--color-bg);
 
     box-shadow:
-      0 0 8px rgba(34, 211, 238, 0.35);
+      0 0 7px rgba(34, 211, 238, 0.4);
   }
 
 
-  .line-main {
-    width:
-      80px;
-
-    height:
-      1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        var(--color-cyan),
-        var(--color-border)
-      );
-  }
-
-
-  .line-node {
-    width:
-      3px;
-
-    height:
-      3px;
-
-    margin-left:
-      0.25rem;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-violet);
-
-    box-shadow:
-      0 0 8px rgba(139, 92, 246, 0.5);
-  }
-
-
-  .line-end {
+  .signal-line {
     flex:
       1;
 
     height:
       1px;
 
-    margin-left:
-      0.25rem;
-
     background:
       linear-gradient(
         90deg,
-        var(--color-border),
-        transparent
+        rgba(34, 211, 238, 0.4),
+        var(--color-border)
       );
   }
 
 
-  /* ========================================================
-     CENTER ALIGNMENT
-     ======================================================== */
+  .signal-dot-last {
+    border-color:
+      var(--color-border);
 
-  .section-header-center
-    .section-meta {
-
-    justify-content:
-      center;
-
+    box-shadow:
+      none;
   }
 
 
@@ -539,21 +479,10 @@ const {
      ======================================================== */
 
   :global([data-theme="light"])
-    .section-highlight {
+    .section-title {
 
-    background:
-      linear-gradient(
-        100deg,
-        #0891b2,
-        #2563eb 50%,
-        #7c3aed
-      );
-
-    background-clip:
-      text;
-
-    -webkit-background-clip:
-      text;
+    color:
+      var(--color-text);
   }
 
 
@@ -565,51 +494,44 @@ const {
 
     .section-header {
       margin-bottom:
-        2.25rem;
+        2rem;
     }
 
 
     .section-title {
       font-size:
-        clamp(
-          2rem,
-          10vw,
-          3rem
-        );
+        clamp(1.8rem, 9vw, 2.7rem);
     }
 
 
     .section-description {
       font-size:
-        0.57rem;
-    }
+        0.72rem;
 
-
-    .section-meta {
-      align-items:
-        flex-start;
-    }
-
-
-    .section-status {
-      display:
-        none;
+      line-height:
+        1.7;
     }
 
   }
 
 
-  @media (max-width: 450px) {
+  @media (max-width: 480px) {
 
-    .section-title {
-      font-size:
-        2rem;
+    .section-system-line {
+      margin-bottom:
+        1rem;
     }
 
 
-    .section-description {
-      line-height:
-        1.7;
+    .section-eyebrow {
+      font-size:
+        0.26rem;
+    }
+
+
+    .section-title {
+      letter-spacing:
+        -0.045em;
     }
 
   }
@@ -621,7 +543,7 @@ const {
 
   @media (prefers-reduced-motion: reduce) {
 
-    .status-node {
+    .system-line-node {
       animation:
         none;
     }
