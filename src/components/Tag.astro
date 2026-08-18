@@ -1,0 +1,435 @@
+---
+/**
+ * ============================================================
+ * TAG
+ * ============================================================
+ *
+ * Small reusable metadata / technology / status tag.
+ *
+ * Designed for:
+ * - Technologies
+ * - Skills
+ * - Project categories
+ * - Locations
+ * - Experience labels
+ * - Availability
+ * - Certifications
+ *
+ * ============================================================
+ */
+
+interface Props {
+  label: string;
+  variant?: "default" | "cyan" | "violet" | "blue" | "green";
+  icon?: string;
+  size?: "small" | "medium";
+  outlined?: boolean;
+}
+
+const {
+  label,
+  variant = "default",
+  icon,
+  size = "medium",
+  outlined = false
+} = Astro.props;
+---
+
+<span
+  class:list={[
+    "tag",
+    `tag-${variant}`,
+    `tag-${size}`,
+    {
+      "tag-outlined": outlined
+    }
+  ]}
+>
+
+  {
+    icon && (
+      <span
+        class="tag-icon"
+        aria-hidden="true"
+      >
+        {icon}
+      </span>
+    )
+  }
+
+  <span class="tag-label">
+    {label}
+  </span>
+
+</span>
+
+
+<style>
+  /* ========================================================
+     BASE
+     ======================================================== */
+
+  .tag {
+    --tag-color:
+      rgba(226, 232, 240, 0.62);
+
+    --tag-border:
+      rgba(148, 163, 184, 0.14);
+
+    --tag-background:
+      rgba(148, 163, 184, 0.025);
+
+    --tag-glow:
+      transparent;
+
+    position:
+      relative;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    gap:
+      0.35rem;
+
+    border:
+      1px solid var(--tag-border);
+
+    border-radius:
+      999px;
+
+    color:
+      var(--tag-color);
+
+    background:
+      var(--tag-background);
+
+    font-family:
+      var(--font-mono);
+
+    white-space:
+      nowrap;
+
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard);
+  }
+
+
+  .tag:hover {
+    border-color:
+      color-mix(
+        in srgb,
+        var(--tag-color) 30%,
+        transparent
+      );
+
+    background:
+      color-mix(
+        in srgb,
+        var(--tag-color) 4%,
+        transparent
+      );
+
+    box-shadow:
+      0 0 18px var(--tag-glow);
+
+    transform:
+      translateY(-1px);
+  }
+
+
+  /* ========================================================
+     SIZE
+     ======================================================== */
+
+  .tag-small {
+    min-height:
+      20px;
+
+    padding:
+      0.15rem 0.45rem;
+
+    font-size:
+      0.22rem;
+
+    letter-spacing:
+      0.025em;
+  }
+
+
+  .tag-medium {
+    min-height:
+      26px;
+
+    padding:
+      0.2rem 0.6rem;
+
+    font-size:
+      0.27rem;
+
+    letter-spacing:
+      0.025em;
+  }
+
+
+  /* ========================================================
+     ICON
+     ======================================================== */
+
+  .tag-icon {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    color:
+      currentColor;
+
+    font-size:
+      0.8em;
+
+    line-height:
+      1;
+  }
+
+
+  /* ========================================================
+     DEFAULT
+     ======================================================== */
+
+  .tag-default {
+    --tag-color:
+      rgba(226, 232, 240, 0.62);
+
+    --tag-border:
+      rgba(148, 163, 184, 0.14);
+
+    --tag-background:
+      rgba(148, 163, 184, 0.025);
+  }
+
+
+  /* ========================================================
+     CYAN
+     ======================================================== */
+
+  .tag-cyan {
+    --tag-color:
+      #67e8f9;
+
+    --tag-border:
+      rgba(34, 211, 238, 0.2);
+
+    --tag-background:
+      rgba(34, 211, 238, 0.035);
+
+    --tag-glow:
+      rgba(34, 211, 238, 0.08);
+  }
+
+
+  /* ========================================================
+     VIOLET
+     ======================================================== */
+
+  .tag-violet {
+    --tag-color:
+      #c4b5fd;
+
+    --tag-border:
+      rgba(139, 92, 246, 0.22);
+
+    --tag-background:
+      rgba(139, 92, 246, 0.035);
+
+    --tag-glow:
+      rgba(139, 92, 246, 0.08);
+  }
+
+
+  /* ========================================================
+     BLUE
+     ======================================================== */
+
+  .tag-blue {
+    --tag-color:
+      #93c5fd;
+
+    --tag-border:
+      rgba(59, 130, 246, 0.22);
+
+    --tag-background:
+      rgba(59, 130, 246, 0.035);
+
+    --tag-glow:
+      rgba(59, 130, 246, 0.08);
+  }
+
+
+  /* ========================================================
+     GREEN
+     ======================================================== */
+
+  .tag-green {
+    --tag-color:
+      #86efac;
+
+    --tag-border:
+      rgba(74, 222, 128, 0.2);
+
+    --tag-background:
+      rgba(74, 222, 128, 0.035);
+
+    --tag-glow:
+      rgba(74, 222, 128, 0.08);
+  }
+
+
+  /* ========================================================
+     OUTLINED
+     ======================================================== */
+
+  .tag-outlined {
+    background:
+      transparent;
+  }
+
+
+  .tag-outlined:hover {
+    background:
+      transparent;
+  }
+
+
+  /* ========================================================
+     LIGHT THEME
+     ======================================================== */
+
+  :global([data-theme="light"])
+    .tag-default {
+
+    --tag-color:
+      rgba(15, 23, 42, 0.62);
+
+    --tag-border:
+      rgba(15, 23, 42, 0.12);
+
+    --tag-background:
+      rgba(15, 23, 42, 0.025);
+  }
+
+
+  :global([data-theme="light"])
+    .tag-cyan {
+
+    --tag-color:
+      #0e7490;
+
+    --tag-border:
+      rgba(14, 116, 144, 0.18);
+
+    --tag-background:
+      rgba(14, 116, 144, 0.025);
+  }
+
+
+  :global([data-theme="light"])
+    .tag-violet {
+
+    --tag-color:
+      #6d28d9;
+
+    --tag-border:
+      rgba(109, 40, 217, 0.18);
+
+    --tag-background:
+      rgba(109, 40, 217, 0.025);
+  }
+
+
+  :global([data-theme="light"])
+    .tag-blue {
+
+    --tag-color:
+      #1d4ed8;
+
+    --tag-border:
+      rgba(29, 78, 216, 0.18);
+
+    --tag-background:
+      rgba(29, 78, 216, 0.025);
+  }
+
+
+  :global([data-theme="light"])
+    .tag-green {
+
+    --tag-color:
+      #15803d;
+
+    --tag-border:
+      rgba(21, 128, 61, 0.18);
+
+    --tag-background:
+      rgba(21, 128, 61, 0.025);
+  }
+
+
+  /* ========================================================
+     RESPONSIVE
+     ======================================================== */
+
+  @media (max-width: 480px) {
+
+    .tag-medium {
+      min-height:
+        24px;
+
+      padding:
+        0.18rem 0.5rem;
+
+      font-size:
+        0.24rem;
+    }
+
+
+    .tag-small {
+      min-height:
+        19px;
+
+      padding:
+        0.12rem 0.4rem;
+
+      font-size:
+        0.21rem;
+    }
+
+  }
+
+
+  /* ========================================================
+     REDUCED MOTION
+     ======================================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .tag {
+      transition:
+        none;
+    }
+
+  }
+</style>
