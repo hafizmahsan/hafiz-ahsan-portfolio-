@@ -1,0 +1,84 @@
+---
+/**
+ * ============================================================
+ * CONTAINER
+ * ============================================================
+ *
+ * Shared page-width wrapper.
+ *
+ * Keeps content aligned consistently across the entire
+ * portfolio.
+ *
+ * ============================================================
+ */
+
+interface Props {
+  as?:
+    | "div"
+    | "main"
+    | "section"
+    | "article"
+    | "header"
+    | "footer"
+    | "nav";
+
+  size?:
+    | "default"
+    | "wide"
+    | "narrow";
+
+  class?: string;
+}
+
+const {
+  as = "div",
+  size = "default",
+  class: className = ""
+} = Astro.props;
+
+const Tag = as;
+---
+
+<Tag
+  class:list={[
+    "container",
+    `container--${size}`,
+    className
+  ]}
+>
+  <slot />
+</Tag>
+
+
+<style>
+  .container {
+    width: 100%;
+    margin-inline: auto;
+
+    padding-inline:
+      clamp(1.25rem, 4vw, 3rem);
+  }
+
+
+  .container--default {
+    max-width: 80rem;
+  }
+
+
+  .container--wide {
+    max-width: 96rem;
+  }
+
+
+  .container--narrow {
+    max-width: 64rem;
+  }
+
+
+  @media (max-width: 640px) {
+    .container {
+      padding-inline:
+        1rem;
+    }
+  }
+</style>
