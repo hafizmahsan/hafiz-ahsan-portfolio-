@@ -1,0 +1,226 @@
+---
+/**
+ * ============================================================
+ * EXPERIENCE SECTION
+ * ============================================================
+ *
+ * Professional / educational timeline.
+ *
+ * ============================================================
+ */
+
+import SectionHeader from "./SectionHeader.astro";
+import TimelineItem from "./TimelineItem.astro";
+
+interface Experience {
+  period: string;
+
+  title: string;
+
+  organization?: string;
+
+  description?: string;
+
+  technologies?: string[];
+
+  current?: boolean;
+}
+
+interface Props {
+  number?: string;
+
+  eyebrow?: string;
+
+  title?: string;
+
+  description?: string;
+
+  entries?: Experience[];
+
+  class?: string;
+}
+
+const {
+  number = "03",
+
+  eyebrow = "EXPERIENCE",
+
+  title = "Where I've worked.",
+
+  description =
+    "A chronological overview of professional experience, responsibilities, and the technologies used along the way.",
+
+  entries = [],
+
+  class: className = ""
+} = Astro.props;
+---
+
+<section
+  id="experience"
+  class:list={[
+    "experience-section",
+    className
+  ]}
+>
+  <div class="experience-section__inner">
+
+    <SectionHeader
+      number={number}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+    />
+
+
+    {
+      entries.length > 0 ? (
+        <div class="experience-section__timeline">
+
+          {
+            entries.map(
+              (entry) => (
+                <TimelineItem
+                  period={entry.period}
+                  title={entry.title}
+                  organization={
+                    entry.organization
+                  }
+                  description={
+                    entry.description
+                  }
+                  technologies={
+                    entry.technologies
+                  }
+                  current={
+                    entry.current
+                  }
+                />
+              )
+            )
+          }
+
+        </div>
+      ) : (
+        <div class="experience-section__empty">
+          <span>
+            / EXPERIENCE
+          </span>
+
+          <p>
+            Experience entries will appear here.
+          </p>
+        </div>
+      )
+    }
+
+  </div>
+</section>
+
+
+<style>
+  .experience-section {
+    padding:
+      7rem 0;
+  }
+
+
+  .experience-section__inner {
+    width:
+      min(
+        calc(100% - 2.5rem),
+        76rem
+      );
+
+    margin-inline: auto;
+  }
+
+
+  .experience-section__timeline {
+    width:
+      min(100%, 52rem);
+
+    margin-top: 4rem;
+  }
+
+
+  .experience-section__empty {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    min-height: 14rem;
+
+    margin-top: 4rem;
+
+    padding: 2rem;
+
+    border:
+      1px dashed
+      rgba(148, 163, 184, 0.14);
+
+    border-radius:
+      0.45rem;
+
+    text-align: center;
+  }
+
+
+  .experience-section__empty span {
+    color:
+      #67e8f9;
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.6rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+  }
+
+
+  .experience-section__empty p {
+    margin:
+      0.75rem 0 0;
+
+    color:
+      rgba(100, 116, 139, 0.75);
+
+    font-size: 0.8rem;
+  }
+
+
+  @media (max-width: 900px) {
+    .experience-section {
+      padding:
+        5rem 0;
+    }
+
+
+    .experience-section__timeline {
+      margin-top: 3rem;
+    }
+  }
+
+
+  @media (max-width: 640px) {
+    .experience-section__inner {
+      width:
+        min(
+          calc(100% - 2rem),
+          76rem
+        );
+    }
+  }
+</style>
