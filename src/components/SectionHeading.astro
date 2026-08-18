@@ -4,62 +4,111 @@
  * SECTION HEADING
  * ============================================================
  *
- * Reusable heading component for portfolio sections.
+ * Reusable heading system for portfolio sections.
  *
- * Example:
- *
- * <SectionHeading
- *   number="01"
- *   eyebrow="EXPERIENCE"
- *   title="Building automation systems that scale."
- *   description="..."
- * />
+ * Supports:
+ * - Section number
+ * - Eyebrow
+ * - Main title
+ * - Highlighted title fragment
+ * - Description
+ * - System status
+ * - Optional metadata
  *
  * ============================================================
  */
 
 interface Props {
-  number: string;
-  eyebrow: string;
+  number?: string;
+  eyebrow?: string;
   title: string;
+  highlight?: string;
   description?: string;
+  status?: string;
+  meta?: string;
   align?: "left" | "center";
-  accent?: "cyan" | "violet" | "blue";
 }
 
 const {
-  number,
-  eyebrow,
+  number = "01",
+  eyebrow = "SYSTEM MODULE",
   title,
+  highlight,
   description,
-  align = "left",
-  accent = "cyan"
+  status = "ACTIVE",
+  meta,
+  align = "left"
 } = Astro.props;
+
+/*
+ * Split the title around the highlight text so the highlighted
+ * fragment can be styled without requiring HTML in the data.
+ */
+let titleBefore = title;
+let titleAfter = "";
+
+if (highlight) {
+  const highlightIndex = title.indexOf(highlight);
+
+  if (highlightIndex !== -1) {
+    titleBefore = title.slice(0, highlightIndex);
+    titleAfter = title.slice(
+      highlightIndex + highlight.length
+    );
+  }
+}
 ---
 
-<div
+<section
   class:list={[
     "section-heading",
-    `section-heading-${align}`,
-    `section-heading-${accent}`
+    `section-heading-${align}`
   ]}
 >
 
   <!-- ======================================================
-       TECHNICAL META
+       TOP SYSTEM ROW
        ====================================================== -->
 
-  <div class="section-heading-meta">
+  <div class="heading-system-row">
 
-    <span class="section-number">
-      {number}
-    </span>
+    <div class="heading-system-left">
 
-    <span class="section-line"></span>
+      <span class="heading-number">
+        {number}
+      </span>
 
-    <span class="section-eyebrow">
-      {eyebrow}
-    </span>
+      <span class="heading-divider"></span>
+
+      <span class="heading-eyebrow">
+        {eyebrow}
+      </span>
+
+    </div>
+
+
+    <div class="heading-system-right">
+
+      {
+        meta && (
+          <span class="heading-meta">
+            {meta}
+          </span>
+        )
+      }
+
+      <span class="heading-status">
+
+        <span
+          class="heading-status-dot"
+          aria-hidden="true"
+        ></span>
+
+        {status}
+
+      </span>
+
+    </div>
 
   </div>
 
@@ -68,8 +117,20 @@ const {
        TITLE
        ====================================================== -->
 
-  <h2 class="section-title">
-    {title}
+  <h2 class="heading-title">
+
+    {titleBefore}
+
+    {
+      highlight && (
+        <span class="heading-highlight">
+          {highlight}
+        </span>
+      )
+    }
+
+    {titleAfter}
+
   </h2>
 
 
@@ -79,7 +140,7 @@ const {
 
   {
     description && (
-      <p class="section-description">
+      <p class="heading-description">
         {description}
       </p>
     )
@@ -87,15 +148,25 @@ const {
 
 
   <!-- ======================================================
-       DECORATIVE NODE
+       DECORATIVE SIGNAL
        ====================================================== -->
 
-  <span
-    class="section-node"
+  <div
+    class="heading-signal"
     aria-hidden="true"
-  ></span>
+  >
 
-</div>
+    <span class="signal-node"></span>
+
+    <span class="signal-line signal-line-short"></span>
+
+    <span class="signal-line"></span>
+
+    <span class="signal-node signal-node-secondary"></span>
+
+  </div>
+
+</section>
 
 
 <style>
@@ -104,67 +175,115 @@ const {
      ======================================================== */
 
   .section-heading {
-    position:
-      relative;
-
     width:
       100%;
 
     margin-bottom:
-      3.5rem;
+      3rem;
   }
 
 
   /* ========================================================
-     META
+     SYSTEM ROW
      ======================================================== */
 
-  .section-heading-meta {
+  .heading-system-row {
     display:
       flex;
 
     align-items:
       center;
 
+    justify-content:
+      space-between;
+
     gap:
-      0.7rem;
+      1rem;
 
     margin-bottom:
       1rem;
 
+    min-height:
+      20px;
+  }
+
+
+  .heading-system-left,
+  .heading-system-right {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    min-width:
+      0;
+  }
+
+
+  .heading-system-left {
+    gap:
+      0.5rem;
+  }
+
+
+  .heading-system-right {
+    gap:
+      0.75rem;
+  }
+
+
+  /* ========================================================
+     NUMBER
+     ======================================================== */
+
+  .heading-number {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    min-width:
+      22px;
+
+    height:
+      18px;
+
+    padding:
+      0 0.35rem;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.18);
+
+    border-radius:
+      0.15rem;
+
     color:
-      var(--color-text-subtle);
+      var(--color-cyan);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.42rem;
+      0.25rem;
 
     letter-spacing:
-      0.08em;
+      0.03em;
 
-    text-transform:
-      uppercase;
+    background:
+      rgba(34, 211, 238, 0.025);
   }
 
 
-  .section-number {
-    color:
-      var(--color-cyan);
+  /* ========================================================
+     DIVIDER
+     ======================================================== */
 
-    font-size:
-      0.4rem;
-
-    font-weight:
-      600;
-  }
-
-
-  .section-line {
-    display:
-      block;
-
+  .heading-divider {
     width:
       35px;
 
@@ -174,18 +293,124 @@ const {
     background:
       linear-gradient(
         90deg,
-        currentColor,
+        rgba(34, 211, 238, 0.45),
         transparent
       );
-
-    opacity:
-      0.55;
   }
 
 
-  .section-eyebrow {
+  /* ========================================================
+     EYEBROW
+     ======================================================== */
+
+  .heading-eyebrow {
     color:
-      var(--color-text-muted);
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.27rem;
+
+    font-weight:
+      500;
+
+    letter-spacing:
+      0.045em;
+
+    white-space:
+      nowrap;
+  }
+
+
+  /* ========================================================
+     META
+     ======================================================== */
+
+  .heading-meta {
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.23rem;
+
+    letter-spacing:
+      0.03em;
+
+    white-space:
+      nowrap;
+  }
+
+
+  /* ========================================================
+     STATUS
+     ======================================================== */
+
+  .heading-status {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.3rem;
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.22rem;
+
+    letter-spacing:
+      0.035em;
+
+    white-space:
+      nowrap;
+  }
+
+
+  .heading-status-dot {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      #4ade80;
+
+    box-shadow:
+      0 0 7px rgba(74, 222, 128, 0.65);
+
+    animation:
+      heading-status-pulse 2.2s ease-in-out infinite;
+  }
+
+
+  @keyframes heading-status-pulse {
+
+    0%,
+    100% {
+      opacity:
+        0.35;
+    }
+
+    50% {
+      opacity:
+        1;
+    }
+
   }
 
 
@@ -193,9 +418,9 @@ const {
      TITLE
      ======================================================== */
 
-  .section-title {
+  .heading-title {
     max-width:
-      850px;
+      800px;
 
     margin:
       0;
@@ -207,20 +432,25 @@ const {
       var(--font-display);
 
     font-size:
-      clamp(
-        2rem,
-        4vw,
-        4rem
-      );
+      clamp(2rem, 5vw, 4rem);
 
     font-weight:
-      500;
-
-    line-height:
-      0.98;
+      600;
 
     letter-spacing:
       -0.055em;
+
+    line-height:
+      0.98;
+  }
+
+
+  .heading-highlight {
+    color:
+      var(--color-cyan);
+
+    text-shadow:
+      0 0 30px rgba(34, 211, 238, 0.08);
   }
 
 
@@ -228,43 +458,58 @@ const {
      DESCRIPTION
      ======================================================== */
 
-  .section-description {
+  .heading-description {
     max-width:
       650px;
 
     margin:
-      1.2rem 0 0;
+      1rem 0 0;
 
     color:
       var(--color-text-muted);
 
+    font-family:
+      var(--font-body);
+
     font-size:
-      0.72rem;
+      clamp(0.78rem, 1.2vw, 0.95rem);
 
     line-height:
-      1.8;
+      1.7;
   }
 
 
   /* ========================================================
-     DECORATIVE NODE
+     SIGNAL
      ======================================================== */
 
-  .section-node {
-    position:
-      absolute;
+  .heading-signal {
+    display:
+      flex;
 
-    top:
-      0;
+    align-items:
+      center;
 
-    right:
-      1rem;
+    gap:
+      0.35rem;
 
     width:
-      6px;
+      min(100%, 240px);
+
+    margin-top:
+      1.25rem;
+  }
+
+
+  .signal-node {
+    width:
+      5px;
 
     height:
-      6px;
+      5px;
+
+    flex-shrink:
+      0;
 
     border:
       1px solid var(--color-cyan);
@@ -272,27 +517,29 @@ const {
     border-radius:
       50%;
 
-    background:
-      var(--color-bg);
-
     box-shadow:
-      0 0 12px rgba(34, 211, 238, 0.4);
+      0 0 7px rgba(34, 211, 238, 0.35);
+
+    animation:
+      signal-node-pulse 2.8s ease-in-out infinite;
   }
 
 
-  .section-node::before,
-  .section-node::after {
-    content:
-      "";
+  .signal-node-secondary {
+    border-color:
+      var(--color-violet);
 
-    position:
-      absolute;
+    box-shadow:
+      0 0 7px rgba(139, 92, 246, 0.35);
 
-    top:
-      50%;
+    animation-delay:
+      0.8s;
+  }
 
-    width:
-      45px;
+
+  .signal-line {
+    flex:
+      1;
 
     height:
       1px;
@@ -300,35 +547,40 @@ const {
     background:
       linear-gradient(
         90deg,
-        transparent,
-        rgba(34, 211, 238, 0.2)
+        rgba(34, 211, 238, 0.35),
+        rgba(148, 163, 184, 0.08)
       );
   }
 
 
-  .section-node::before {
-    right:
-      100%;
-
-    transform:
-      translateY(-50%)
-      rotate(180deg);
-  }
-
-
-  .section-node::after {
-    left:
-      100%;
+  .signal-line-short {
+    flex:
+      0 1 25px;
 
     background:
-      linear-gradient(
-        90deg,
-        rgba(34, 211, 238, 0.2),
-        transparent
-      );
+      rgba(34, 211, 238, 0.18);
+  }
 
-    transform:
-      translateY(-50%);
+
+  @keyframes signal-node-pulse {
+
+    0%,
+    100% {
+      opacity:
+        0.35;
+
+      transform:
+        scale(0.8);
+    }
+
+    50% {
+      opacity:
+        1;
+
+      transform:
+        scale(1.15);
+    }
+
   }
 
 
@@ -343,81 +595,65 @@ const {
 
 
   .section-heading-center
-    .section-heading-meta {
+    .heading-system-row {
 
     justify-content:
       center;
-
   }
 
 
   .section-heading-center
-    .section-title {
+    .heading-system-right {
 
-    margin-left:
-      auto;
-
-    margin-right:
-      auto;
-
+    display:
+      none;
   }
 
 
   .section-heading-center
-    .section-description {
+    .heading-title {
 
-    margin-left:
+    margin-inline:
       auto;
+  }
 
-    margin-right:
+
+  .section-heading-center
+    .heading-description {
+
+    margin-inline:
       auto;
+  }
 
+
+  .section-heading-center
+    .heading-signal {
+
+    margin-inline:
+      auto;
   }
 
 
   /* ========================================================
-     ACCENT VARIATIONS
+     LIGHT THEME
      ======================================================== */
 
-  .section-heading-violet
-    .section-number {
-
-    color:
-      var(--color-violet);
-
-  }
-
-
-  .section-heading-violet
-    .section-node {
+  :global([data-theme="light"])
+    .heading-number {
 
     border-color:
-      var(--color-violet);
+      rgba(14, 116, 144, 0.18);
 
-    box-shadow:
-      0 0 12px rgba(139, 92, 246, 0.4);
-
+    background:
+      rgba(14, 116, 144, 0.025);
   }
 
 
-  .section-heading-blue
-    .section-number {
+  :global([data-theme="light"])
+    .heading-highlight {
 
     color:
-      var(--color-blue);
-
-  }
-
-
-  .section-heading-blue
-    .section-node {
-
-    border-color:
-      var(--color-blue);
-
-    box-shadow:
-      0 0 12px rgba(59, 130, 246, 0.4);
-
+      #0e7490;
   }
 
 
@@ -429,45 +665,77 @@ const {
 
     .section-heading {
       margin-bottom:
-        2.5rem;
+        2.2rem;
     }
 
 
-    .section-title {
-      font-size:
-        clamp(
-          1.8rem,
-          9vw,
-          2.7rem
-        );
+    .heading-system-row {
+      align-items:
+        flex-start;
     }
 
 
-    .section-description {
+    .heading-system-right {
+      display:
+        none;
+    }
+
+
+    .heading-title {
       font-size:
-        0.65rem;
+        clamp(1.9rem, 9vw, 3rem);
+    }
+
+
+    .heading-description {
+      font-size:
+        0.76rem;
+
       line-height:
-        1.75;
+        1.65;
+    }
+
+  }
+
+
+  @media (max-width: 430px) {
+
+    .heading-eyebrow {
+      font-size:
+        0.23rem;
     }
 
 
-    .section-node {
-      right:
-        0;
+    .heading-divider {
+      width:
+        20px;
+    }
+
+
+    .heading-number {
+      min-width:
+        20px;
+
+      height:
+        17px;
+
+      font-size:
+        0.22rem;
     }
 
   }
 
 
   /* ========================================================
-     REDUCED MOTION / ACCESSIBILITY
+     REDUCED MOTION
      ======================================================== */
 
   @media (prefers-reduced-motion: reduce) {
 
-    .section-heading {
-      scroll-behavior:
-        auto;
+    .heading-status-dot,
+    .signal-node {
+      animation:
+        none;
     }
 
   }
