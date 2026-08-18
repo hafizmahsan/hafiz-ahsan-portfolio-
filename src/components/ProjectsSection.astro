@@ -1,0 +1,268 @@
+---
+/**
+ * ============================================================
+ * PROJECTS SECTION
+ * ============================================================
+ *
+ * Portfolio project showcase.
+ *
+ * ============================================================
+ */
+
+import ProjectCard from "./ProjectCard.astro";
+import SectionHeader from "./SectionHeader.astro";
+
+interface Project {
+  title: string;
+
+  description: string;
+
+  technologies?: string[];
+
+  href?: string;
+
+  github?: string;
+
+  image?: string;
+
+  imageAlt?: string;
+
+  featured?: boolean;
+
+  status?:
+    | "LIVE"
+    | "IN PROGRESS"
+    | "ARCHIVED"
+    | "PRIVATE";
+}
+
+interface Props {
+  number?: string;
+
+  eyebrow?: string;
+
+  title?: string;
+
+  description?: string;
+
+  projects?: Project[];
+
+  class?: string;
+}
+
+const {
+  number = "02",
+
+  eyebrow = "SELECTED WORK",
+
+  title = "Projects",
+
+  description =
+    "A selection of systems, tools, and automation projects focused on solving practical problems.",
+
+  projects = [],
+
+  class: className = ""
+} = Astro.props;
+---
+
+<section
+  id="projects"
+  class:list={[
+    "projects-section",
+    className
+  ]}
+>
+  <div class="projects-section__inner">
+
+    <SectionHeader
+      number={number}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+    />
+
+
+    {
+      projects.length > 0 ? (
+        <div class="projects-section__grid">
+
+          {
+            projects.map(
+              (project, index) => (
+                <ProjectCard
+                  title={project.title}
+                  description={
+                    project.description
+                  }
+                  technologies={
+                    project.technologies
+                  }
+                  href={project.href}
+                  github={project.github}
+                  image={project.image}
+                  imageAlt={
+                    project.imageAlt
+                  }
+                  featured={
+                    project.featured ||
+                    index === 0
+                  }
+                  status={
+                    project.status
+                  }
+                />
+              )
+            )
+          }
+
+        </div>
+      ) : (
+        <div class="projects-section__empty">
+          <span>
+            / PROJECTS
+          </span>
+
+          <p>
+            Project entries will appear here.
+          </p>
+        </div>
+      )
+    }
+
+  </div>
+</section>
+
+
+<style>
+  .projects-section {
+    padding:
+      7rem 0;
+  }
+
+
+  .projects-section__inner {
+    width:
+      min(
+        calc(100% - 2.5rem),
+        76rem
+      );
+
+    margin-inline: auto;
+  }
+
+
+  .projects-section__grid {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 1.25rem;
+
+    margin-top: 4rem;
+  }
+
+
+  /*
+   * The first / featured project gets the full width.
+   *
+   * This creates a visual hierarchy without requiring
+   * a completely different project-card component.
+   */
+
+  .projects-section__grid
+  :global(.project-card:first-child) {
+    grid-column:
+      1 / -1;
+  }
+
+
+  .projects-section__empty {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    min-height: 14rem;
+
+    margin-top: 4rem;
+
+    padding: 2rem;
+
+    border:
+      1px dashed
+      rgba(148, 163, 184, 0.14);
+
+    border-radius:
+      0.45rem;
+
+    text-align: center;
+  }
+
+
+  .projects-section__empty span {
+    color:
+      #67e8f9;
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.6rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+  }
+
+
+  .projects-section__empty p {
+    margin:
+      0.75rem 0 0;
+
+    color:
+      rgba(100, 116, 139, 0.75);
+
+    font-size: 0.8rem;
+  }
+
+
+  @media (max-width: 900px) {
+    .projects-section {
+      padding:
+        5rem 0;
+    }
+
+
+    .projects-section__grid {
+      grid-template-columns: 1fr;
+
+      margin-top: 3rem;
+    }
+
+
+    .projects-section__grid
+    :global(.project-card:first-child) {
+      grid-column: auto;
+    }
+  }
+
+
+  @media (max-width: 640px) {
+    .projects-section__inner {
+      width:
+        min(
+          calc(100% - 2rem),
+          76rem
+        );
+    }
+  }
+</style>
