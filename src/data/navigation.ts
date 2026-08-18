@@ -1,325 +1,404 @@
 /**
  * ============================================================
- * NAVIGATION CONFIGURATION
+ * NAVIGATION DATA
  * ============================================================
  *
- * This file controls the main navigation of the portfolio.
+ * Central source of truth for portfolio navigation.
  *
- * The navigation UI will read from this file instead of
- * hard-coding menu items.
- *
- * To change the menu later:
- *
- * - Change `label` to rename an item.
- * - Change `href` to change its destination.
- * - Change `visible` to hide/show an item.
- * - Change `order` to change its position.
+ * Change navigation items here instead of editing the navbar
+ * component directly.
  *
  * ============================================================
  */
 
-export type NavigationItem = {
-  id: string;
+export type NavigationItemType =
+  | "section"
+  | "page"
+  | "external";
 
+
+export interface NavigationItem {
   label: string;
-
-  shortLabel: string;
 
   href: string;
 
-  /**
-   * Used for accessibility and screen readers.
-   */
-  ariaLabel: string;
+  type?: NavigationItemType;
 
-  /**
-   * Small visual icon identifier.
-   */
-  icon: string;
+  id?: string;
 
-  /**
-   * Navigation ordering.
-   */
-  order: number;
+  external?: boolean;
 
-  /**
-   * Whether the item appears in the main navigation.
-   */
-  visible: boolean;
+  enabled?: boolean;
 
-  /**
-   * Whether this is considered a primary navigation item.
-   */
-  primary: boolean;
+  featured?: boolean;
 
-  /**
-   * Whether the link points to an internal page/section.
-   */
-  internal: boolean;
-};
+  order?: number;
+
+  mobileLabel?: string;
+}
+
 
 /**
  * ============================================================
- * MAIN NAVIGATION
+ * PRIMARY NAVIGATION
+ * ============================================================
+ *
+ * These entries correspond to sections on the main portfolio
+ * page.
+ *
+ * `id` should match the corresponding section's HTML id.
+ *
  * ============================================================
  */
 
-export const navigation: NavigationItem[] = [
-  /*
-   * ----------------------------------------------------------
-   * HOME
-   * ----------------------------------------------------------
-   */
+export const navigationItems: NavigationItem[] = [
 
   {
-    id: "home",
+    label:
+      "HOME",
 
-    label: "Home",
+    mobileLabel:
+      "HOME",
 
-    shortLabel: "Home",
+    href:
+      "#home",
 
-    href: "#home",
+    id:
+      "home",
 
-    ariaLabel: "Go to homepage",
+    type:
+      "section",
 
-    icon: "home",
+    enabled:
+      true,
 
-    order: 1,
-
-    visible: true,
-
-    primary: true,
-
-    internal: true
+    order:
+      1
   },
 
-  /*
-   * ----------------------------------------------------------
-   * ABOUT
-   * ----------------------------------------------------------
-   */
 
   {
-    id: "about",
+    label:
+      "ABOUT",
 
-    label: "About",
+    mobileLabel:
+      "ABOUT",
 
-    shortLabel: "About",
+    href:
+      "#about",
 
-    href: "#about",
+    id:
+      "about",
 
-    ariaLabel: "Learn more about Hafiz Ahsan",
+    type:
+      "section",
 
-    icon: "user",
+    enabled:
+      true,
 
-    order: 2,
-
-    visible: true,
-
-    primary: true,
-
-    internal: true
+    order:
+      2
   },
 
-  /*
-   * ----------------------------------------------------------
-   * EXPERIENCE
-   * ----------------------------------------------------------
-   */
 
   {
-    id: "experience",
+    label:
+      "EXPERIENCE",
 
-    label: "Experience",
+    mobileLabel:
+      "EXPERIENCE",
 
-    shortLabel: "Experience",
+    href:
+      "#experience",
 
-    href: "#experience",
+    id:
+      "experience",
 
-    ariaLabel: "View professional experience",
+    type:
+      "section",
 
-    icon: "briefcase",
+    enabled:
+      true,
 
-    order: 3,
-
-    visible: true,
-
-    primary: true,
-
-    internal: true
+    order:
+      3
   },
 
-  /*
-   * ----------------------------------------------------------
-   * PROJECTS
-   * ----------------------------------------------------------
-   */
 
   {
-    id: "projects",
+    label:
+      "PROJECTS",
 
-    label: "Projects",
+    mobileLabel:
+      "PROJECTS",
 
-    shortLabel: "Projects",
+    href:
+      "#projects",
 
-    href: "#projects",
+    id:
+      "projects",
 
-    ariaLabel: "Explore portfolio projects",
+    type:
+      "section",
 
-    icon: "folder-code",
+    enabled:
+      true,
 
-    order: 4,
+    featured:
+      true,
 
-    visible: true,
-
-    primary: true,
-
-    internal: true
+    order:
+      4
   },
 
-  /*
-   * ----------------------------------------------------------
-   * SKILLS
-   * ----------------------------------------------------------
-   */
 
   {
-    id: "skills",
+    label:
+      "SKILLS",
 
-    label: "Skills",
+    mobileLabel:
+      "SKILLS",
 
-    shortLabel: "Skills",
+    href:
+      "#skills",
 
-    href: "#skills",
+    id:
+      "skills",
 
-    ariaLabel: "View technical skills",
+    type:
+      "section",
 
-    icon: "cpu",
+    enabled:
+      true,
 
-    order: 5,
-
-    visible: true,
-
-    primary: true,
-
-    internal: true
+    order:
+      5
   },
 
-  /*
-   * ----------------------------------------------------------
-   * AI / LEARNING
-   * ----------------------------------------------------------
-   *
-   * This gives GenAI a visible place in the portfolio without
-   * pretending that it is the entirety of the professional
-   * background.
-   */
 
   {
-    id: "ai",
+    label:
+      "CONTACT",
 
-    label: "AI & Automation",
+    mobileLabel:
+      "CONTACT",
 
-    shortLabel: "AI",
+    href:
+      "#contact",
 
-    href: "#ai",
+    id:
+      "contact",
 
-    ariaLabel: "Explore AI and intelligent automation",
+    type:
+      "section",
 
-    icon: "brain-circuit",
+    enabled:
+      true,
 
-    order: 6,
-
-    visible: true,
-
-    primary: true,
-
-    internal: true
-  },
-
-  /*
-   * ----------------------------------------------------------
-   * CONTACT
-   * ----------------------------------------------------------
-   */
-
-  {
-    id: "contact",
-
-    label: "Contact",
-
-    shortLabel: "Contact",
-
-    href: "#contact",
-
-    ariaLabel: "Contact Hafiz Ahsan",
-
-    icon: "mail",
-
-    order: 7,
-
-    visible: true,
-
-    primary: true,
-
-    internal: true
+    order:
+      6
   }
+
 ];
 
+
 /**
  * ============================================================
- * NAVIGATION HELPERS
+ * RESUME CTA
+ * ============================================================
+ *
+ * Kept separate from the primary navigation because it is a
+ * call-to-action rather than a normal navigation item.
+ *
+ * The actual resume URL will later be connected to the PDF
+ * discovered from the repository.
+ *
  * ============================================================
  */
 
-/**
- * Return all visible navigation items in their configured
- * order.
- */
-export function getNavigation(): NavigationItem[] {
-  return navigation
-    .filter((item) => item.visible)
-    .sort((a, b) => a.order - b.order);
-}
+export const resumeNavigationItem: NavigationItem = {
+  label:
+    "RESUME",
+
+  mobileLabel:
+    "RESUME / CV",
+
+  href:
+    "/resume.pdf",
+
+  type:
+    "page",
+
+  enabled:
+    true,
+
+  featured:
+    true,
+
+  order:
+    7
+};
+
 
 /**
- * Return only primary navigation items.
+ * ============================================================
+ * OPTIONAL EXTERNAL LINKS
+ * ============================================================
+ *
+ * Add external navigation links here if needed.
+ *
+ * They are disabled by default.
+ *
+ * ============================================================
  */
-export function getPrimaryNavigation(): NavigationItem[] {
-  return navigation
+
+export const externalNavigationItems:
+  NavigationItem[] = [
+
+  {
+    label:
+      "BLOG",
+
+    mobileLabel:
+      "BLOG",
+
+    href:
+      "/blog",
+
+    type:
+      "page",
+
+    enabled:
+      false,
+
+    order:
+      8
+  },
+
+
+  {
+    label:
+      "LINKEDIN",
+
+    mobileLabel:
+      "LINKEDIN",
+
+    href:
+      "https://www.linkedin.com/in/your-profile",
+
+    type:
+      "external",
+
+    external:
+      true,
+
+    enabled:
+      false,
+
+    order:
+      9
+  }
+
+];
+
+
+/**
+ * ============================================================
+ * ENABLED PRIMARY NAVIGATION
+ * ============================================================
+ */
+
+export const enabledNavigationItems =
+  [...navigationItems]
     .filter(
       (item) =>
-        item.visible &&
-        item.primary
+        item.enabled !== false
     )
-    .sort((a, b) => a.order - b.order);
-}
+    .sort(
+      (a, b) =>
+        (a.order ?? 999) -
+        (b.order ?? 999)
+    );
+
 
 /**
- * Find a navigation item by ID.
+ * ============================================================
+ * ENABLED EXTERNAL / OPTIONAL NAVIGATION
+ * ============================================================
+ */
+
+export const enabledExternalNavigationItems =
+  [...externalNavigationItems]
+    .filter(
+      (item) =>
+        item.enabled !== false
+    )
+    .sort(
+      (a, b) =>
+        (a.order ?? 999) -
+        (b.order ?? 999)
+    );
+
+
+/**
+ * ============================================================
+ * ALL ENABLED NAVIGATION
+ * ============================================================
+ *
+ * Useful for mobile menus and navigation systems that need
+ * one complete collection.
+ * ============================================================
+ */
+
+export const allEnabledNavigationItems =
+  [
+    ...enabledNavigationItems,
+    ...enabledExternalNavigationItems
+  ].sort(
+    (a, b) =>
+      (a.order ?? 999) -
+      (b.order ?? 999)
+  );
+
+
+/**
+ * ============================================================
+ * HELPERS
+ * ============================================================
+ */
+
+/**
+ * Find navigation item by its section/page id.
  */
 export function getNavigationItem(
   id: string
 ): NavigationItem | undefined {
-  return navigation.find(
-    (item) => item.id === id
+  return allEnabledNavigationItems.find(
+    (item) =>
+      item.id === id
   );
 }
 
-/**
- * ============================================================
- * MOBILE NAVIGATION
- * ============================================================
- *
- * The mobile menu will use the same source data.
- *
- * We do NOT need a second mobile navigation list.
- *
- * This prevents the desktop and mobile menus from becoming
- * inconsistent.
- * ============================================================
- */
 
-export function getMobileNavigation(): NavigationItem[] {
-  return getNavigation();
+/**
+ * Return only section-based navigation items.
+ */
+export function getSectionNavigationItems():
+  NavigationItem[] {
+  return enabledNavigationItems.filter(
+    (item) =>
+      item.type === "section"
+  );
+}
+
+
+/**
+ * Return only featured navigation items.
+ */
+export function getFeaturedNavigationItems():
+  NavigationItem[] {
+  return allEnabledNavigationItems.filter(
+    (item) =>
+      item.featured === true
+  );
 }
