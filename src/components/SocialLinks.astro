@@ -1,0 +1,290 @@
+---
+/**
+ * ============================================================
+ * SOCIAL LINKS
+ * ============================================================
+ *
+ * Reusable collection of social / professional links.
+ *
+ * ============================================================
+ */
+
+import Icon from "./Icon.astro";
+
+interface SocialLink {
+  label: string;
+
+  href: string;
+
+  icon:
+    | "github"
+    | "linkedin"
+    | "mail"
+    | "external";
+}
+
+interface Props {
+  links: SocialLink[];
+
+  variant?:
+    | "default"
+    | "muted"
+    | "accent";
+
+  size?:
+    | "sm"
+    | "md"
+    | "lg";
+
+  showLabels?: boolean;
+
+  class?: string;
+}
+
+const {
+  links,
+  variant = "default",
+  size = "md",
+  showLabels = true,
+  class: className = ""
+} = Astro.props;
+---
+
+{
+  links.length > 0 && (
+    <nav
+      class:list={[
+        "social-links",
+        `social-links--${variant}`,
+        `social-links--${size}`,
+        {
+          "social-links--icon-only":
+            !showLabels
+        },
+        className
+      ]}
+      aria-label="Social links"
+    >
+      {
+        links.map((link) => {
+          const isExternal =
+            link.href.startsWith(
+              "http://"
+            ) ||
+            link.href.startsWith(
+              "https://"
+            );
+
+          return (
+            <a
+              href={link.href}
+              class="social-links__link"
+              target={
+                isExternal
+                  ? "_blank"
+                  : undefined
+              }
+              rel={
+                isExternal
+                  ? "noopener noreferrer"
+                  : undefined
+              }
+              aria-label={link.label}
+            >
+              <Icon
+                name={link.icon}
+                size={
+                  size === "lg"
+                    ? 19
+                    : size === "md"
+                      ? 17
+                      : 15
+                }
+              />
+
+              {
+                showLabels && (
+                  <span>
+                    {link.label}
+                  </span>
+                )
+              }
+            </a>
+          );
+        })
+      }
+    </nav>
+  )
+}
+
+
+<style>
+  .social-links {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 0.5rem;
+  }
+
+
+  .social-links__link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    width: fit-content;
+
+    padding:
+      0.55rem
+      0.7rem;
+
+    border:
+      1px solid
+      rgba(148, 163, 184, 0.14);
+
+    border-radius:
+      0.35rem;
+
+    color:
+      rgba(148, 163, 184, 0.88);
+
+    background:
+      rgba(15, 23, 42, 0.22);
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.65rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.07em;
+
+    line-height: 1;
+
+    text-decoration: none;
+
+    text-transform: uppercase;
+
+    transition:
+      color 160ms ease,
+      border-color 160ms ease,
+      background 160ms ease,
+      transform 160ms ease;
+  }
+
+
+  .social-links__link:hover {
+    color:
+      #f8fafc;
+
+    border-color:
+      rgba(103, 232, 249, 0.35);
+
+    background:
+      rgba(34, 211, 238, 0.06);
+
+    transform:
+      translateY(-1px);
+  }
+
+
+  /* ========================================================
+     VARIANTS
+     ======================================================== */
+
+  .social-links--muted
+  .social-links__link {
+    border-color:
+      rgba(148, 163, 184, 0.08);
+
+    color:
+      rgba(148, 163, 184, 0.7);
+
+    background:
+      transparent;
+  }
+
+
+  .social-links--accent
+  .social-links__link {
+    border-color:
+      rgba(103, 232, 249, 0.2);
+
+    color:
+      #67e8f9;
+
+    background:
+      rgba(34, 211, 238, 0.035);
+  }
+
+
+  /* ========================================================
+     SIZES
+     ======================================================== */
+
+  .social-links--sm
+  .social-links__link {
+    padding:
+      0.45rem
+      0.6rem;
+
+    font-size: 0.58rem;
+  }
+
+
+  .social-links--lg
+  .social-links__link {
+    padding:
+      0.7rem
+      0.85rem;
+
+    font-size: 0.7rem;
+  }
+
+
+  /* ========================================================
+     ICON ONLY
+     ======================================================== */
+
+  .social-links--icon-only
+  .social-links__link {
+    width: 2.5rem;
+    height: 2.5rem;
+
+    justify-content: center;
+
+    padding: 0;
+  }
+
+
+  .social-links--sm.social-links--icon-only
+  .social-links__link {
+    width: 2.15rem;
+    height: 2.15rem;
+  }
+
+
+  .social-links--lg.social-links--icon-only
+  .social-links__link {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+
+
+  @media (prefers-reduced-motion: reduce) {
+    .social-links__link {
+      transition: none;
+    }
+  }
+</style>
