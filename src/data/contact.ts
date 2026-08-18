@@ -3,155 +3,242 @@
  * CONTACT DATA
  * ============================================================
  *
- * Editable contact and professional availability information.
+ * Central source of truth for all professional contact
+ * information.
  *
- * IMPORTANT
- * ------------------------------------------------------------
- * This file contains CONTENT only.
+ * Change your contact details here instead of editing
+ * individual components.
  *
- * The visual design is handled by:
- *
- *     src/components/Contact.astro
- *
- * If you want to change your contact information later,
- * normally edit this file rather than the component.
  * ============================================================
  */
 
-export interface ContactLink {
+export interface ContactItem {
   label: string;
+
   value: string;
-  href: string;
-  icon: "email" | "linkedin" | "github" | "phone" | "location";
-  description?: string;
+
+  href?: string;
+
+  icon?: string;
+
   external?: boolean;
-}
 
+  accent?: "cyan" | "violet" | "blue" | "green";
 
-export interface ContactData {
-  eyebrow: string;
-  title: string;
-  description: string;
-  availability: string;
-  availabilityDescription: string;
-  links: ContactLink[];
-  responseTime: string;
-  location: string;
+  featured?: boolean;
+
+  enabled?: boolean;
 }
 
 
 /**
  * ============================================================
- * CONTACT PROFILE
+ * PRIMARY CONTACT INFORMATION
+ * ============================================================
+ *
+ * These values can be imported anywhere in the portfolio.
  * ============================================================
  */
 
-export const contact: ContactData = {
+export const contactInfo = {
+  email:
+    "your.email@example.com",
 
-  eyebrow:
-    "07 / Contact",
-
-  title:
-    "Let's automate something meaningful.",
-
-  description:
-    "Whether you are looking for an RPA specialist, automation consultant, solution architect or someone exploring the intersection of enterprise automation and Generative AI, I'd be happy to discuss the problem.",
-
-  availability:
-    "OPEN TO PROFESSIONAL OPPORTUNITIES",
-
-  availabilityDescription:
-    "Available for selected consulting, automation, architecture and technology opportunities.",
-
-  responseTime:
-    "Usually responds within 1–2 business days.",
+  phone:
+    "",
 
   location:
     "Saudi Arabia",
 
+  availability:
+    "OPEN TO OPPORTUNITIES",
 
-  /**
-   * ----------------------------------------------------------
-   * CONTACT CHANNELS
-   * ----------------------------------------------------------
-   *
-   * Replace the placeholder values with your real information.
-   *
-   * Examples:
-   *
-   * email:
-   * mailto:your@email.com
-   *
-   * LinkedIn:
-   * https://www.linkedin.com/in/your-profile/
-   *
-   * GitHub:
-   * https://github.com/your-username
-   *
-   * ----------------------------------------------------------
-   */
+  linkedin:
+    "https://www.linkedin.com/in/your-profile",
 
-  links: [
+  github:
+    "https://github.com/your-profile",
 
-    {
-      label:
-        "Email",
-
-      value:
-        "your.email@example.com",
-
-      href:
-        "mailto:your.email@example.com",
-
-      icon:
-        "email",
-
-      description:
-        "Best for professional enquiries."
-    },
-
-
-    {
-      label:
-        "LinkedIn",
-
-      value:
-        "linkedin.com/in/your-profile",
-
-      href:
-        "https://www.linkedin.com/",
-
-      icon:
-        "linkedin",
-
-      description:
-        "Connect professionally.",
-
-      external:
-        true
-    },
-
-
-    {
-      label:
-        "GitHub",
-
-      value:
-        "github.com/hafizmahsan",
-
-      href:
-        "https://github.com/hafizmahsan",
-
-      icon:
-        "github",
-
-      description:
-        "Explore projects and technical work.",
-
-      external:
-        true
-    }
-
-  ]
-
+  resume:
+    "/resume.pdf"
 };
+
+
+/**
+ * ============================================================
+ * CONTACT CARDS
+ * ============================================================
+ *
+ * The ContactCard component can consume this collection
+ * directly.
+ *
+ * Set `enabled: false` if you don't want a particular
+ * contact method displayed.
+ *
+ * ============================================================
+ */
+
+export const contactItems: ContactItem[] = [
+  {
+    label:
+      "EMAIL",
+
+    value:
+      contactInfo.email,
+
+    href:
+      `mailto:${contactInfo.email}`,
+
+    icon:
+      "@",
+
+    accent:
+      "cyan",
+
+    featured:
+      true,
+
+    enabled:
+      true
+  },
+
+
+  {
+    label:
+      "LINKEDIN",
+
+    value:
+      "Professional Profile",
+
+    href:
+      contactInfo.linkedin,
+
+    icon:
+      "in",
+
+    external:
+      true,
+
+    accent:
+      "blue",
+
+    enabled:
+      true
+  },
+
+
+  {
+    label:
+      "GITHUB",
+
+    value:
+      "Projects & Open Source",
+
+    href:
+      contactInfo.github,
+
+    icon:
+      "⌘",
+
+    external:
+      true,
+
+    accent:
+      "violet",
+
+    enabled:
+      true
+  },
+
+
+  {
+    label:
+      "LOCATION",
+
+    value:
+      contactInfo.location,
+
+    icon:
+      "⌖",
+
+    accent:
+      "green",
+
+    enabled:
+      true
+  },
+
+
+  {
+    label:
+      "AVAILABILITY",
+
+    value:
+      contactInfo.availability,
+
+    icon:
+      "◉",
+
+    accent:
+      "green",
+
+    enabled:
+      true
+  },
+
+
+  {
+    label:
+      "RESUME / CV",
+
+    value:
+      "Download Resume",
+
+    href:
+      contactInfo.resume,
+
+    icon:
+      "↓",
+
+    accent:
+      "cyan",
+
+    enabled:
+      true
+  }
+];
+
+
+/**
+ * ============================================================
+ * ENABLED CONTACT ITEMS
+ * ============================================================
+ *
+ * Automatically removes disabled items.
+ * ============================================================
+ */
+
+export const enabledContactItems =
+  contactItems.filter(
+    (contact) =>
+      contact.enabled !== false
+  );
+
+
+/**
+ * ============================================================
+ * HELPER
+ * ============================================================
+ *
+ * Find a contact item by its label.
+ * ============================================================
+ */
+
+export function getContactItem(
+  label: string
+): ContactItem | undefined {
+  return contactItems.find(
+    (contact) =>
+      contact.label === label
+  );
+}
