@@ -4,15 +4,15 @@
  * STAT CARD
  * ============================================================
  *
- * Reusable statistics / achievement card.
+ * Reusable portfolio metric / statistic card.
  *
- * Example:
- *
- * <StatCard
- *   value="6+"
- *   label="YEARS EXPERIENCE"
- *   description="Enterprise IT & automation"
- * />
+ * Intended for:
+ * - Experience
+ * - Projects
+ * - Technologies
+ * - Enterprise domains
+ * - Certifications
+ * - Current learning
  *
  * ============================================================
  */
@@ -23,39 +23,60 @@ interface Props {
   description?: string;
   icon?: string;
   accent?: "cyan" | "violet" | "blue" | "green";
-  index?: number;
+  index?: string;
+  compact?: boolean;
 }
 
 const {
   value,
   label,
   description,
-  icon = "◈",
+  icon = "◇",
   accent = "cyan",
-  index = 0
+  index = "01",
+  compact = false
 } = Astro.props;
 ---
 
 <article
   class:list={[
     "stat-card",
-    `stat-card-${accent}`
+    `stat-card-${accent}`,
+    {
+      "stat-card-compact": compact
+    }
   ]}
-  data-stat-card
 >
 
   <!-- ======================================================
-       TECHNICAL INDEX
+       TOP BAR
        ====================================================== -->
 
   <div class="stat-top">
 
     <span class="stat-index">
-      //
-      {(index + 1)
-        .toString()
-        .padStart(2, "0")}
+      {index}
     </span>
+
+    <span class="stat-system">
+      METRIC
+    </span>
+
+    <span
+      class="stat-status"
+      aria-hidden="true"
+    >
+      <span></span>
+    </span>
+
+  </div>
+
+
+  <!-- ======================================================
+       ICON
+       ====================================================== -->
+
+  <div class="stat-icon-wrap">
 
     <span
       class="stat-icon"
@@ -80,9 +101,9 @@ const {
        LABEL
        ====================================================== -->
 
-  <h3 class="stat-label">
+  <div class="stat-label">
     {label}
-  </h3>
+  </div>
 
 
   <!-- ======================================================
@@ -99,14 +120,17 @@ const {
 
 
   <!-- ======================================================
-       TECHNICAL FOOTER
+       NETWORK LINE
        ====================================================== -->
 
-  <div class="stat-footer">
+  <div
+    class="stat-network"
+    aria-hidden="true"
+  >
 
-    <span class="footer-line"></span>
+    <span class="stat-network-line"></span>
 
-    <span class="footer-node"></span>
+    <span class="stat-network-node"></span>
 
   </div>
 
@@ -115,18 +139,21 @@ const {
 
 <style>
   /* ========================================================
-     CARD
+     BASE
      ======================================================== */
 
   .stat-card {
     position:
       relative;
 
+    min-width:
+      0;
+
     min-height:
-      175px;
+      190px;
 
     padding:
-      1.15rem;
+      1rem;
 
     border:
       1px solid var(--color-border);
@@ -135,149 +162,53 @@ const {
       0.55rem;
 
     background:
-      linear-gradient(
-        145deg,
-        rgba(148, 163, 184, 0.018),
-        rgba(148, 163, 184, 0.005)
-      );
+      rgba(148, 163, 184, 0.012);
 
     overflow:
       hidden;
 
     transition:
-      transform var(--duration-normal) var(--ease-standard),
       border-color var(--duration-normal) var(--ease-standard),
       background var(--duration-normal) var(--ease-standard),
+      transform var(--duration-normal) var(--ease-standard),
       box-shadow var(--duration-normal) var(--ease-standard);
   }
 
 
-  /* ========================================================
-     TECHNICAL GRID
-     ======================================================== */
-
-  .stat-card::before {
-    content:
-      "";
-
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    background-image:
-      linear-gradient(
-        rgba(34, 211, 238, 0.035) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        90deg,
-        rgba(34, 211, 238, 0.035) 1px,
-        transparent 1px
-      );
-
-    background-size:
-      28px 28px;
-
-    mask-image:
-      linear-gradient(
-        135deg,
-        black,
-        transparent 65%
-      );
-
-    pointer-events:
-      none;
-
-    opacity:
-      0.5;
-  }
-
-
-  /* ========================================================
-     GLOW
-     ======================================================== */
-
-  .stat-card::after {
-    content:
-      "";
-
-    position:
-      absolute;
-
-    top:
-      -80px;
-
-    right:
-      -80px;
-
-    width:
-      160px;
-
-    height:
-      160px;
-
-    border-radius:
-      50%;
-
-    background:
-      radial-gradient(
-        circle,
-        rgba(34, 211, 238, 0.08),
-        transparent 65%
-      );
-
-    pointer-events:
-      none;
-  }
-
-
-  /* ========================================================
-     HOVER
-     ======================================================== */
-
   .stat-card:hover {
+    transform:
+      translateY(-4px);
+
     border-color:
       rgba(34, 211, 238, 0.2);
 
     background:
-      linear-gradient(
-        145deg,
-        rgba(34, 211, 238, 0.025),
-        rgba(148, 163, 184, 0.006)
-      );
-
-    transform:
-      translateY(-4px);
+      rgba(34, 211, 238, 0.018);
 
     box-shadow:
-      0 20px 55px rgba(0, 0, 0, 0.12);
+      0 18px 55px rgba(0, 0, 0, 0.12);
   }
 
 
   /* ========================================================
-     TOP
+     TOP BAR
      ======================================================== */
 
   .stat-top {
-    position:
-      relative;
-
-    z-index:
-      2;
-
     display:
-      flex;
+      grid;
+
+    grid-template-columns:
+      auto 1fr auto;
 
     align-items:
       center;
 
-    justify-content:
-      space-between;
+    gap:
+      0.5rem;
 
     margin-bottom:
-      1.4rem;
+      1.1rem;
   }
 
 
@@ -289,10 +220,108 @@ const {
       var(--font-mono);
 
     font-size:
-      0.35rem;
+      0.3rem;
+
+    opacity:
+      0.7;
+  }
+
+
+  .stat-system {
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.27rem;
 
     letter-spacing:
-      0.03em;
+      0.05em;
+
+    text-transform:
+      uppercase;
+  }
+
+
+  .stat-status {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    width:
+      11px;
+
+    height:
+      11px;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.16);
+
+    border-radius:
+      50%;
+  }
+
+
+  .stat-status span {
+    width:
+      3px;
+
+    height:
+      3px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 7px rgba(34, 211, 238, 0.7);
+
+    animation:
+      stat-status-pulse 2.4s ease-in-out infinite;
+  }
+
+
+  @keyframes stat-status-pulse {
+
+    0%,
+    100% {
+      opacity:
+        0.35;
+    }
+
+    50% {
+      opacity:
+        1;
+    }
+
+  }
+
+
+  /* ========================================================
+     ICON
+     ======================================================== */
+
+  .stat-icon-wrap {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      flex-start;
+
+    margin-bottom:
+      0.75rem;
   }
 
 
@@ -307,16 +336,16 @@ const {
       center;
 
     width:
-      27px;
+      30px;
 
     height:
-      27px;
+      30px;
 
     border:
-      1px solid rgba(34, 211, 238, 0.16);
+      1px solid rgba(34, 211, 238, 0.18);
 
     border-radius:
-      0.35rem;
+      0.3rem;
 
     color:
       var(--color-cyan);
@@ -328,11 +357,13 @@ const {
       var(--font-mono);
 
     font-size:
-      0.65rem;
+      0.7rem;
+
+    box-shadow:
+      inset 0 0 20px rgba(34, 211, 238, 0.015);
 
     transition:
-      transform var(--duration-normal) var(--ease-standard),
-      border-color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard),
       box-shadow var(--duration-fast) var(--ease-standard);
   }
 
@@ -340,15 +371,11 @@ const {
   .stat-card:hover
     .stat-icon {
 
-    border-color:
-      rgba(34, 211, 238, 0.3);
+    transform:
+      rotate(6deg);
 
     box-shadow:
-      0 0 20px rgba(34, 211, 238, 0.08);
-
-    transform:
-      rotate(8deg);
-
+      0 0 18px rgba(34, 211, 238, 0.08);
   }
 
 
@@ -357,12 +384,6 @@ const {
      ======================================================== */
 
   .stat-value {
-    position:
-      relative;
-
-    z-index:
-      2;
-
     color:
       var(--color-text);
 
@@ -370,20 +391,16 @@ const {
       var(--font-display);
 
     font-size:
-      clamp(
-        2.1rem,
-        4vw,
-        3.2rem
-      );
+      clamp(1.55rem, 4vw, 2.35rem);
 
     font-weight:
-      500;
-
-    line-height:
-      0.9;
+      650;
 
     letter-spacing:
-      -0.06em;
+      -0.04em;
+
+    line-height:
+      0.95;
   }
 
 
@@ -392,29 +409,26 @@ const {
      ======================================================== */
 
   .stat-label {
-    position:
-      relative;
-
-    z-index:
-      2;
-
-    margin:
-      0.55rem 0 0;
+    margin-top:
+      0.4rem;
 
     color:
-      var(--color-cyan);
+      var(--color-text-muted);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.43rem;
+      0.37rem;
 
     font-weight:
       500;
 
     letter-spacing:
-      0.05em;
+      0.035em;
+
+    text-transform:
+      uppercase;
   }
 
 
@@ -423,23 +437,20 @@ const {
      ======================================================== */
 
   .stat-description {
-    position:
-      relative;
-
-    z-index:
-      2;
-
     max-width:
-      220px;
+      250px;
 
     margin:
-      0.5rem 0 0;
+      0.6rem 0 0;
 
     color:
       var(--color-text-subtle);
 
+    font-family:
+      var(--font-body);
+
     font-size:
-      0.47rem;
+      0.72rem;
 
     line-height:
       1.6;
@@ -447,39 +458,42 @@ const {
 
 
   /* ========================================================
-     FOOTER
+     NETWORK
      ======================================================== */
 
-  .stat-footer {
+  .stat-network {
     position:
       absolute;
 
     right:
-      1.15rem;
+      0.9rem;
 
     bottom:
-      1rem;
+      0.8rem;
 
-    left:
-      1.15rem;
+    width:
+      60px;
 
-    display:
-      flex;
+    height:
+      22px;
 
-    align-items:
-      center;
-
-    gap:
-      0.35rem;
+    opacity:
+      0.7;
   }
 
 
-  .footer-line {
-    display:
-      block;
+  .stat-network-line {
+    position:
+      absolute;
 
-    flex:
-      1;
+    top:
+      50%;
+
+    left:
+      0;
+
+    width:
+      100%;
 
     height:
       1px;
@@ -487,18 +501,28 @@ const {
     background:
       linear-gradient(
         90deg,
+        transparent,
         var(--color-border),
         transparent
       );
   }
 
 
-  .footer-node {
+  .stat-network-node {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    right:
+      0;
+
     width:
-      4px;
+      5px;
 
     height:
-      4px;
+      5px;
 
     border:
       1px solid var(--color-cyan);
@@ -509,8 +533,27 @@ const {
     background:
       var(--color-bg);
 
+    transform:
+      translateY(-50%);
+
     box-shadow:
-      0 0 7px rgba(34, 211, 238, 0.35);
+      0 0 8px rgba(34, 211, 238, 0.35);
+  }
+
+
+  /* ========================================================
+     CYAN
+     ======================================================== */
+
+  .stat-card-cyan
+    .stat-icon {
+
+    color:
+      var(--color-cyan);
+
+    border-color:
+      rgba(34, 211, 238, 0.18);
+
   }
 
 
@@ -525,7 +568,7 @@ const {
       var(--color-violet);
 
     border-color:
-      rgba(139, 92, 246, 0.16);
+      rgba(139, 92, 246, 0.18);
 
     background:
       rgba(139, 92, 246, 0.025);
@@ -534,22 +577,34 @@ const {
 
 
   .stat-card-violet
-    .stat-label {
+    .stat-status {
 
-    color:
-      var(--color-violet);
+    border-color:
+      rgba(139, 92, 246, 0.16);
 
   }
 
 
   .stat-card-violet
-    .footer-node {
+    .stat-status span {
+
+    background:
+      var(--color-violet);
+
+    box-shadow:
+      0 0 7px rgba(139, 92, 246, 0.7);
+
+  }
+
+
+  .stat-card-violet
+    .stat-network-node {
 
     border-color:
       var(--color-violet);
 
     box-shadow:
-      0 0 7px rgba(139, 92, 246, 0.35);
+      0 0 8px rgba(139, 92, 246, 0.35);
 
   }
 
@@ -559,11 +614,8 @@ const {
       rgba(139, 92, 246, 0.2);
 
     background:
-      linear-gradient(
-        145deg,
-        rgba(139, 92, 246, 0.025),
-        rgba(148, 163, 184, 0.006)
-      );
+      rgba(139, 92, 246, 0.018);
+
   }
 
 
@@ -578,7 +630,7 @@ const {
       var(--color-blue);
 
     border-color:
-      rgba(59, 130, 246, 0.16);
+      rgba(59, 130, 246, 0.18);
 
     background:
       rgba(59, 130, 246, 0.025);
@@ -587,22 +639,34 @@ const {
 
 
   .stat-card-blue
-    .stat-label {
+    .stat-status {
 
-    color:
-      var(--color-blue);
+    border-color:
+      rgba(59, 130, 246, 0.16);
 
   }
 
 
   .stat-card-blue
-    .footer-node {
+    .stat-status span {
+
+    background:
+      var(--color-blue);
+
+    box-shadow:
+      0 0 7px rgba(59, 130, 246, 0.7);
+
+  }
+
+
+  .stat-card-blue
+    .stat-network-node {
 
     border-color:
       var(--color-blue);
 
     box-shadow:
-      0 0 7px rgba(59, 130, 246, 0.35);
+      0 0 8px rgba(59, 130, 246, 0.35);
 
   }
 
@@ -612,11 +676,8 @@ const {
       rgba(59, 130, 246, 0.2);
 
     background:
-      linear-gradient(
-        145deg,
-        rgba(59, 130, 246, 0.025),
-        rgba(148, 163, 184, 0.006)
-      );
+      rgba(59, 130, 246, 0.018);
+
   }
 
 
@@ -631,7 +692,7 @@ const {
       #4ade80;
 
     border-color:
-      rgba(74, 222, 128, 0.16);
+      rgba(74, 222, 128, 0.18);
 
     background:
       rgba(74, 222, 128, 0.025);
@@ -640,22 +701,34 @@ const {
 
 
   .stat-card-green
-    .stat-label {
+    .stat-status {
 
-    color:
-      #4ade80;
+    border-color:
+      rgba(74, 222, 128, 0.16);
 
   }
 
 
   .stat-card-green
-    .footer-node {
+    .stat-status span {
+
+    background:
+      #4ade80;
+
+    box-shadow:
+      0 0 7px rgba(74, 222, 128, 0.7);
+
+  }
+
+
+  .stat-card-green
+    .stat-network-node {
 
     border-color:
       #4ade80;
 
     box-shadow:
-      0 0 7px rgba(74, 222, 128, 0.35);
+      0 0 8px rgba(74, 222, 128, 0.35);
 
   }
 
@@ -665,11 +738,59 @@ const {
       rgba(74, 222, 128, 0.2);
 
     background:
-      linear-gradient(
-        145deg,
-        rgba(74, 222, 128, 0.025),
-        rgba(148, 163, 184, 0.006)
-      );
+      rgba(74, 222, 128, 0.018);
+
+  }
+
+
+  /* ========================================================
+     COMPACT
+     ======================================================== */
+
+  .stat-card-compact {
+    min-height:
+      150px;
+
+    padding:
+      0.8rem;
+  }
+
+
+  .stat-card-compact
+    .stat-top {
+
+    margin-bottom:
+      0.7rem;
+  }
+
+
+  .stat-card-compact
+    .stat-icon-wrap {
+
+    margin-bottom:
+      0.5rem;
+  }
+
+
+  .stat-card-compact
+    .stat-icon {
+
+    width:
+      25px;
+
+    height:
+      25px;
+
+    font-size:
+      0.58rem;
+  }
+
+
+  .stat-card-compact
+    .stat-value {
+
+    font-size:
+      1.5rem;
   }
 
 
@@ -689,8 +810,20 @@ const {
   :global([data-theme="light"])
     .stat-card:hover {
 
+    background:
+      rgba(14, 116, 144, 0.018);
+
     box-shadow:
-      0 20px 55px rgba(15, 23, 42, 0.07);
+      0 18px 55px rgba(15, 23, 42, 0.07);
+
+  }
+
+
+  :global([data-theme="light"])
+    .stat-icon {
+
+    background:
+      rgba(14, 116, 144, 0.025);
 
   }
 
@@ -703,28 +836,22 @@ const {
 
     .stat-card {
       min-height:
-        150px;
+        170px;
 
       padding:
-        1rem;
+        0.85rem;
     }
 
 
     .stat-value {
       font-size:
-        2.3rem;
+        1.75rem;
     }
 
 
-    .stat-footer {
-      right:
-        1rem;
-
-      bottom:
-        0.85rem;
-
-      left:
-        1rem;
+    .stat-description {
+      font-size:
+        0.67rem;
     }
 
   }
@@ -737,7 +864,11 @@ const {
   @media (prefers-reduced-motion: reduce) {
 
     .stat-card,
-    .stat-icon {
+    .stat-icon,
+    .stat-status span {
+      animation:
+        none;
+
       transition:
         none;
     }
