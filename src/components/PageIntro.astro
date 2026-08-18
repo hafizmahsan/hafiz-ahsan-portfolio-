@@ -1,0 +1,319 @@
+---
+/**
+ * ============================================================
+ * PAGE INTRO
+ * ============================================================
+ *
+ * Reusable page-level introduction.
+ *
+ * ============================================================
+ */
+
+import Stack from "./Stack.astro";
+import StatusIndicator from "./StatusIndicator.astro";
+
+interface Props {
+  eyebrow?: string;
+
+  title: string;
+
+  description?: string;
+
+  number?: string;
+
+  status?: string;
+
+  statusVariant?:
+    | "online"
+    | "available"
+    | "current"
+    | "progress"
+    | "complete"
+    | "offline"
+    | "warning";
+
+  align?:
+    | "left"
+    | "center";
+
+  size?:
+    | "md"
+    | "lg"
+    | "xl";
+
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  number,
+  status,
+  statusVariant = "available",
+  align = "left",
+  size = "lg",
+  class: className = ""
+} = Astro.props;
+---
+
+<header
+  class:list={[
+    "page-intro",
+    `page-intro--${align}`,
+    `page-intro--${size}`,
+    className
+  ]}
+>
+  <Stack gap="lg">
+
+    {
+      (number || eyebrow || status) && (
+        <div class="page-intro__meta">
+
+          {
+            (number || eyebrow) && (
+              <div class="page-intro__eyebrow">
+
+                {
+                  number && (
+                    <span class="page-intro__number">
+                      {number}
+                    </span>
+                  )
+                }
+
+                {
+                  number && eyebrow && (
+                    <span
+                      class="page-intro__separator"
+                      aria-hidden="true"
+                    >
+                      /
+                    </span>
+                  )
+                }
+
+                {
+                  eyebrow && (
+                    <span>
+                      {eyebrow}
+                    </span>
+                  )
+                }
+
+              </div>
+            )
+          }
+
+
+          {
+            status && (
+              <StatusIndicator
+                label={status}
+                variant={statusVariant}
+                pulse
+              />
+            )
+          }
+
+        </div>
+      )
+    }
+
+
+    <h1 class="page-intro__title">
+      {title}
+    </h1>
+
+
+    {
+      description && (
+        <p class="page-intro__description">
+          {description}
+        </p>
+      )
+    }
+
+  </Stack>
+</header>
+
+
+<style>
+  .page-intro {
+    width: 100%;
+  }
+
+
+  .page-intro--left {
+    text-align: left;
+  }
+
+
+  .page-intro--center {
+    max-width: 58rem;
+
+    margin-inline: auto;
+
+    text-align: center;
+  }
+
+
+  /* ========================================================
+     META
+     ======================================================== */
+
+  .page-intro__meta {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    flex-wrap: wrap;
+  }
+
+
+  .page-intro--center
+  .page-intro__meta {
+    justify-content: center;
+  }
+
+
+  .page-intro__eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.55rem;
+
+    color:
+      rgba(103, 232, 249, 0.9);
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.68rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+  }
+
+
+  .page-intro__number {
+    color:
+      rgba(103, 232, 249, 0.95);
+  }
+
+
+  .page-intro__separator {
+    color:
+      rgba(148, 163, 184, 0.35);
+  }
+
+
+  /* ========================================================
+     TITLE
+     ======================================================== */
+
+  .page-intro__title {
+    max-width: 18ch;
+
+    margin: 0;
+
+    color:
+      #f8fafc;
+
+    font-family:
+      Inter,
+      ui-sans-serif,
+      system-ui,
+      sans-serif;
+
+    font-weight: 750;
+
+    letter-spacing: -0.055em;
+
+    line-height: 0.9;
+  }
+
+
+  .page-intro--center
+  .page-intro__title {
+    margin-inline: auto;
+  }
+
+
+  .page-intro--md
+  .page-intro__title {
+    font-size:
+      clamp(3rem, 8vw, 5.5rem);
+  }
+
+
+  .page-intro--lg
+  .page-intro__title {
+    font-size:
+      clamp(3.5rem, 10vw, 7.5rem);
+  }
+
+
+  .page-intro--xl
+  .page-intro__title {
+    font-size:
+      clamp(4rem, 12vw, 9rem);
+  }
+
+
+  /* ========================================================
+     DESCRIPTION
+     ======================================================== */
+
+  .page-intro__description {
+    max-width: 44rem;
+
+    margin: 0;
+
+    color:
+      rgba(148, 163, 184, 0.92);
+
+    font-size:
+      clamp(1rem, 1.8vw, 1.2rem);
+
+    line-height: 1.75;
+  }
+
+
+  .page-intro--center
+  .page-intro__description {
+    margin-inline: auto;
+  }
+
+
+  @media (max-width: 640px) {
+    .page-intro__meta {
+      align-items: flex-start;
+
+      flex-direction: column;
+    }
+
+
+    .page-intro__title {
+      max-width: 100%;
+
+      letter-spacing: -0.045em;
+    }
+  }
+</style>
