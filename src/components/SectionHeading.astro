@@ -1,36 +1,81 @@
 ---
+/**
+ * ============================================================
+ * SECTION HEADING
+ * ============================================================
+ *
+ * Reusable heading component for portfolio sections.
+ *
+ * Example:
+ *
+ * <SectionHeading
+ *   number="01"
+ *   eyebrow="EXPERIENCE"
+ *   title="Building automation systems that scale."
+ *   description="..."
+ * />
+ *
+ * ============================================================
+ */
+
 interface Props {
+  number: string;
   eyebrow: string;
   title: string;
   description?: string;
   align?: "left" | "center";
+  accent?: "cyan" | "violet" | "blue";
 }
 
 const {
+  number,
   eyebrow,
   title,
   description,
   align = "left",
+  accent = "cyan"
 } = Astro.props;
 ---
 
-<div class:list={["section-heading", `section-heading-${align}`]}>
+<div
+  class:list={[
+    "section-heading",
+    `section-heading-${align}`,
+    `section-heading-${accent}`
+  ]}
+>
 
-  <div class="section-eyebrow">
-    <span class="eyebrow-line"></span>
+  <!-- ======================================================
+       TECHNICAL META
+       ====================================================== -->
 
-    <span>
+  <div class="section-heading-meta">
+
+    <span class="section-number">
+      {number}
+    </span>
+
+    <span class="section-line"></span>
+
+    <span class="section-eyebrow">
       {eyebrow}
     </span>
 
-    <span class="eyebrow-index">
-      //
-    </span>
   </div>
+
+
+  <!-- ======================================================
+       TITLE
+       ====================================================== -->
 
   <h2 class="section-title">
     {title}
   </h2>
+
+
+  <!-- ======================================================
+       DESCRIPTION
+       ====================================================== -->
 
   {
     description && (
@@ -40,107 +85,390 @@ const {
     )
   }
 
+
+  <!-- ======================================================
+       DECORATIVE NODE
+       ====================================================== -->
+
+  <span
+    class="section-node"
+    aria-hidden="true"
+  ></span>
+
 </div>
 
 
 <style>
+  /* ========================================================
+     BASE
+     ======================================================== */
+
   .section-heading {
-    position: relative;
-    max-width: 760px;
-    margin-bottom: 3.5rem;
+    position:
+      relative;
+
+    width:
+      100%;
+
+    margin-bottom:
+      3.5rem;
   }
 
-  .section-heading-center {
-    margin-inline: auto;
-    text-align: center;
+
+  /* ========================================================
+     META
+     ======================================================== */
+
+  .section-heading-meta {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.7rem;
+
+    margin-bottom:
+      1rem;
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.42rem;
+
+    letter-spacing:
+      0.08em;
+
+    text-transform:
+      uppercase;
   }
 
-  .section-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    margin-bottom: 1rem;
 
-    color: var(--color-cyan);
+  .section-number {
+    color:
+      var(--color-cyan);
 
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    font-weight: 500;
+    font-size:
+      0.4rem;
 
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-weight:
+      600;
   }
 
-  .eyebrow-line {
-    width: 2rem;
-    height: 1px;
+
+  .section-line {
+    display:
+      block;
+
+    width:
+      35px;
+
+    height:
+      1px;
 
     background:
       linear-gradient(
         90deg,
-        var(--color-cyan),
+        currentColor,
         transparent
       );
+
+    opacity:
+      0.55;
   }
 
-  .section-heading-center .eyebrow-line {
+
+  .section-eyebrow {
+    color:
+      var(--color-text-muted);
+  }
+
+
+  /* ========================================================
+     TITLE
+     ======================================================== */
+
+  .section-title {
+    max-width:
+      850px;
+
+    margin:
+      0;
+
+    color:
+      var(--color-text);
+
+    font-family:
+      var(--font-display);
+
+    font-size:
+      clamp(
+        2rem,
+        4vw,
+        4rem
+      );
+
+    font-weight:
+      500;
+
+    line-height:
+      0.98;
+
+    letter-spacing:
+      -0.055em;
+  }
+
+
+  /* ========================================================
+     DESCRIPTION
+     ======================================================== */
+
+  .section-description {
+    max-width:
+      650px;
+
+    margin:
+      1.2rem 0 0;
+
+    color:
+      var(--color-text-muted);
+
+    font-size:
+      0.72rem;
+
+    line-height:
+      1.8;
+  }
+
+
+  /* ========================================================
+     DECORATIVE NODE
+     ======================================================== */
+
+  .section-node {
+    position:
+      absolute;
+
+    top:
+      0;
+
+    right:
+      1rem;
+
+    width:
+      6px;
+
+    height:
+      6px;
+
+    border:
+      1px solid var(--color-cyan);
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-bg);
+
+    box-shadow:
+      0 0 12px rgba(34, 211, 238, 0.4);
+  }
+
+
+  .section-node::before,
+  .section-node::after {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    width:
+      45px;
+
+    height:
+      1px;
+
     background:
       linear-gradient(
         90deg,
         transparent,
-        var(--color-cyan)
+        rgba(34, 211, 238, 0.2)
       );
   }
 
-  .eyebrow-index {
-    color: var(--color-text-subtle);
+
+  .section-node::before {
+    right:
+      100%;
+
+    transform:
+      translateY(-50%)
+      rotate(180deg);
   }
 
-  .section-title {
-    margin: 0;
 
-    color: var(--color-text);
+  .section-node::after {
+    left:
+      100%;
 
-    font-family: var(--font-display);
-    font-size: clamp(2.3rem, 5vw, 4.5rem);
-    font-weight: 600;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(34, 211, 238, 0.2),
+        transparent
+      );
 
-    letter-spacing: -0.045em;
-    line-height: 1.02;
+    transform:
+      translateY(-50%);
   }
 
-  .section-description {
-    max-width: 680px;
-    margin-top: 1.25rem;
 
-    color: var(--color-text-secondary);
+  /* ========================================================
+     CENTER ALIGNMENT
+     ======================================================== */
 
-    font-size: 1rem;
-    line-height: 1.8;
+  .section-heading-center {
+    text-align:
+      center;
   }
 
-  .section-heading-center .section-description {
-    margin-inline: auto;
+
+  .section-heading-center
+    .section-heading-meta {
+
+    justify-content:
+      center;
+
   }
 
-  @media (max-width: 640px) {
+
+  .section-heading-center
+    .section-title {
+
+    margin-left:
+      auto;
+
+    margin-right:
+      auto;
+
+  }
+
+
+  .section-heading-center
+    .section-description {
+
+    margin-left:
+      auto;
+
+    margin-right:
+      auto;
+
+  }
+
+
+  /* ========================================================
+     ACCENT VARIATIONS
+     ======================================================== */
+
+  .section-heading-violet
+    .section-number {
+
+    color:
+      var(--color-violet);
+
+  }
+
+
+  .section-heading-violet
+    .section-node {
+
+    border-color:
+      var(--color-violet);
+
+    box-shadow:
+      0 0 12px rgba(139, 92, 246, 0.4);
+
+  }
+
+
+  .section-heading-blue
+    .section-number {
+
+    color:
+      var(--color-blue);
+
+  }
+
+
+  .section-heading-blue
+    .section-node {
+
+    border-color:
+      var(--color-blue);
+
+    box-shadow:
+      0 0 12px rgba(59, 130, 246, 0.4);
+
+  }
+
+
+  /* ========================================================
+     RESPONSIVE
+     ======================================================== */
+
+  @media (max-width: 700px) {
+
     .section-heading {
-      margin-bottom: 2.5rem;
+      margin-bottom:
+        2.5rem;
     }
+
 
     .section-title {
-      font-size: clamp(2.15rem, 11vw, 3.25rem);
+      font-size:
+        clamp(
+          1.8rem,
+          9vw,
+          2.7rem
+        );
     }
+
 
     .section-description {
-      font-size: 0.92rem;
+      font-size:
+        0.65rem;
+      line-height:
+        1.75;
     }
+
+
+    .section-node {
+      right:
+        0;
+    }
+
   }
 
+
+  /* ========================================================
+     REDUCED MOTION / ACCESSIBILITY
+     ======================================================== */
+
   @media (prefers-reduced-motion: reduce) {
-    .section-heading * {
-      transition: none;
-      animation: none;
+
+    .section-heading {
+      scroll-behavior:
+        auto;
     }
+
   }
 </style>
