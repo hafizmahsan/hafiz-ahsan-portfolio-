@@ -1,0 +1,746 @@
+---
+/**
+ * ============================================================
+ * STAT CARD
+ * ============================================================
+ *
+ * Reusable statistics / achievement card.
+ *
+ * Example:
+ *
+ * <StatCard
+ *   value="6+"
+ *   label="YEARS EXPERIENCE"
+ *   description="Enterprise IT & automation"
+ * />
+ *
+ * ============================================================
+ */
+
+interface Props {
+  value: string;
+  label: string;
+  description?: string;
+  icon?: string;
+  accent?: "cyan" | "violet" | "blue" | "green";
+  index?: number;
+}
+
+const {
+  value,
+  label,
+  description,
+  icon = "◈",
+  accent = "cyan",
+  index = 0
+} = Astro.props;
+---
+
+<article
+  class:list={[
+    "stat-card",
+    `stat-card-${accent}`
+  ]}
+  data-stat-card
+>
+
+  <!-- ======================================================
+       TECHNICAL INDEX
+       ====================================================== -->
+
+  <div class="stat-top">
+
+    <span class="stat-index">
+      //
+      {(index + 1)
+        .toString()
+        .padStart(2, "0")}
+    </span>
+
+    <span
+      class="stat-icon"
+      aria-hidden="true"
+    >
+      {icon}
+    </span>
+
+  </div>
+
+
+  <!-- ======================================================
+       VALUE
+       ====================================================== -->
+
+  <div class="stat-value">
+    {value}
+  </div>
+
+
+  <!-- ======================================================
+       LABEL
+       ====================================================== -->
+
+  <h3 class="stat-label">
+    {label}
+  </h3>
+
+
+  <!-- ======================================================
+       DESCRIPTION
+       ====================================================== -->
+
+  {
+    description && (
+      <p class="stat-description">
+        {description}
+      </p>
+    )
+  }
+
+
+  <!-- ======================================================
+       TECHNICAL FOOTER
+       ====================================================== -->
+
+  <div class="stat-footer">
+
+    <span class="footer-line"></span>
+
+    <span class="footer-node"></span>
+
+  </div>
+
+</article>
+
+
+<style>
+  /* ========================================================
+     CARD
+     ======================================================== */
+
+  .stat-card {
+    position:
+      relative;
+
+    min-height:
+      175px;
+
+    padding:
+      1.15rem;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      0.55rem;
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(148, 163, 184, 0.018),
+        rgba(148, 163, 184, 0.005)
+      );
+
+    overflow:
+      hidden;
+
+    transition:
+      transform var(--duration-normal) var(--ease-standard),
+      border-color var(--duration-normal) var(--ease-standard),
+      background var(--duration-normal) var(--ease-standard),
+      box-shadow var(--duration-normal) var(--ease-standard);
+  }
+
+
+  /* ========================================================
+     TECHNICAL GRID
+     ======================================================== */
+
+  .stat-card::before {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    background-image:
+      linear-gradient(
+        rgba(34, 211, 238, 0.035) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(34, 211, 238, 0.035) 1px,
+        transparent 1px
+      );
+
+    background-size:
+      28px 28px;
+
+    mask-image:
+      linear-gradient(
+        135deg,
+        black,
+        transparent 65%
+      );
+
+    pointer-events:
+      none;
+
+    opacity:
+      0.5;
+  }
+
+
+  /* ========================================================
+     GLOW
+     ======================================================== */
+
+  .stat-card::after {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    top:
+      -80px;
+
+    right:
+      -80px;
+
+    width:
+      160px;
+
+    height:
+      160px;
+
+    border-radius:
+      50%;
+
+    background:
+      radial-gradient(
+        circle,
+        rgba(34, 211, 238, 0.08),
+        transparent 65%
+      );
+
+    pointer-events:
+      none;
+  }
+
+
+  /* ========================================================
+     HOVER
+     ======================================================== */
+
+  .stat-card:hover {
+    border-color:
+      rgba(34, 211, 238, 0.2);
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(34, 211, 238, 0.025),
+        rgba(148, 163, 184, 0.006)
+      );
+
+    transform:
+      translateY(-4px);
+
+    box-shadow:
+      0 20px 55px rgba(0, 0, 0, 0.12);
+  }
+
+
+  /* ========================================================
+     TOP
+     ======================================================== */
+
+  .stat-top {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    margin-bottom:
+      1.4rem;
+  }
+
+
+  .stat-index {
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.35rem;
+
+    letter-spacing:
+      0.03em;
+  }
+
+
+  .stat-icon {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    width:
+      27px;
+
+    height:
+      27px;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.16);
+
+    border-radius:
+      0.35rem;
+
+    color:
+      var(--color-cyan);
+
+    background:
+      rgba(34, 211, 238, 0.025);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.65rem;
+
+    transition:
+      transform var(--duration-normal) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-fast) var(--ease-standard);
+  }
+
+
+  .stat-card:hover
+    .stat-icon {
+
+    border-color:
+      rgba(34, 211, 238, 0.3);
+
+    box-shadow:
+      0 0 20px rgba(34, 211, 238, 0.08);
+
+    transform:
+      rotate(8deg);
+
+  }
+
+
+  /* ========================================================
+     VALUE
+     ======================================================== */
+
+  .stat-value {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    color:
+      var(--color-text);
+
+    font-family:
+      var(--font-display);
+
+    font-size:
+      clamp(
+        2.1rem,
+        4vw,
+        3.2rem
+      );
+
+    font-weight:
+      500;
+
+    line-height:
+      0.9;
+
+    letter-spacing:
+      -0.06em;
+  }
+
+
+  /* ========================================================
+     LABEL
+     ======================================================== */
+
+  .stat-label {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    margin:
+      0.55rem 0 0;
+
+    color:
+      var(--color-cyan);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.43rem;
+
+    font-weight:
+      500;
+
+    letter-spacing:
+      0.05em;
+  }
+
+
+  /* ========================================================
+     DESCRIPTION
+     ======================================================== */
+
+  .stat-description {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    max-width:
+      220px;
+
+    margin:
+      0.5rem 0 0;
+
+    color:
+      var(--color-text-subtle);
+
+    font-size:
+      0.47rem;
+
+    line-height:
+      1.6;
+  }
+
+
+  /* ========================================================
+     FOOTER
+     ======================================================== */
+
+  .stat-footer {
+    position:
+      absolute;
+
+    right:
+      1.15rem;
+
+    bottom:
+      1rem;
+
+    left:
+      1.15rem;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.35rem;
+  }
+
+
+  .footer-line {
+    display:
+      block;
+
+    flex:
+      1;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        var(--color-border),
+        transparent
+      );
+  }
+
+
+  .footer-node {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border:
+      1px solid var(--color-cyan);
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-bg);
+
+    box-shadow:
+      0 0 7px rgba(34, 211, 238, 0.35);
+  }
+
+
+  /* ========================================================
+     VIOLET
+     ======================================================== */
+
+  .stat-card-violet
+    .stat-icon {
+
+    color:
+      var(--color-violet);
+
+    border-color:
+      rgba(139, 92, 246, 0.16);
+
+    background:
+      rgba(139, 92, 246, 0.025);
+
+  }
+
+
+  .stat-card-violet
+    .stat-label {
+
+    color:
+      var(--color-violet);
+
+  }
+
+
+  .stat-card-violet
+    .footer-node {
+
+    border-color:
+      var(--color-violet);
+
+    box-shadow:
+      0 0 7px rgba(139, 92, 246, 0.35);
+
+  }
+
+
+  .stat-card-violet:hover {
+    border-color:
+      rgba(139, 92, 246, 0.2);
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(139, 92, 246, 0.025),
+        rgba(148, 163, 184, 0.006)
+      );
+  }
+
+
+  /* ========================================================
+     BLUE
+     ======================================================== */
+
+  .stat-card-blue
+    .stat-icon {
+
+    color:
+      var(--color-blue);
+
+    border-color:
+      rgba(59, 130, 246, 0.16);
+
+    background:
+      rgba(59, 130, 246, 0.025);
+
+  }
+
+
+  .stat-card-blue
+    .stat-label {
+
+    color:
+      var(--color-blue);
+
+  }
+
+
+  .stat-card-blue
+    .footer-node {
+
+    border-color:
+      var(--color-blue);
+
+    box-shadow:
+      0 0 7px rgba(59, 130, 246, 0.35);
+
+  }
+
+
+  .stat-card-blue:hover {
+    border-color:
+      rgba(59, 130, 246, 0.2);
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(59, 130, 246, 0.025),
+        rgba(148, 163, 184, 0.006)
+      );
+  }
+
+
+  /* ========================================================
+     GREEN
+     ======================================================== */
+
+  .stat-card-green
+    .stat-icon {
+
+    color:
+      #4ade80;
+
+    border-color:
+      rgba(74, 222, 128, 0.16);
+
+    background:
+      rgba(74, 222, 128, 0.025);
+
+  }
+
+
+  .stat-card-green
+    .stat-label {
+
+    color:
+      #4ade80;
+
+  }
+
+
+  .stat-card-green
+    .footer-node {
+
+    border-color:
+      #4ade80;
+
+    box-shadow:
+      0 0 7px rgba(74, 222, 128, 0.35);
+
+  }
+
+
+  .stat-card-green:hover {
+    border-color:
+      rgba(74, 222, 128, 0.2);
+
+    background:
+      linear-gradient(
+        145deg,
+        rgba(74, 222, 128, 0.025),
+        rgba(148, 163, 184, 0.006)
+      );
+  }
+
+
+  /* ========================================================
+     LIGHT THEME
+     ======================================================== */
+
+  :global([data-theme="light"])
+    .stat-card {
+
+    background:
+      rgba(15, 23, 42, 0.012);
+
+  }
+
+
+  :global([data-theme="light"])
+    .stat-card:hover {
+
+    box-shadow:
+      0 20px 55px rgba(15, 23, 42, 0.07);
+
+  }
+
+
+  /* ========================================================
+     RESPONSIVE
+     ======================================================== */
+
+  @media (max-width: 600px) {
+
+    .stat-card {
+      min-height:
+        150px;
+
+      padding:
+        1rem;
+    }
+
+
+    .stat-value {
+      font-size:
+        2.3rem;
+    }
+
+
+    .stat-footer {
+      right:
+        1rem;
+
+      bottom:
+        0.85rem;
+
+      left:
+        1rem;
+    }
+
+  }
+
+
+  /* ========================================================
+     REDUCED MOTION
+     ======================================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .stat-card,
+    .stat-icon {
+      transition:
+        none;
+    }
+
+  }
+</style>
