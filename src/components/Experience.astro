@@ -1,0 +1,1327 @@
+---
+/**
+ * ============================================================
+ * EXPERIENCE TIMELINE
+ * ============================================================
+ *
+ * Presentation layer for professional experience.
+ *
+ * Experience data is intentionally kept outside this component
+ * so that roles, dates, companies and descriptions can later
+ * be changed without modifying the UI.
+ * ============================================================
+ */
+
+import SectionHeading from "./SectionHeading.astro";
+import { experience } from "../data/experience";
+---
+
+<section
+  id="experience"
+  class="experience-section section"
+  aria-labelledby="experience-title"
+>
+  <div
+    class="experience-background"
+    aria-hidden="true"
+  >
+    <div class="experience-glow"></div>
+
+    <div class="experience-grid"></div>
+  </div>
+
+
+  <div class="container">
+
+    <SectionHeading
+      eyebrow="03 / Experience"
+      title="A career built around automation."
+      description="From foundational IT engineering to enterprise RPA consulting and solution architecture, each stage has expanded the scope of the problems I solve."
+    />
+
+
+    <div class="experience-intro">
+
+      <div class="intro-line"></div>
+
+      <p>
+        More than <strong>6 years in IT</strong>, with experience
+        spanning enterprise automation, consulting, solution
+        design, delivery and emerging intelligent automation.
+      </p>
+
+    </div>
+
+
+    <!-- ======================================================
+         TIMELINE
+         ====================================================== -->
+
+    <div class="timeline">
+
+      {
+        experience.map((item, index) => (
+          <article
+            class:list={[
+              "timeline-item",
+              {
+                "timeline-current": item.current,
+                "timeline-first": index === 0,
+              },
+            ]}
+          >
+
+            <!-- Timeline connector -->
+
+            <div
+              class="timeline-marker"
+              aria-hidden="true"
+            >
+              <span class="marker-core"></span>
+              <span class="marker-pulse"></span>
+            </div>
+
+
+            <!-- Experience content -->
+
+            <div class="timeline-content">
+
+              <div class="timeline-header">
+
+                <div class="timeline-company">
+
+                  <span class="timeline-company-index">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+
+                  <div>
+                    <h3>
+                      {item.company}
+                    </h3>
+
+                    <p class="timeline-client">
+                      {item.client}
+                    </p>
+                  </div>
+
+                </div>
+
+
+                <div class="timeline-date">
+
+                  {
+                    item.current && (
+                      <span class="current-badge">
+                        CURRENT
+                      </span>
+                    )
+                  }
+
+                  <span>
+                    {item.period}
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="timeline-role-row">
+
+                <h4>
+                  {item.role}
+                </h4>
+
+                {
+                  item.location && (
+                    <span class="timeline-location">
+                      {item.location}
+                    </span>
+                  )
+                }
+
+              </div>
+
+
+              <p class="timeline-description">
+                {item.description}
+              </p>
+
+
+              {
+                item.highlights?.length > 0 && (
+                  <ul class="timeline-highlights">
+                    {
+                      item.highlights.map((highlight) => (
+                        <li>
+                          <span
+                            class="highlight-marker"
+                            aria-hidden="true"
+                          ></span>
+
+                          <span>
+                            {highlight}
+                          </span>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                )
+              }
+
+
+              {
+                item.technologies?.length > 0 && (
+                  <div class="timeline-technologies">
+                    {
+                      item.technologies.map((technology) => (
+                        <span>
+                          {technology}
+                        </span>
+                      ))
+                    }
+                  </div>
+                )
+              }
+
+            </div>
+
+          </article>
+        ))
+      }
+
+    </div>
+
+
+    <!-- ======================================================
+         CAREER PROGRESSION
+         ====================================================== -->
+
+    <div class="career-progression">
+
+      <div class="progression-header">
+
+        <span>
+          CAREER PROGRESSION
+        </span>
+
+        <span class="progression-line"></span>
+
+        <span>
+          2020 → PRESENT
+        </span>
+
+      </div>
+
+
+      <div class="progression-track">
+
+        <div class="progression-line-active"></div>
+
+
+        <div class="progression-point">
+          <span>IT</span>
+          <small>2020</small>
+        </div>
+
+
+        <div class="progression-point">
+          <span>RPA</span>
+          <small>2021</small>
+        </div>
+
+
+        <div class="progression-point">
+          <span>CONSULTING</span>
+          <small>2021+</small>
+        </div>
+
+
+        <div class="progression-point">
+          <span>ARCHITECTURE</span>
+          <small>2022+</small>
+        </div>
+
+
+        <div class="progression-point progression-point-current">
+          <span>INTELLIGENT AUTOMATION</span>
+          <small>NOW</small>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<style>
+  /* ========================================================
+     SECTION
+     ======================================================== */
+
+  .experience-section {
+    position:
+      relative;
+
+    overflow:
+      hidden;
+  }
+
+
+  .experience-background {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    pointer-events:
+      none;
+
+    z-index:
+      -1;
+  }
+
+
+  .experience-grid {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    opacity:
+      0.3;
+
+    background-image:
+      linear-gradient(
+        rgba(148, 163, 184, 0.025) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(148, 163, 184, 0.025) 1px,
+        transparent 1px
+      );
+
+    background-size:
+      100px 100px;
+
+    mask-image:
+      linear-gradient(
+        to bottom,
+        transparent,
+        black 15%,
+        black 80%,
+        transparent
+      );
+  }
+
+
+  .experience-glow {
+    position:
+      absolute;
+
+    top:
+      35%;
+
+    left:
+      45%;
+
+    width:
+      35rem;
+
+    height:
+      35rem;
+
+    border-radius:
+      50%;
+
+    background:
+      rgba(59, 130, 246, 0.035);
+
+    filter:
+      blur(110px);
+  }
+
+
+  /* ========================================================
+     INTRO
+     ======================================================== */
+
+  .experience-intro {
+    display:
+      flex;
+
+    align-items:
+      flex-start;
+
+    gap:
+      1rem;
+
+    max-width:
+      680px;
+
+    margin-bottom:
+      4rem;
+
+    color:
+      var(--color-text-secondary);
+
+    font-size:
+      0.95rem;
+
+    line-height:
+      1.7;
+  }
+
+
+  .experience-intro p {
+    margin:
+      0;
+  }
+
+
+  .experience-intro strong {
+    color:
+      var(--color-text);
+
+    font-weight:
+      500;
+  }
+
+
+  .intro-line {
+    flex:
+      0 0 auto;
+
+    width:
+      2rem;
+
+    height:
+      1px;
+
+    margin-top:
+      0.7rem;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 10px rgba(34, 211, 238, 0.3);
+  }
+
+
+  /* ========================================================
+     TIMELINE
+     ======================================================== */
+
+  .timeline {
+    position:
+      relative;
+
+    max-width:
+      1050px;
+
+    margin:
+      0 auto;
+  }
+
+
+  .timeline::before {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    top:
+      0;
+
+    bottom:
+      0;
+
+    left:
+      11px;
+
+    width:
+      1px;
+
+    background:
+      linear-gradient(
+        to bottom,
+        var(--color-cyan),
+        rgba(34, 211, 238, 0.16) 30%,
+        rgba(139, 92, 246, 0.12) 75%,
+        transparent
+      );
+  }
+
+
+  .timeline-item {
+    position:
+      relative;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      4rem 1fr;
+
+    gap:
+      1.5rem;
+
+    padding-bottom:
+      4rem;
+  }
+
+
+  .timeline-item:last-child {
+    padding-bottom:
+      0;
+  }
+
+
+  /* ========================================================
+     TIMELINE MARKER
+     ======================================================== */
+
+  .timeline-marker {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    width:
+      1.5rem;
+
+    height:
+      1.5rem;
+
+    display:
+      grid;
+
+    place-items:
+      center;
+
+    margin-top:
+      0.15rem;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.22);
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-bg);
+  }
+
+
+  .marker-core {
+    width:
+      0.4rem;
+
+    height:
+      0.4rem;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-text-subtle);
+  }
+
+
+  .marker-pulse {
+    position:
+      absolute;
+
+    inset:
+      -5px;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.12);
+
+    border-radius:
+      50%;
+
+    animation:
+      marker-pulse 3s ease-out infinite;
+  }
+
+
+  @keyframes marker-pulse {
+    0% {
+      transform:
+        scale(0.7);
+
+      opacity:
+        0.7;
+    }
+
+    100% {
+      transform:
+        scale(1.5);
+
+      opacity:
+        0;
+    }
+  }
+
+
+  .timeline-current .timeline-marker {
+    border-color:
+      rgba(34, 211, 238, 0.5);
+
+    box-shadow:
+      0 0 20px rgba(34, 211, 238, 0.12);
+  }
+
+
+  .timeline-current .marker-core {
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 12px rgba(34, 211, 238, 0.8);
+  }
+
+
+  /* ========================================================
+     TIMELINE CONTENT
+     ======================================================== */
+
+  .timeline-content {
+    position:
+      relative;
+
+    padding:
+      1.5rem;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      rgba(148, 163, 184, 0.018);
+
+    transition:
+      border-color var(--duration-normal) var(--ease-standard),
+      background var(--duration-normal) var(--ease-standard),
+      transform var(--duration-normal) var(--ease-standard);
+  }
+
+
+  .timeline-content:hover {
+    transform:
+      translateX(5px);
+
+    border-color:
+      rgba(34, 211, 238, 0.16);
+
+    background:
+      rgba(34, 211, 238, 0.025);
+  }
+
+
+  .timeline-current .timeline-content {
+    border-color:
+      rgba(34, 211, 238, 0.2);
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(34, 211, 238, 0.035),
+        rgba(139, 92, 246, 0.018)
+      );
+
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.12);
+  }
+
+
+  .timeline-current .timeline-content::before {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    top:
+      -1px;
+
+    left:
+      2rem;
+
+    width:
+      5rem;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        var(--color-cyan),
+        transparent
+      );
+  }
+
+
+  /* ========================================================
+     HEADER
+     ======================================================== */
+
+  .timeline-header {
+    display:
+      flex;
+
+    align-items:
+      flex-start;
+
+    justify-content:
+      space-between;
+
+    gap:
+      1.5rem;
+
+    margin-bottom:
+      1.25rem;
+  }
+
+
+  .timeline-company {
+    display:
+      flex;
+
+    align-items:
+      flex-start;
+
+    gap:
+      0.9rem;
+  }
+
+
+  .timeline-company-index {
+    padding-top:
+      0.25rem;
+
+    color:
+      var(--color-cyan);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.6rem;
+
+    opacity:
+      0.8;
+  }
+
+
+  .timeline-company h3 {
+    margin:
+      0;
+
+    color:
+      var(--color-text);
+
+    font-size:
+      1.1rem;
+
+    font-weight:
+      550;
+
+    letter-spacing:
+      -0.02em;
+  }
+
+
+  .timeline-client {
+    margin-top:
+      0.3rem;
+
+    color:
+      var(--color-text-subtle);
+
+    font-size:
+      0.7rem;
+  }
+
+
+  .timeline-date {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      flex-end;
+
+    gap:
+      0.35rem;
+
+    color:
+      var(--color-text-muted);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.62rem;
+
+    white-space:
+      nowrap;
+  }
+
+
+  .current-badge {
+    padding:
+      0.25rem 0.45rem;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.2);
+
+    border-radius:
+      var(--radius-pill);
+
+    color:
+      var(--color-cyan);
+
+    background:
+      rgba(34, 211, 238, 0.05);
+
+    font-size:
+      0.5rem;
+
+    letter-spacing:
+      0.08em;
+  }
+
+
+  /* ========================================================
+     ROLE
+     ======================================================== */
+
+  .timeline-role-row {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      0.8rem;
+
+    margin-bottom:
+      0.9rem;
+  }
+
+
+  .timeline-role-row h4 {
+    margin:
+      0;
+
+    color:
+      var(--color-text);
+
+    font-size:
+      0.92rem;
+
+    font-weight:
+      500;
+  }
+
+
+  .timeline-location {
+    padding-left:
+      0.8rem;
+
+    border-left:
+      1px solid var(--color-border);
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.58rem;
+  }
+
+
+  /* ========================================================
+     DESCRIPTION
+     ======================================================== */
+
+  .timeline-description {
+    max-width:
+      850px;
+
+    margin:
+      0 0 1.25rem;
+
+    color:
+      var(--color-text-secondary);
+
+    font-size:
+      0.8rem;
+
+    line-height:
+      1.75;
+  }
+
+
+  /* ========================================================
+     HIGHLIGHTS
+     ======================================================== */
+
+  .timeline-highlights {
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(2, 1fr);
+
+    gap:
+      0.65rem 1.5rem;
+
+    margin:
+      0 0 1.25rem;
+
+    padding:
+      0;
+
+    list-style:
+      none;
+  }
+
+
+  .timeline-highlights li {
+    display:
+      flex;
+
+    align-items:
+      flex-start;
+
+    gap:
+      0.55rem;
+
+    color:
+      var(--color-text-muted);
+
+    font-size:
+      0.68rem;
+
+    line-height:
+      1.6;
+  }
+
+
+  .highlight-marker {
+    flex:
+      0 0 auto;
+
+    width:
+      4px;
+
+    height:
+      4px;
+
+    margin-top:
+      0.5rem;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 8px rgba(34, 211, 238, 0.55);
+  }
+
+
+  /* ========================================================
+     TECHNOLOGY TAGS
+     ======================================================== */
+
+  .timeline-technologies {
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      0.4rem;
+
+    padding-top:
+      0.9rem;
+
+    border-top:
+      1px solid var(--color-border);
+  }
+
+
+  .timeline-technologies span {
+    padding:
+      0.35rem 0.5rem;
+
+    border:
+      1px solid rgba(148, 163, 184, 0.1);
+
+    border-radius:
+      0.35rem;
+
+    color:
+      var(--color-text-subtle);
+
+    background:
+      rgba(148, 163, 184, 0.025);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.52rem;
+
+    transition:
+      color var(--duration-fast) ease,
+      border-color var(--duration-fast) ease;
+  }
+
+
+  .timeline-technologies span:hover {
+    color:
+      var(--color-cyan);
+
+    border-color:
+      rgba(34, 211, 238, 0.18);
+  }
+
+
+  /* ========================================================
+     CAREER PROGRESSION
+     ======================================================== */
+
+  .career-progression {
+    margin-top:
+      5rem;
+
+    padding:
+      1.5rem;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      rgba(148, 163, 184, 0.015);
+  }
+
+
+  .progression-header {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      1rem;
+
+    margin-bottom:
+      2rem;
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.55rem;
+
+    letter-spacing:
+      0.08em;
+  }
+
+
+  .progression-line {
+    flex:
+      1;
+
+    height:
+      1px;
+
+    background:
+      var(--color-border);
+  }
+
+
+  .progression-track {
+    position:
+      relative;
+
+    display:
+      flex;
+
+    justify-content:
+      space-between;
+
+    gap:
+      1rem;
+  }
+
+
+  .progression-track::before {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    top:
+      0.3rem;
+
+    left:
+      0;
+
+    right:
+      0;
+
+    height:
+      1px;
+
+    background:
+      rgba(148, 163, 184, 0.12);
+  }
+
+
+  .progression-line-active {
+    position:
+      absolute;
+
+    top:
+      0.3rem;
+
+    left:
+      0;
+
+    width:
+      100%;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        var(--color-cyan),
+        var(--color-blue),
+        var(--color-violet)
+      );
+
+    opacity:
+      0.55;
+  }
+
+
+  .progression-point {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      0.55rem;
+
+    width:
+      20%;
+
+    color:
+      var(--color-text-muted);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.53rem;
+  }
+
+
+  .progression-point::before {
+    content:
+      "";
+
+    width:
+      0.6rem;
+
+    height:
+      0.6rem;
+
+    border:
+      1px solid rgba(148, 163, 184, 0.3);
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-bg);
+  }
+
+
+  .progression-point small {
+    color:
+      var(--color-text-subtle);
+
+    font-size:
+      0.5rem;
+  }
+
+
+  .progression-point-current {
+    color:
+      var(--color-cyan);
+  }
+
+
+  .progression-point-current::before {
+    border-color:
+      var(--color-cyan);
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 15px rgba(34, 211, 238, 0.6);
+  }
+
+
+  /* ========================================================
+     RESPONSIVE
+     ======================================================== */
+
+  @media (max-width: 760px) {
+    .timeline::before {
+      left:
+        9px;
+    }
+
+    .timeline-item {
+      grid-template-columns:
+        2.5rem 1fr;
+
+      gap:
+        0.75rem;
+
+      padding-bottom:
+        2.5rem;
+    }
+
+    .timeline-marker {
+      width:
+        1.2rem;
+
+      height:
+        1.2rem;
+    }
+
+    .timeline-content {
+      padding:
+        1.1rem;
+    }
+
+    .timeline-header {
+      flex-direction:
+        column;
+
+      gap:
+        0.8rem;
+    }
+
+    .timeline-date {
+      align-items:
+        flex-start;
+
+      flex-direction:
+        row;
+
+      flex-wrap:
+        wrap;
+    }
+
+    .timeline-highlights {
+      grid-template-columns:
+        1fr;
+    }
+  }
+
+
+  @media (max-width: 600px) {
+    .experience-intro {
+      font-size:
+        0.88rem;
+    }
+
+    .timeline-company h3 {
+      font-size:
+        1rem;
+    }
+
+    .timeline-description {
+      font-size:
+        0.75rem;
+    }
+
+    .career-progression {
+      overflow:
+        hidden;
+    }
+
+    .progression-track {
+      width:
+        700px;
+    }
+
+    .progression-header {
+      flex-wrap:
+        wrap;
+    }
+  }
+
+
+  @media (prefers-reduced-motion: reduce) {
+    .marker-pulse {
+      animation:
+        none;
+    }
+
+    .timeline-content {
+      transition:
+        none;
+    }
+  }
+</style>
