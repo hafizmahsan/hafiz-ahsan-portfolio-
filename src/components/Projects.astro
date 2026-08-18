@@ -1,0 +1,1719 @@
+---
+/**
+ * ============================================================
+ * PROJECTS / SELECTED WORK
+ * ============================================================
+ *
+ * Presentation layer for portfolio projects.
+ *
+ * Project content is stored separately in:
+ *
+ *     src/data/projects.ts
+ *
+ * This allows projects to be added, removed, reordered or
+ * edited without changing the visual component.
+ * ============================================================
+ */
+
+import SectionHeading from "./SectionHeading.astro";
+import { projects } from "../data/projects";
+---
+
+<section
+  id="projects"
+  class="projects-section section"
+  aria-labelledby="projects-title"
+>
+  <!-- ======================================================
+       BACKGROUND
+       ====================================================== -->
+
+  <div
+    class="projects-background"
+    aria-hidden="true"
+  >
+    <div class="projects-grid"></div>
+
+    <div class="projects-glow projects-glow-one"></div>
+    <div class="projects-glow projects-glow-two"></div>
+
+    <div class="projects-network">
+
+      <span class="network-node node-one"></span>
+      <span class="network-node node-two"></span>
+      <span class="network-node node-three"></span>
+      <span class="network-node node-four"></span>
+      <span class="network-node node-five"></span>
+
+      <span class="network-line line-one"></span>
+      <span class="network-line line-two"></span>
+      <span class="network-line line-three"></span>
+
+    </div>
+  </div>
+
+
+  <div class="container">
+
+    <SectionHeading
+      eyebrow="05 / Selected Work"
+      title="Automation, systems & digital solutions."
+      description="A curated selection of work demonstrating experience across automation, enterprise technology, solution design and software engineering."
+    />
+
+
+    <!-- ====================================================
+         PROJECT INTRO
+         ==================================================== -->
+
+    <div class="projects-intro">
+
+      <div class="projects-intro-stat">
+
+        <span class="stat-value">
+          {String(projects.length).padStart(2, "0")}
+        </span>
+
+        <span class="stat-label">
+          SELECTED<br />
+          PROJECTS
+        </span>
+
+      </div>
+
+
+      <div class="projects-intro-copy">
+
+        <p>
+          Every project is treated as a system rather than
+          simply a script or interface — from understanding
+          the business problem through architecture,
+          automation, integration and delivery.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ====================================================
+         PROJECT GRID
+         ==================================================== -->
+
+    <div class="projects-grid-layout">
+
+      {
+        projects.map((project, index) => (
+          <article
+            class:list={[
+              "project-card",
+              {
+                "project-featured": project.featured,
+                "project-wide": project.featured && index === 0,
+              },
+            ]}
+          >
+
+            <!-- ==============================================
+                 VISUAL AREA
+                 ============================================== -->
+
+            <div
+              class="project-visual"
+              style={`--project-accent: ${project.accent || "#22d3ee"}`}
+            >
+
+              <div class="visual-grid"></div>
+
+
+              <div class="visual-orbit orbit-one"></div>
+              <div class="visual-orbit orbit-two"></div>
+              <div class="visual-orbit orbit-three"></div>
+
+
+              <div class="visual-center">
+
+                <span class="visual-code">
+                  {project.code || "SYS"}
+                </span>
+
+                <span class="visual-core"></span>
+
+              </div>
+
+
+              <div class="visual-node visual-node-one">
+                <span></span>
+              </div>
+
+              <div class="visual-node visual-node-two">
+                <span></span>
+              </div>
+
+              <div class="visual-node visual-node-three">
+                <span></span>
+              </div>
+
+
+              <div class="project-index">
+                {String(index + 1).padStart(2, "0")}
+              </div>
+
+
+              {
+                project.featured && (
+                  <span class="featured-label">
+                    FEATURED
+                  </span>
+                )
+              }
+
+            </div>
+
+
+            <!-- ==============================================
+                 CONTENT
+                 ============================================== -->
+
+            <div class="project-content">
+
+              <div class="project-meta">
+
+                <span class="project-category">
+                  {project.category}
+                </span>
+
+                {
+                  project.status && (
+                    <span class="project-status">
+                      <span class="status-dot"></span>
+                      {project.status}
+                    </span>
+                  )
+                }
+
+              </div>
+
+
+              <h3 class="project-title">
+                {project.title}
+              </h3>
+
+
+              {
+                project.subtitle && (
+                  <p class="project-subtitle">
+                    {project.subtitle}
+                  </p>
+                )
+              }
+
+
+              <p class="project-description">
+                {project.description}
+              </p>
+
+
+              {
+                project.highlights?.length > 0 && (
+                  <ul class="project-highlights">
+
+                    {
+                      project.highlights.map((highlight) => (
+                        <li>
+                          <span
+                            class="highlight-arrow"
+                            aria-hidden="true"
+                          >
+                            →
+                          </span>
+
+                          <span>
+                            {highlight}
+                          </span>
+                        </li>
+                      ))
+                    }
+
+                  </ul>
+                )
+              }
+
+
+              <!-- ==========================================
+                   TECHNOLOGIES
+                   ========================================== -->
+
+              {
+                project.technologies?.length > 0 && (
+                  <div class="project-technologies">
+
+                    {
+                      project.technologies.map((technology) => (
+                        <span>
+                          {technology}
+                        </span>
+                      ))
+                    }
+
+                  </div>
+                )
+              }
+
+
+              <!-- ==========================================
+                   LINKS
+                   ========================================== -->
+
+              {
+                (project.github || project.demo) && (
+                  <div class="project-links">
+
+                    {
+                      project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`View ${project.title} on GitHub`}
+                        >
+                          <span>GITHUB</span>
+                          <span aria-hidden="true">↗</span>
+                        </a>
+                      )
+                    }
+
+
+                    {
+                      project.demo && (
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`View ${project.title} live`}
+                        >
+                          <span>LIVE</span>
+                          <span aria-hidden="true">↗</span>
+                        </a>
+                      )
+                    }
+
+                  </div>
+                )
+              }
+
+            </div>
+
+          </article>
+        ))
+      }
+
+    </div>
+
+
+    <!-- ====================================================
+         PROJECT PHILOSOPHY
+         ==================================================== -->
+
+    <div class="project-philosophy">
+
+      <div class="philosophy-line"></div>
+
+      <div class="philosophy-content">
+
+        <span class="philosophy-label">
+          ENGINEERING APPROACH
+        </span>
+
+        <p>
+          Understand the process.
+          <span>→</span>
+          Design the solution.
+          <span>→</span>
+          Automate intelligently.
+          <span>→</span>
+          Measure the outcome.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<style>
+  /* ========================================================
+     SECTION
+     ======================================================== */
+
+  .projects-section {
+    position:
+      relative;
+
+    overflow:
+      hidden;
+  }
+
+
+  .projects-background {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    z-index:
+      -1;
+
+    pointer-events:
+      none;
+  }
+
+
+  .projects-grid {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    opacity:
+      0.25;
+
+    background-image:
+      linear-gradient(
+        rgba(148, 163, 184, 0.025) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(148, 163, 184, 0.025) 1px,
+        transparent 1px
+      );
+
+    background-size:
+      80px 80px;
+
+    mask-image:
+      linear-gradient(
+        to bottom,
+        transparent,
+        black 15%,
+        black 75%,
+        transparent
+      );
+  }
+
+
+  .projects-glow {
+    position:
+      absolute;
+
+    width:
+      30rem;
+
+    height:
+      30rem;
+
+    border-radius:
+      50%;
+
+    filter:
+      blur(120px);
+  }
+
+
+  .projects-glow-one {
+    top:
+      10%;
+
+    left:
+      -15%;
+
+    background:
+      rgba(34, 211, 238, 0.035);
+  }
+
+
+  .projects-glow-two {
+    right:
+      -15%;
+
+    bottom:
+      15%;
+
+    background:
+      rgba(139, 92, 246, 0.035);
+  }
+
+
+  /* ========================================================
+     NETWORK BACKGROUND
+     ======================================================== */
+
+  .projects-network {
+    position:
+      absolute;
+
+    top:
+      20%;
+
+    right:
+      5%;
+
+    width:
+      250px;
+
+    height:
+      250px;
+
+    opacity:
+      0.35;
+  }
+
+
+  .network-node {
+    position:
+      absolute;
+
+    width:
+      5px;
+
+    height:
+      5px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 12px rgba(34, 211, 238, 0.65);
+
+    animation:
+      network-float 5s ease-in-out infinite;
+  }
+
+
+  .node-one {
+    top:
+      10%;
+
+    left:
+      15%;
+  }
+
+
+  .node-two {
+    top:
+      30%;
+
+    right:
+      15%;
+
+    animation-delay:
+      -1s;
+  }
+
+
+  .node-three {
+    top:
+      55%;
+
+    left:
+      42%;
+
+    background:
+      var(--color-violet);
+
+    animation-delay:
+      -2s;
+  }
+
+
+  .node-four {
+    bottom:
+      15%;
+
+    right:
+      25%;
+
+    animation-delay:
+      -3s;
+  }
+
+
+  .node-five {
+    bottom:
+      8%;
+
+    left:
+      15%;
+
+    background:
+      var(--color-blue);
+
+    animation-delay:
+      -4s;
+  }
+
+
+  .network-line {
+    position:
+      absolute;
+
+    height:
+      1px;
+
+    transform-origin:
+      left center;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(34, 211, 238, 0.3),
+        transparent
+      );
+  }
+
+
+  .line-one {
+    top:
+      13%;
+
+    left:
+      16%;
+
+    width:
+      150px;
+
+    transform:
+      rotate(18deg);
+  }
+
+
+  .line-two {
+    top:
+      32%;
+
+    left:
+      17%;
+
+    width:
+      130px;
+
+    transform:
+      rotate(45deg);
+  }
+
+
+  .line-three {
+    top:
+      56%;
+
+    left:
+      43%;
+
+    width:
+      110px;
+
+    transform:
+      rotate(-25deg);
+  }
+
+
+  @keyframes network-float {
+    0%,
+    100% {
+      transform:
+        translate(0, 0)
+        scale(0.8);
+
+      opacity:
+        0.35;
+    }
+
+    50% {
+      transform:
+        translate(4px, -8px)
+        scale(1.4);
+
+      opacity:
+        1;
+    }
+  }
+
+
+  /* ========================================================
+     INTRO
+     ======================================================== */
+
+  .projects-intro {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      2rem;
+
+    max-width:
+      800px;
+
+    margin-bottom:
+      3.5rem;
+  }
+
+
+  .projects-intro-stat {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.75rem;
+
+    flex:
+      0 0 auto;
+  }
+
+
+  .stat-value {
+    color:
+      var(--color-cyan);
+
+    font-family:
+      var(--font-display);
+
+    font-size:
+      2.4rem;
+
+    font-weight:
+      500;
+
+    letter-spacing:
+      -0.06em;
+  }
+
+
+  .stat-label {
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.48rem;
+
+    line-height:
+      1.4;
+
+    letter-spacing:
+      0.08em;
+  }
+
+
+  .projects-intro-copy {
+    padding-left:
+      2rem;
+
+    border-left:
+      1px solid var(--color-border);
+  }
+
+
+  .projects-intro-copy p {
+    margin:
+      0;
+
+    color:
+      var(--color-text-muted);
+
+    font-size:
+      0.75rem;
+
+    line-height:
+      1.7;
+  }
+
+
+  /* ========================================================
+     PROJECT GRID
+     ======================================================== */
+
+  .projects-grid-layout {
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      1.5rem;
+  }
+
+
+  /* ========================================================
+     PROJECT CARD
+     ======================================================== */
+
+  .project-card {
+    position:
+      relative;
+
+    overflow:
+      hidden;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      rgba(148, 163, 184, 0.015);
+
+    transition:
+      border-color var(--duration-normal) var(--ease-standard),
+      transform var(--duration-normal) var(--ease-standard),
+      background var(--duration-normal) var(--ease-standard);
+  }
+
+
+  .project-card:hover {
+    transform:
+      translateY(-5px);
+
+    border-color:
+      color-mix(
+        in srgb,
+        var(--project-accent) 28%,
+        transparent
+      );
+
+    background:
+      rgba(148, 163, 184, 0.025);
+  }
+
+
+  .project-featured {
+    grid-column:
+      span 2;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      minmax(280px, 0.85fr)
+      minmax(0, 1.15fr);
+  }
+
+
+  .project-featured .project-content {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    justify-content:
+      center;
+  }
+
+
+  /* ========================================================
+     PROJECT VISUAL
+     ======================================================== */
+
+  .project-visual {
+    position:
+      relative;
+
+    min-height:
+      270px;
+
+    overflow:
+      hidden;
+
+    border-bottom:
+      1px solid var(--color-border);
+
+    background:
+      radial-gradient(
+        circle at center,
+        color-mix(
+          in srgb,
+          var(--project-accent) 8%,
+          transparent
+        ),
+        transparent 65%
+      );
+  }
+
+
+  .project-featured .project-visual {
+    min-height:
+      100%;
+  }
+
+
+  .visual-grid {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    opacity:
+      0.4;
+
+    background-image:
+      linear-gradient(
+        color-mix(
+          in srgb,
+          var(--project-accent) 8%,
+          transparent
+        ) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(
+          in srgb,
+          var(--project-accent) 8%,
+          transparent
+        ) 1px,
+        transparent 1px
+      );
+
+    background-size:
+      40px 40px;
+
+    mask-image:
+      radial-gradient(
+        circle at center,
+        black,
+        transparent 75%
+      );
+  }
+
+
+  .visual-orbit {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    border:
+      1px solid
+      color-mix(
+        in srgb,
+        var(--project-accent) 18%,
+        transparent
+      );
+
+    border-radius:
+      50%;
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+
+  .orbit-one {
+    width:
+      90px;
+
+    height:
+      90px;
+  }
+
+
+  .orbit-two {
+    width:
+      160px;
+
+    height:
+      160px;
+
+    border-style:
+      dashed;
+
+    animation:
+      project-orbit 18s linear infinite;
+  }
+
+
+  .orbit-three {
+    width:
+      230px;
+
+    height:
+      230px;
+
+    border-color:
+      color-mix(
+        in srgb,
+        var(--project-accent) 10%,
+        transparent
+      );
+
+    animation:
+      project-orbit-reverse 25s linear infinite;
+  }
+
+
+  @keyframes project-orbit {
+    to {
+      transform:
+        translate(-50%, -50%)
+        rotate(360deg);
+    }
+  }
+
+
+  @keyframes project-orbit-reverse {
+    to {
+      transform:
+        translate(-50%, -50%)
+        rotate(-360deg);
+    }
+  }
+
+
+  .visual-center {
+    position:
+      absolute;
+
+    top:
+      50%;
+
+    left:
+      50%;
+
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    width:
+      65px;
+
+    height:
+      65px;
+
+    border:
+      1px solid
+      color-mix(
+        in srgb,
+        var(--project-accent) 35%,
+        transparent
+      );
+
+    border-radius:
+      50%;
+
+    background:
+      rgba(7, 11, 18, 0.8);
+
+    box-shadow:
+      0 0 35px
+      color-mix(
+        in srgb,
+        var(--project-accent) 12%,
+        transparent
+      );
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+
+  .visual-code {
+    color:
+      var(--project-accent);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.48rem;
+
+    letter-spacing:
+      0.08em;
+  }
+
+
+  .visual-core {
+    width:
+      5px;
+
+    height:
+      5px;
+
+    margin-top:
+      0.3rem;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--project-accent);
+
+    box-shadow:
+      0 0 12px
+      var(--project-accent);
+  }
+
+
+  .visual-node {
+    position:
+      absolute;
+
+    width:
+      8px;
+
+    height:
+      8px;
+
+    border:
+      1px solid
+      color-mix(
+        in srgb,
+        var(--project-accent) 35%,
+        transparent
+      );
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-bg);
+
+    box-shadow:
+      0 0 10px
+      color-mix(
+        in srgb,
+        var(--project-accent) 25%,
+        transparent
+      );
+  }
+
+
+  .visual-node span {
+    display:
+      block;
+
+    width:
+      3px;
+
+    height:
+      3px;
+
+    margin:
+      1.5px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--project-accent);
+  }
+
+
+  .visual-node-one {
+    top:
+      22%;
+
+    left:
+      28%;
+  }
+
+
+  .visual-node-two {
+    top:
+      32%;
+
+    right:
+      22%;
+  }
+
+
+  .visual-node-three {
+    bottom:
+      22%;
+
+    left:
+      22%;
+  }
+
+
+  .project-index {
+    position:
+      absolute;
+
+    top:
+      1rem;
+
+    left:
+      1rem;
+
+    color:
+      var(--project-accent);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.55rem;
+
+    opacity:
+      0.8;
+  }
+
+
+  .featured-label {
+    position:
+      absolute;
+
+    top:
+      1rem;
+
+    right:
+      1rem;
+
+    padding:
+      0.3rem 0.5rem;
+
+    border:
+      1px solid
+      color-mix(
+        in srgb,
+        var(--project-accent) 20%,
+        transparent
+      );
+
+    border-radius:
+      var(--radius-pill);
+
+    color:
+      var(--project-accent);
+
+    background:
+      color-mix(
+        in srgb,
+        var(--project-accent) 5%,
+        transparent
+      );
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.48rem;
+
+    letter-spacing:
+      0.08em;
+  }
+
+
+  /* ========================================================
+     PROJECT CONTENT
+     ======================================================== */
+
+  .project-content {
+    padding:
+      1.5rem;
+  }
+
+
+  .project-meta {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    gap:
+      1rem;
+
+    margin-bottom:
+      0.9rem;
+  }
+
+
+  .project-category {
+    color:
+      var(--project-accent);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.52rem;
+
+    letter-spacing:
+      0.07em;
+  }
+
+
+  .project-status {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.35rem;
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.48rem;
+  }
+
+
+  .status-dot {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--project-accent);
+
+    box-shadow:
+      0 0 8px
+      var(--project-accent);
+  }
+
+
+  .project-title {
+    margin:
+      0;
+
+    color:
+      var(--color-text);
+
+    font-family:
+      var(--font-display);
+
+    font-size:
+      clamp(1.15rem, 2vw, 1.5rem);
+
+    font-weight:
+      500;
+
+    letter-spacing:
+      -0.035em;
+
+    line-height:
+      1.2;
+  }
+
+
+  .project-subtitle {
+    margin:
+      0.35rem 0 0;
+
+    color:
+      var(--color-text-subtle);
+
+    font-size:
+      0.68rem;
+  }
+
+
+  .project-description {
+    margin:
+      1rem 0 1.25rem;
+
+    color:
+      var(--color-text-muted);
+
+    font-size:
+      0.72rem;
+
+    line-height:
+      1.7;
+  }
+
+
+  /* ========================================================
+     HIGHLIGHTS
+     ======================================================== */
+
+  .project-highlights {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      0.45rem;
+
+    margin:
+      0 0 1.25rem;
+
+    padding:
+      0;
+
+    list-style:
+      none;
+  }
+
+
+  .project-highlights li {
+    display:
+      flex;
+
+    gap:
+      0.5rem;
+
+    color:
+      var(--color-text-subtle);
+
+    font-size:
+      0.62rem;
+
+    line-height:
+      1.55;
+  }
+
+
+  .highlight-arrow {
+    flex:
+      0 0 auto;
+
+    color:
+      var(--project-accent);
+  }
+
+
+  /* ========================================================
+     TECHNOLOGIES
+     ======================================================== */
+
+  .project-technologies {
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      0.4rem;
+
+    padding-top:
+      1rem;
+
+    border-top:
+      1px solid var(--color-border);
+  }
+
+
+  .project-technologies span {
+    padding:
+      0.35rem 0.5rem;
+
+    border:
+      1px solid rgba(148, 163, 184, 0.1);
+
+    border-radius:
+      0.35rem;
+
+    color:
+      var(--color-text-subtle);
+
+    background:
+      rgba(148, 163, 184, 0.02);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.48rem;
+  }
+
+
+  /* ========================================================
+     LINKS
+     ======================================================== */
+
+  .project-links {
+    display:
+      flex;
+
+    gap:
+      0.5rem;
+
+    margin-top:
+      1.25rem;
+  }
+
+
+  .project-links a {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.5rem;
+
+    padding:
+      0.5rem 0.7rem;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      0.4rem;
+
+    color:
+      var(--color-text-muted);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.48rem;
+
+    text-decoration:
+      none;
+
+    transition:
+      color var(--duration-fast) ease,
+      border-color var(--duration-fast) ease,
+      background var(--duration-fast) ease;
+  }
+
+
+  .project-links a:hover {
+    color:
+      var(--project-accent);
+
+    border-color:
+      color-mix(
+        in srgb,
+        var(--project-accent) 25%,
+        transparent
+      );
+
+    background:
+      color-mix(
+        in srgb,
+        var(--project-accent) 4%,
+        transparent
+      );
+  }
+
+
+  /* ========================================================
+     PHILOSOPHY
+     ======================================================== */
+
+  .project-philosophy {
+    display:
+      flex;
+
+    gap:
+      1rem;
+
+    margin-top:
+      4rem;
+  }
+
+
+  .philosophy-line {
+    flex:
+      0 0 auto;
+
+    width:
+      2rem;
+
+    height:
+      1px;
+
+    margin-top:
+      0.65rem;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 10px rgba(34, 211, 238, 0.25);
+  }
+
+
+  .philosophy-content {
+    min-width:
+      0;
+  }
+
+
+  .philosophy-label {
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.5rem;
+
+    letter-spacing:
+      0.08em;
+  }
+
+
+  .philosophy-content p {
+    margin:
+      0.5rem 0 0;
+
+    color:
+      var(--color-text-muted);
+
+    font-size:
+      0.72rem;
+
+    line-height:
+      1.6;
+  }
+
+
+  .philosophy-content p span {
+    margin:
+      0 0.35rem;
+
+    color:
+      var(--color-cyan);
+  }
+
+
+  /* ========================================================
+     RESPONSIVE
+     ======================================================== */
+
+  @media (max-width: 850px) {
+    .project-featured {
+      grid-column:
+        span 2;
+
+      display:
+        block;
+    }
+
+    .project-featured .project-visual {
+      min-height:
+        270px;
+    }
+  }
+
+
+  @media (max-width: 700px) {
+    .projects-grid-layout {
+      grid-template-columns:
+        1fr;
+    }
+
+    .project-featured {
+      grid-column:
+        span 1;
+    }
+
+    .projects-intro {
+      align-items:
+        flex-start;
+
+      flex-direction:
+        column;
+
+      gap:
+        1rem;
+    }
+
+    .projects-intro-copy {
+      padding-left:
+        0;
+
+      padding-top:
+        1rem;
+
+      border-top:
+        1px solid var(--color-border);
+
+      border-left:
+        0;
+    }
+  }
+
+
+  @media (max-width: 500px) {
+    .project-content {
+      padding:
+        1.1rem;
+    }
+
+    .project-visual {
+      min-height:
+        230px;
+    }
+
+    .projects-intro-stat {
+      width:
+        100%;
+    }
+  }
+
+
+  /* ========================================================
+     ACCESSIBILITY
+     ======================================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+    .orbit-two,
+    .orbit-three,
+    .network-node {
+      animation:
+        none;
+    }
+
+    .project-card {
+      transition:
+        none;
+    }
+  }
+</style>
