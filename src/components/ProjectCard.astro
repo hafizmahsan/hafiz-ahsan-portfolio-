@@ -4,387 +4,321 @@
  * PROJECT CARD
  * ============================================================
  *
- * Reusable project showcase component.
- *
- * Designed for:
- * - RPA projects
- * - Automation solutions
- * - AI / Gen AI projects
- * - Architecture projects
- * - Web applications
- * - Open-source projects
- *
- * Project content is supplied through props so that the actual
- * portfolio data can live in a central editable data file.
+ * Reusable project / portfolio item.
  *
  * ============================================================
  */
 
-interface ProjectItem {
-  title: string;
-  category: string;
-  description: string;
-  impact?: string;
-  image?: string;
-  technologies?: string[];
-  github?: string;
-  demo?: string;
-  featured?: boolean;
-  status?: string;
-  year?: string;
-}
+import Link from "./Link.astro";
+import Stack from "./Stack.astro";
+import TagList from "./TagList.astro";
+import StatusIndicator from "./StatusIndicator.astro";
 
 interface Props {
-  project: ProjectItem;
-  index?: string;
-  accent?: "cyan" | "violet" | "blue" | "green";
+  number?: string;
+
+  title: string;
+
+  description: string;
+
+  technologies?: string[];
+
+  href?: string;
+
+  status?: string;
+
+  statusVariant?:
+    | "online"
+    | "available"
+    | "current"
+    | "progress"
+    | "complete"
+    | "offline"
+    | "warning";
+
+  category?: string;
+
+  featured?: boolean;
+
+  class?: string;
 }
 
 const {
-  project,
-  index = "01",
-  accent = "cyan"
+  number,
+  title,
+  description,
+  technologies = [],
+  href,
+  status,
+  statusVariant = "complete",
+  category,
+  featured = false,
+  class: className = ""
 } = Astro.props;
-
-const projectStatus =
-  project.status ?? "COMPLETED";
 ---
 
 <article
   class:list={[
     "project-card",
-    `project-card-${accent}`,
     {
-      "project-card-featured": project.featured
-    }
+      "project-card--featured":
+        featured
+    },
+    className
   ]}
 >
+  <Stack gap="lg">
 
-  <!-- ======================================================
-       VISUAL PANEL
-       ====================================================== -->
+    <div class="project-card__top">
 
-  <div class="project-visual">
+      {
+        number && (
+          <span class="project-card__number">
+            {number}
+          </span>
+        )
+      }
 
-    {
-      project.image ? (
-        <img
-          src={project.image}
-          alt={`${project.title} project preview`}
-          class="project-image"
-          loading="lazy"
-        />
-      ) : (
-        <div
-          class="project-generated-visual"
-          aria-hidden="true"
-        >
-
-          <div class="visual-grid"></div>
-
-          <div class="visual-orbit visual-orbit-one">
-            <span></span>
-          </div>
-
-          <div class="visual-orbit visual-orbit-two">
-            <span></span>
-          </div>
-
-          <div class="visual-core">
-
-            <span class="core-ring"></span>
-
-            <span class="core-dot"></span>
-
-          </div>
-
-          <div class="visual-node node-one"></div>
-          <div class="visual-node node-two"></div>
-          <div class="visual-node node-three"></div>
-          <div class="visual-node node-four"></div>
-
-          <div class="visual-connection connection-one"></div>
-          <div class="visual-connection connection-two"></div>
-          <div class="visual-connection connection-three"></div>
-
-        </div>
-      )
-    }
-
-
-    <!-- ====================================================
-         VISUAL OVERLAY
-         ==================================================== -->
-
-    <div class="visual-overlay"></div>
-
-
-    <!-- ====================================================
-         PROJECT INDEX
-         ==================================================== -->
-
-    <div class="project-index">
-      PROJECT_{index}
-    </div>
-
-
-    <!-- ====================================================
-         STATUS
-         ==================================================== -->
-
-    <div class="project-status">
-
-      <span
-        class="project-status-dot"
-        aria-hidden="true"
-      ></span>
-
-      {projectStatus}
+      {
+        status && (
+          <StatusIndicator
+            label={status}
+            variant={statusVariant}
+          />
+        )
+      }
 
     </div>
 
 
-    <!-- ====================================================
-         YEAR
-         ==================================================== -->
+    <div class="project-card__heading">
 
-    {
-      project.year && (
-        <div class="project-year">
-          {project.year}
-        </div>
-      )
-    }
+      {
+        category && (
+          <span class="project-card__category">
+            {category}
+          </span>
+        )
+      }
 
-  </div>
-
-
-  <!-- ======================================================
-       CONTENT
-       ====================================================== -->
-
-  <div class="project-content">
-
-    <!-- ====================================================
-         CATEGORY
-         ==================================================== -->
-
-    <div class="project-category">
-
-      <span class="category-line"></span>
-
-      {project.category}
+      <h3 class="project-card__title">
+        {title}
+      </h3>
 
     </div>
 
 
-    <!-- ====================================================
-         TITLE
-         ==================================================== -->
-
-    <h3 class="project-title">
-      {project.title}
-    </h3>
-
-
-    <!-- ====================================================
-         DESCRIPTION
-         ==================================================== -->
-
-    <p class="project-description">
-      {project.description}
+    <p class="project-card__description">
+      {description}
     </p>
 
 
-    <!-- ====================================================
-         IMPACT
-         ==================================================== -->
-
     {
-      project.impact && (
-        <div class="project-impact">
-
-          <span class="impact-label">
-            IMPACT
-          </span>
-
-          <span class="impact-value">
-            {project.impact}
-          </span>
-
-        </div>
+      technologies.length > 0 && (
+        <TagList
+          items={technologies}
+          variant="cyan"
+          size="sm"
+        />
       )
     }
 
 
-    <!-- ====================================================
-         TECHNOLOGIES
-         ==================================================== -->
-
     {
-      project.technologies?.length && (
-        <div class="project-technologies">
-
-          {
-            project.technologies.map((technology) => (
-              <span class="project-tech">
-                {technology}
-              </span>
-            ))
-          }
-
-        </div>
+      href && (
+        <Link
+          href={href}
+          label="VIEW PROJECT"
+          icon="arrow-up-right"
+        />
       )
     }
 
-
-    <!-- ====================================================
-         ACTIONS
-         ==================================================== -->
-
-    {
-      (project.github || project.demo) && (
-        <div class="project-actions">
-
-          {
-            project.demo && (
-              <a
-                href={project.demo}
-                class="project-action project-action-primary"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-
-                <span>
-                  VIEW PROJECT
-                </span>
-
-                <span
-                  class="action-arrow"
-                  aria-hidden="true"
-                >
-                  ↗
-                </span>
-
-              </a>
-            )
-          }
-
-
-          {
-            project.github && (
-              <a
-                href={project.github}
-                class="project-action project-action-secondary"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-
-                <span>
-                  SOURCE
-                </span>
-
-                <span
-                  class="action-arrow"
-                  aria-hidden="true"
-                >
-                  ↗
-                </span>
-
-              </a>
-            )
-          }
-
-        </div>
-      )
-    }
-
-
-    <!-- ====================================================
-         FOOTER
-         ==================================================== -->
-
-    <div
-      class="project-footer"
-      aria-hidden="true"
-    >
-
-      <span class="footer-pulse"></span>
-
-      <span class="footer-line"></span>
-
-      <span class="footer-code">
-        NODE_{index}
-      </span>
-
-      <span class="footer-line"></span>
-
-      <span class="footer-end"></span>
-
-    </div>
-
-  </div>
-
+  </Stack>
 </article>
 
 
 <style>
-  /* ========================================================
-     BASE
-     ======================================================== */
-
   .project-card {
-    --project-accent:
-      #22d3ee;
+    position: relative;
 
-    --project-accent-soft:
-      rgba(34, 211, 238, 0.08);
+    min-width: 0;
 
-    --project-accent-border:
-      rgba(34, 211, 238, 0.16);
+    height: 100%;
 
-    position:
-      relative;
-
-    display:
-      grid;
-
-    grid-template-columns:
-      minmax(280px, 0.9fr)
-      minmax(0, 1fr);
-
-    min-height:
-      360px;
+    padding: 1.5rem;
 
     border:
-      1px solid var(--color-border);
+      1px solid
+      rgba(148, 163, 184, 0.12);
 
     border-radius:
-      0.65rem;
-
-    overflow:
-      hidden;
+      0.5rem;
 
     background:
-      rgba(148, 163, 184, 0.012);
+      linear-gradient(
+        145deg,
+        rgba(15, 23, 42, 0.7),
+        rgba(2, 6, 23, 0.82)
+      );
+
+    box-shadow:
+      0 20px 50px
+      rgba(0, 0, 0, 0.16);
+
+    overflow: hidden;
 
     transition:
-      transform var(--duration-slow) var(--ease-standard),
-      border-color var(--duration-normal) var(--ease-standard),
-      box-shadow var(--duration-slow) var(--ease-standard);
+      border-color 180ms ease,
+      transform 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+
+  .project-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(103, 232, 249, 0.35),
+        transparent
+      );
+
+    opacity: 0.45;
   }
 
 
   .project-card:hover {
-    transform:
-      translateY(-5px);
-
     border-color:
-      var(--project-accent-border);
+      rgba(103, 232, 249, 0.28);
+
+    transform:
+      translateY(-4px);
 
     box-shadow:
-      0 25px 70px rgba(0, 0, 0, 0.18),
-      0 0 45px var(--project-accent-soft);
+      0 28px 70px
+      rgba(0, 0, 0, 0.24);
+  }
+
+
+  /* ========================================================
+     TOP
+     ======================================================== */
+
+  .project-card__top {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    min-height: 1rem;
+  }
+
+
+  .project-card__number {
+    color:
+      rgba(103, 232, 249, 0.55);
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.68rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+  }
+
+
+  /* ========================================================
+     HEADING
+     ======================================================== */
+
+  .project-card__heading {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.65rem;
+  }
+
+
+  .project-card__category {
+    color:
+      rgba(148, 163, 184, 0.65);
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.6rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+  }
+
+
+  .project-card__title {
+    margin: 0;
+
+    color:
+      #f8fafc;
+
+    font-family:
+      Inter,
+      ui-sans-serif,
+      system-ui,
+      sans-serif;
+
+    font-size:
+      clamp(1.35rem, 2.5vw, 1.8rem);
+
+    font-weight: 700;
+
+    letter-spacing: -0.035em;
+
+    line-height: 1.05;
+  }
+
+
+  /* ========================================================
+     DESCRIPTION
+     ======================================================== */
+
+  .project-card__description {
+    margin: 0;
+
+    color:
+      rgba(148, 163, 184, 0.9);
+
+    font-size: 0.9rem;
+
+    line-height: 1.7;
   }
 
 
@@ -392,1315 +326,42 @@ const projectStatus =
      FEATURED
      ======================================================== */
 
-  .project-card-featured {
+  .project-card--featured {
     border-color:
-      var(--project-accent-border);
-  }
-
-
-  /* ========================================================
-     VISUAL
-     ======================================================== */
-
-  .project-visual {
-    position:
-      relative;
-
-    min-height:
-      100%;
-
-    overflow:
-      hidden;
+      rgba(103, 232, 249, 0.2);
 
     background:
-      #020617;
-  }
-
-
-  .project-image {
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    width:
-      100%;
-
-    height:
-      100%;
-
-    object-fit:
-      cover;
-
-    opacity:
-      0.78;
-
-    filter:
-      saturate(0.8)
-      contrast(1.05);
-
-    transition:
-      transform 0.8s var(--ease-standard),
-      opacity 0.8s var(--ease-standard);
-  }
-
-
-  .project-card:hover
-    .project-image {
-
-    transform:
-      scale(1.06);
-
-    opacity:
-      0.9;
-  }
-
-
-  /* ========================================================
-     GENERATED VISUAL
-     ======================================================== */
-
-  .project-generated-visual {
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    overflow:
-      hidden;
-
-    background:
-      radial-gradient(
-        circle at center,
-        var(--project-accent-soft),
-        transparent 48%
-      );
-  }
-
-
-  .visual-grid {
-    position:
-      absolute;
-
-    inset:
-      -30%;
-
-    background-image:
       linear-gradient(
-        rgba(148, 163, 184, 0.045) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        90deg,
-        rgba(148, 163, 184, 0.045) 1px,
-        transparent 1px
+        145deg,
+        rgba(8, 47, 73, 0.38),
+        rgba(2, 6, 23, 0.86)
       );
-
-    background-size:
-      30px 30px;
-
-    transform:
-      perspective(500px)
-      rotateX(62deg)
-      translateY(22%);
-
-    transform-origin:
-      center bottom;
-
-    opacity:
-      0.8;
-
-    animation:
-      project-grid-drift 12s linear infinite;
   }
 
 
-  @keyframes project-grid-drift {
-
-    from {
-      transform:
-        perspective(500px)
-        rotateX(62deg)
-        translateY(22%)
-        translateX(0);
-    }
-
-    to {
-      transform:
-        perspective(500px)
-        rotateX(62deg)
-        translateY(22%)
-        translateX(30px);
-    }
-
-  }
-
-
-  /* ========================================================
-     ORBITS
-     ======================================================== */
-
-  .visual-orbit {
-    position:
-      absolute;
-
-    top:
-      50%;
-
-    left:
-      50%;
-
-    border:
-      1px solid var(--project-accent-border);
-
-    border-radius:
-      50%;
-
-    transform:
-      translate(-50%, -50%)
-      rotateX(65deg)
-      rotateZ(20deg);
-
-    transform-style:
-      preserve-3d;
-  }
-
-
-  .visual-orbit-one {
-    width:
-      210px;
-
-    height:
-      210px;
-
-    animation:
-      orbit-one 12s linear infinite;
-  }
-
-
-  .visual-orbit-two {
-    width:
-      150px;
-
-    height:
-      150px;
-
-    border-color:
-      rgba(139, 92, 246, 0.2);
-
-    transform:
-      translate(-50%, -50%)
-      rotateX(70deg)
-      rotateZ(-25deg);
-
-    animation:
-      orbit-two 9s linear infinite reverse;
-  }
-
-
-  .visual-orbit span {
-    position:
-      absolute;
-
-    top:
-      50%;
-
-    left:
-      -3px;
-
-    width:
-      6px;
-
-    height:
-      6px;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--project-accent);
-
-    box-shadow:
-      0 0 14px var(--project-accent);
-  }
-
-
-  .visual-orbit-two span {
-    background:
-      #8b5cf6;
-
-    box-shadow:
-      0 0 14px #8b5cf6;
-  }
-
-
-  @keyframes orbit-one {
-
-    from {
-      transform:
-        translate(-50%, -50%)
-        rotateX(65deg)
-        rotateZ(0deg);
-    }
-
-    to {
-      transform:
-        translate(-50%, -50%)
-        rotateX(65deg)
-        rotateZ(360deg);
-    }
-
-  }
-
-
-  @keyframes orbit-two {
-
-    from {
-      transform:
-        translate(-50%, -50%)
-        rotateX(70deg)
-        rotateZ(0deg);
-    }
-
-    to {
-      transform:
-        translate(-50%, -50%)
-        rotateX(70deg)
-        rotateZ(360deg);
-    }
-
-  }
-
-
-  /* ========================================================
-     CORE
-     ======================================================== */
-
-  .visual-core {
-    position:
-      absolute;
-
-    top:
-      50%;
-
-    left:
-      50%;
-
-    width:
-      55px;
-
-    height:
-      55px;
-
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    border:
-      1px solid var(--project-accent-border);
-
-    border-radius:
-      50%;
-
-    background:
-      rgba(2, 6, 23, 0.8);
-
-    box-shadow:
-      0 0 35px var(--project-accent-soft);
-
-    transform:
-      translate(-50%, -50%);
-
-    z-index:
-      3;
-  }
-
-
-  .core-ring {
-    position:
-      absolute;
-
-    inset:
-      7px;
-
-    border:
-      1px solid
-      color-mix(
-        in srgb,
-        var(--project-accent) 25%,
-        transparent
-      );
-
-    border-radius:
-      50%;
-
-    animation:
-      core-ring-spin 8s linear infinite;
-  }
-
-
-  .core-dot {
-    width:
-      10px;
-
-    height:
-      10px;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--project-accent);
-
-    box-shadow:
-      0 0 20px var(--project-accent);
-  }
-
-
-  @keyframes core-ring-spin {
-
-    from {
-      transform:
-        rotate(0deg);
-    }
-
-    to {
-      transform:
-        rotate(360deg);
-    }
-
-  }
-
-
-  /* ========================================================
-     NODES
-     ======================================================== */
-
-  .visual-node {
-    position:
-      absolute;
-
-    width:
-      6px;
-
-    height:
-      6px;
-
-    border:
-      1px solid var(--project-accent);
-
-    border-radius:
-      50%;
-
-    background:
-      rgba(2, 6, 23, 0.8);
-
-    box-shadow:
-      0 0 10px var(--project-accent);
-
-    z-index:
-      2;
-
-    animation:
-      visual-node-float 4s ease-in-out infinite;
-  }
-
-
-  .node-one {
-    top:
-      22%;
-
-    left:
-      22%;
-  }
-
-
-  .node-two {
-    top:
-      25%;
-
-    right:
-      18%;
-
-    animation-delay:
-      0.8s;
-  }
-
-
-  .node-three {
-    bottom:
-      20%;
-
-    left:
-      18%;
-
-    animation-delay:
-      1.4s;
-  }
-
-
-  .node-four {
-    right:
-      22%;
-
-    bottom:
-      25%;
-
-    animation-delay:
-      2s;
-  }
-
-
-  @keyframes visual-node-float {
-
-    0%,
-    100% {
-      transform:
-        translateY(0);
-    }
-
-    50% {
-      transform:
-        translateY(-8px);
-    }
-
-  }
-
-
-  /* ========================================================
-     CONNECTIONS
-     ======================================================== */
-
-  .visual-connection {
-    position:
-      absolute;
-
-    height:
-      1px;
+  .project-card--featured::before {
+    opacity: 1;
 
     background:
       linear-gradient(
         90deg,
         transparent,
-        var(--project-accent-border),
+        rgba(103, 232, 249, 0.65),
         transparent
       );
-
-    transform-origin:
-      left center;
-
-    z-index:
-      1;
   }
 
 
-  .connection-one {
-    top:
-      25%;
-
-    left:
-      25%;
-
-    width:
-      105px;
-
-    transform:
-      rotate(20deg);
-  }
-
-
-  .connection-two {
-    top:
-      27%;
-
-    left:
-      53%;
-
-    width:
-      100px;
-
-    transform:
-      rotate(145deg);
-  }
-
-
-  .connection-three {
-    top:
-      54%;
-
-    left:
-      24%;
-
-    width:
-      110px;
-
-    transform:
-      rotate(-25deg);
-  }
-
-
-  /* ========================================================
-     OVERLAY
-     ======================================================== */
-
-  .visual-overlay {
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    z-index:
-      4;
-
-    background:
-      linear-gradient(
-        135deg,
-        rgba(2, 6, 23, 0.05),
-        rgba(2, 6, 23, 0.2) 45%,
-        rgba(2, 6, 23, 0.72)
-      );
-
-    pointer-events:
-      none;
-  }
-
-
-  /* ========================================================
-     VISUAL META
-     ======================================================== */
-
-  .project-index,
-  .project-status,
-  .project-year {
-    position:
-      absolute;
-
-    z-index:
-      5;
-
-    color:
-      rgba(226, 232, 240, 0.65);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.21rem;
-
-    letter-spacing:
-      0.03em;
-  }
-
-
-  .project-index {
-    top:
-      1rem;
-
-    left:
-      1rem;
-
-    padding:
-      0.3rem 0.45rem;
-
-    border:
-      1px solid rgba(148, 163, 184, 0.12);
-
-    border-radius:
-      0.15rem;
-
-    background:
-      rgba(2, 6, 23, 0.55);
-
-    backdrop-filter:
-      blur(8px);
-  }
-
-
-  .project-status {
-    top:
-      1rem;
-
-    right:
-      1rem;
-
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.3rem;
-
-    padding:
-      0.3rem 0.45rem;
-
-    border:
-      1px solid rgba(74, 222, 128, 0.15);
-
-    border-radius:
-      999px;
-
-    background:
-      rgba(2, 6, 23, 0.55);
-
-    backdrop-filter:
-      blur(8px);
-  }
-
-
-  .project-status-dot {
-    width:
-      4px;
-
-    height:
-      4px;
-
-    border-radius:
-      50%;
-
-    background:
-      #4ade80;
-
-    box-shadow:
-      0 0 7px rgba(74, 222, 128, 0.65);
-  }
-
-
-  .project-year {
-    right:
-      1rem;
-
-    bottom:
-      1rem;
-
-    color:
-      rgba(226, 232, 240, 0.45);
-  }
-
-
-  /* ========================================================
-     CONTENT
-     ======================================================== */
-
-  .project-content {
-    position:
-      relative;
-
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    min-width:
-      0;
-
-    padding:
-      1.4rem;
-
-    overflow:
-      hidden;
-  }
-
-
-  .project-category {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.45rem;
-
-    color:
-      var(--project-accent);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.24rem;
-
-    letter-spacing:
-      0.035em;
-
-    text-transform:
-      uppercase;
-  }
-
-
-  .category-line {
-    width:
-      22px;
-
-    height:
-      1px;
-
-    background:
-      var(--project-accent);
-  }
-
-
-  .project-title {
-    margin:
-      0.7rem 0 0;
-
-    color:
-      var(--color-text);
-
-    font-family:
-      var(--font-display);
-
-    font-size:
-      clamp(1.35rem, 2.8vw, 2rem);
-
-    font-weight:
-      600;
-
-    letter-spacing:
-      -0.045em;
-
-    line-height:
-      1.05;
-  }
-
-
-  .project-description {
-    margin:
-      0.8rem 0 0;
-
-    color:
-      var(--color-text-muted);
-
-    font-family:
-      var(--font-body);
-
-    font-size:
-      0.66rem;
-
-    line-height:
-      1.7;
-  }
-
-
-  /* ========================================================
-     IMPACT
-     ======================================================== */
-
-  .project-impact {
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    gap:
-      0.25rem;
-
-    margin-top:
-      1rem;
-
-    padding:
-      0.7rem;
-
-    border-left:
-      1px solid var(--project-accent-border);
-
-    background:
-      var(--project-accent-soft);
-  }
-
-
-  .impact-label {
-    color:
-      var(--project-accent);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.2rem;
-
-    letter-spacing:
-      0.035em;
-  }
-
-
-  .impact-value {
-    color:
-      var(--color-text);
-
-    font-family:
-      var(--font-body);
-
-    font-size:
-      0.57rem;
-
-    line-height:
-      1.5;
-  }
-
-
-  /* ========================================================
-     TECHNOLOGIES
-     ======================================================== */
-
-  .project-technologies {
-    display:
-      flex;
-
-    flex-wrap:
-      wrap;
-
-    gap:
-      0.3rem;
-
-    margin-top:
-      1rem;
-  }
-
-
-  .project-tech {
-    padding:
-      0.25rem 0.45rem;
-
-    border:
-      1px solid var(--color-border);
-
-    border-radius:
-      0.18rem;
-
-    color:
-      var(--color-text-subtle);
-
-    background:
-      rgba(148, 163, 184, 0.015);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.2rem;
-
-    letter-spacing:
-      0.02em;
-
-    transition:
-      color var(--duration-fast) var(--ease-standard),
-      border-color var(--duration-fast) var(--ease-standard);
-  }
-
-
-  .project-tech:hover {
-    color:
-      var(--project-accent);
-
-    border-color:
-      var(--project-accent-border);
-  }
-
-
-  /* ========================================================
-     ACTIONS
-     ======================================================== */
-
-  .project-actions {
-    display:
-      flex;
-
-    flex-wrap:
-      wrap;
-
-    gap:
-      0.5rem;
-
-    margin-top:
-      auto;
-
-    padding-top:
-      1.2rem;
-  }
-
-
-  .project-action {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    gap:
-      0.45rem;
-
-    min-height:
-      32px;
-
-    padding:
-      0.3rem 0.65rem;
-
-    border:
-      1px solid var(--project-accent-border);
-
-    border-radius:
-      0.2rem;
-
-    color:
-      var(--color-text);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.21rem;
-
-    letter-spacing:
-      0.025em;
-
-    text-decoration:
-      none;
-
-    transition:
-      background var(--duration-fast) var(--ease-standard),
-      border-color var(--duration-fast) var(--ease-standard),
-      transform var(--duration-fast) var(--ease-standard);
-  }
-
-
-  .project-action:hover {
-    transform:
-      translateY(-1px);
-
-    border-color:
-      var(--project-accent);
-
-    background:
-      var(--project-accent-soft);
-  }
-
-
-  .project-action-primary {
-    background:
-      var(--project-accent-soft);
-  }
-
-
-  .project-action-secondary {
-    color:
-      var(--color-text-muted);
-
-    border-color:
-      var(--color-border);
-
-    background:
-      transparent;
-  }
-
-
-  .action-arrow {
-    color:
-      var(--project-accent);
-
-    font-size:
-      0.55rem;
-  }
-
-
-  /* ========================================================
-     FOOTER
-     ======================================================== */
-
-  .project-footer {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.3rem;
-
-    margin-top:
-      1.3rem;
-
-    padding-top:
-      0.7rem;
-
-    border-top:
-      1px solid var(--color-border);
-  }
-
-
-  .footer-pulse,
-  .footer-end {
-    width:
-      4px;
-
-    height:
-      4px;
-
-    flex-shrink:
-      0;
-
-    border:
-      1px solid var(--project-accent-border);
-
-    border-radius:
-      50%;
-  }
-
-
-  .footer-pulse {
-    background:
-      var(--project-accent);
-
-    box-shadow:
-      0 0 7px var(--project-accent);
-  }
-
-
-  .footer-line {
-    flex:
-      0 1 35px;
-
-    height:
-      1px;
-
-    background:
-      var(--color-border);
-  }
-
-
-  .footer-code {
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.18rem;
-
-    letter-spacing:
-      0.025em;
-  }
-
-
-  /* ========================================================
-     ACCENTS
-     ======================================================== */
-
-  .project-card-cyan {
-    --project-accent:
-      #22d3ee;
-
-    --project-accent-soft:
-      rgba(34, 211, 238, 0.08);
-
-    --project-accent-border:
-      rgba(34, 211, 238, 0.16);
-  }
-
-
-  .project-card-violet {
-    --project-accent:
-      #8b5cf6;
-
-    --project-accent-soft:
-      rgba(139, 92, 246, 0.08);
-
-    --project-accent-border:
-      rgba(139, 92, 246, 0.16);
-  }
-
-
-  .project-card-blue {
-    --project-accent:
-      #3b82f6;
-
-    --project-accent-soft:
-      rgba(59, 130, 246, 0.08);
-
-    --project-accent-border:
-      rgba(59, 130, 246, 0.16);
-  }
-
-
-  .project-card-green {
-    --project-accent:
-      #4ade80;
-
-    --project-accent-soft:
-      rgba(74, 222, 128, 0.08);
-
-    --project-accent-border:
-      rgba(74, 222, 128, 0.16);
-  }
-
-
-  /* ========================================================
-     LIGHT THEME
-     ======================================================== */
-
-  :global([data-theme="light"])
+  @media (max-width: 640px) {
     .project-card {
-
-    background:
-      rgba(15, 23, 42, 0.012);
+      padding: 1.25rem;
+    }
   }
 
-
-  :global([data-theme="light"])
-    .project-visual {
-
-    background:
-      #f1f5f9;
-  }
-
-
-  :global([data-theme="light"])
-    .project-generated-visual {
-
-    background:
-      radial-gradient(
-        circle at center,
-        var(--project-accent-soft),
-        transparent 48%
-      );
-  }
-
-
-  /* ========================================================
-     RESPONSIVE
-     ======================================================== */
-
-  @media (max-width: 900px) {
-
-    .project-card {
-      grid-template-columns:
-        1fr;
-
-      min-height:
-        auto;
-    }
-
-
-    .project-visual {
-      min-height:
-        280px;
-    }
-
-
-    .project-content {
-      min-height:
-        320px;
-    }
-
-  }
-
-
-  @media (max-width: 600px) {
-
-    .project-visual {
-      min-height:
-        230px;
-    }
-
-
-    .project-content {
-      min-height:
-        0;
-
-      padding:
-        1rem;
-    }
-
-
-    .project-title {
-      font-size:
-        1.35rem;
-    }
-
-
-    .project-description {
-      font-size:
-        0.62rem;
-    }
-
-
-    .project-action {
-      min-height:
-        34px;
-
-      padding:
-        0.3rem 0.55rem;
-    }
-
-  }
-
-
-  @media (max-width: 400px) {
-
-    .project-visual {
-      min-height:
-        210px;
-    }
-
-
-    .visual-orbit-one {
-      width:
-        160px;
-
-      height:
-        160px;
-    }
-
-
-    .visual-orbit-two {
-      width:
-        115px;
-
-      height:
-        115px;
-    }
-
-  }
-
-
-  /* ========================================================
-     REDUCED MOTION
-     ======================================================== */
 
   @media (prefers-reduced-motion: reduce) {
-
-    .visual-grid,
-    .visual-orbit,
-    .core-ring,
-    .visual-node {
-      animation:
-        none;
+    .project-card {
+      transition: none;
     }
-
-
-    .project-card,
-    .project-image,
-    .project-action,
-    .project-tech {
-      transition:
-        none;
-    }
-
   }
 </style>
