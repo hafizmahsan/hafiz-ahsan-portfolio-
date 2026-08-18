@@ -1,0 +1,597 @@
+---
+/**
+ * ============================================================
+ * SKILL CHIP
+ * ============================================================
+ *
+ * Reusable technology / skill badge.
+ *
+ * Designed for:
+ * - Technical skills
+ * - Frameworks
+ * - Platforms
+ * - Tools
+ * - AI technologies
+ * - Automation technologies
+ *
+ * ============================================================
+ */
+
+interface Props {
+  name: string;
+  category?: string;
+  level?: "CORE" | "ADVANCED" | "WORKING" | "LEARNING";
+  accent?: "cyan" | "violet" | "blue" | "green";
+  icon?: string;
+  featured?: boolean;
+}
+
+const {
+  name,
+  category,
+  level,
+  accent = "cyan",
+  icon = "◇",
+  featured = false
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "skill-chip",
+    `skill-chip-${accent}`,
+    {
+      "skill-chip-featured": featured
+    }
+  ]}
+>
+
+  <!-- ======================================================
+       ICON
+       ====================================================== -->
+
+  <span
+    class="skill-icon"
+    aria-hidden="true"
+  >
+    {icon}
+  </span>
+
+
+  <!-- ======================================================
+       CONTENT
+       ====================================================== -->
+
+  <span class="skill-content">
+
+    <span class="skill-name">
+      {name}
+    </span>
+
+    {
+      category && (
+        <span class="skill-category">
+          {category}
+        </span>
+      )
+    }
+
+  </span>
+
+
+  <!-- ======================================================
+       LEVEL
+       ====================================================== -->
+
+  {
+    level && (
+      <span class="skill-level">
+        {level}
+      </span>
+    )
+  }
+
+
+  <!-- ======================================================
+       NODE
+       ====================================================== -->
+
+  <span
+    class="skill-node"
+    aria-hidden="true"
+  ></span>
+
+</div>
+
+
+<style>
+  /* ========================================================
+     BASE
+     ======================================================== */
+
+  .skill-chip {
+    position:
+      relative;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.55rem;
+
+    min-width:
+      0;
+
+    padding:
+      0.55rem 0.65rem;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      0.35rem;
+
+    background:
+      rgba(148, 163, 184, 0.012);
+
+    color:
+      var(--color-text-muted);
+
+    overflow:
+      hidden;
+
+    transition:
+      border-color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-fast) var(--ease-standard);
+  }
+
+
+  .skill-chip:hover {
+    transform:
+      translateY(-2px);
+
+    border-color:
+      rgba(34, 211, 238, 0.2);
+
+    background:
+      rgba(34, 211, 238, 0.018);
+
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+
+  /* ========================================================
+     ICON
+     ======================================================== */
+
+  .skill-icon {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    flex-shrink:
+      0;
+
+    width:
+      25px;
+
+    height:
+      25px;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.15);
+
+    border-radius:
+      0.25rem;
+
+    color:
+      var(--color-cyan);
+
+    background:
+      rgba(34, 211, 238, 0.025);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.55rem;
+
+    transition:
+      transform var(--duration-fast) var(--ease-standard);
+  }
+
+
+  .skill-chip:hover
+    .skill-icon {
+
+    transform:
+      rotate(8deg);
+  }
+
+
+  /* ========================================================
+     CONTENT
+     ======================================================== */
+
+  .skill-content {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    min-width:
+      0;
+
+    gap:
+      0.15rem;
+  }
+
+
+  .skill-name {
+    color:
+      var(--color-text);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.38rem;
+
+    font-weight:
+      500;
+
+    letter-spacing:
+      0.015em;
+
+    white-space:
+      nowrap;
+  }
+
+
+  .skill-category {
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.24rem;
+
+    letter-spacing:
+      0.025em;
+
+    text-transform:
+      uppercase;
+
+    white-space:
+      nowrap;
+  }
+
+
+  /* ========================================================
+     LEVEL
+     ======================================================== */
+
+  .skill-level {
+    margin-left:
+      0.25rem;
+
+    padding:
+      0.18rem 0.25rem;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      0.15rem;
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.21rem;
+
+    letter-spacing:
+      0.025em;
+
+    white-space:
+      nowrap;
+  }
+
+
+  /* ========================================================
+     NODE
+     ======================================================== */
+
+  .skill-node {
+    position:
+      absolute;
+
+    right:
+      0;
+
+    bottom:
+      0;
+
+    width:
+      5px;
+
+    height:
+      5px;
+
+    border-top:
+      1px solid var(--color-cyan);
+
+    border-left:
+      1px solid var(--color-cyan);
+
+    opacity:
+      0.45;
+  }
+
+
+  /* ========================================================
+     CYAN
+     ======================================================== */
+
+  .skill-chip-cyan
+    .skill-icon {
+
+    color:
+      var(--color-cyan);
+
+    border-color:
+      rgba(34, 211, 238, 0.15);
+
+    background:
+      rgba(34, 211, 238, 0.025);
+  }
+
+
+  .skill-chip-cyan
+    .skill-node {
+
+    border-color:
+      var(--color-cyan);
+  }
+
+
+  /* ========================================================
+     VIOLET
+     ======================================================== */
+
+  .skill-chip-violet
+    .skill-icon {
+
+    color:
+      var(--color-violet);
+
+    border-color:
+      rgba(139, 92, 246, 0.16);
+
+    background:
+      rgba(139, 92, 246, 0.025);
+  }
+
+
+  .skill-chip-violet:hover {
+
+    border-color:
+      rgba(139, 92, 246, 0.2);
+
+    background:
+      rgba(139, 92, 246, 0.018);
+  }
+
+
+  .skill-chip-violet
+    .skill-node {
+
+    border-color:
+      var(--color-violet);
+  }
+
+
+  /* ========================================================
+     BLUE
+     ======================================================== */
+
+  .skill-chip-blue
+    .skill-icon {
+
+    color:
+      var(--color-blue);
+
+    border-color:
+      rgba(59, 130, 246, 0.16);
+
+    background:
+      rgba(59, 130, 246, 0.025);
+  }
+
+
+  .skill-chip-blue:hover {
+
+    border-color:
+      rgba(59, 130, 246, 0.2);
+
+    background:
+      rgba(59, 130, 246, 0.018);
+  }
+
+
+  .skill-chip-blue
+    .skill-node {
+
+    border-color:
+      var(--color-blue);
+  }
+
+
+  /* ========================================================
+     GREEN
+     ======================================================== */
+
+  .skill-chip-green
+    .skill-icon {
+
+    color:
+      #4ade80;
+
+    border-color:
+      rgba(74, 222, 128, 0.16);
+
+    background:
+      rgba(74, 222, 128, 0.025);
+  }
+
+
+  .skill-chip-green:hover {
+
+    border-color:
+      rgba(74, 222, 128, 0.2);
+
+    background:
+      rgba(74, 222, 128, 0.018);
+  }
+
+
+  .skill-chip-green
+    .skill-node {
+
+    border-color:
+      #4ade80;
+  }
+
+
+  /* ========================================================
+     FEATURED
+     ======================================================== */
+
+  .skill-chip-featured {
+    border-color:
+      rgba(34, 211, 238, 0.14);
+
+    box-shadow:
+      inset 0 0 20px rgba(34, 211, 238, 0.012);
+  }
+
+
+  .skill-chip-featured
+    .skill-icon {
+
+    box-shadow:
+      0 0 12px rgba(34, 211, 238, 0.06);
+  }
+
+
+  /* ========================================================
+     LIGHT THEME
+     ======================================================== */
+
+  :global([data-theme="light"])
+    .skill-chip {
+
+    background:
+      rgba(15, 23, 42, 0.012);
+  }
+
+
+  :global([data-theme="light"])
+    .skill-chip:hover {
+
+    background:
+      rgba(14, 116, 144, 0.018);
+
+    box-shadow:
+      0 10px 30px rgba(15, 23, 42, 0.06);
+  }
+
+
+  /* ========================================================
+     RESPONSIVE
+     ======================================================== */
+
+  @media (max-width: 600px) {
+
+    .skill-chip {
+      padding:
+        0.48rem 0.55rem;
+
+      gap:
+        0.45rem;
+    }
+
+
+    .skill-icon {
+      width:
+        22px;
+
+      height:
+        22px;
+
+      font-size:
+        0.48rem;
+    }
+
+
+    .skill-name {
+      font-size:
+        0.34rem;
+    }
+
+
+    .skill-level {
+      display:
+        none;
+    }
+
+  }
+
+
+  @media (max-width: 400px) {
+
+    .skill-chip {
+      width:
+        100%;
+    }
+
+
+    .skill-content {
+      flex:
+        1;
+    }
+
+  }
+
+
+  /* ========================================================
+     REDUCED MOTION
+     ======================================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .skill-chip,
+    .skill-icon {
+      transition:
+        none;
+    }
+
+  }
+</style>
