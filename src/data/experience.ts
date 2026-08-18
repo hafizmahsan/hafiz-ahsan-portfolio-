@@ -1,165 +1,119 @@
 /**
  * ============================================================
- * PROFESSIONAL EXPERIENCE
+ * PROFESSIONAL EXPERIENCE DATA
  * ============================================================
  *
- * This file contains the complete professional timeline.
+ * This file contains the editable career history used by
+ * Experience.astro.
  *
- * IMPORTANT:
- * - Keep experience entries separate from UI/design code.
- * - The website will automatically render this data.
- * - To add a new role, add another object to the `experience`
- *   array.
- * - To update an existing role, change its data here.
+ * NON-TECHNICAL EDITING:
+ * To change a job, update the values below.
+ * The visual timeline does not need to be modified.
  *
- * DISPLAY ORDER:
- * The current Tawuniya engagement is intentionally first.
- * Historical roles follow afterward.
  * ============================================================
  */
 
-export type ExperienceType =
-  | "current"
-  | "client-engagement"
-  | "previous"
-  | "career-start";
-
-export type Experience = {
-  id: string;
-
+export interface ExperienceItem {
   company: string;
-  companyType?: string;
-
+  client: string;
   role: string;
-
-  startDate: string;
-  endDate: string;
-
+  period: string;
   location?: string;
-
-  type: ExperienceType;
-
-  client?: string;
-
   description: string;
-
-  responsibilities: string[];
-
-  technologies: string[];
-
   highlights: string[];
+  technologies: string[];
+  current?: boolean;
+}
 
-  /**
-   * Used by the UI to visually distinguish current
-   * employment from historical experience.
-   */
-  current: boolean;
 
-  /**
-   * Optional logo identifier.
-   *
-   * The visual layer will decide how this is rendered.
-   */
-  logo: string;
-};
+/**
+ * ============================================================
+ * CAREER HISTORY
+ * ============================================================
+ *
+ * IMPORTANT:
+ * Keep the newest/current role first.
+ *
+ * Tawuniya is intentionally represented across its vendor
+ * transitions so the evolution of the engagement is clear.
+ *
+ * ============================================================
+ */
 
-export const experience: Experience[] = [
-  /*
-   * ==========================================================
-   * 01 — CURRENT ROLE
-   * ==========================================================
-   *
-   * Tawuniya must appear first.
-   */
+export const experience: ExperienceItem[] = [
 
   {
-    id: "tawuniya-teejan-al-khaleej",
-
     company: "Tawuniya Insurance",
-
-    companyType: "Insurance & Financial Services",
-
+    client: "Tawuniya Technology / Enterprise Automation",
     role: "Senior RPA Consultant",
-
-    startDate: "July 2026",
-
-    endDate: "Present",
-
+    period: "Jul 2026 — Present",
     location: "Saudi Arabia",
-
-    type: "current",
-
-    client: "Tawuniya Insurance",
+    current: true,
 
     description:
-      "Currently working as a Senior RPA Consultant within Tawuniya's technology ecosystem through its technology subsidiary, Teejan Al Khaleej (Muroon), focusing on enterprise automation and intelligent automation initiatives.",
+      "Continuing enterprise automation and RPA consulting for Tawuniya through its technology subsidiary, Teejan Al Khaleej (Muroon), with a focus on automation delivery, solution design and scalable enterprise processes.",
 
-    responsibilities: [
-      "Design and support enterprise RPA solutions.",
-      "Analyze business processes and identify suitable automation opportunities.",
-      "Contribute to scalable automation architecture and solution design.",
-      "Collaborate with business and technology stakeholders on automation initiatives.",
-      "Support automation delivery, optimization and operational improvement.",
-      "Explore opportunities to combine traditional RPA with modern AI and Generative AI capabilities."
+    highlights: [
+      "Senior-level RPA consulting within a major insurance enterprise.",
+      "Designing and supporting automation solutions across business processes.",
+      "Working with stakeholders to translate business requirements into technical automation solutions.",
+      "Continuing the evolution toward intelligent automation and GenAI-enabled workflows."
     ],
 
     technologies: [
       "RPA",
       "Automation",
-      "Solution Architecture",
-      "API Integration",
-      "Enterprise Automation",
-      "Generative AI"
-    ],
-
-    highlights: [
-      "Current Senior RPA Consultant engagement with Tawuniya.",
-      "Working through Tawuniya's technology subsidiary, Teejan Al Khaleej (Muroon).",
-      "Expanding automation capabilities toward intelligent and AI-assisted automation."
-    ],
-
-    current: true,
-
-    logo: "tawuniya"
+      "Solution Design",
+      "Enterprise Integration",
+      "GenAI",
+      "LLMs"
+    ]
   },
 
-  /*
-   * ==========================================================
-   * 02 — TAWUNIYA ENGAGEMENT
-   * ==========================================================
-   *
-   * Vendor: Mob Coder
-   * Client: Tawuniya Insurance
-   */
 
   {
-    id: "tawuniya-mob-coder",
-
-    company: "Mob Coder",
-
-    companyType: "Technology Services / Vendor",
-
+    company: "Tawuniya Insurance",
+    client: "Vendor: Mob Coder",
     role: "Senior RPA Consultant",
-
-    startDate: "May 2025",
-
-    endDate: "June 2026",
-
+    period: "May 2025 — Jun 2026",
     location: "Saudi Arabia",
 
-    type: "client-engagement",
+    description:
+      "Continued the Tawuniya enterprise automation engagement through Mob Coder, delivering RPA consulting, automation development and solution-oriented support for business processes.",
 
-    client: "Tawuniya Insurance",
+    highlights: [
+      "Delivered and supported enterprise RPA solutions for Tawuniya.",
+      "Worked with business and technical stakeholders on automation requirements.",
+      "Contributed to automation design, development and production support.",
+      "Supported process optimization through digital automation."
+    ],
+
+    technologies: [
+      "RPA",
+      "Process Automation",
+      "Solution Design",
+      "Enterprise Applications",
+      "APIs",
+      "Automation Support"
+    ]
+  },
+
+
+  {
+    company: "Tawuniya Insurance",
+    client: "Vendor: Xocialve",
+    role: "Senior RPA Consultant",
+    period: "Feb 2024 — Apr 2025",
+    location: "Saudi Arabia",
 
     description:
-      "Worked as a Senior RPA Consultant for Tawuniya Insurance through Mob Coder, contributing to enterprise automation initiatives and supporting the delivery of RPA solutions.",
+      "Started the Tawuniya engagement as a Senior RPA Consultant through Xocialve, working on enterprise automation initiatives and helping translate business requirements into reliable RPA solutions.",
 
-    responsibilities: [
-      "Develop and support RPA automation solutions for enterprise processes.",
-      "Work with stakeholders to understand process requirements.",
-      "Translate business requirements into automation solutions.",
-      "Support production automation and issue resolution.",
-      "Contribute to automation improvements and solution optimization."
+    highlights: [
+      "Joined the Tawuniya engagement as a Senior RPA Consultant.",
+      "Worked on enterprise process automation and RPA delivery.",
+      "Collaborated with business teams to identify automation opportunities.",
+      "Contributed to solution design, implementation and operational support."
     ],
 
     technologies: [
@@ -167,229 +121,57 @@ export const experience: Experience[] = [
       "Automation",
       "Process Analysis",
       "Solution Design",
-      "Enterprise Applications"
-    ],
-
-    highlights: [
-      "Senior RPA consulting engagement for Tawuniya Insurance.",
-      "Enterprise-scale automation exposure.",
-      "Continued progression toward solution architecture and intelligent automation."
-    ],
-
-    current: false,
-
-    logo: "mob-coder"
+      "Enterprise Systems",
+      "APIs"
+    ]
   },
 
-  /*
-   * ==========================================================
-   * 03 — TAWUNIYA ENGAGEMENT
-   * ==========================================================
-   *
-   * Vendor: Xocialve
-   * Client: Tawuniya Insurance
-   */
 
   {
-    id: "tawuniya-xocialve",
-
-    company: "Xocialve",
-
-    companyType: "Technology Services / Vendor",
-
-    role: "Senior RPA Consultant",
-
-    startDate: "February 2024",
-
-    endDate: "April 2025",
-
-    location: "Saudi Arabia",
-
-    type: "client-engagement",
-
-    client: "Tawuniya Insurance",
-
-    description:
-      "Started the Tawuniya Insurance engagement as a Senior RPA Consultant through Xocialve, working on enterprise automation and RPA delivery.",
-
-    responsibilities: [
-      "Analyze business processes for automation opportunities.",
-      "Design and develop RPA-based process automation.",
-      "Collaborate with technical and business stakeholders.",
-      "Support automation testing, deployment and maintenance.",
-      "Help improve existing automation workflows and operational processes."
-    ],
-
-    technologies: [
-      "RPA",
-      "Process Automation",
-      "Business Analysis",
-      "Automation Development",
-      "Enterprise Systems"
-    ],
-
-    highlights: [
-      "Beginning of the long-term Tawuniya Insurance engagement in February 2024.",
-      "Senior-level RPA consulting responsibilities.",
-      "Enterprise automation and stakeholder collaboration."
-    ],
-
-    current: false,
-
-    logo: "xocialve"
-  },
-
-  /*
-   * ==========================================================
-   * 04 — TECHVISTA SYSTEMS
-   * ==========================================================
-   *
-   * TechVista Systems is represented as a Systems Limited
-   * subsidiary/client-services environment based on the
-   * career history provided.
-   *
-   * The Etisalat assignment is explicitly preserved as the
-   * client context.
-   */
-
-  {
-    id: "techvista-etisalat",
-
     company: "TechVista Systems",
-
-    companyType: "Systems Limited Subsidiary",
-
-    role: "Senior RPA Developer & Solution Architect",
-
-    startDate: "2022",
-
-    endDate: "2024",
-
-    location: "Pakistan / Client Engagement",
-
-    type: "previous",
-
     client: "Etisalat",
+    role: "Senior RPA Developer & Solution Architect",
+    period: "2022 — 2024",
+    location: "Pakistan / UAE Client Engagement",
 
     description:
-      "Worked with TechVista Systems, a Systems Limited subsidiary, as an outsourced resource for Etisalat, progressing into senior RPA development and solution architecture responsibilities.",
+      "Worked as an outsourced technology resource for Etisalat through TechVista Systems, progressing into senior RPA development and solution architecture responsibilities.",
 
-    responsibilities: [
-      "Design and develop RPA solutions for client processes.",
-      "Translate business requirements into scalable automation designs.",
-      "Contribute to solution architecture and technical decisions.",
-      "Develop reusable automation components and workflows.",
-      "Collaborate with client stakeholders and delivery teams.",
-      "Support automation deployment, maintenance and optimization."
+    highlights: [
+      "Worked as an outsourced RPA technology resource for Etisalat.",
+      "Designed and developed enterprise automation solutions.",
+      "Contributed to solution architecture and technical design.",
+      "Worked across business processes, integrations and automation delivery.",
+      "Collaborated with client stakeholders to translate requirements into technical solutions."
     ],
 
     technologies: [
       "RPA",
       "Solution Architecture",
-      "Automation Development",
       "Enterprise Automation",
-      "Process Analysis",
-      "Client Consulting"
-    ],
-
-    highlights: [
-      "Senior RPA Developer and Solution Architect responsibilities.",
-      "Worked as an outsourced resource for Etisalat.",
-      "Progression from RPA development toward architecture and consulting."
-    ],
-
-    current: false,
-
-    logo: "techvista"
+      "APIs",
+      "Process Design",
+      "Integration"
+    ]
   },
 
-  /*
-   * ==========================================================
-   * 05 — VISIONET SYSTEMS
-   * ==========================================================
-   */
 
   {
-    id: "visionet-junior-consultant",
-
     company: "Visionet Systems",
-
-    companyType: "Systems Limited Subsidiary",
-
-    role: "Junior Consultant",
-
-    startDate: "2021",
-
-    endDate: "2022",
-
-    location: "Pakistan",
-
-    type: "previous",
-
-    description:
-      "Worked as a Junior Consultant within Visionet Systems, a Systems Limited subsidiary, supporting client-facing technology and automation engagements.",
-
-    responsibilities: [
-      "Support client requirements analysis.",
-      "Contribute to automation and technology delivery activities.",
-      "Assist with solution development and implementation.",
-      "Collaborate with consultants, developers and client stakeholders.",
-      "Support testing, troubleshooting and process improvement."
-    ],
-
-    technologies: [
-      "RPA",
-      "Consulting",
-      "Process Automation",
-      "Business Analysis",
-      "Software Development"
-    ],
-
-    highlights: [
-      "Client-facing consulting experience.",
-      "Progression into specialized RPA responsibilities.",
-      "Experience within a Systems Limited subsidiary environment."
-    ],
-
-    current: false,
-
-    logo: "visionet"
-  },
-
-  /*
-   * ==========================================================
-   * 06 — SYSTEMS LIMITED
-   * ==========================================================
-   *
-   * RPA specialization began in 2021.
-   */
-
-  {
-    id: "systems-associate-consultant-rpa",
-
-    company: "Systems Limited",
-
-    companyType: "Technology & Digital Services",
-
-    role: "Associate Consultant — RPA",
-
-    startDate: "2021",
-
-    endDate: "2021",
-
+    client: "Systems Limited Group",
+    role: "Junior Consultant — RPA",
+    period: "2021 — 2022",
     location: "Lahore, Pakistan",
 
-    type: "previous",
-
     description:
-      "Progressed into an Associate Consultant role specializing in Robotic Process Automation, beginning the dedicated RPA-focused phase of the professional career.",
+      "Joined Visionet Systems, a Systems Limited group company, as a Junior Consultant and continued developing expertise in RPA, automation delivery and client-focused consulting.",
 
-    responsibilities: [
-      "Develop automation solutions for business processes.",
-      "Analyze repetitive and rule-based processes for automation potential.",
-      "Work with consulting and technical teams on RPA delivery.",
-      "Support automation testing and deployment.",
-      "Contribute to process improvement initiatives."
+    highlights: [
+      "Worked on RPA development and enterprise automation initiatives.",
+      "Participated in requirements analysis and solution implementation.",
+      "Developed automation workflows for business processes.",
+      "Worked in a consulting-oriented delivery environment.",
+      "Expanded technical and client-facing capabilities."
     ],
 
     technologies: [
@@ -397,112 +179,63 @@ export const experience: Experience[] = [
       "Automation",
       "Process Analysis",
       "Consulting",
-      "Software Development"
-    ],
-
-    highlights: [
-      "Dedicated specialization in RPA.",
-      "Transition into consulting-oriented automation work.",
-      "Foundation for later senior RPA and architecture responsibilities."
-    ],
-
-    current: false,
-
-    logo: "systems-limited"
+      "Workflow Design",
+      "Enterprise Applications"
+    ]
   },
 
-  /*
-   * ==========================================================
-   * 07 — CAREER START
-   * ==========================================================
-   */
 
   {
-    id: "systems-career-start",
-
     company: "Systems Limited",
-
-    companyType: "Technology & Digital Services",
-
-    role: "IT Professional — Career Start",
-
-    startDate: "2020",
-
-    endDate: "2021",
-
+    client: "Systems Limited",
+    role: "Associate Consultant — RPA",
+    period: "2021",
     location: "Lahore, Pakistan",
 
-    type: "career-start",
-
     description:
-      "Started the professional IT career at Systems Limited in Lahore in 2020, establishing the foundation for subsequent work in consulting, RPA, automation and solution architecture.",
+      "Progressed into an Associate Consultant — RPA role at Systems Limited, beginning the dedicated RPA and automation phase of the professional journey.",
 
-    responsibilities: [
-      "Work within professional IT delivery environments.",
-      "Develop foundational technical and professional skills.",
-      "Collaborate with technology and delivery teams.",
-      "Build experience that led into RPA specialization."
+    highlights: [
+      "Focused on robotic process automation and workflow automation.",
+      "Worked on automation development and implementation.",
+      "Participated in process analysis and technical solution development.",
+      "Built foundational experience in enterprise RPA delivery."
     ],
 
     technologies: [
-      "Information Technology",
-      "Software Development",
+      "RPA",
       "Automation",
-      "Enterprise Technology"
-    ],
+      "Process Analysis",
+      "Workflow Automation",
+      "Enterprise IT"
+    ]
+  },
+
+
+  {
+    company: "Systems Limited",
+    client: "Systems Limited",
+    role: "IT Professional",
+    period: "2020 — 2021",
+    location: "Lahore, Pakistan",
+
+    description:
+      "Started the professional IT career at Systems Limited in Lahore in 2020, establishing the technical foundation that later developed into a specialization in RPA, automation and solution architecture.",
 
     highlights: [
-      "Professional IT career started in 2020.",
-      "Foundation for a 6+ year IT career.",
-      "Progressed toward RPA and intelligent automation."
+      "Started professional IT career in 2020.",
+      "Built foundational enterprise technology experience.",
+      "Developed understanding of business and technical environments.",
+      "Transitioned toward RPA and automation as a professional specialization."
     ],
 
-    current: false,
-
-    logo: "systems-limited"
+    technologies: [
+      "Enterprise IT",
+      "Automation",
+      "Business Processes",
+      "Technical Support",
+      "Systems"
+    ]
   }
+
 ];
-
-/**
- * ============================================================
- * EXPERIENCE HELPERS
- * ============================================================
- *
- * Keeping simple logic here means UI components don't need to
- * know how the experience data is organized.
- */
-
-/**
- * Return only currently active positions.
- */
-export function getCurrentExperience(): Experience[] {
-  return experience.filter((item) => item.current);
-}
-
-/**
- * Return historical positions.
- */
-export function getPreviousExperience(): Experience[] {
-  return experience.filter((item) => !item.current);
-}
-
-/**
- * Find one experience entry by ID.
- */
-export function getExperienceById(
-  id: string
-): Experience | undefined {
-  return experience.find((item) => item.id === id);
-}
-
-/**
- * Get experience entries associated with a specific client.
- */
-export function getExperienceByClient(
-  client: string
-): Experience[] {
-  return experience.filter(
-    (item) =>
-      item.client?.toLowerCase() === client.toLowerCase()
-  );
-}
