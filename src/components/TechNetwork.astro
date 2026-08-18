@@ -1,0 +1,1445 @@
+---
+/**
+ * ============================================================
+ * TECH NETWORK
+ * ============================================================
+ *
+ * Lightweight animated technology/network visualization.
+ *
+ * Designed to evoke:
+ * - Artificial intelligence
+ * - RPA
+ * - Automation systems
+ * - Neural networks
+ * - Distributed systems
+ * - Data flow
+ *
+ * Uses SVG + CSS instead of a heavy rendering engine.
+ * This keeps the visual performant on GitHub Pages.
+ *
+ * ============================================================
+ */
+
+interface Props {
+  variant?: "default" | "dense" | "minimal";
+  label?: string;
+  interactive?: boolean;
+}
+
+const {
+  variant = "default",
+  label = "AUTOMATION NETWORK",
+  interactive = false
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "tech-network",
+    `tech-network-${variant}`,
+    {
+      "tech-network-interactive": interactive
+    }
+  ]}
+  aria-hidden="true"
+>
+
+  <!-- ======================================================
+       AMBIENT GRID
+       ====================================================== -->
+
+  <div class="network-grid"></div>
+
+
+  <!-- ======================================================
+       GLOW FIELD
+       ====================================================== -->
+
+  <div class="network-glow network-glow-one"></div>
+
+  <div class="network-glow network-glow-two"></div>
+
+  <div class="network-glow network-glow-three"></div>
+
+
+  <!-- ======================================================
+       SVG NETWORK
+       ====================================================== -->
+
+  <svg
+    class="network-svg"
+    viewBox="0 0 1000 700"
+    preserveAspectRatio="none"
+  >
+
+    <defs>
+
+      <!-- ----------------------------------------------
+           Cyan gradient
+           ---------------------------------------------- -->
+
+      <linearGradient
+        id="network-cyan-gradient"
+        x1="0%"
+        y1="0%"
+        x2="100%"
+        y2="100%"
+      >
+
+        <stop
+          offset="0%"
+          stop-color="#22d3ee"
+          stop-opacity="0"
+        />
+
+        <stop
+          offset="50%"
+          stop-color="#22d3ee"
+          stop-opacity="0.65"
+        />
+
+        <stop
+          offset="100%"
+          stop-color="#22d3ee"
+          stop-opacity="0"
+        />
+
+      </linearGradient>
+
+
+      <!-- ----------------------------------------------
+           Violet gradient
+           ---------------------------------------------- -->
+
+      <linearGradient
+        id="network-violet-gradient"
+        x1="0%"
+        y1="0%"
+        x2="100%"
+        y2="100%"
+      >
+
+        <stop
+          offset="0%"
+          stop-color="#8b5cf6"
+          stop-opacity="0"
+        />
+
+        <stop
+          offset="50%"
+          stop-color="#8b5cf6"
+          stop-opacity="0.55"
+        />
+
+        <stop
+          offset="100%"
+          stop-color="#8b5cf6"
+          stop-opacity="0"
+        />
+
+      </linearGradient>
+
+
+      <!-- ----------------------------------------------
+           Node glow
+           ---------------------------------------------- -->
+
+      <filter
+        id="network-node-glow"
+        x="-100%"
+        y="-100%"
+        width="300%"
+        height="300%"
+      >
+
+        <feGaussianBlur
+          stdDeviation="5"
+          result="blur"
+        />
+
+        <feMerge>
+
+          <feMergeNode
+            in="blur"
+          />
+
+          <feMergeNode
+            in="SourceGraphic"
+          />
+
+        </feMerge>
+
+      </filter>
+
+
+      <!-- ----------------------------------------------
+           Pulse glow
+           ---------------------------------------------- -->
+
+      <filter
+        id="network-pulse-glow"
+        x="-100%"
+        y="-100%"
+        width="300%"
+        height="300%"
+      >
+
+        <feGaussianBlur
+          stdDeviation="3"
+          result="blur"
+        />
+
+        <feMerge>
+
+          <feMergeNode
+            in="blur"
+          />
+
+          <feMergeNode
+            in="SourceGraphic"
+          />
+
+        </feMerge>
+
+      </filter>
+
+    </defs>
+
+
+    <!-- ==================================================
+         PRIMARY CONNECTIONS
+         ================================================== -->
+
+    <g class="network-connections">
+
+      <line
+        x1="80"
+        y1="180"
+        x2="270"
+        y2="90"
+        class="connection connection-cyan"
+      />
+
+      <line
+        x1="270"
+        y1="90"
+        x2="480"
+        y2="210"
+        class="connection connection-cyan"
+      />
+
+      <line
+        x1="480"
+        y1="210"
+        x2="710"
+        y2="100"
+        class="connection connection-cyan"
+      />
+
+      <line
+        x1="710"
+        y1="100"
+        x2="910"
+        y2="250"
+        class="connection connection-cyan"
+      />
+
+      <line
+        x1="80"
+        y1="180"
+        x2="220"
+        y2="400"
+        class="connection connection-violet"
+      />
+
+      <line
+        x1="220"
+        y1="400"
+        x2="480"
+        y2="210"
+        class="connection connection-violet"
+      />
+
+      <line
+        x1="480"
+        y1="210"
+        x2="580"
+        y2="470"
+        class="connection connection-violet"
+      />
+
+      <line
+        x1="580"
+        y1="470"
+        x2="850"
+        y2="420"
+        class="connection connection-violet"
+      />
+
+      <line
+        x1="850"
+        y1="420"
+        x2="910"
+        y2="250"
+        class="connection connection-cyan"
+      />
+
+      <line
+        x1="220"
+        y1="400"
+        x2="120"
+        y2="590"
+        class="connection connection-cyan"
+      />
+
+      <line
+        x1="580"
+        y1="470"
+        x2="720"
+        y2="610"
+        class="connection connection-cyan"
+      />
+
+      <line
+        x1="850"
+        y1="420"
+        x2="940"
+        y2="600"
+        class="connection connection-cyan"
+      />
+
+    </g>
+
+
+    <!-- ==================================================
+         SECONDARY CONNECTIONS
+         ================================================== -->
+
+    <g class="network-secondary">
+
+      <line
+        x1="270"
+        y1="90"
+        x2="220"
+        y2="400"
+      />
+
+      <line
+        x1="710"
+        y1="100"
+        x2="850"
+        y2="420"
+      />
+
+      <line
+        x1="120"
+        y1="590"
+        x2="580"
+        y2="470"
+      />
+
+      <line
+        x1="720"
+        y1="610"
+        x2="940"
+        y2="600"
+      />
+
+    </g>
+
+
+    <!-- ==================================================
+         DATA PULSES
+         ================================================== -->
+
+    <g class="network-pulses">
+
+      <circle
+        cx="170"
+        cy="138"
+        r="3"
+        class="network-pulse pulse-one"
+        filter="url(#network-pulse-glow)"
+      />
+
+      <circle
+        cx="370"
+        cy="140"
+        r="3"
+        class="network-pulse pulse-two"
+        filter="url(#network-pulse-glow)"
+      />
+
+      <circle
+        cx="595"
+        cy="155"
+        r="3"
+        class="network-pulse pulse-three"
+        filter="url(#network-pulse-glow)"
+      />
+
+      <circle
+        cx="780"
+        cy="190"
+        r="3"
+        class="network-pulse pulse-four"
+        filter="url(#network-pulse-glow)"
+      />
+
+      <circle
+        cx="340"
+        cy="305"
+        r="3"
+        class="network-pulse pulse-five"
+        filter="url(#network-pulse-glow)"
+      />
+
+      <circle
+        cx="530"
+        cy="340"
+        r="3"
+        class="network-pulse pulse-six"
+        filter="url(#network-pulse-glow)"
+      />
+
+      <circle
+        cx="715"
+        cy="445"
+        r="3"
+        class="network-pulse pulse-seven"
+        filter="url(#network-pulse-glow)"
+      />
+
+    </g>
+
+
+    <!-- ==================================================
+         MAIN NODES
+         ================================================== -->
+
+    <g
+      class="network-nodes"
+      filter="url(#network-node-glow)"
+    >
+
+      <!-- Node 01 -->
+
+      <circle
+        cx="80"
+        cy="180"
+        r="7"
+        class="network-node node-cyan"
+      />
+
+      <circle
+        cx="80"
+        cy="180"
+        r="2"
+        class="node-core"
+      />
+
+
+      <!-- Node 02 -->
+
+      <circle
+        cx="270"
+        cy="90"
+        r="8"
+        class="network-node node-violet"
+      />
+
+      <circle
+        cx="270"
+        cy="90"
+        r="2.5"
+        class="node-core node-core-violet"
+      />
+
+
+      <!-- Node 03 -->
+
+      <circle
+        cx="480"
+        cy="210"
+        r="12"
+        class="network-node node-cyan node-primary"
+      />
+
+      <circle
+        cx="480"
+        cy="210"
+        r="3"
+        class="node-core"
+      />
+
+
+      <!-- Node 04 -->
+
+      <circle
+        cx="710"
+        cy="100"
+        r="7"
+        class="network-node node-cyan"
+      />
+
+      <circle
+        cx="710"
+        cy="100"
+        r="2"
+        class="node-core"
+      />
+
+
+      <!-- Node 05 -->
+
+      <circle
+        cx="910"
+        cy="250"
+        r="8"
+        class="network-node node-violet"
+      />
+
+      <circle
+        cx="910"
+        cy="250"
+        r="2.5"
+        class="node-core node-core-violet"
+      />
+
+
+      <!-- Node 06 -->
+
+      <circle
+        cx="220"
+        cy="400"
+        r="9"
+        class="network-node node-cyan"
+      />
+
+      <circle
+        cx="220"
+        cy="400"
+        r="2"
+        class="node-core"
+      />
+
+
+      <!-- Node 07 -->
+
+      <circle
+        cx="580"
+        cy="470"
+        r="10"
+        class="network-node node-violet"
+      />
+
+      <circle
+        cx="580"
+        cy="470"
+        r="3"
+        class="node-core node-core-violet"
+      />
+
+
+      <!-- Node 08 -->
+
+      <circle
+        cx="850"
+        cy="420"
+        r="8"
+        class="network-node node-cyan"
+      />
+
+      <circle
+        cx="850"
+        cy="420"
+        r="2"
+        class="node-core"
+      />
+
+
+      <!-- Node 09 -->
+
+      <circle
+        cx="120"
+        cy="590"
+        r="6"
+        class="network-node node-cyan"
+      />
+
+
+      <!-- Node 10 -->
+
+      <circle
+        cx="720"
+        cy="610"
+        r="6"
+        class="network-node node-violet"
+      />
+
+
+      <!-- Node 11 -->
+
+      <circle
+        cx="940"
+        cy="600"
+        r="6"
+        class="network-node node-cyan"
+      />
+
+    </g>
+
+  </svg>
+
+
+  <!-- ======================================================
+       LABEL
+       ====================================================== -->
+
+  <div class="network-label">
+
+    <span class="network-label-node"></span>
+
+    <span>
+      {label}
+    </span>
+
+    <span class="network-label-line"></span>
+
+  </div>
+
+
+  <!-- ======================================================
+       SCAN LINE
+       ====================================================== -->
+
+  <div
+    class="network-scan"
+    aria-hidden="true"
+  ></div>
+
+</div>
+
+
+<style>
+  /* ========================================================
+     BASE
+     ======================================================== */
+
+  .tech-network {
+    position:
+      relative;
+
+    width:
+      100%;
+
+    height:
+      100%;
+
+    min-height:
+      420px;
+
+    overflow:
+      hidden;
+
+    isolation:
+      isolate;
+
+    background:
+      #030712;
+  }
+
+
+  /* ========================================================
+     GRID
+     ======================================================== */
+
+  .network-grid {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    background-image:
+      linear-gradient(
+        rgba(148, 163, 184, 0.045) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(148, 163, 184, 0.045) 1px,
+        transparent 1px
+      );
+
+    background-size:
+      38px 38px;
+
+    mask-image:
+      radial-gradient(
+        ellipse at center,
+        black 15%,
+        transparent 75%
+      );
+
+    opacity:
+      0.45;
+  }
+
+
+  /* ========================================================
+     GLOWS
+     ======================================================== */
+
+  .network-glow {
+    position:
+      absolute;
+
+    width:
+      320px;
+
+    height:
+      320px;
+
+    border-radius:
+      50%;
+
+    filter:
+      blur(60px);
+
+    pointer-events:
+      none;
+
+    z-index:
+      -1;
+  }
+
+
+  .network-glow-one {
+    top:
+      5%;
+
+    left:
+      18%;
+
+    background:
+      rgba(34, 211, 238, 0.055);
+
+    animation:
+      network-glow-drift-one 12s ease-in-out infinite;
+  }
+
+
+  .network-glow-two {
+    right:
+      5%;
+
+    top:
+      25%;
+
+    background:
+      rgba(139, 92, 246, 0.055);
+
+    animation:
+      network-glow-drift-two 15s ease-in-out infinite;
+  }
+
+
+  .network-glow-three {
+    bottom:
+      -10%;
+
+    left:
+      35%;
+
+    background:
+      rgba(59, 130, 246, 0.04);
+
+    animation:
+      network-glow-drift-three 17s ease-in-out infinite;
+  }
+
+
+  @keyframes network-glow-drift-one {
+
+    0%,
+    100% {
+      transform:
+        translate(0, 0);
+    }
+
+    50% {
+      transform:
+        translate(50px, 25px);
+    }
+
+  }
+
+
+  @keyframes network-glow-drift-two {
+
+    0%,
+    100% {
+      transform:
+        translate(0, 0);
+    }
+
+    50% {
+      transform:
+        translate(-40px, 30px);
+    }
+
+  }
+
+
+  @keyframes network-glow-drift-three {
+
+    0%,
+    100% {
+      transform:
+        translate(0, 0);
+    }
+
+    50% {
+      transform:
+        translate(35px, -25px);
+    }
+
+  }
+
+
+  /* ========================================================
+     SVG
+     ======================================================== */
+
+  .network-svg {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    width:
+      100%;
+
+    height:
+      100%;
+
+    overflow:
+      visible;
+  }
+
+
+  /* ========================================================
+     CONNECTIONS
+     ======================================================== */
+
+  .connection {
+    fill:
+      none;
+
+    stroke-width:
+      1;
+
+    stroke-dasharray:
+      7 12;
+
+    animation:
+      network-flow 8s linear infinite;
+  }
+
+
+  .connection-cyan {
+    stroke:
+      url(#network-cyan-gradient);
+  }
+
+
+  .connection-violet {
+    stroke:
+      url(#network-violet-gradient);
+
+    animation-duration:
+      11s;
+  }
+
+
+  @keyframes network-flow {
+
+    from {
+      stroke-dashoffset:
+        200;
+    }
+
+    to {
+      stroke-dashoffset:
+        0;
+    }
+
+  }
+
+
+  /* ========================================================
+     SECONDARY
+     ======================================================== */
+
+  .network-secondary {
+    opacity:
+      0.18;
+  }
+
+
+  .network-secondary line {
+    stroke:
+      rgba(148, 163, 184, 0.35);
+
+    stroke-width:
+      0.7;
+
+    stroke-dasharray:
+      2 12;
+
+    animation:
+      secondary-flow 13s linear infinite;
+  }
+
+
+  @keyframes secondary-flow {
+
+    from {
+      stroke-dashoffset:
+        100;
+    }
+
+    to {
+      stroke-dashoffset:
+        0;
+    }
+
+  }
+
+
+  /* ========================================================
+     NODES
+     ======================================================== */
+
+  .network-node {
+    fill:
+      rgba(3, 7, 18, 0.95);
+
+    stroke-width:
+      1;
+
+    animation:
+      node-breathe 3.5s ease-in-out infinite;
+  }
+
+
+  .node-cyan {
+    stroke:
+      #22d3ee;
+  }
+
+
+  .node-violet {
+    stroke:
+      #8b5cf6;
+  }
+
+
+  .node-primary {
+    animation-duration:
+      2.6s;
+  }
+
+
+  .node-core {
+    fill:
+      #22d3ee;
+
+    animation:
+      core-pulse 2s ease-in-out infinite;
+  }
+
+
+  .node-core-violet {
+    fill:
+      #8b5cf6;
+  }
+
+
+  @keyframes node-breathe {
+
+    0%,
+    100% {
+      opacity:
+        0.45;
+
+      transform:
+        scale(0.88);
+    }
+
+    50% {
+      opacity:
+        0.95;
+
+      transform:
+        scale(1.08);
+    }
+
+  }
+
+
+  @keyframes core-pulse {
+
+    0%,
+    100% {
+      opacity:
+        0.45;
+    }
+
+    50% {
+      opacity:
+        1;
+    }
+
+  }
+
+
+  /* ========================================================
+     PULSES
+     ======================================================== */
+
+  .network-pulse {
+    fill:
+      #22d3ee;
+
+    opacity:
+      0;
+
+    animation:
+      data-pulse 5s ease-in-out infinite;
+  }
+
+
+  .pulse-one {
+    animation-delay:
+      0s;
+  }
+
+
+  .pulse-two {
+    animation-delay:
+      0.7s;
+  }
+
+
+  .pulse-three {
+    animation-delay:
+      1.4s;
+  }
+
+
+  .pulse-four {
+    animation-delay:
+      2.1s;
+  }
+
+
+  .pulse-five {
+    animation-delay:
+      2.8s;
+  }
+
+
+  .pulse-six {
+    animation-delay:
+      3.5s;
+  }
+
+
+  .pulse-seven {
+    animation-delay:
+      4.2s;
+  }
+
+
+  @keyframes data-pulse {
+
+    0%,
+    15% {
+      opacity:
+        0;
+    }
+
+    25%,
+    45% {
+      opacity:
+        1;
+    }
+
+    55%,
+    100% {
+      opacity:
+        0;
+    }
+
+  }
+
+
+  /* ========================================================
+     LABEL
+     ======================================================== */
+
+  .network-label {
+    position:
+      absolute;
+
+    right:
+      1rem;
+
+    bottom:
+      1rem;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.4rem;
+
+    padding:
+      0.35rem 0.45rem;
+
+    border:
+      1px solid rgba(148, 163, 184, 0.12);
+
+    border-radius:
+      0.2rem;
+
+    background:
+      rgba(3, 7, 18, 0.5);
+
+    backdrop-filter:
+      blur(8px);
+
+    color:
+      rgba(226, 232, 240, 0.55);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.25rem;
+
+    letter-spacing:
+      0.04em;
+  }
+
+
+  .network-label-node {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      #22d3ee;
+
+    box-shadow:
+      0 0 7px rgba(34, 211, 238, 0.7);
+
+    animation:
+      label-pulse 2s ease-in-out infinite;
+  }
+
+
+  .network-label-line {
+    width:
+      25px;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(34, 211, 238, 0.4),
+        transparent
+      );
+  }
+
+
+  @keyframes label-pulse {
+
+    0%,
+    100% {
+      opacity:
+        0.35;
+    }
+
+    50% {
+      opacity:
+        1;
+    }
+
+  }
+
+
+  /* ========================================================
+     SCAN
+     ======================================================== */
+
+  .network-scan {
+    position:
+      absolute;
+
+    top:
+      -10%;
+
+    left:
+      0;
+
+    width:
+      100%;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(34, 211, 238, 0.18),
+        transparent
+      );
+
+    opacity:
+      0.5;
+
+    animation:
+      network-scan 9s linear infinite;
+
+    pointer-events:
+      none;
+  }
+
+
+  @keyframes network-scan {
+
+    0% {
+      transform:
+        translateY(0);
+    }
+
+    100% {
+      transform:
+        translateY(800px);
+    }
+
+  }
+
+
+  /* ========================================================
+     DENSE
+     ======================================================== */
+
+  .tech-network-dense
+    .network-grid {
+
+    background-size:
+      25px 25px;
+
+    opacity:
+      0.55;
+  }
+
+
+  .tech-network-dense
+    .connection {
+
+    stroke-width:
+      1.2;
+  }
+
+
+  .tech-network-dense
+    .network-node {
+
+    opacity:
+      0.9;
+  }
+
+
+  /* ========================================================
+     MINIMAL
+     ======================================================== */
+
+  .tech-network-minimal
+    .network-grid {
+
+    opacity:
+      0.2;
+  }
+
+
+  .tech-network-minimal
+    .network-glow {
+
+    opacity:
+      0.45;
+  }
+
+
+  .tech-network-minimal
+    .network-secondary {
+
+    display:
+      none;
+  }
+
+
+  .tech-network-minimal
+    .network-label {
+
+    opacity:
+      0.6;
+  }
+
+
+  /* ========================================================
+     INTERACTIVE
+     ======================================================== */
+
+  .tech-network-interactive {
+    cursor:
+      crosshair;
+  }
+
+
+  .tech-network-interactive:hover
+    .network-node {
+
+    animation-duration:
+      1.8s;
+  }
+
+
+  /* ========================================================
+     LIGHT THEME
+     ======================================================== */
+
+  :global([data-theme="light"])
+    .tech-network {
+
+    background:
+      #f8fafc;
+  }
+
+
+  :global([data-theme="light"])
+    .network-grid {
+
+    background-image:
+      linear-gradient(
+        rgba(15, 23, 42, 0.04) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(15, 23, 42, 0.04) 1px,
+        transparent 1px
+      );
+  }
+
+
+  :global([data-theme="light"])
+    .network-label {
+
+    background:
+      rgba(248, 250, 252, 0.7);
+
+    color:
+      rgba(15, 23, 42, 0.55);
+  }
+
+
+  /* ========================================================
+     RESPONSIVE
+     ======================================================== */
+
+  @media (max-width: 700px) {
+
+    .tech-network {
+      min-height:
+        320px;
+    }
+
+
+    .network-grid {
+      background-size:
+        30px 30px;
+    }
+
+
+    .network-label {
+      right:
+        0.6rem;
+
+      bottom:
+        0.6rem;
+
+      font-size:
+        0.22rem;
+    }
+
+  }
+
+
+  @media (max-width: 480px) {
+
+    .tech-network {
+      min-height:
+        260px;
+    }
+
+
+    .network-glow {
+      width:
+        220px;
+
+      height:
+        220px;
+
+      filter:
+        blur(45px);
+    }
+
+  }
+
+
+  /* ========================================================
+     REDUCED MOTION
+     ======================================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .network-glow,
+    .connection,
+    .network-secondary line,
+    .network-node,
+    .network-pulse,
+    .network-label-node,
+    .network-scan {
+      animation:
+        none;
+    }
+
+  }
+</style>
