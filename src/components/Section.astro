@@ -1,0 +1,180 @@
+---
+/**
+ * ============================================================
+ * SECTION
+ * ============================================================
+ *
+ * Shared structural wrapper for major portfolio sections.
+ *
+ * ============================================================
+ */
+
+import Container from "./Container.astro";
+
+interface Props {
+  id?: string;
+
+  as?:
+    | "section"
+    | "article"
+    | "div";
+
+  spacing?:
+    | "sm"
+    | "md"
+    | "lg"
+    | "xl";
+
+  containerSize?:
+    | "default"
+    | "wide"
+    | "narrow";
+
+  tone?:
+    | "default"
+    | "muted"
+    | "accent";
+
+  class?: string;
+
+  containerClass?: string;
+}
+
+const {
+  id,
+  as = "section",
+  spacing = "lg",
+  containerSize = "default",
+  tone = "default",
+  class: className = "",
+  containerClass = ""
+} = Astro.props;
+
+const Tag = as;
+---
+
+<Tag
+  id={id}
+  class:list={[
+    "section",
+    `section--spacing-${spacing}`,
+    `section--tone-${tone}`,
+    className
+  ]}
+>
+  <Container
+    size={containerSize}
+    class={containerClass}
+  >
+    <slot />
+  </Container>
+</Tag>
+
+
+<style>
+  .section {
+    position: relative;
+
+    width: 100%;
+
+    overflow: clip;
+  }
+
+
+  /* ========================================================
+     SPACING
+     ======================================================== */
+
+  .section--spacing-sm {
+    padding-block:
+      3rem;
+  }
+
+
+  .section--spacing-md {
+    padding-block:
+      4.5rem;
+  }
+
+
+  .section--spacing-lg {
+    padding-block:
+      6.5rem;
+  }
+
+
+  .section--spacing-xl {
+    padding-block:
+      8rem;
+  }
+
+
+  /* ========================================================
+     TONES
+     ======================================================== */
+
+  .section--tone-default {
+    background:
+      transparent;
+  }
+
+
+  .section--tone-muted {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(15, 23, 42, 0.16),
+        rgba(2, 6, 23, 0.04)
+      );
+  }
+
+
+  .section--tone-accent {
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(34, 211, 238, 0.055),
+        transparent 45%
+      );
+  }
+
+
+  @media (max-width: 768px) {
+    .section--spacing-sm {
+      padding-block:
+        2.5rem;
+    }
+
+
+    .section--spacing-md {
+      padding-block:
+        3.5rem;
+    }
+
+
+    .section--spacing-lg {
+      padding-block:
+        5rem;
+    }
+
+
+    .section--spacing-xl {
+      padding-block:
+        6rem;
+    }
+  }
+
+
+  @media (max-width: 480px) {
+    .section--spacing-lg {
+      padding-block:
+        4rem;
+    }
+
+
+    .section--spacing-xl {
+      padding-block:
+        5rem;
+    }
+  }
+</style>
