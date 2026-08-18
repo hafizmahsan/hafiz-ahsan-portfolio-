@@ -1,0 +1,579 @@
+---
+/**
+ * ============================================================
+ * ACTION BUTTON
+ * ============================================================
+ *
+ * Reusable CTA / navigation button.
+ *
+ * Supports:
+ * - Internal links
+ * - External links
+ * - Downloads
+ * - Primary / secondary / ghost variants
+ * - Optional icons
+ *
+ * ============================================================
+ */
+
+interface Props {
+  label: string;
+  href: string;
+  variant?: "primary" | "secondary" | "ghost";
+  icon?: string;
+  iconPosition?: "left" | "right";
+  external?: boolean;
+  download?: boolean;
+  ariaLabel?: string;
+  size?: "small" | "normal" | "large";
+}
+
+const {
+  label,
+  href,
+  variant = "primary",
+  icon = "↗",
+  iconPosition = "right",
+  external = false,
+  download = false,
+  ariaLabel,
+  size = "normal"
+} = Astro.props;
+
+const isExternal =
+  external ||
+  href.startsWith("http://") ||
+  href.startsWith("https://");
+
+const target =
+  isExternal ? "_blank" : undefined;
+
+const rel =
+  isExternal ? "noopener noreferrer" : undefined;
+---
+
+<a
+  href={href}
+  class:list={[
+    "action-button",
+    `action-button-${variant}`,
+    `action-button-${size}`
+  ]}
+  target={target}
+  rel={rel}
+  download={download || undefined}
+  aria-label={ariaLabel || label}
+>
+
+  <!-- ======================================================
+       LEFT ICON
+       ====================================================== -->
+
+  {
+    icon &&
+    iconPosition === "left" && (
+      <span
+        class="action-icon action-icon-left"
+        aria-hidden="true"
+      >
+        {icon}
+      </span>
+    )
+  }
+
+
+  <!-- ======================================================
+       LABEL
+       ====================================================== -->
+
+  <span class="action-label">
+    {label}
+  </span>
+
+
+  <!-- ======================================================
+       RIGHT ICON
+       ====================================================== -->
+
+  {
+    icon &&
+    iconPosition === "right" && (
+      <span
+        class="action-icon action-icon-right"
+        aria-hidden="true"
+      >
+        {icon}
+      </span>
+    )
+  }
+
+
+  <!-- ======================================================
+       TECHNICAL SIGNAL
+       ====================================================== -->
+
+  <span
+    class="action-signal"
+    aria-hidden="true"
+  ></span>
+
+</a>
+
+
+<style>
+  /* ========================================================
+     BASE
+     ======================================================== */
+
+  .action-button {
+    position:
+      relative;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    gap:
+      0.65rem;
+
+    min-height:
+      42px;
+
+    padding:
+      0.65rem 0.9rem;
+
+    border:
+      1px solid transparent;
+
+    border-radius:
+      0.35rem;
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.4rem;
+
+    font-weight:
+      500;
+
+    letter-spacing:
+      0.025em;
+
+    line-height:
+      1;
+
+    text-decoration:
+      none;
+
+    white-space:
+      nowrap;
+
+    overflow:
+      hidden;
+
+    cursor:
+      pointer;
+
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-fast) var(--ease-standard);
+  }
+
+
+  .action-button:hover {
+    transform:
+      translateY(-2px);
+  }
+
+
+  .action-button:focus-visible {
+    outline:
+      2px solid var(--color-cyan);
+
+    outline-offset:
+      4px;
+  }
+
+
+  /* ========================================================
+     PRIMARY
+     ======================================================== */
+
+  .action-button-primary {
+    color:
+      #020617;
+
+    border-color:
+      var(--color-cyan);
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 8px 30px rgba(34, 211, 238, 0.08);
+  }
+
+
+  .action-button-primary:hover {
+    background:
+      #67e8f9;
+
+    border-color:
+      #67e8f9;
+
+    box-shadow:
+      0 12px 38px rgba(34, 211, 238, 0.17);
+  }
+
+
+  /* ========================================================
+     SECONDARY
+     ======================================================== */
+
+  .action-button-secondary {
+    color:
+      var(--color-text);
+
+    border-color:
+      var(--color-border);
+
+    background:
+      rgba(148, 163, 184, 0.018);
+  }
+
+
+  .action-button-secondary:hover {
+    color:
+      var(--color-cyan);
+
+    border-color:
+      rgba(34, 211, 238, 0.28);
+
+    background:
+      rgba(34, 211, 238, 0.025);
+
+    box-shadow:
+      0 10px 30px rgba(34, 211, 238, 0.04);
+  }
+
+
+  /* ========================================================
+     GHOST
+     ======================================================== */
+
+  .action-button-ghost {
+    min-height:
+      auto;
+
+    padding:
+      0.4rem 0.2rem;
+
+    color:
+      var(--color-text-muted);
+
+    border-color:
+      transparent;
+
+    background:
+      transparent;
+  }
+
+
+  .action-button-ghost:hover {
+    color:
+      var(--color-cyan);
+
+    border-color:
+      transparent;
+
+    background:
+      transparent;
+
+    box-shadow:
+      none;
+  }
+
+
+  /* ========================================================
+     LABEL
+     ======================================================== */
+
+  .action-label {
+    position:
+      relative;
+
+    z-index:
+      2;
+  }
+
+
+  /* ========================================================
+     ICON
+     ======================================================== */
+
+  .action-icon {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    width:
+      14px;
+
+    height:
+      14px;
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.55rem;
+
+    line-height:
+      1;
+
+    transition:
+      transform var(--duration-fast) var(--ease-standard);
+  }
+
+
+  .action-button:hover
+    .action-icon-right {
+
+    transform:
+      translate(
+        3px,
+        -2px
+      );
+
+  }
+
+
+  .action-button:hover
+    .action-icon-left {
+
+    transform:
+      translateX(-2px);
+
+  }
+
+
+  /* ========================================================
+     TECHNICAL SIGNAL
+     ======================================================== */
+
+  .action-signal {
+    position:
+      absolute;
+
+    right:
+      7px;
+
+    bottom:
+      5px;
+
+    z-index:
+      1;
+
+    width:
+      3px;
+
+    height:
+      3px;
+
+    border-radius:
+      50%;
+
+    background:
+      currentColor;
+
+    opacity:
+      0.25;
+
+    transition:
+      opacity var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-fast) var(--ease-standard);
+  }
+
+
+  .action-button:hover
+    .action-signal {
+
+    opacity:
+      0.9;
+
+    box-shadow:
+      0 0 7px currentColor;
+
+  }
+
+
+  /* ========================================================
+     PRIMARY SIGNAL
+     ======================================================== */
+
+  .action-button-primary
+    .action-signal {
+
+    color:
+      #020617;
+
+  }
+
+
+  /* ========================================================
+     SIZES
+     ======================================================== */
+
+  .action-button-small {
+    min-height:
+      34px;
+
+    padding:
+      0.5rem 0.65rem;
+
+    font-size:
+      0.34rem;
+  }
+
+
+  .action-button-small
+    .action-icon {
+
+    width:
+      11px;
+
+    height:
+      11px;
+
+    font-size:
+      0.45rem;
+  }
+
+
+  .action-button-large {
+    min-height:
+      50px;
+
+    padding:
+      0.8rem 1.15rem;
+
+    font-size:
+      0.43rem;
+  }
+
+
+  .action-button-large
+    .action-icon {
+
+    width:
+      17px;
+
+    height:
+      17px;
+
+    font-size:
+      0.65rem;
+  }
+
+
+  /* ========================================================
+     LIGHT THEME
+     ======================================================== */
+
+  :global([data-theme="light"])
+    .action-button-primary {
+
+    color:
+      #ffffff;
+
+    background:
+      #0891b2;
+
+    border-color:
+      #0891b2;
+
+  }
+
+
+  :global([data-theme="light"])
+    .action-button-primary:hover {
+
+    background:
+      #0e7490;
+
+    border-color:
+      #0e7490;
+
+  }
+
+
+  :global([data-theme="light"])
+    .action-button-secondary {
+
+    background:
+      rgba(15, 23, 42, 0.02);
+
+  }
+
+
+  /* ========================================================
+     MOBILE
+     ======================================================== */
+
+  @media (max-width: 600px) {
+
+    .action-button {
+      min-height:
+        40px;
+
+      padding:
+        0.6rem 0.75rem;
+    }
+
+
+    .action-button-large {
+      min-height:
+        46px;
+
+      padding:
+        0.7rem 0.9rem;
+    }
+
+  }
+
+
+  /* ========================================================
+     REDUCED MOTION
+     ======================================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .action-button,
+    .action-icon,
+    .action-signal {
+      transition:
+        none;
+    }
+
+  }
+</style>
