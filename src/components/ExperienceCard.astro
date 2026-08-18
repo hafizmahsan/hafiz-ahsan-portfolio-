@@ -4,38 +4,39 @@
  * EXPERIENCE CARD
  * ============================================================
  *
- * Reusable professional experience component.
+ * Reusable professional experience / career timeline card.
  *
- * The component intentionally receives data through props.
- * This keeps career information separate from presentation.
+ * The component is intentionally data-driven so experience
+ * information can later live in a central data file.
  *
  * ============================================================
  */
 
-interface Experience {
+interface ExperienceItem {
+  text: string;
+}
+
+interface Technology {
+  name: string;
+  accent?: "cyan" | "violet" | "blue" | "green";
+}
+
+interface Props {
   company: string;
   role: string;
   period: string;
   location?: string;
   type?: string;
-  vendor?: string;
-  description: string;
-  responsibilities?: string[];
-  technologies?: string[];
-  highlights?: string[];
+  companyDescription?: string;
+  summary?: string;
+  responsibilities?: ExperienceItem[];
+  technologies?: Technology[];
+  index?: string;
   current?: boolean;
-  accent?: "cyan" | "violet" | "blue" | "green";
+  featured?: boolean;
+  vendor?: string;
+  vendorPeriod?: string;
 }
-
-interface Props {
-  experience: Experience;
-  index: number;
-}
-
-const {
-  experience,
-  index
-} = Astro.props;
 
 const {
   company,
@@ -43,28 +44,30 @@ const {
   period,
   location,
   type,
-  vendor,
-  description,
+  companyDescription,
+  summary,
   responsibilities = [],
   technologies = [],
-  highlights = [],
+  index = "01",
   current = false,
-  accent = "cyan"
-} = experience;
+  featured = false,
+  vendor,
+  vendorPeriod
+} = Astro.props;
 ---
 
 <article
   class:list={[
     "experience-card",
-    `experience-card-${accent}`,
     {
-      "experience-card-current": current
+      "experience-card-current": current,
+      "experience-card-featured": featured
     }
   ]}
 >
 
   <!-- ======================================================
-       TIMELINE
+       TIMELINE NODE
        ====================================================== -->
 
   <div
@@ -72,17 +75,13 @@ const {
     aria-hidden="true"
   >
 
-    <span class="timeline-number">
-      {(index + 1)
-        .toString()
-        .padStart(2, "0")}
-    </span>
+    <span class="timeline-line"></span>
 
     <span class="timeline-node">
-      <span class="timeline-node-core"></span>
-    </span>
 
-    <span class="timeline-line"></span>
+      <span class="timeline-node-core"></span>
+
+    </span>
 
   </div>
 
@@ -93,67 +92,86 @@ const {
 
   <div class="experience-content">
 
-    <!-- ====================================================
-         TOP META
-         ==================================================== -->
+    <!-- ==================================================
+         HEADER
+         ================================================== -->
 
-    <div class="experience-top">
+    <header class="experience-header">
 
-      <div class="experience-period">
+      <div class="experience-index">
+        {index}
+      </div>
 
-        <span class="period-line"></span>
+
+      <div class="experience-date">
 
         <span>
           {period}
         </span>
 
+        {
+          current && (
+            <span class="current-badge">
+              CURRENT
+            </span>
+          )
+        }
+
       </div>
 
-
-      {
-        current && (
-          <span class="current-badge">
-
-            <span class="current-dot"></span>
-
-            CURRENT
-
-          </span>
-        )
-      }
-
-    </div>
+    </header>
 
 
-    <!-- ====================================================
-         ROLE
-         ==================================================== -->
+    <!-- ==================================================
+         COMPANY
+         ================================================== -->
 
-    <div class="experience-heading">
-
-      <h3 class="experience-role">
-        {role}
-      </h3>
-
+    <div class="experience-company-row">
 
       <div class="experience-company">
 
-        <span class="company-symbol">
-          ◈
-        </span>
-
-        <span>
+        <h3>
           {company}
-        </span>
+        </h3>
+
+        {
+          companyDescription && (
+            <span class="company-description">
+              {companyDescription}
+            </span>
+          )
+        }
+
+      </div>
+
+
+      <div class="experience-status">
+
+        <span class="status-dot"></span>
+
+        {
+          current
+            ? "ACTIVE"
+            : "COMPLETED"
+        }
 
       </div>
 
     </div>
 
 
-    <!-- ====================================================
-         METADATA
-         ==================================================== -->
+    <!-- ==================================================
+         ROLE
+         ================================================== -->
+
+    <div class="experience-role">
+      {role}
+    </div>
+
+
+    <!-- ==================================================
+         META
+         ================================================== -->
 
     {
       (location || type || vendor) && (
@@ -161,8 +179,8 @@ const {
 
           {
             location && (
-              <span>
-                <strong>LOCATION</strong>
+              <span class="experience-meta-item">
+                <span class="meta-icon">⌖</span>
                 {location}
               </span>
             )
@@ -170,8 +188,8 @@ const {
 
           {
             type && (
-              <span>
-                <strong>TYPE</strong>
+              <span class="experience-meta-item">
+                <span class="meta-icon">◇</span>
                 {type}
               </span>
             )
@@ -179,9 +197,16 @@ const {
 
           {
             vendor && (
-              <span>
-                <strong>VENDOR</strong>
+              <span class="experience-meta-item">
+                <span class="meta-icon">↳</span>
                 {vendor}
+                {
+                  vendorPeriod && (
+                    <span class="vendor-period">
+                      {vendorPeriod}
+                    </span>
+                  )
+                }
               </span>
             )
           }
@@ -191,82 +216,51 @@ const {
     }
 
 
-    <!-- ====================================================
-         DESCRIPTION
-         ==================================================== -->
-
-    <p class="experience-description">
-      {description}
-    </p>
-
-
-    <!-- ====================================================
-         HIGHLIGHTS
-         ==================================================== -->
+    <!-- ==================================================
+         SUMMARY
+         ================================================== -->
 
     {
-      highlights.length > 0 && (
-        <div class="experience-highlights">
-
-          <span class="experience-label">
-            KEY IMPACT
-          </span>
-
-          <div class="highlight-grid">
-
-            {
-              highlights.map((highlight) => (
-                <div class="highlight-item">
-
-                  <span
-                    class="highlight-node"
-                    aria-hidden="true"
-                  >
-                    +
-                  </span>
-
-                  <span>
-                    {highlight}
-                  </span>
-
-                </div>
-              ))
-            }
-
-          </div>
-
-        </div>
+      summary && (
+        <p class="experience-summary">
+          {summary}
+        </p>
       )
     }
 
 
-    <!-- ====================================================
+    <!-- ==================================================
          RESPONSIBILITIES
-         ==================================================== -->
+         ================================================== -->
 
     {
       responsibilities.length > 0 && (
         <div class="experience-responsibilities">
 
-          <span class="experience-label">
-            RESPONSIBILITIES
-          </span>
+          <div class="experience-subheading">
+
+            <span class="subheading-node"></span>
+
+            KEY CONTRIBUTIONS
+
+          </div>
+
 
           <ul>
 
             {
-              responsibilities.map((responsibility) => (
+              responsibilities.map((item) => (
                 <li>
+
                   <span
-                    class="list-marker"
+                    class="bullet-node"
                     aria-hidden="true"
-                  >
-                    →
-                  </span>
+                  ></span>
 
                   <span>
-                    {responsibility}
+                    {item.text}
                   </span>
+
                 </li>
               ))
             }
@@ -278,24 +272,40 @@ const {
     }
 
 
-    <!-- ====================================================
+    <!-- ==================================================
          TECHNOLOGIES
-         ==================================================== -->
+         ================================================== -->
 
     {
       technologies.length > 0 && (
         <div class="experience-technologies">
 
-          <span class="experience-label">
+          <div class="experience-subheading">
+
+            <span class="subheading-node"></span>
+
             TECHNOLOGY STACK
-          </span>
+
+          </div>
+
 
           <div class="technology-list">
 
             {
               technologies.map((technology) => (
-                <span class="technology-item">
-                  {technology}
+                <span
+                  class:list={[
+                    "technology-chip",
+                    `technology-${technology.accent || "cyan"}`
+                  ]}
+                >
+
+                  <span class="technology-chip-node">
+                    ◇
+                  </span>
+
+                  {technology.name}
+
                 </span>
               ))
             }
@@ -306,6 +316,25 @@ const {
       )
     }
 
+
+    <!-- ==================================================
+         FOOTER
+         ================================================== -->
+
+    <footer class="experience-footer">
+
+      <span>
+        EXPERIENCE / {index}
+      </span>
+
+      <span class="footer-line"></span>
+
+      <span class="footer-signal">
+        <span></span>
+      </span>
+
+    </footer>
+
   </div>
 
 </article>
@@ -313,7 +342,7 @@ const {
 
 <style>
   /* ========================================================
-     CARD
+     BASE
      ======================================================== */
 
   .experience-card {
@@ -324,13 +353,13 @@ const {
       grid;
 
     grid-template-columns:
-      72px minmax(0, 1fr);
+      38px minmax(0, 1fr);
 
     gap:
-      1.5rem;
+      1rem;
 
-    padding-bottom:
-      4rem;
+    min-width:
+      0;
   }
 
 
@@ -345,26 +374,35 @@ const {
     display:
       flex;
 
-    flex-direction:
-      column;
-
-    align-items:
+    justify-content:
       center;
+
+    min-height:
+      100%;
   }
 
 
-  .timeline-number {
-    color:
-      var(--color-text-subtle);
+  .timeline-line {
+    position:
+      absolute;
 
-    font-family:
-      var(--font-mono);
+    top:
+      0;
 
-    font-size:
-      0.42rem;
+    bottom:
+      0;
 
-    letter-spacing:
-      0.04em;
+    width:
+      1px;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(34, 211, 238, 0.35),
+        var(--color-border) 20%,
+        var(--color-border) 80%,
+        transparent
+      );
   }
 
 
@@ -385,16 +423,16 @@ const {
       center;
 
     width:
-      18px;
+      13px;
 
     height:
-      18px;
+      13px;
 
     margin-top:
-      0.9rem;
+      1.25rem;
 
     border:
-      1px solid rgba(34, 211, 238, 0.25);
+      1px solid var(--color-cyan);
 
     border-radius:
       50%;
@@ -403,16 +441,16 @@ const {
       var(--color-bg);
 
     box-shadow:
-      0 0 18px rgba(34, 211, 238, 0.06);
+      0 0 16px rgba(34, 211, 238, 0.12);
   }
 
 
   .timeline-node-core {
     width:
-      5px;
+      4px;
 
     height:
-      5px;
+      4px;
 
     border-radius:
       50%;
@@ -421,44 +459,31 @@ const {
       var(--color-cyan);
 
     box-shadow:
-      0 0 10px rgba(34, 211, 238, 0.65);
+      0 0 9px rgba(34, 211, 238, 0.7);
+
+    animation:
+      timeline-pulse 2.5s ease-in-out infinite;
   }
 
 
-  .timeline-line {
-    position:
-      absolute;
+  @keyframes timeline-pulse {
 
-    top:
-      45px;
+    0%,
+    100% {
+      opacity:
+        0.35;
 
-    bottom:
-      0;
+      transform:
+        scale(0.8);
+    }
 
-    left:
-      50%;
+    50% {
+      opacity:
+        1;
 
-    width:
-      1px;
-
-    background:
-      linear-gradient(
-        to bottom,
-        rgba(34, 211, 238, 0.22),
-        var(--color-border),
-        transparent
-      );
-
-    transform:
-      translateX(-50%);
-  }
-
-
-  .experience-card:last-child
-    .timeline-line {
-
-    display:
-      none;
+      transform:
+        scale(1.2);
+    }
 
   }
 
@@ -471,27 +496,30 @@ const {
     position:
       relative;
 
-    padding:
+    min-width:
+      0;
+
+    margin-bottom:
       1.5rem;
+
+    padding:
+      1.1rem 1.15rem;
 
     border:
       1px solid var(--color-border);
 
     border-radius:
-      0.65rem;
+      0.55rem;
 
     background:
-      linear-gradient(
-        135deg,
-        rgba(148, 163, 184, 0.018),
-        rgba(148, 163, 184, 0.006)
-      );
+      rgba(148, 163, 184, 0.012);
 
     overflow:
       hidden;
 
     transition:
       border-color var(--duration-normal) var(--ease-standard),
+      background var(--duration-normal) var(--ease-standard),
       transform var(--duration-normal) var(--ease-standard),
       box-shadow var(--duration-normal) var(--ease-standard);
   }
@@ -511,14 +539,14 @@ const {
       0;
 
     width:
-      2px;
+      100px;
 
     height:
-      100%;
+      1px;
 
     background:
       linear-gradient(
-        to bottom,
+        90deg,
         var(--color-cyan),
         transparent
       );
@@ -535,10 +563,10 @@ const {
     position:
       absolute;
 
-    top:
+    right:
       -80px;
 
-    right:
+    bottom:
       -80px;
 
     width:
@@ -547,34 +575,43 @@ const {
     height:
       180px;
 
-    border:
-      1px solid rgba(34, 211, 238, 0.035);
-
     border-radius:
       50%;
 
-    box-shadow:
-      inset 0 0 30px rgba(34, 211, 238, 0.025);
+    background:
+      radial-gradient(
+        circle,
+        rgba(34, 211, 238, 0.04),
+        transparent 68%
+      );
+
+    pointer-events:
+      none;
   }
 
 
-  .experience-content:hover {
+  .experience-card:hover
+    .experience-content {
+
     border-color:
-      rgba(34, 211, 238, 0.2);
+      rgba(34, 211, 238, 0.18);
+
+    background:
+      rgba(34, 211, 238, 0.015);
 
     transform:
-      translateY(-2px);
+      translateX(3px);
 
     box-shadow:
-      0 20px 60px rgba(0, 0, 0, 0.12);
+      0 20px 60px rgba(0, 0, 0, 0.08);
   }
 
 
   /* ========================================================
-     TOP
+     HEADER
      ======================================================== */
 
-  .experience-top {
+  .experience-header {
     display:
       flex;
 
@@ -588,20 +625,11 @@ const {
       1rem;
 
     margin-bottom:
-      0.9rem;
+      0.85rem;
   }
 
 
-  .experience-period {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.45rem;
-
+  .experience-index {
     color:
       var(--color-text-subtle);
 
@@ -609,116 +637,94 @@ const {
       var(--font-mono);
 
     font-size:
-      0.4rem;
-
-    letter-spacing:
-      0.035em;
-  }
-
-
-  .period-line {
-    width:
-      20px;
-
-    height:
-      1px;
-
-    background:
-      var(--color-cyan);
-
-    opacity:
-      0.6;
-  }
-
-
-  /* ========================================================
-     CURRENT
-     ======================================================== */
-
-  .current-badge {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.35rem;
-
-    padding:
-      0.3rem 0.45rem;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.15);
-
-    border-radius:
-      0.25rem;
-
-    color:
-      var(--color-cyan);
-
-    background:
-      rgba(34, 211, 238, 0.035);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.34rem;
+      0.3rem;
 
     letter-spacing:
       0.04em;
   }
 
 
-  .current-dot {
-    width:
-      4px;
+  .experience-date {
+    display:
+      flex;
 
-    height:
-      4px;
+    align-items:
+      center;
 
-    border-radius:
-      50%;
+    gap:
+      0.5rem;
 
-    background:
+    color:
       var(--color-cyan);
 
-    box-shadow:
-      0 0 8px rgba(34, 211, 238, 0.8);
+    font-family:
+      var(--font-mono);
 
-    animation:
-      experience-pulse 2s ease-in-out infinite;
-  }
+    font-size:
+      0.33rem;
 
+    letter-spacing:
+      0.035em;
 
-  @keyframes experience-pulse {
-
-    0%,
-    100% {
-      opacity:
-        0.45;
-    }
-
-    50% {
-      opacity:
-        1;
-    }
-
+    text-transform:
+      uppercase;
   }
 
 
   /* ========================================================
-     HEADING
+     CURRENT BADGE
      ======================================================== */
 
-  .experience-heading {
-    margin-bottom:
+  .current-badge {
+    padding:
+      0.2rem 0.3rem;
+
+    border:
+      1px solid rgba(74, 222, 128, 0.18);
+
+    border-radius:
+      0.2rem;
+
+    color:
+      #4ade80;
+
+    background:
+      rgba(74, 222, 128, 0.025);
+
+    font-size:
+      0.25rem;
+
+    letter-spacing:
+      0.04em;
+  }
+
+
+  /* ========================================================
+     COMPANY
+     ======================================================== */
+
+  .experience-company-row {
+    display:
+      flex;
+
+    align-items:
+      flex-start;
+
+    justify-content:
+      space-between;
+
+    gap:
       1rem;
   }
 
 
-  .experience-role {
+  .experience-company {
+    min-width:
+      0;
+  }
+
+
+  .experience-company h3 {
     margin:
       0;
 
@@ -729,33 +735,110 @@ const {
       var(--font-display);
 
     font-size:
-      clamp(
-        1.35rem,
-        2.5vw,
-        2rem
-      );
+      clamp(1.05rem, 2vw, 1.35rem);
 
     font-weight:
-      500;
-
-    line-height:
-      1.05;
+      600;
 
     letter-spacing:
-      -0.045em;
+      -0.025em;
+
+    line-height:
+      1.2;
   }
 
 
-  .experience-company {
+  .company-description {
     display:
-      flex;
+      block;
+
+    margin-top:
+      0.3rem;
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.29rem;
+
+    letter-spacing:
+      0.02em;
+  }
+
+
+  /* ========================================================
+     STATUS
+     ======================================================== */
+
+  .experience-status {
+    display:
+      inline-flex;
 
     align-items:
       center;
 
     gap:
-      0.45rem;
+      0.35rem;
 
+    flex-shrink:
+      0;
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.27rem;
+
+    text-transform:
+      uppercase;
+  }
+
+
+  .status-dot {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-text-subtle);
+  }
+
+
+  .experience-card-current
+    .status-dot {
+
+    background:
+      #4ade80;
+
+    box-shadow:
+      0 0 7px rgba(74, 222, 128, 0.7);
+  }
+
+
+  .experience-card-current
+    .experience-status {
+
+    color:
+      #4ade80;
+  }
+
+
+  /* ========================================================
+     ROLE
+     ======================================================== */
+
+  .experience-role {
     margin-top:
       0.5rem;
 
@@ -766,19 +849,13 @@ const {
       var(--font-mono);
 
     font-size:
-      0.5rem;
+      0.43rem;
+
+    font-weight:
+      500;
 
     letter-spacing:
-      0.025em;
-  }
-
-
-  .company-symbol {
-    color:
-      var(--color-cyan);
-
-    font-size:
-      0.7rem;
+      0.02em;
   }
 
 
@@ -794,20 +871,14 @@ const {
       wrap;
 
     gap:
-      0.5rem;
+      0.4rem;
 
-    padding:
-      0.7rem 0;
-
-    border-top:
-      1px solid var(--color-border);
-
-    border-bottom:
-      1px solid var(--color-border);
+    margin-top:
+      0.7rem;
   }
 
 
-  .experience-meta span {
+  .experience-meta-item {
     display:
       inline-flex;
 
@@ -815,145 +886,123 @@ const {
       center;
 
     gap:
-      0.35rem;
-
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.37rem;
-  }
-
-
-  .experience-meta strong {
-    color:
-      var(--color-text-muted);
-
-    font-size:
-      0.33rem;
-
-    font-weight:
-      500;
-  }
-
-
-  /* ========================================================
-     DESCRIPTION
-     ======================================================== */
-
-  .experience-description {
-    max-width:
-      850px;
-
-    margin:
-      1.2rem 0 1.5rem;
-
-    color:
-      var(--color-text-muted);
-
-    font-size:
-      0.62rem;
-
-    line-height:
-      1.8;
-  }
-
-
-  /* ========================================================
-     LABEL
-     ======================================================== */
-
-  .experience-label {
-    display:
-      block;
-
-    margin-bottom:
-      0.7rem;
-
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.36rem;
-
-    letter-spacing:
-      0.06em;
-  }
-
-
-  /* ========================================================
-     HIGHLIGHTS
-     ======================================================== */
-
-  .experience-highlights {
-    margin-bottom:
-      1.4rem;
+      0.3rem;
 
     padding:
-      0.9rem;
+      0.28rem 0.4rem;
 
     border:
-      1px solid rgba(34, 211, 238, 0.07);
+      1px solid var(--color-border);
 
     border-radius:
-      0.4rem;
+      0.2rem;
+
+    color:
+      var(--color-text-subtle);
 
     background:
-      rgba(34, 211, 238, 0.018);
+      rgba(148, 163, 184, 0.01);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.27rem;
   }
 
 
-  .highlight-grid {
-    display:
-      grid;
+  .meta-icon {
+    color:
+      var(--color-cyan);
 
-    grid-template-columns:
-      repeat(
-        2,
-        minmax(0, 1fr)
-      );
-
-    gap:
-      0.7rem 1rem;
+    font-size:
+      0.4rem;
   }
 
 
-  .highlight-item {
+  .vendor-period {
+    color:
+      var(--color-text-subtle);
+
+    opacity:
+      0.7;
+  }
+
+
+  /* ========================================================
+     SUMMARY
+     ======================================================== */
+
+  .experience-summary {
+    max-width:
+      800px;
+
+    margin:
+      1rem 0 0;
+
+    color:
+      var(--color-text-muted);
+
+    font-family:
+      var(--font-body);
+
+    font-size:
+      0.77rem;
+
+    line-height:
+      1.75;
+  }
+
+
+  /* ========================================================
+     SUBHEADING
+     ======================================================== */
+
+  .experience-subheading {
     display:
       flex;
 
     align-items:
-      flex-start;
+      center;
 
     gap:
-      0.45rem;
+      0.4rem;
+
+    margin-bottom:
+      0.6rem;
 
     color:
-      var(--color-text-muted);
-
-    font-size:
-      0.5rem;
-
-    line-height:
-      1.55;
-  }
-
-
-  .highlight-node {
-    flex-shrink:
-      0;
-
-    color:
-      var(--color-cyan);
+      var(--color-text-subtle);
 
     font-family:
       var(--font-mono);
+
+    font-size:
+      0.28rem;
+
+    letter-spacing:
+      0.05em;
+
+    text-transform:
+      uppercase;
+  }
+
+
+  .subheading-node {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 6px rgba(34, 211, 238, 0.5);
   }
 
 
@@ -962,20 +1011,23 @@ const {
      ======================================================== */
 
   .experience-responsibilities {
-    margin-bottom:
-      1.4rem;
+    margin-top:
+      1rem;
+
+    padding-top:
+      0.85rem;
+
+    border-top:
+      1px solid rgba(148, 163, 184, 0.06);
   }
 
 
   .experience-responsibilities ul {
     display:
-      flex;
-
-    flex-direction:
-      column;
+      grid;
 
     gap:
-      0.55rem;
+      0.5rem;
 
     margin:
       0;
@@ -990,37 +1042,49 @@ const {
 
   .experience-responsibilities li {
     display:
-      flex;
+      grid;
+
+    grid-template-columns:
+      7px 1fr;
 
     align-items:
-      flex-start;
+      start;
 
     gap:
-      0.55rem;
+      0.5rem;
 
     color:
       var(--color-text-muted);
 
+    font-family:
+      var(--font-body);
+
     font-size:
-      0.5rem;
+      0.7rem;
 
     line-height:
       1.65;
   }
 
 
-  .list-marker {
-    flex-shrink:
-      0;
+  .bullet-node {
+    width:
+      4px;
 
-    color:
-      var(--color-cyan);
+    height:
+      4px;
 
-    font-family:
-      var(--font-mono);
+    margin-top:
+      0.48rem;
 
-    font-size:
-      0.5rem;
+    border:
+      1px solid var(--color-cyan);
+
+    border-radius:
+      50%;
+
+    background:
+      transparent;
   }
 
 
@@ -1029,11 +1093,14 @@ const {
      ======================================================== */
 
   .experience-technologies {
-    padding-top:
+    margin-top:
       1rem;
 
+    padding-top:
+      0.85rem;
+
     border-top:
-      1px solid var(--color-border);
+      1px solid rgba(148, 163, 184, 0.06);
   }
 
 
@@ -1045,158 +1112,223 @@ const {
       wrap;
 
     gap:
-      0.35rem;
+      0.4rem;
   }
 
 
-  .technology-item {
+  .technology-chip {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.3rem;
+
     padding:
-      0.35rem 0.5rem;
+      0.3rem 0.45rem;
 
     border:
-      1px solid var(--color-border);
+      1px solid rgba(34, 211, 238, 0.12);
 
     border-radius:
-      0.25rem;
+      0.2rem;
 
     color:
       var(--color-text-subtle);
 
     background:
-      rgba(148, 163, 184, 0.015);
+      rgba(34, 211, 238, 0.012);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.37rem;
-
-    transition:
-      color var(--duration-fast) var(--ease-standard),
-      border-color var(--duration-fast) var(--ease-standard),
-      background var(--duration-fast) var(--ease-standard);
+      0.27rem;
   }
 
 
-  .technology-item:hover {
-    border-color:
-      rgba(34, 211, 238, 0.2);
-
+  .technology-chip-node {
     color:
       var(--color-cyan);
 
-    background:
-      rgba(34, 211, 238, 0.025);
+    font-size:
+      0.32rem;
+  }
+
+
+  .technology-violet {
+    border-color:
+      rgba(139, 92, 246, 0.12);
+  }
+
+
+  .technology-violet
+    .technology-chip-node {
+
+    color:
+      var(--color-violet);
+  }
+
+
+  .technology-blue {
+    border-color:
+      rgba(59, 130, 246, 0.12);
+  }
+
+
+  .technology-blue
+    .technology-chip-node {
+
+    color:
+      var(--color-blue);
+  }
+
+
+  .technology-green {
+    border-color:
+      rgba(74, 222, 128, 0.12);
+  }
+
+
+  .technology-green
+    .technology-chip-node {
+
+    color:
+      #4ade80;
   }
 
 
   /* ========================================================
-     CURRENT EXPERIENCE
+     FOOTER
      ======================================================== */
 
-  .experience-card-current
+  .experience-footer {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.5rem;
+
+    margin-top:
+      1rem;
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.25rem;
+
+    letter-spacing:
+      0.04em;
+  }
+
+
+  .footer-line {
+    flex:
+      1;
+
+    height:
+      1px;
+
+    background:
+      var(--color-border);
+  }
+
+
+  .footer-signal {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    width:
+      8px;
+
+    height:
+      8px;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      50%;
+  }
+
+
+  .footer-signal span {
+    width:
+      2px;
+
+    height:
+      2px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 5px rgba(34, 211, 238, 0.5);
+  }
+
+
+  /* ========================================================
+     FEATURED
+     ======================================================== */
+
+  .experience-card-featured
     .experience-content {
 
     border-color:
-      rgba(34, 211, 238, 0.16);
-
-    background:
-      linear-gradient(
-        135deg,
-        rgba(34, 211, 238, 0.025),
-        rgba(148, 163, 184, 0.006)
-      );
+      rgba(34, 211, 238, 0.13);
 
   }
 
 
-  .experience-card-current
+  .experience-card-featured
     .timeline-node {
 
-    border-color:
-      rgba(34, 211, 238, 0.45);
-
     box-shadow:
-      0 0 25px rgba(34, 211, 238, 0.12);
+      0 0 22px rgba(34, 211, 238, 0.18);
 
   }
 
 
   /* ========================================================
-     ACCENTS
+     LIGHT THEME
      ======================================================== */
 
-  .experience-card-violet
-    .experience-content::before {
+  :global([data-theme="light"])
+    .experience-content {
 
     background:
-      linear-gradient(
-        to bottom,
-        var(--color-violet),
-        transparent
-      );
+      rgba(15, 23, 42, 0.012);
 
   }
 
 
-  .experience-card-violet
-    .timeline-node-core {
+  :global([data-theme="light"])
+    .experience-card:hover
+    .experience-content {
 
     background:
-      var(--color-violet);
+      rgba(14, 116, 144, 0.015);
 
     box-shadow:
-      0 0 10px rgba(139, 92, 246, 0.65);
-
-  }
-
-
-  .experience-card-blue
-    .experience-content::before {
-
-    background:
-      linear-gradient(
-        to bottom,
-        var(--color-blue),
-        transparent
-      );
-
-  }
-
-
-  .experience-card-blue
-    .timeline-node-core {
-
-    background:
-      var(--color-blue);
-
-    box-shadow:
-      0 0 10px rgba(59, 130, 246, 0.65);
-
-  }
-
-
-  .experience-card-green
-    .experience-content::before {
-
-    background:
-      linear-gradient(
-        to bottom,
-        #4ade80,
-        transparent
-      );
-
-  }
-
-
-  .experience-card-green
-    .timeline-node-core {
-
-    background:
-      #4ade80;
-
-    box-shadow:
-      0 0 10px rgba(74, 222, 128, 0.65);
+      0 20px 60px rgba(15, 23, 42, 0.06);
 
   }
 
@@ -1209,96 +1341,48 @@ const {
 
     .experience-card {
       grid-template-columns:
-        32px minmax(0, 1fr);
+        24px minmax(0, 1fr);
 
       gap:
-        0.7rem;
-
-      padding-bottom:
-        2.5rem;
+        0.55rem;
     }
 
 
     .experience-content {
       padding:
-        1rem;
+        0.9rem;
     }
 
 
-    .timeline-number {
-      font-size:
-        0.34rem;
+    .experience-company-row {
+      display:
+        block;
     }
 
 
-    .timeline-node {
-      width:
-        14px;
-
-      height:
-        14px;
-
+    .experience-status {
       margin-top:
-        0.8rem;
+        0.5rem;
     }
 
 
-    .timeline-node-core {
-      width:
-        4px;
-
-      height:
-        4px;
-    }
-
-
-    .timeline-line {
-      top:
-        39px;
-    }
-
-
-    .experience-role {
+    .experience-summary {
       font-size:
-        1.25rem;
-    }
-
-
-    .experience-meta {
-      flex-direction:
-        column;
-
-      align-items:
-        flex-start;
-    }
-
-
-    .highlight-grid {
-      grid-template-columns:
-        1fr;
+        0.7rem;
     }
 
   }
 
 
-  @media (max-width: 450px) {
+  @media (max-width: 480px) {
 
     .experience-card {
       grid-template-columns:
-        24px minmax(0, 1fr);
-
-      gap:
-        0.5rem;
+        18px minmax(0, 1fr);
     }
 
 
-    .experience-content {
-      padding:
-        0.85rem;
-    }
-
-
-    .experience-top {
+    .experience-header {
       align-items:
         flex-start;
 
@@ -1306,7 +1390,31 @@ const {
         column;
 
       gap:
-        0.5rem;
+        0.4rem;
+    }
+
+
+    .experience-date {
+      order:
+        -1;
+    }
+
+
+    .experience-company h3 {
+      font-size:
+        1rem;
+    }
+
+
+    .experience-role {
+      font-size:
+        0.38rem;
+    }
+
+
+    .experience-responsibilities li {
+      font-size:
+        0.65rem;
     }
 
   }
@@ -1318,14 +1426,11 @@ const {
 
   @media (prefers-reduced-motion: reduce) {
 
-    .current-dot {
+    .timeline-node-core,
+    .experience-content {
       animation:
         none;
-    }
 
-
-    .experience-content,
-    .technology-item {
       transition:
         none;
     }
