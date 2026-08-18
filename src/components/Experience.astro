@@ -6,9 +6,12 @@
  *
  * Presentation layer for professional experience.
  *
- * Experience data is intentionally kept outside this component
- * so that roles, dates, companies and descriptions can later
- * be changed without modifying the UI.
+ * All employment information is stored separately in:
+ *
+ *     src/data/experience.ts
+ *
+ * This component should generally not need editing when
+ * employment information changes.
  * ============================================================
  */
 
@@ -21,165 +24,226 @@ import { experience } from "../data/experience";
   class="experience-section section"
   aria-labelledby="experience-title"
 >
+  <!-- ======================================================
+       BACKGROUND
+       ====================================================== -->
+
   <div
     class="experience-background"
     aria-hidden="true"
   >
-    <div class="experience-glow"></div>
-
     <div class="experience-grid"></div>
+
+    <div class="experience-glow experience-glow-one"></div>
+    <div class="experience-glow experience-glow-two"></div>
   </div>
 
 
   <div class="container">
 
     <SectionHeading
-      eyebrow="03 / Experience"
-      title="A career built around automation."
-      description="From foundational IT engineering to enterprise RPA consulting and solution architecture, each stage has expanded the scope of the problems I solve."
+      eyebrow="04 / Experience"
+      title="Six+ years of engineering & automation."
+      description="A career progressing from software and automation engineering into enterprise RPA consulting and solution architecture."
     />
 
 
-    <div class="experience-intro">
+    <!-- ====================================================
+         CAREER SUMMARY
+         ==================================================== -->
 
-      <div class="intro-line"></div>
+    <div class="career-summary">
 
-      <p>
-        More than <strong>6 years in IT</strong>, with experience
-        spanning enterprise automation, consulting, solution
-        design, delivery and emerging intelligent automation.
-      </p>
+      <div class="career-summary-item">
+
+        <span class="career-summary-value">
+          06+
+        </span>
+
+        <span class="career-summary-label">
+          YEARS IN<br />
+          IT
+        </span>
+
+      </div>
+
+
+      <div class="career-summary-divider"></div>
+
+
+      <div class="career-summary-item">
+
+        <span class="career-summary-value">
+          RPA
+        </span>
+
+        <span class="career-summary-label">
+          CORE<br />
+          SPECIALIZATION
+        </span>
+
+      </div>
+
+
+      <div class="career-summary-divider"></div>
+
+
+      <div class="career-summary-item">
+
+        <span class="career-summary-value">
+          AI
+        </span>
+
+        <span class="career-summary-label">
+          CURRENT<br />
+          DIRECTION
+        </span>
+
+      </div>
 
     </div>
 
 
-    <!-- ======================================================
+    <!-- ====================================================
          TIMELINE
-         ====================================================== -->
+         ==================================================== -->
 
-    <div class="timeline">
+    <div class="experience-timeline">
+
+      <div
+        class="timeline-track"
+        aria-hidden="true"
+      >
+        <div class="timeline-progress"></div>
+      </div>
+
 
       {
-        experience.map((item, index) => (
+        experience.map((job, index) => (
           <article
             class:list={[
-              "timeline-item",
+              "experience-item",
               {
-                "timeline-current": item.current,
-                "timeline-first": index === 0,
+                "experience-current": job.current,
               },
             ]}
           >
 
-            <!-- Timeline connector -->
+            <!-- ==============================================
+                 TIMELINE NODE
+                 ============================================== -->
 
             <div
-              class="timeline-marker"
+              class="timeline-node"
               aria-hidden="true"
             >
-              <span class="marker-core"></span>
-              <span class="marker-pulse"></span>
+              <span class="node-core"></span>
             </div>
 
 
-            <!-- Experience content -->
+            <!-- ==============================================
+                 DATE
+                 ============================================== -->
 
-            <div class="timeline-content">
+            <div class="experience-period">
 
-              <div class="timeline-header">
+              <span class="period-year">
+                {job.period}
+              </span>
 
-                <div class="timeline-company">
+              {
+                job.current && (
+                  <span class="current-indicator">
+                    CURRENT
+                  </span>
+                )
+              }
 
-                  <span class="timeline-company-index">
-                    {String(index + 1).padStart(2, "0")}
+            </div>
+
+
+            <!-- ==============================================
+                 EXPERIENCE CONTENT
+                 ============================================== -->
+
+            <div class="experience-card">
+
+              <div class="experience-card-header">
+
+                <div>
+
+                  <span class="experience-role">
+                    {job.role}
                   </span>
 
-                  <div>
-                    <h3>
-                      {item.company}
-                    </h3>
-
-                    <p class="timeline-client">
-                      {item.client}
-                    </p>
-                  </div>
-
-                </div>
-
-
-                <div class="timeline-date">
+                  <h3 class="experience-company">
+                    {job.company}
+                  </h3>
 
                   {
-                    item.current && (
-                      <span class="current-badge">
-                        CURRENT
-                      </span>
+                    job.client && (
+                      <p class="experience-client">
+                        <span>CLIENT / CONTEXT</span>
+                        {job.client}
+                      </p>
                     )
                   }
 
-                  <span>
-                    {item.period}
-                  </span>
-
                 </div>
 
-              </div>
 
-
-              <div class="timeline-role-row">
-
-                <h4>
-                  {item.role}
-                </h4>
-
-                {
-                  item.location && (
-                    <span class="timeline-location">
-                      {item.location}
-                    </span>
-                  )
-                }
+                <span class="experience-number">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
 
               </div>
 
 
-              <p class="timeline-description">
-                {item.description}
+              <p class="experience-description">
+                {job.description}
               </p>
 
 
               {
-                item.highlights?.length > 0 && (
-                  <ul class="timeline-highlights">
+                job.highlights?.length > 0 && (
+                  <ul class="experience-highlights">
+
                     {
-                      item.highlights.map((highlight) => (
+                      job.highlights.map((highlight) => (
                         <li>
+
                           <span
                             class="highlight-marker"
                             aria-hidden="true"
-                          ></span>
+                          >
+                            +
+                          </span>
 
                           <span>
                             {highlight}
                           </span>
+
                         </li>
                       ))
                     }
+
                   </ul>
                 )
               }
 
 
               {
-                item.technologies?.length > 0 && (
-                  <div class="timeline-technologies">
+                job.technologies?.length > 0 && (
+                  <div class="experience-technologies">
+
                     {
-                      item.technologies.map((technology) => (
+                      job.technologies.map((technology) => (
                         <span>
                           {technology}
                         </span>
                       ))
                     }
+
                   </div>
                 )
               }
@@ -193,60 +257,34 @@ import { experience } from "../data/experience";
     </div>
 
 
-    <!-- ======================================================
-         CAREER PROGRESSION
-         ====================================================== -->
+    <!-- ====================================================
+         CAREER DIRECTION
+         ==================================================== -->
 
-    <div class="career-progression">
+    <div class="career-direction">
 
-      <div class="progression-header">
+      <div class="direction-icon">
 
-        <span>
-          CAREER PROGRESSION
-        </span>
-
-        <span class="progression-line"></span>
-
-        <span>
-          2020 → PRESENT
-        </span>
+        <span class="direction-dot"></span>
 
       </div>
 
 
-      <div class="progression-track">
+      <div class="direction-content">
 
-        <div class="progression-line-active"></div>
+        <span class="direction-label">
+          NEXT HORIZON
+        </span>
 
+        <h3>
+          RPA <span>+</span> AI <span>+</span> Intelligent Automation
+        </h3>
 
-        <div class="progression-point">
-          <span>IT</span>
-          <small>2020</small>
-        </div>
-
-
-        <div class="progression-point">
-          <span>RPA</span>
-          <small>2021</small>
-        </div>
-
-
-        <div class="progression-point">
-          <span>CONSULTING</span>
-          <small>2021+</small>
-        </div>
-
-
-        <div class="progression-point">
-          <span>ARCHITECTURE</span>
-          <small>2022+</small>
-        </div>
-
-
-        <div class="progression-point progression-point-current">
-          <span>INTELLIGENT AUTOMATION</span>
-          <small>NOW</small>
-        </div>
+        <p>
+          Continuing to evolve from traditional process automation
+          toward intelligent systems powered by Generative AI,
+          LLM applications and agentic workflows.
+        </p>
 
       </div>
 
@@ -277,11 +315,11 @@ import { experience } from "../data/experience";
     inset:
       0;
 
-    pointer-events:
-      none;
-
     z-index:
       -1;
+
+    pointer-events:
+      none;
   }
 
 
@@ -293,7 +331,7 @@ import { experience } from "../data/experience";
       0;
 
     opacity:
-      0.3;
+      0.22;
 
     background-image:
       linear-gradient(
@@ -307,7 +345,7 @@ import { experience } from "../data/experience";
       );
 
     background-size:
-      100px 100px;
+      70px 70px;
 
     mask-image:
       linear-gradient(
@@ -324,93 +362,135 @@ import { experience } from "../data/experience";
     position:
       absolute;
 
-    top:
-      35%;
-
-    left:
-      45%;
-
     width:
-      35rem;
+      30rem;
 
     height:
-      35rem;
+      30rem;
 
     border-radius:
       50%;
 
-    background:
-      rgba(59, 130, 246, 0.035);
-
     filter:
-      blur(110px);
+      blur(130px);
+  }
+
+
+  .experience-glow-one {
+    top:
+      15%;
+
+    left:
+      -20%;
+
+    background:
+      rgba(34, 211, 238, 0.035);
+  }
+
+
+  .experience-glow-two {
+    right:
+      -20%;
+
+    bottom:
+      10%;
+
+    background:
+      rgba(59, 130, 246, 0.03);
   }
 
 
   /* ========================================================
-     INTRO
+     CAREER SUMMARY
      ======================================================== */
 
-  .experience-intro {
+  .career-summary {
     display:
       flex;
 
     align-items:
-      flex-start;
+      center;
 
-    gap:
-      1rem;
+    justify-content:
+      space-between;
 
     max-width:
-      680px;
+      650px;
 
     margin-bottom:
-      4rem;
+      4.5rem;
 
+    padding:
+      1.4rem 1.6rem;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      rgba(148, 163, 184, 0.015);
+  }
+
+
+  .career-summary-item {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.7rem;
+  }
+
+
+  .career-summary-value {
     color:
-      var(--color-text-secondary);
+      var(--color-cyan);
+
+    font-family:
+      var(--font-display);
 
     font-size:
-      0.95rem;
-
-    line-height:
-      1.7;
-  }
-
-
-  .experience-intro p {
-    margin:
-      0;
-  }
-
-
-  .experience-intro strong {
-    color:
-      var(--color-text);
+      1.7rem;
 
     font-weight:
       500;
+
+    letter-spacing:
+      -0.05em;
   }
 
 
-  .intro-line {
-    flex:
-      0 0 auto;
+  .career-summary-label {
+    color:
+      var(--color-text-subtle);
 
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.44rem;
+
+    line-height:
+      1.4;
+
+    letter-spacing:
+      0.08em;
+  }
+
+
+  .career-summary-divider {
     width:
-      2rem;
-
-    height:
       1px;
 
-    margin-top:
-      0.7rem;
+    height:
+      30px;
 
     background:
-      var(--color-cyan);
-
-    box-shadow:
-      0 0 10px rgba(34, 211, 238, 0.3);
+      var(--color-border);
   }
 
 
@@ -418,22 +498,28 @@ import { experience } from "../data/experience";
      TIMELINE
      ======================================================== */
 
-  .timeline {
+  .experience-timeline {
     position:
       relative;
 
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      3.5rem;
+
     max-width:
-      1050px;
+      1000px;
 
     margin:
       0 auto;
   }
 
 
-  .timeline::before {
-    content:
-      "";
-
+  .timeline-track {
     position:
       absolute;
 
@@ -444,7 +530,7 @@ import { experience } from "../data/experience";
       0;
 
     left:
-      11px;
+      8px;
 
     width:
       1px;
@@ -452,15 +538,33 @@ import { experience } from "../data/experience";
     background:
       linear-gradient(
         to bottom,
-        var(--color-cyan),
-        rgba(34, 211, 238, 0.16) 30%,
-        rgba(139, 92, 246, 0.12) 75%,
-        transparent
+        rgba(34, 211, 238, 0.35),
+        rgba(148, 163, 184, 0.08),
+        rgba(34, 211, 238, 0.15)
       );
   }
 
 
-  .timeline-item {
+  .timeline-progress {
+    width:
+      100%;
+
+    height:
+      25%;
+
+    background:
+      linear-gradient(
+        to bottom,
+        var(--color-cyan),
+        rgba(34, 211, 238, 0)
+      );
+
+    box-shadow:
+      0 0 12px rgba(34, 211, 238, 0.4);
+  }
+
+
+  .experience-item {
     position:
       relative;
 
@@ -468,65 +572,75 @@ import { experience } from "../data/experience";
       grid;
 
     grid-template-columns:
-      4rem 1fr;
+      120px 1fr;
 
     gap:
-      1.5rem;
+      3rem;
 
-    padding-bottom:
-      4rem;
-  }
-
-
-  .timeline-item:last-child {
-    padding-bottom:
-      0;
+    padding-left:
+      2.2rem;
   }
 
 
   /* ========================================================
-     TIMELINE MARKER
+     TIMELINE NODE
      ======================================================== */
 
-  .timeline-marker {
+  .timeline-node {
     position:
-      relative;
+      absolute;
 
-    z-index:
-      2;
+    top:
+      4px;
 
-    width:
-      1.5rem;
-
-    height:
-      1.5rem;
+    left:
+      0;
 
     display:
-      grid;
+      flex;
 
-    place-items:
+    align-items:
       center;
 
-    margin-top:
-      0.15rem;
+    justify-content:
+      center;
+
+    width:
+      17px;
+
+    height:
+      17px;
 
     border:
-      1px solid rgba(34, 211, 238, 0.22);
+      1px solid
+      rgba(34, 211, 238, 0.35);
 
     border-radius:
       50%;
 
     background:
       var(--color-bg);
+
+    box-shadow:
+      0 0 20px rgba(34, 211, 238, 0.08);
   }
 
 
-  .marker-core {
+  .experience-current .timeline-node {
+    border-color:
+      rgba(34, 211, 238, 0.8);
+
+    box-shadow:
+      0 0 25px rgba(34, 211, 238, 0.25);
+  }
+
+
+  .node-core {
     width:
-      0.4rem;
+      5px;
 
     height:
-      0.4rem;
+      5px;
 
     border-radius:
       50%;
@@ -536,239 +650,58 @@ import { experience } from "../data/experience";
   }
 
 
-  .marker-pulse {
-    position:
-      absolute;
+  .experience-current .node-core {
+    background:
+      var(--color-cyan);
 
-    inset:
-      -5px;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.12);
-
-    border-radius:
-      50%;
+    box-shadow:
+      0 0 10px var(--color-cyan);
 
     animation:
-      marker-pulse 3s ease-out infinite;
+      node-pulse 2s ease-in-out infinite;
   }
 
 
-  @keyframes marker-pulse {
-    0% {
-      transform:
-        scale(0.7);
-
-      opacity:
-        0.7;
-    }
-
+  @keyframes node-pulse {
+    0%,
     100% {
-      transform:
-        scale(1.5);
-
       opacity:
-        0;
+        0.45;
+
+      transform:
+        scale(0.8);
+    }
+
+    50% {
+      opacity:
+        1;
+
+      transform:
+        scale(1.4);
     }
   }
 
 
-  .timeline-current .timeline-marker {
-    border-color:
-      rgba(34, 211, 238, 0.5);
-
-    box-shadow:
-      0 0 20px rgba(34, 211, 238, 0.12);
-  }
-
-
-  .timeline-current .marker-core {
-    background:
-      var(--color-cyan);
-
-    box-shadow:
-      0 0 12px rgba(34, 211, 238, 0.8);
-  }
-
-
   /* ========================================================
-     TIMELINE CONTENT
+     PERIOD
      ======================================================== */
 
-  .timeline-content {
-    position:
-      relative;
-
-    padding:
-      1.5rem;
-
-    border:
-      1px solid var(--color-border);
-
-    border-radius:
-      var(--radius-lg);
-
-    background:
-      rgba(148, 163, 184, 0.018);
-
-    transition:
-      border-color var(--duration-normal) var(--ease-standard),
-      background var(--duration-normal) var(--ease-standard),
-      transform var(--duration-normal) var(--ease-standard);
-  }
-
-
-  .timeline-content:hover {
-    transform:
-      translateX(5px);
-
-    border-color:
-      rgba(34, 211, 238, 0.16);
-
-    background:
-      rgba(34, 211, 238, 0.025);
-  }
-
-
-  .timeline-current .timeline-content {
-    border-color:
-      rgba(34, 211, 238, 0.2);
-
-    background:
-      linear-gradient(
-        135deg,
-        rgba(34, 211, 238, 0.035),
-        rgba(139, 92, 246, 0.018)
-      );
-
-    box-shadow:
-      0 20px 60px rgba(0, 0, 0, 0.12);
-  }
-
-
-  .timeline-current .timeline-content::before {
-    content:
-      "";
-
-    position:
-      absolute;
-
-    top:
-      -1px;
-
-    left:
-      2rem;
-
-    width:
-      5rem;
-
-    height:
-      1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        var(--color-cyan),
-        transparent
-      );
-  }
-
-
-  /* ========================================================
-     HEADER
-     ======================================================== */
-
-  .timeline-header {
-    display:
-      flex;
-
-    align-items:
-      flex-start;
-
-    justify-content:
-      space-between;
-
-    gap:
-      1.5rem;
-
-    margin-bottom:
-      1.25rem;
-  }
-
-
-  .timeline-company {
-    display:
-      flex;
-
-    align-items:
-      flex-start;
-
-    gap:
-      0.9rem;
-  }
-
-
-  .timeline-company-index {
-    padding-top:
-      0.25rem;
-
-    color:
-      var(--color-cyan);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.6rem;
-
-    opacity:
-      0.8;
-  }
-
-
-  .timeline-company h3 {
-    margin:
-      0;
-
-    color:
-      var(--color-text);
-
-    font-size:
-      1.1rem;
-
-    font-weight:
-      550;
-
-    letter-spacing:
-      -0.02em;
-  }
-
-
-  .timeline-client {
-    margin-top:
-      0.3rem;
-
-    color:
-      var(--color-text-subtle);
-
-    font-size:
-      0.7rem;
-  }
-
-
-  .timeline-date {
+  .experience-period {
     display:
       flex;
 
     flex-direction:
       column;
 
-    align-items:
-      flex-end;
-
     gap:
-      0.35rem;
+      0.45rem;
 
+    padding-top:
+      0.15rem;
+  }
+
+
+  .period-year {
     color:
       var(--color-text-muted);
 
@@ -776,14 +709,26 @@ import { experience } from "../data/experience";
       var(--font-mono);
 
     font-size:
-      0.62rem;
+      0.58rem;
 
-    white-space:
-      nowrap;
+    line-height:
+      1.5;
   }
 
 
-  .current-badge {
+  .experience-current .period-year {
+    color:
+      var(--color-cyan);
+  }
+
+
+  .current-indicator {
+    display:
+      inline-flex;
+
+    width:
+      fit-content;
+
     padding:
       0.25rem 0.45rem;
 
@@ -797,60 +742,160 @@ import { experience } from "../data/experience";
       var(--color-cyan);
 
     background:
-      rgba(34, 211, 238, 0.05);
+      rgba(34, 211, 238, 0.03);
+
+    font-family:
+      var(--font-mono);
 
     font-size:
-      0.5rem;
+      0.42rem;
 
     letter-spacing:
-      0.08em;
+      0.07em;
   }
 
 
   /* ========================================================
-     ROLE
+     EXPERIENCE CARD
      ======================================================== */
 
-  .timeline-role-row {
+  .experience-card {
+    position:
+      relative;
+
+    padding:
+      1.5rem;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      var(--radius-lg);
+
+    background:
+      rgba(148, 163, 184, 0.012);
+
+    transition:
+      border-color var(--duration-normal) var(--ease-standard),
+      background var(--duration-normal) var(--ease-standard),
+      transform var(--duration-normal) var(--ease-standard);
+  }
+
+
+  .experience-card:hover {
+    transform:
+      translateX(4px);
+
+    border-color:
+      rgba(34, 211, 238, 0.16);
+
+    background:
+      rgba(148, 163, 184, 0.025);
+  }
+
+
+  .experience-current .experience-card {
+    border-color:
+      rgba(34, 211, 238, 0.16);
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(34, 211, 238, 0.025),
+        rgba(148, 163, 184, 0.01)
+      );
+  }
+
+
+  /* ========================================================
+     CARD HEADER
+     ======================================================== */
+
+  .experience-card-header {
     display:
       flex;
 
     align-items:
-      center;
+      flex-start;
 
-    flex-wrap:
-      wrap;
+    justify-content:
+      space-between;
 
     gap:
-      0.8rem;
+      1rem;
 
-    margin-bottom:
-      0.9rem;
+    padding-bottom:
+      1rem;
+
+    border-bottom:
+      1px solid var(--color-border);
   }
 
 
-  .timeline-role-row h4 {
+  .experience-role {
+    display:
+      block;
+
+    margin-bottom:
+      0.35rem;
+
+    color:
+      var(--color-cyan);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.52rem;
+
+    letter-spacing:
+      0.06em;
+  }
+
+
+  .experience-company {
     margin:
       0;
 
     color:
       var(--color-text);
 
+    font-family:
+      var(--font-display);
+
     font-size:
-      0.92rem;
+      clamp(1.1rem, 2vw, 1.4rem);
 
     font-weight:
       500;
+
+    letter-spacing:
+      -0.035em;
   }
 
 
-  .timeline-location {
-    padding-left:
-      0.8rem;
+  .experience-client {
+    display:
+      flex;
 
-    border-left:
-      1px solid var(--color-border);
+    flex-wrap:
+      wrap;
 
+    gap:
+      0.45rem;
+
+    margin:
+      0.5rem 0 0;
+
+    color:
+      var(--color-text-muted);
+
+    font-size:
+      0.6rem;
+  }
+
+
+  .experience-client span {
     color:
       var(--color-text-subtle);
 
@@ -858,7 +903,22 @@ import { experience } from "../data/experience";
       var(--font-mono);
 
     font-size:
-      0.58rem;
+      0.44rem;
+
+    letter-spacing:
+      0.05em;
+  }
+
+
+  .experience-number {
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.52rem;
   }
 
 
@@ -866,18 +926,15 @@ import { experience } from "../data/experience";
      DESCRIPTION
      ======================================================== */
 
-  .timeline-description {
-    max-width:
-      850px;
-
+  .experience-description {
     margin:
-      0 0 1.25rem;
+      1rem 0;
 
     color:
-      var(--color-text-secondary);
+      var(--color-text-muted);
 
     font-size:
-      0.8rem;
+      0.7rem;
 
     line-height:
       1.75;
@@ -888,15 +945,15 @@ import { experience } from "../data/experience";
      HIGHLIGHTS
      ======================================================== */
 
-  .timeline-highlights {
+  .experience-highlights {
     display:
       grid;
 
     grid-template-columns:
-      repeat(2, 1fr);
+      repeat(2, minmax(0, 1fr));
 
     gap:
-      0.65rem 1.5rem;
+      0.55rem 1.25rem;
 
     margin:
       0 0 1.25rem;
@@ -909,7 +966,7 @@ import { experience } from "../data/experience";
   }
 
 
-  .timeline-highlights li {
+  .experience-highlights li {
     display:
       flex;
 
@@ -917,16 +974,16 @@ import { experience } from "../data/experience";
       flex-start;
 
     gap:
-      0.55rem;
+      0.5rem;
 
     color:
-      var(--color-text-muted);
+      var(--color-text-subtle);
 
     font-size:
-      0.68rem;
+      0.59rem;
 
     line-height:
-      1.6;
+      1.55;
   }
 
 
@@ -934,31 +991,19 @@ import { experience } from "../data/experience";
     flex:
       0 0 auto;
 
-    width:
-      4px;
-
-    height:
-      4px;
-
-    margin-top:
-      0.5rem;
-
-    border-radius:
-      50%;
-
-    background:
+    color:
       var(--color-cyan);
 
-    box-shadow:
-      0 0 8px rgba(34, 211, 238, 0.55);
+    font-family:
+      var(--font-mono);
   }
 
 
   /* ========================================================
-     TECHNOLOGY TAGS
+     TECHNOLOGIES
      ======================================================== */
 
-  .timeline-technologies {
+  .experience-technologies {
     display:
       flex;
 
@@ -969,16 +1014,16 @@ import { experience } from "../data/experience";
       0.4rem;
 
     padding-top:
-      0.9rem;
+      1rem;
 
     border-top:
       1px solid var(--color-border);
   }
 
 
-  .timeline-technologies span {
+  .experience-technologies span {
     padding:
-      0.35rem 0.5rem;
+      0.32rem 0.5rem;
 
     border:
       1px solid rgba(148, 163, 184, 0.1);
@@ -990,233 +1035,156 @@ import { experience } from "../data/experience";
       var(--color-text-subtle);
 
     background:
-      rgba(148, 163, 184, 0.025);
+      rgba(148, 163, 184, 0.018);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.52rem;
-
-    transition:
-      color var(--duration-fast) ease,
-      border-color var(--duration-fast) ease;
-  }
-
-
-  .timeline-technologies span:hover {
-    color:
-      var(--color-cyan);
-
-    border-color:
-      rgba(34, 211, 238, 0.18);
+      0.46rem;
   }
 
 
   /* ========================================================
-     CAREER PROGRESSION
+     CAREER DIRECTION
      ======================================================== */
 
-  .career-progression {
-    margin-top:
-      5rem;
+  .career-direction {
+    display:
+      flex;
+
+    align-items:
+      flex-start;
+
+    gap:
+      1rem;
+
+    max-width:
+      1000px;
+
+    margin:
+      4rem auto 0;
 
     padding:
       1.5rem;
 
     border:
-      1px solid var(--color-border);
+      1px solid rgba(34, 211, 238, 0.12);
 
     border-radius:
       var(--radius-lg);
 
     background:
-      rgba(148, 163, 184, 0.015);
+      linear-gradient(
+        135deg,
+        rgba(34, 211, 238, 0.025),
+        rgba(59, 130, 246, 0.012)
+      );
   }
 
 
-  .progression-header {
+  .direction-icon {
     display:
       flex;
 
     align-items:
       center;
 
-    gap:
-      1rem;
+    justify-content:
+      center;
 
-    margin-bottom:
-      2rem;
+    flex:
+      0 0 auto;
 
+    width:
+      28px;
+
+    height:
+      28px;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.25);
+
+    border-radius:
+      50%;
+  }
+
+
+  .direction-dot {
+    width:
+      5px;
+
+    height:
+      5px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 12px var(--color-cyan);
+  }
+
+
+  .direction-label {
     color:
-      var(--color-text-subtle);
+      var(--color-cyan);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.55rem;
+      0.48rem;
 
     letter-spacing:
       0.08em;
   }
 
 
-  .progression-line {
-    flex:
-      1;
+  .direction-content h3 {
+    margin:
+      0.4rem 0 0;
 
-    height:
-      1px;
+    color:
+      var(--color-text);
 
-    background:
-      var(--color-border);
-  }
+    font-family:
+      var(--font-display);
 
-
-  .progression-track {
-    position:
-      relative;
-
-    display:
-      flex;
-
-    justify-content:
-      space-between;
-
-    gap:
+    font-size:
       1rem;
+
+    font-weight:
+      500;
+
+    letter-spacing:
+      -0.025em;
   }
 
 
-  .progression-track::before {
-    content:
-      "";
-
-    position:
-      absolute;
-
-    top:
-      0.3rem;
-
-    left:
-      0;
-
-    right:
-      0;
-
-    height:
-      1px;
-
-    background:
-      rgba(148, 163, 184, 0.12);
+  .direction-content h3 span {
+    color:
+      var(--color-cyan);
   }
 
 
-  .progression-line-active {
-    position:
-      absolute;
+  .direction-content p {
+    max-width:
+      700px;
 
-    top:
-      0.3rem;
-
-    left:
-      0;
-
-    width:
-      100%;
-
-    height:
-      1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        var(--color-cyan),
-        var(--color-blue),
-        var(--color-violet)
-      );
-
-    opacity:
-      0.55;
-  }
-
-
-  .progression-point {
-    position:
-      relative;
-
-    z-index:
-      2;
-
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    gap:
-      0.55rem;
-
-    width:
-      20%;
+    margin:
+      0.5rem 0 0;
 
     color:
       var(--color-text-muted);
 
-    font-family:
-      var(--font-mono);
-
     font-size:
-      0.53rem;
-  }
+      0.62rem;
 
-
-  .progression-point::before {
-    content:
-      "";
-
-    width:
-      0.6rem;
-
-    height:
-      0.6rem;
-
-    border:
-      1px solid rgba(148, 163, 184, 0.3);
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-bg);
-  }
-
-
-  .progression-point small {
-    color:
-      var(--color-text-subtle);
-
-    font-size:
-      0.5rem;
-  }
-
-
-  .progression-point-current {
-    color:
-      var(--color-cyan);
-  }
-
-
-  .progression-point-current::before {
-    border-color:
-      var(--color-cyan);
-
-    background:
-      var(--color-cyan);
-
-    box-shadow:
-      0 0 15px rgba(34, 211, 238, 0.6);
+    line-height:
+      1.7;
   }
 
 
@@ -1224,102 +1192,105 @@ import { experience } from "../data/experience";
      RESPONSIVE
      ======================================================== */
 
-  @media (max-width: 760px) {
-    .timeline::before {
-      left:
-        9px;
-    }
+  @media (max-width: 750px) {
+    .career-summary {
+      justify-content:
+        space-around;
 
-    .timeline-item {
-      grid-template-columns:
-        2.5rem 1fr;
-
-      gap:
-        0.75rem;
-
-      padding-bottom:
-        2.5rem;
-    }
-
-    .timeline-marker {
-      width:
-        1.2rem;
-
-      height:
-        1.2rem;
-    }
-
-    .timeline-content {
       padding:
         1.1rem;
     }
 
-    .timeline-header {
-      flex-direction:
-        column;
+    .career-summary-item {
+      gap:
+        0.4rem;
+    }
+
+    .career-summary-value {
+      font-size:
+        1.35rem;
+    }
+
+    .experience-item {
+      grid-template-columns:
+        1fr;
 
       gap:
-        0.8rem;
+        0.7rem;
+
+      padding-left:
+        2.2rem;
     }
 
-    .timeline-date {
-      align-items:
-        flex-start;
-
-      flex-direction:
-        row;
-
-      flex-wrap:
-        wrap;
+    .experience-period {
+      padding-top:
+        0;
     }
 
-    .timeline-highlights {
+    .experience-period .period-year {
+      font-size:
+        0.52rem;
+    }
+
+    .experience-card {
+      padding:
+        1.2rem;
+    }
+
+    .experience-highlights {
       grid-template-columns:
         1fr;
     }
   }
 
 
-  @media (max-width: 600px) {
-    .experience-intro {
-      font-size:
-        0.88rem;
+  @media (max-width: 500px) {
+    .career-summary {
+      align-items:
+        flex-start;
+
+      gap:
+        0.8rem;
     }
 
-    .timeline-company h3 {
-      font-size:
-        1rem;
+    .career-summary-divider {
+      height:
+        24px;
     }
 
-    .timeline-description {
-      font-size:
-        0.75rem;
+    .career-summary-label {
+      display:
+        none;
     }
 
-    .career-progression {
-      overflow:
-        hidden;
+    .experience-card-header {
+      flex-direction:
+        column;
     }
 
-    .progression-track {
-      width:
-        700px;
+    .experience-number {
+      display:
+        none;
     }
 
-    .progression-header {
-      flex-wrap:
-        wrap;
+    .career-direction {
+      padding:
+        1.1rem;
     }
   }
 
 
+  /* ========================================================
+     REDUCED MOTION
+     ======================================================== */
+
   @media (prefers-reduced-motion: reduce) {
-    .marker-pulse {
+    .experience-current .node-core {
       animation:
         none;
     }
 
-    .timeline-content {
+    .experience-card {
       transition:
         none;
     }
