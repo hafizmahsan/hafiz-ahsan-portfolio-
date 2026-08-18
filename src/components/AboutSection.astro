@@ -1,0 +1,428 @@
+---
+/**
+ * ============================================================
+ * ABOUT SECTION
+ * ============================================================
+ *
+ * Main personal / professional introduction.
+ *
+ * ============================================================
+ */
+
+import SectionHeader from "./SectionHeader.astro";
+import Stack from "./Stack.astro";
+
+interface Highlight {
+  label: string;
+
+  value: string;
+
+  description?: string;
+}
+
+interface Props {
+  number?: string;
+
+  eyebrow?: string;
+
+  title?: string;
+
+  description?: string;
+
+  highlights?: Highlight[];
+
+  class?: string;
+}
+
+const {
+  number = "01",
+
+  eyebrow = "ABOUT",
+
+  title = "Building useful systems.",
+
+  description =
+    "I work at the intersection of software engineering, automation, and AI. My focus is turning repetitive or complex workflows into reliable systems that are easier to operate, maintain, and scale.",
+
+  highlights = [
+    {
+      label: "FOCUS",
+      value: "AUTOMATION",
+      description:
+        "Designing practical systems that eliminate repetitive work."
+    },
+    {
+      label: "APPROACH",
+      value: "SYSTEMS",
+      description:
+        "Connecting tools, APIs, data, and people into coherent workflows."
+    },
+    {
+      label: "INTEREST",
+      value: "AI",
+      description:
+        "Applying intelligent models where they create measurable value."
+    }
+  ],
+
+  class: className = ""
+} = Astro.props;
+---
+
+<section
+  id="about"
+  class:list={[
+    "about-section",
+    className
+  ]}
+>
+  <div class="about-section__inner">
+
+    <SectionHeader
+      number={number}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+    />
+
+
+    <div class="about-section__body">
+
+      <div class="about-section__statement">
+
+        <span class="about-section__label">
+          / WHAT I DO
+        </span>
+
+        <p>
+          I build tools and workflows that make
+          technical and operational processes
+          simpler, faster, and more dependable.
+        </p>
+
+        <p>
+          That can mean an automation pipeline,
+          an internal application, an API-driven
+          integration, or an AI-assisted workflow.
+          The goal is always the same:
+          <strong>
+            useful technology with a clear purpose.
+          </strong>
+        </p>
+
+      </div>
+
+
+      <div class="about-section__highlights">
+
+        {
+          highlights.map(
+            (highlight, index) => (
+              <article
+                class="about-section__highlight"
+              >
+                <span class="about-section__highlight-number">
+                  {String(index + 1).padStart(
+                    2,
+                    "0"
+                  )}
+                </span>
+
+                <span class="about-section__highlight-label">
+                  {highlight.label}
+                </span>
+
+                <h3>
+                  {highlight.value}
+                </h3>
+
+                {
+                  highlight.description && (
+                    <p>
+                      {highlight.description}
+                    </p>
+                  )
+                }
+              </article>
+            )
+          )
+        }
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<style>
+  .about-section {
+    padding:
+      7rem 0;
+  }
+
+
+  .about-section__inner {
+    width:
+      min(
+        calc(100% - 2.5rem),
+        76rem
+      );
+
+    margin-inline: auto;
+  }
+
+
+  /* ========================================================
+     BODY
+     ======================================================== */
+
+  .about-section__body {
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1.25fr);
+
+    gap:
+      clamp(3rem, 8vw, 7rem);
+
+    margin-top: 4rem;
+  }
+
+
+  /* ========================================================
+     STATEMENT
+     ======================================================== */
+
+  .about-section__statement {
+    max-width: 31rem;
+  }
+
+
+  .about-section__label {
+    display: block;
+
+    margin-bottom: 1.25rem;
+
+    color:
+      #67e8f9;
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.6rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    line-height: 1;
+  }
+
+
+  .about-section__statement p {
+    margin: 0 0 1.2rem;
+
+    color:
+      rgba(148, 163, 184, 0.88);
+
+    font-size:
+      clamp(0.95rem, 1.5vw, 1.05rem);
+
+    line-height: 1.8;
+  }
+
+
+  .about-section__statement p:last-child {
+    margin-bottom: 0;
+  }
+
+
+  .about-section__statement strong {
+    color:
+      #e2e8f0;
+
+    font-weight: 600;
+  }
+
+
+  /* ========================================================
+     HIGHLIGHTS
+     ======================================================== */
+
+  .about-section__highlights {
+    display: grid;
+
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: 1px;
+
+    border:
+      1px solid
+      rgba(148, 163, 184, 0.1);
+
+    background:
+      rgba(148, 163, 184, 0.1);
+  }
+
+
+  .about-section__highlight {
+    position: relative;
+
+    min-width: 0;
+
+    padding:
+      1.35rem;
+
+    background:
+      #020617;
+  }
+
+
+  .about-section__highlight::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 1.5rem;
+    height: 1px;
+
+    background:
+      #67e8f9;
+  }
+
+
+  .about-section__highlight-number {
+    display: block;
+
+    margin-bottom: 2rem;
+
+    color:
+      rgba(103, 232, 249, 0.5);
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.58rem;
+
+    font-weight: 700;
+  }
+
+
+  .about-section__highlight-label {
+    display: block;
+
+    margin-bottom: 0.45rem;
+
+    color:
+      rgba(148, 163, 184, 0.5);
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.55rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+
+    text-transform: uppercase;
+  }
+
+
+  .about-section__highlight h3 {
+    margin: 0;
+
+    color:
+      #f8fafc;
+
+    font-size:
+      clamp(0.9rem, 1.6vw, 1.05rem);
+
+    font-weight: 700;
+
+    letter-spacing: -0.02em;
+
+    line-height: 1.2;
+  }
+
+
+  .about-section__highlight p {
+    margin:
+      0.8rem 0 0;
+
+    color:
+      rgba(100, 116, 139, 0.85);
+
+    font-size: 0.72rem;
+
+    line-height: 1.65;
+  }
+
+
+  /* ========================================================
+     RESPONSIVE
+     ======================================================== */
+
+  @media (max-width: 900px) {
+    .about-section {
+      padding:
+        5rem 0;
+    }
+
+
+    .about-section__body {
+      grid-template-columns: 1fr;
+
+      margin-top: 3rem;
+    }
+
+
+    .about-section__statement {
+      max-width: 42rem;
+    }
+  }
+
+
+  @media (max-width: 640px) {
+    .about-section__inner {
+      width:
+        min(
+          calc(100% - 2rem),
+          76rem
+        );
+    }
+
+
+    .about-section__highlights {
+      grid-template-columns: 1fr;
+    }
+
+
+    .about-section__highlight {
+      padding:
+        1.2rem;
+    }
+  }
+</style>
