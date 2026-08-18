@@ -1,49 +1,15 @@
 /**
  * ============================================================
- * PROJECTS DATA
+ * PROJECT DATA
  * ============================================================
  *
- * This file controls everything displayed in the Projects
- * section.
+ * This file contains portfolio project content only.
  *
- * EDITING GUIDE
- * ------------------------------------------------------------
+ * DO NOT put layout or styling here.
  *
- * title
- *   Project name displayed on the portfolio.
+ * To add/edit/remove a project, modify this file.
  *
- * category
- *   Project classification.
- *
- * subtitle
- *   Short supporting description.
- *
- * description
- *   Main project explanation.
- *
- * highlights
- *   Important capabilities or outcomes.
- *
- * technologies
- *   Technologies / platforms used.
- *
- * featured
- *   Makes the project visually prominent.
- *
- * status
- *   Small status indicator.
- *
- * github
- *   GitHub repository URL.
- *
- * demo
- *   Live project URL.
- *
- * accent
- *   Visual accent colour.
- *
- * code
- *   Short visual identifier.
+ * The ProjectCard component is responsible for presentation.
  *
  * ============================================================
  */
@@ -51,259 +17,277 @@
 export interface Project {
   title: string;
   category: string;
-  subtitle?: string;
   description: string;
 
-  highlights: string[];
+  impact?: string;
 
-  technologies: string[];
+  image?: string;
 
-  featured?: boolean;
-
-  status?: string;
+  technologies?: string[];
 
   github?: string;
 
   demo?: string;
 
-  accent?: string;
+  featured?: boolean;
 
-  code?: string;
+  status?: string;
+
+  year?: string;
+
+  accent?: "cyan" | "violet" | "blue" | "green";
 }
 
 
 /**
  * ============================================================
- * SELECTED PROJECTS
- * ============================================================
- *
- * Keep the strongest / most relevant project first.
- *
- * Public and personal projects can be expanded later.
- *
- * Client work should only be identified by name when it is
- * publicly safe and appropriate to do so.
- *
+ * PROJECTS
  * ============================================================
  */
 
 export const projects: Project[] = [
-
   {
-    title: "Enterprise RPA Automation",
-    category: "RPA / ENTERPRISE AUTOMATION",
+    title: "Enterprise RPA Automation Platform",
 
-    subtitle:
-      "Business process automation and digital workforce solutions.",
+    category:
+      "RPA / ENTERPRISE AUTOMATION",
 
     description:
-      "Enterprise automation work focused on transforming repetitive, rule-based business processes into reliable automated workflows. The work spans process understanding, solution design, development, testing, deployment and operational support.",
+      "A scalable automation solution designed to streamline repetitive enterprise workflows, reduce manual intervention and improve operational consistency.",
 
-    highlights: [
-      "Business process analysis and automation opportunity identification.",
-      "Design and development of enterprise RPA workflows.",
-      "Integration of automation with existing business applications.",
-      "Production support and continuous improvement."
-    ],
+    impact:
+      "Reduced manual processing effort and improved workflow consistency.",
 
     technologies: [
       "RPA",
-      "Process Automation",
-      "APIs",
-      "Enterprise Systems",
-      "Workflow Design"
+      "UiPath",
+      "Python",
+      "REST APIs",
+      "SQL"
     ],
 
-    featured: true,
-
     status:
-      "ENTERPRISE",
+      "DELIVERED",
+
+    year:
+      "2024",
+
+    featured:
+      true,
 
     accent:
-      "#22d3ee",
-
-    code:
-      "RPA"
+      "cyan"
   },
 
 
   {
-    title: "Automation Solution Architecture",
-    category: "SOLUTION ARCHITECTURE",
+    title: "Gen AI Automation Assistant",
 
-    subtitle:
-      "From business requirements to scalable automation architecture.",
+    category:
+      "GENERATIVE AI / AUTOMATION",
 
     description:
-      "Solution architecture work focused on translating business requirements into technical automation solutions, defining integrations, designing workflows and establishing a foundation that can scale across enterprise processes.",
+      "An intelligent automation concept exploring LLM-powered workflows, contextual reasoning and AI-assisted task execution.",
 
-    highlights: [
-      "Requirement analysis and technical solution design.",
-      "Automation architecture and workflow modelling.",
-      "Enterprise application and API integration planning.",
-      "Collaboration between business and technical stakeholders."
-    ],
+    impact:
+      "Explored opportunities to combine generative AI with enterprise automation workflows.",
 
     technologies: [
-      "Solution Architecture",
-      "RPA",
-      "APIs",
-      "Integration",
-      "Process Design"
+      "Python",
+      "LLM",
+      "RAG",
+      "LangChain",
+      "APIs"
     ],
 
     status:
-      "ARCHITECTURE",
+      "IN DEVELOPMENT",
+
+    year:
+      "2026",
 
     accent:
-      "#3b82f6",
-
-    code:
-      "ARCH"
+      "violet"
   },
 
 
   {
-    title: "Client Automation Delivery",
-    category: "CONSULTING / DELIVERY",
+    title: "Automation Developer Toolkit",
 
-    subtitle:
-      "Client-focused automation engineering and consulting.",
+    category:
+      "DEVELOPER TOOLS / OPEN SOURCE",
 
     description:
-      "Consulting and delivery experience across enterprise environments, combining technical implementation with stakeholder communication and business-process understanding.",
-
-    highlights: [
-      "Worked with stakeholders to understand automation requirements.",
-      "Translated business requirements into technical solutions.",
-      "Supported implementation and production delivery.",
-      "Contributed to process optimization and automation adoption."
-    ],
+      "A collection of reusable utilities, patterns and development helpers designed to accelerate automation engineering work.",
 
     technologies: [
-      "RPA",
-      "Consulting",
-      "Requirements",
+      "Python",
       "Automation",
-      "Solution Delivery"
+      "REST APIs",
+      "Git"
     ],
 
     status:
-      "CLIENT DELIVERY",
+      "OPEN SOURCE",
+
+    year:
+      "2025",
 
     accent:
-      "#8b5cf6",
-
-    code:
-      "CONS"
+      "blue"
   },
 
 
   {
-    title: "Enterprise Integration Automation",
-    category: "INTEGRATION / APIs",
+    title: "Intelligent Document Processing",
 
-    subtitle:
-      "Connecting automation workflows with enterprise technology.",
+    category:
+      "AI / DOCUMENT AUTOMATION",
 
     description:
-      "Automation solutions that combine robotic workflows with APIs, enterprise applications and data exchange mechanisms to reduce manual interaction and improve process consistency.",
+      "An intelligent document-processing workflow designed to extract structured information from business documents and feed downstream automation processes.",
 
-    highlights: [
-      "API-driven automation concepts.",
-      "Integration between automation workflows and enterprise systems.",
-      "Structured data exchange between systems.",
-      "Reusable integration-oriented automation patterns."
+    impact:
+      "Automated repetitive document-processing activities and reduced manual data handling.",
+
+    technologies: [
+      "Python",
+      "OCR",
+      "AI",
+      "RPA",
+      "APIs"
     ],
+
+    status:
+      "COMPLETED",
+
+    year:
+      "2024",
+
+    accent:
+      "green"
+  },
+
+
+  {
+    title: "Enterprise Workflow Integration",
+
+    category:
+      "SYSTEM INTEGRATION / AUTOMATION",
+
+    description:
+      "An integration-focused automation solution connecting enterprise systems through APIs, workflow orchestration and reusable automation components.",
+
+    impact:
+      "Improved interoperability between business systems and automation workflows.",
 
     technologies: [
       "REST APIs",
       "RPA",
-      "Integration",
-      "JSON",
-      "Enterprise Applications"
-    ],
-
-    status:
-      "INTEGRATION",
-
-    accent:
-      "#06b6d4",
-
-    code:
-      "API"
-  },
-
-
-  {
-    title: "Intelligent Automation Lab",
-    category: "GENAI / EXPERIMENTAL",
-
-    subtitle:
-      "Exploring the convergence of RPA and Generative AI.",
-
-    description:
-      "An evolving personal learning and experimentation track exploring how Generative AI, LLM applications, LangChain and agentic workflows can extend traditional automation beyond deterministic rule-based processes.",
-
-    highlights: [
-      "Exploring LLM-powered application patterns.",
-      "Learning LangChain and modern AI application architectures.",
-      "Experimenting with intelligent workflow concepts.",
-      "Investigating how AI agents can complement enterprise automation."
-    ],
-
-    technologies: [
-      "Generative AI",
-      "LLMs",
-      "LangChain",
-      "AI Agents",
-      "Python"
-    ],
-
-    status:
-      "LEARNING",
-
-    accent:
-      "#a78bfa",
-
-    code:
-      "GENAI"
-  },
-
-
-  {
-    title: "Personal Automation Toolkit",
-    category: "PERSONAL / ENGINEERING",
-
-    subtitle:
-      "Reusable ideas and utilities for automation engineering.",
-
-    description:
-      "A collection of personal engineering concepts focused on reusable automation patterns, development utilities, integrations and practical tooling that can accelerate repetitive technical tasks.",
-
-    highlights: [
-      "Reusable automation concepts.",
-      "Developer-oriented utilities and workflows.",
-      "API and integration experimentation.",
-      "Continuous experimentation with automation technologies."
-    ],
-
-    technologies: [
       "Python",
-      "APIs",
-      "Git",
-      "Automation",
-      "JavaScript"
+      "SQL",
+      "Integration"
     ],
 
     status:
-      "EXPERIMENTAL",
+      "COMPLETED",
+
+    year:
+      "2023",
 
     accent:
-      "#38bdf8",
-
-    code:
-      "LAB"
+      "cyan"
   }
-
 ];
+
+
+/**
+ * ============================================================
+ * FEATURED PROJECTS
+ * ============================================================
+ *
+ * Automatically derived from the main project collection.
+ *
+ * This means you do NOT have to maintain two separate lists.
+ *
+ * Set `featured: true` above and the project automatically
+ * appears here.
+ *
+ * ============================================================
+ */
+
+export const featuredProjects =
+  projects.filter(
+    (project) => project.featured === true
+  );
+
+
+/**
+ * ============================================================
+ * PROJECT HELPERS
+ * ============================================================
+ */
+
+/**
+ * Return projects by category.
+ */
+export function getProjectsByCategory(
+  category: string
+): Project[] {
+  return projects.filter(
+    (project) =>
+      project.category === category
+  );
+}
+
+
+/**
+ * Return projects by year.
+ */
+export function getProjectsByYear(
+  year: string
+): Project[] {
+  return projects.filter(
+    (project) =>
+      project.year === year
+  );
+}
+
+
+/**
+ * Return a single project by title.
+ */
+export function getProjectByTitle(
+  title: string
+): Project | undefined {
+  return projects.find(
+    (project) =>
+      project.title === title
+  );
+}
+
+
+/**
+ * Return the latest projects.
+ *
+ * Projects with a missing year are placed last.
+ */
+export function getLatestProjects(
+  limit?: number
+): Project[] {
+  const sortedProjects = [...projects].sort(
+    (a, b) => {
+      const yearA =
+        Number(a.year ?? 0);
+
+      const yearB =
+        Number(b.year ?? 0);
+
+      return yearB - yearA;
+    }
+  );
+
+  return typeof limit === "number"
+    ? sortedProjects.slice(0, limit)
+    : sortedProjects;
+}
