@@ -1,0 +1,258 @@
+---
+/**
+ * ============================================================
+ * LOGO
+ * ============================================================
+ *
+ * Reusable portfolio identity mark.
+ *
+ * ============================================================
+ */
+
+interface Props {
+  href?: string;
+
+  size?:
+    | "sm"
+    | "md"
+    | "lg";
+
+  showMark?: boolean;
+
+  class?: string;
+
+  ariaLabel?: string;
+}
+
+const {
+  href = "/",
+  size = "md",
+  showMark = true,
+  class: className = "",
+  ariaLabel = "Go to homepage"
+} = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    "logo",
+    `logo--${size}`,
+    className
+  ]}
+  aria-label={ariaLabel}
+>
+  {
+    showMark && (
+      <span
+        class="logo__mark"
+        aria-hidden="true"
+      >
+        <span class="logo__mark-bracket">
+          [
+        </span>
+
+        <span class="logo__mark-core">
+          /
+        </span>
+
+        <span class="logo__mark-bracket">
+          ]
+        </span>
+      </span>
+    )
+  }
+
+  <span class="logo__text">
+    <span class="logo__name">
+      PORTFOLIO
+    </span>
+
+    <span class="logo__suffix">
+      .DEV
+    </span>
+  </span>
+</a>
+
+
+<style>
+  .logo {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.65rem;
+
+    width: fit-content;
+
+    color:
+      #f8fafc;
+
+    text-decoration: none;
+
+    user-select: none;
+  }
+
+
+  /* ========================================================
+     MARK
+     ======================================================== */
+
+  .logo__mark {
+    display: inline-flex;
+
+    align-items: center;
+
+    color:
+      #67e8f9;
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-weight: 700;
+
+    line-height: 1;
+  }
+
+
+  .logo__mark-bracket {
+    color:
+      rgba(103, 232, 249, 0.55);
+  }
+
+
+  .logo__mark-core {
+    margin-inline:
+      0.08rem;
+
+    color:
+      #67e8f9;
+
+    text-shadow:
+      0 0 16px
+      rgba(34, 211, 238, 0.35);
+  }
+
+
+  /* ========================================================
+     TEXT
+     ======================================================== */
+
+  .logo__text {
+    display: inline-flex;
+
+    align-items: baseline;
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+
+    line-height: 1;
+  }
+
+
+  .logo__name {
+    color:
+      #f8fafc;
+  }
+
+
+  .logo__suffix {
+    color:
+      rgba(103, 232, 249, 0.85);
+  }
+
+
+  /* ========================================================
+     SIZES
+     ======================================================== */
+
+  .logo--sm {
+    gap: 0.45rem;
+
+    font-size: 0.72rem;
+  }
+
+
+  .logo--sm
+  .logo__mark {
+    font-size: 0.9rem;
+  }
+
+
+  .logo--md {
+    gap: 0.65rem;
+
+    font-size: 0.82rem;
+  }
+
+
+  .logo--md
+  .logo__mark {
+    font-size: 1rem;
+  }
+
+
+  .logo--lg {
+    gap: 0.8rem;
+
+    font-size: 1rem;
+  }
+
+
+  .logo--lg
+  .logo__mark {
+    font-size: 1.2rem;
+  }
+
+
+  /* ========================================================
+     HOVER
+     ======================================================== */
+
+  .logo {
+    transition:
+      color 180ms ease;
+  }
+
+
+  .logo__mark-core {
+    transition:
+      text-shadow 180ms ease;
+  }
+
+
+  .logo:hover {
+    color:
+      #ffffff;
+  }
+
+
+  .logo:hover
+  .logo__mark-core {
+    text-shadow:
+      0 0 24px
+      rgba(34, 211, 238, 0.6);
+  }
+
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo,
+    .logo__mark-core {
+      transition: none;
+    }
+  }
+</style>
