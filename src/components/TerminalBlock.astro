@@ -1,0 +1,1126 @@
+---
+/**
+ * ============================================================
+ * TERMINAL BLOCK
+ * ============================================================
+ *
+ * Reusable terminal / system-status visual component.
+ *
+ * This component is purely presentational.
+ * Actual content can be supplied dynamically through props.
+ *
+ * ============================================================
+ */
+
+interface TerminalLine {
+  command?: string;
+  value?: string;
+  label?: string;
+  status?: "online" | "active" | "idle" | "warning" | "offline";
+  accent?: "cyan" | "violet" | "blue" | "green";
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  lines: TerminalLine[];
+  prompt?: string;
+  footer?: string;
+  compact?: boolean;
+}
+
+const {
+  title = "SYSTEM / STATUS",
+  subtitle = "PORTFOLIO.RUNTIME",
+  lines,
+  prompt = ">",
+  footer = "SYSTEM READY",
+  compact = false
+} = Astro.props;
+---
+
+<section
+  class:list={[
+    "terminal",
+    {
+      "terminal-compact": compact
+    }
+  ]}
+  aria-label={title}
+>
+
+  <!-- ======================================================
+       TERMINAL HEADER
+       ====================================================== -->
+
+  <header class="terminal-header">
+
+    <div class="terminal-controls">
+
+      <span
+        class="terminal-control terminal-control-red"
+        aria-hidden="true"
+      ></span>
+
+      <span
+        class="terminal-control terminal-control-yellow"
+        aria-hidden="true"
+      ></span>
+
+      <span
+        class="terminal-control terminal-control-green"
+        aria-hidden="true"
+      ></span>
+
+    </div>
+
+
+    <div class="terminal-title">
+
+      <span>
+        {title}
+      </span>
+
+      <span class="terminal-subtitle">
+        {subtitle}
+      </span>
+
+    </div>
+
+
+    <span
+      class="terminal-signal"
+      aria-hidden="true"
+    >
+
+      <span></span>
+
+    </span>
+
+  </header>
+
+
+  <!-- ======================================================
+       TERMINAL BODY
+       ====================================================== -->
+
+  <div class="terminal-body">
+
+    {
+      lines.map((line, index) => (
+        <div
+          class:list={[
+            "terminal-line",
+            line.accent
+              ? `terminal-line-${line.accent}`
+              : ""
+          ]}
+        >
+
+          <!-- ============================================
+               INDEX
+               ============================================ -->
+
+          <span class="terminal-index">
+            {(index + 1)
+              .toString()
+              .padStart(2, "0")}
+          </span>
+
+
+          <!-- ============================================
+               PROMPT
+               ============================================ -->
+
+          <span class="terminal-prompt">
+            {prompt}
+          </span>
+
+
+          <!-- ============================================
+               LABEL / COMMAND
+               ============================================ -->
+
+          <span class="terminal-command">
+
+            {
+              line.label && (
+                <span class="terminal-label">
+                  {line.label}
+                </span>
+              )
+            }
+
+            {
+              line.command && (
+                <span>
+                  {line.command}
+                </span>
+              )
+            }
+
+          </span>
+
+
+          <!-- ============================================
+               VALUE
+               ============================================ -->
+
+          {
+            line.value && (
+              <span class="terminal-value">
+                {line.value}
+              </span>
+            )
+          }
+
+
+          <!-- ============================================
+               STATUS
+               ============================================ -->
+
+          {
+            line.status && (
+              <span
+                class:list={[
+                  "terminal-status",
+                  `terminal-status-${line.status}`
+                ]}
+              >
+
+                <span class="terminal-status-node"></span>
+
+                {line.status}
+
+              </span>
+            )
+          }
+
+        </div>
+      ))
+    }
+
+
+    <!-- ==================================================
+         CURSOR
+         ================================================== -->
+
+    <div class="terminal-cursor-line">
+
+      <span class="terminal-prompt">
+        {prompt}
+      </span>
+
+      <span class="terminal-cursor"></span>
+
+    </div>
+
+  </div>
+
+
+  <!-- ======================================================
+       TERMINAL FOOTER
+       ====================================================== -->
+
+  <footer class="terminal-footer">
+
+    <span class="terminal-footer-status">
+
+      <span class="footer-status-node"></span>
+
+      {footer}
+
+    </span>
+
+
+    <span class="terminal-footer-time">
+      0x01
+    </span>
+
+  </footer>
+
+</section>
+
+
+<style>
+  /* ========================================================
+     TERMINAL
+     ======================================================== */
+
+  .terminal {
+    position:
+      relative;
+
+    width:
+      100%;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      0.65rem;
+
+    background:
+      rgba(4, 8, 14, 0.72);
+
+    box-shadow:
+      0 25px 80px rgba(0, 0, 0, 0.15);
+
+    overflow:
+      hidden;
+
+    backdrop-filter:
+      blur(14px);
+  }
+
+
+  /* ========================================================
+     AMBIENT GLOW
+     ======================================================== */
+
+  .terminal::before {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    top:
+      0;
+
+    left:
+      0;
+
+    width:
+      35%;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        var(--color-cyan),
+        transparent
+      );
+
+    opacity:
+      0.65;
+  }
+
+
+  .terminal::after {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    right:
+      -100px;
+
+    bottom:
+      -100px;
+
+    width:
+      220px;
+
+    height:
+      220px;
+
+    border-radius:
+      50%;
+
+    background:
+      radial-gradient(
+        circle,
+        rgba(34, 211, 238, 0.055),
+        transparent 68%
+      );
+
+    pointer-events:
+      none;
+  }
+
+
+  /* ========================================================
+     HEADER
+     ======================================================== */
+
+  .terminal-header {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      auto 1fr auto;
+
+    align-items:
+      center;
+
+    gap:
+      1rem;
+
+    min-height:
+      44px;
+
+    padding:
+      0.7rem 0.85rem;
+
+    border-bottom:
+      1px solid var(--color-border);
+
+    background:
+      rgba(148, 163, 184, 0.015);
+  }
+
+
+  /* ========================================================
+     CONTROLS
+     ======================================================== */
+
+  .terminal-controls {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.3rem;
+  }
+
+
+  .terminal-control {
+    width:
+      6px;
+
+    height:
+      6px;
+
+    border-radius:
+      50%;
+
+    opacity:
+      0.65;
+  }
+
+
+  .terminal-control-red {
+    background:
+      #fb7185;
+  }
+
+
+  .terminal-control-yellow {
+    background:
+      #facc15;
+  }
+
+
+  .terminal-control-green {
+    background:
+      #4ade80;
+  }
+
+
+  /* ========================================================
+     TITLE
+     ======================================================== */
+
+  .terminal-title {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.6rem;
+
+    min-width:
+      0;
+
+    color:
+      var(--color-text-muted);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.38rem;
+
+    letter-spacing:
+      0.035em;
+  }
+
+
+  .terminal-subtitle {
+    color:
+      var(--color-text-subtle);
+
+    opacity:
+      0.7;
+  }
+
+
+  /* ========================================================
+     SIGNAL
+     ======================================================== */
+
+  .terminal-signal {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    width:
+      12px;
+
+    height:
+      12px;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.18);
+
+    border-radius:
+      50%;
+  }
+
+
+  .terminal-signal span {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 9px rgba(34, 211, 238, 0.7);
+
+    animation:
+      terminal-pulse 2s ease-in-out infinite;
+  }
+
+
+  @keyframes terminal-pulse {
+
+    0%,
+    100% {
+      opacity:
+        0.35;
+    }
+
+    50% {
+      opacity:
+        1;
+    }
+
+  }
+
+
+  /* ========================================================
+     BODY
+     ======================================================== */
+
+  .terminal-body {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    padding:
+      1rem;
+  }
+
+
+  .terminal-body::before {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    background-image:
+      linear-gradient(
+        rgba(34, 211, 238, 0.025) 1px,
+        transparent 1px
+      );
+
+    background-size:
+      100% 25px;
+
+    pointer-events:
+      none;
+  }
+
+
+  /* ========================================================
+     LINE
+     ======================================================== */
+
+  .terminal-line {
+    position:
+      relative;
+
+    display:
+      grid;
+
+    grid-template-columns:
+      22px 14px minmax(100px, auto) 1fr auto;
+
+    align-items:
+      center;
+
+    gap:
+      0.35rem;
+
+    min-height:
+      31px;
+
+    border-bottom:
+      1px solid rgba(148, 163, 184, 0.035);
+
+    color:
+      var(--color-text-muted);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.4rem;
+  }
+
+
+  .terminal-line:last-of-type {
+    border-bottom:
+      0;
+  }
+
+
+  /* ========================================================
+     INDEX
+     ======================================================== */
+
+  .terminal-index {
+    color:
+      var(--color-text-subtle);
+
+    font-size:
+      0.32rem;
+
+    opacity:
+      0.55;
+  }
+
+
+  /* ========================================================
+     PROMPT
+     ======================================================== */
+
+  .terminal-prompt {
+    color:
+      var(--color-cyan);
+
+    font-weight:
+      500;
+  }
+
+
+  /* ========================================================
+     COMMAND
+     ======================================================== */
+
+  .terminal-command {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.35rem;
+
+    min-width:
+      0;
+
+    overflow:
+      hidden;
+
+    white-space:
+      nowrap;
+  }
+
+
+  .terminal-label {
+    color:
+      var(--color-text-subtle);
+  }
+
+
+  /* ========================================================
+     VALUE
+     ======================================================== */
+
+  .terminal-value {
+    overflow:
+      hidden;
+
+    color:
+      var(--color-text);
+
+    text-overflow:
+      ellipsis;
+
+    white-space:
+      nowrap;
+  }
+
+
+  /* ========================================================
+     STATUS
+     ======================================================== */
+
+  .terminal-status {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.3rem;
+
+    justify-self:
+      end;
+
+    padding:
+      0.22rem 0.35rem;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.12);
+
+    border-radius:
+      0.2rem;
+
+    color:
+      var(--color-cyan);
+
+    background:
+      rgba(34, 211, 238, 0.018);
+
+    font-size:
+      0.29rem;
+
+    text-transform:
+      uppercase;
+  }
+
+
+  .terminal-status-node {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      currentColor;
+
+    box-shadow:
+      0 0 7px currentColor;
+  }
+
+
+  .terminal-status-online,
+  .terminal-status-active {
+    color:
+      #4ade80;
+
+    border-color:
+      rgba(74, 222, 128, 0.15);
+
+    background:
+      rgba(74, 222, 128, 0.018);
+  }
+
+
+  .terminal-status-warning {
+    color:
+      #facc15;
+
+    border-color:
+      rgba(250, 204, 21, 0.15);
+
+    background:
+      rgba(250, 204, 21, 0.018);
+  }
+
+
+  .terminal-status-offline {
+    color:
+      #fb7185;
+
+    border-color:
+      rgba(251, 113, 133, 0.15);
+
+    background:
+      rgba(251, 113, 133, 0.018);
+  }
+
+
+  .terminal-status-idle {
+    color:
+      var(--color-text-subtle);
+  }
+
+
+  /* ========================================================
+     ACCENTS
+     ======================================================== */
+
+  .terminal-line-violet
+    .terminal-prompt {
+
+    color:
+      var(--color-violet);
+
+  }
+
+
+  .terminal-line-blue
+    .terminal-prompt {
+
+    color:
+      var(--color-blue);
+
+  }
+
+
+  .terminal-line-green
+    .terminal-prompt {
+
+    color:
+      #4ade80;
+
+  }
+
+
+  /* ========================================================
+     CURSOR
+     ======================================================== */
+
+  .terminal-cursor-line {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.35rem;
+
+    min-height:
+      31px;
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.4rem;
+  }
+
+
+  .terminal-cursor {
+    display:
+      inline-block;
+
+    width:
+      5px;
+
+    height:
+      10px;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 8px rgba(34, 211, 238, 0.4);
+
+    animation:
+      terminal-cursor-blink 1s steps(1) infinite;
+  }
+
+
+  @keyframes terminal-cursor-blink {
+
+    0%,
+    48% {
+      opacity:
+        1;
+    }
+
+    49%,
+    100% {
+      opacity:
+        0;
+    }
+
+  }
+
+
+  /* ========================================================
+     FOOTER
+     ======================================================== */
+
+  .terminal-footer {
+    position:
+      relative;
+
+    z-index:
+      2;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    min-height:
+      32px;
+
+    padding:
+      0.5rem 0.85rem;
+
+    border-top:
+      1px solid var(--color-border);
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.3rem;
+
+    letter-spacing:
+      0.03em;
+  }
+
+
+  .terminal-footer-status {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.35rem;
+  }
+
+
+  .footer-status-node {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      #4ade80;
+
+    box-shadow:
+      0 0 7px rgba(74, 222, 128, 0.6);
+  }
+
+
+  .terminal-footer-time {
+    opacity:
+      0.5;
+  }
+
+
+  /* ========================================================
+     COMPACT
+     ======================================================== */
+
+  .terminal-compact
+    .terminal-body {
+
+    padding:
+      0.65rem 0.8rem;
+
+  }
+
+
+  .terminal-compact
+    .terminal-line {
+
+    min-height:
+      27px;
+
+    font-size:
+      0.36rem;
+
+  }
+
+
+  /* ========================================================
+     LIGHT THEME
+     ======================================================== */
+
+  :global([data-theme="light"])
+    .terminal {
+
+    background:
+      rgba(248, 250, 252, 0.8);
+
+    box-shadow:
+      0 25px 80px rgba(15, 23, 42, 0.07);
+
+  }
+
+
+  :global([data-theme="light"])
+    .terminal-body::before {
+
+    background-image:
+      linear-gradient(
+        rgba(14, 116, 144, 0.025) 1px,
+        transparent 1px
+      );
+
+  }
+
+
+  /* ========================================================
+     RESPONSIVE
+     ======================================================== */
+
+  @media (max-width: 650px) {
+
+    .terminal-line {
+      grid-template-columns:
+        18px 12px minmax(80px, auto) 1fr;
+
+      font-size:
+        0.35rem;
+    }
+
+
+    .terminal-status {
+      display:
+        none;
+    }
+
+
+    .terminal-title {
+      overflow:
+        hidden;
+
+      white-space:
+        nowrap;
+    }
+
+
+    .terminal-subtitle {
+      display:
+        none;
+    }
+
+  }
+
+
+  @media (max-width: 430px) {
+
+    .terminal-header {
+      min-height:
+        40px;
+
+      padding:
+        0.6rem 0.7rem;
+    }
+
+
+    .terminal-body {
+      padding:
+        0.7rem;
+    }
+
+
+    .terminal-line {
+      grid-template-columns:
+        16px 10px minmax(0, 1fr);
+
+      min-height:
+        29px;
+    }
+
+
+    .terminal-value {
+      grid-column:
+        3;
+
+      margin-left:
+        0.1rem;
+    }
+
+
+    .terminal-command {
+      grid-column:
+        3;
+    }
+
+
+    .terminal-footer {
+      padding:
+        0.45rem 0.7rem;
+    }
+
+  }
+
+
+  /* ========================================================
+     REDUCED MOTION
+     ======================================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .terminal-signal span,
+    .terminal-cursor {
+      animation:
+        none;
+    }
+
+  }
+</style>
