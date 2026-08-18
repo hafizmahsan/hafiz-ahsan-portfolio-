@@ -4,10 +4,7 @@
  * SECTION HEADER
  * ============================================================
  *
- * Reusable heading for major portfolio sections.
- *
- * Everything is configurable through props so that section
- * content remains independent from presentation.
+ * Reusable heading component for portfolio sections.
  *
  * ============================================================
  */
@@ -16,664 +13,201 @@ interface Props {
   eyebrow?: string;
   title: string;
   description?: string;
-  number?: string;
-  accent?: "cyan" | "violet" | "blue" | "green";
   align?: "left" | "center";
+  id?: string;
+  number?: string;
 }
 
 const {
   eyebrow,
   title,
   description,
-  number,
-  accent = "cyan",
-  align = "left"
+  align = "left",
+  id,
+  number
 } = Astro.props;
 ---
 
 <header
+  id={id}
   class:list={[
     "section-header",
-    `section-header-${accent}`,
-    `section-header-${align}`
+    `section-header--${align}`
   ]}
 >
-
-  <!-- ======================================================
-       TOP SYSTEM LINE
-       ====================================================== -->
-
-  <div
-    class="section-header-system"
-    aria-hidden="true"
-  >
-
-    <span class="system-node"></span>
-
-    <span class="system-line"></span>
+  <div class="section-header__top">
 
     {
       number && (
-        <span class="system-number">
-          SECTION_{number}
+        <span class="section-header__number">
+          {number}
         </span>
       )
     }
 
-    <span class="system-line system-line-short"></span>
-
-    <span class="system-node system-node-secondary"></span>
+    {
+      eyebrow && (
+        <span class="section-header__eyebrow">
+          {eyebrow}
+        </span>
+      )
+    }
 
   </div>
 
 
-  <!-- ======================================================
-       EYEBROW
-       ====================================================== -->
-
-  {
-    eyebrow && (
-      <div class="section-eyebrow">
-
-        <span
-          class="eyebrow-indicator"
-          aria-hidden="true"
-        ></span>
-
-        <span>
-          {eyebrow}
-        </span>
-
-      </div>
-    )
-  }
-
-
-  <!-- ======================================================
-       TITLE
-       ====================================================== -->
-
-  <h2 class="section-title">
+  <h2 class="section-header__title">
     {title}
   </h2>
 
 
-  <!-- ======================================================
-       DESCRIPTION
-       ====================================================== -->
-
   {
     description && (
-      <p class="section-description">
+      <p class="section-header__description">
         {description}
       </p>
     )
   }
 
-
-  <!-- ======================================================
-       BOTTOM SIGNAL
-       ====================================================== -->
-
-  <div
-    class="section-header-bottom"
-    aria-hidden="true"
-  >
-
-    <span class="bottom-line"></span>
-
-    <span class="bottom-node"></span>
-
-    <span class="bottom-code">
-      SYSTEM.SECTION_READY
-    </span>
-
-  </div>
-
 </header>
 
 
 <style>
-  /* ========================================================
-     BASE
-     ======================================================== */
-
   .section-header {
-    --section-accent:
-      #22d3ee;
-
-    --section-accent-soft:
-      rgba(34, 211, 238, 0.08);
-
-    --section-accent-border:
-      rgba(34, 211, 238, 0.16);
-
-    position:
-      relative;
-
-    width:
-      100%;
-
-    margin-bottom:
-      3rem;
+    position: relative;
+    width: 100%;
+    margin-bottom: 3rem;
   }
 
 
-  /* ========================================================
-     ALIGNMENT
-     ======================================================== */
-
-  .section-header-left {
-    text-align:
-      left;
+  .section-header--center {
+    text-align: center;
   }
 
 
-  .section-header-center {
-    text-align:
-      center;
+  .section-header__top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
   }
 
 
-  /* ========================================================
-     SYSTEM LINE
-     ======================================================== */
-
-  .section-header-system {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.4rem;
-
-    margin-bottom:
-      1.1rem;
+  .section-header--center
+  .section-header__top {
+    justify-content: center;
   }
 
 
-  .section-header-center
-    .section-header-system {
+  .section-header__number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-    justify-content:
-      center;
-  }
+    min-width: 2rem;
+    height: 1.5rem;
 
+    padding: 0 0.5rem;
 
-  .system-node {
-    width:
-      5px;
+    border: 1px solid
+      rgba(34, 211, 238, 0.3);
 
-    height:
-      5px;
+    border-radius: 999px;
 
-    flex-shrink:
-      0;
-
-    border:
-      1px solid var(--section-accent);
-
-    border-radius:
-      50%;
-
-    background:
-      var(--section-accent-soft);
-
-    box-shadow:
-      0 0 8px var(--section-accent-soft);
-  }
-
-
-  .system-node-secondary {
-    border-color:
-      rgba(139, 92, 246, 0.35);
-
-    background:
-      rgba(139, 92, 246, 0.04);
-  }
-
-
-  .system-line {
-    width:
-      55px;
-
-    height:
-      1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        var(--section-accent-border),
-        var(--color-border)
-      );
-  }
-
-
-  .system-line-short {
-    width:
-      25px;
-
-    background:
-      linear-gradient(
-        90deg,
-        var(--color-border),
-        rgba(139, 92, 246, 0.2)
-      );
-  }
-
-
-  .system-number {
     color:
-      var(--color-text-subtle);
+      rgba(103, 232, 249, 0.9);
+
+    background:
+      rgba(34, 211, 238, 0.05);
 
     font-family:
-      var(--font-mono);
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+
+  .section-header__eyebrow {
+    color:
+      rgba(103, 232, 249, 0.85);
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
+
+    font-size: 0.72rem;
+    font-weight: 600;
+
+    letter-spacing: 0.16em;
+
+    text-transform: uppercase;
+  }
+
+
+  .section-header__title {
+    margin: 0;
+
+    color:
+      rgba(248, 250, 252, 0.96);
 
     font-size:
-      0.2rem;
+      clamp(2rem, 5vw, 3.5rem);
+
+    font-weight: 700;
+
+    line-height: 1.05;
 
     letter-spacing:
-      0.04em;
+      -0.045em;
   }
 
 
-  /* ========================================================
-     EYEBROW
-     ======================================================== */
+  .section-header__description {
+    max-width: 42rem;
 
-  .section-eyebrow {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.45rem;
-
-    margin-bottom:
-      0.5rem;
+    margin: 1rem 0 0;
 
     color:
-      var(--section-accent);
+      rgba(148, 163, 184, 0.9);
 
-    font-family:
-      var(--font-mono);
+    font-size: 1rem;
 
-    font-size:
-      0.25rem;
-
-    font-weight:
-      500;
-
-    letter-spacing:
-      0.06em;
-
-    text-transform:
-      uppercase;
+    line-height: 1.75;
   }
 
 
-  .section-header-center
-    .section-eyebrow {
-
-    justify-content:
-      center;
+  .section-header--center
+  .section-header__description {
+    margin-left: auto;
+    margin-right: auto;
   }
 
 
-  .eyebrow-indicator {
-    width:
-      6px;
-
-    height:
-      6px;
-
-    border:
-      1px solid var(--section-accent);
-
-    border-radius:
-      50%;
-
-    background:
-      var(--section-accent-soft);
-
-    box-shadow:
-      0 0 8px var(--section-accent-soft);
-
-    animation:
-      section-indicator-pulse 2.5s ease-in-out infinite;
-  }
-
-
-  @keyframes section-indicator-pulse {
-
-    0%,
-    100% {
-      opacity:
-        0.45;
-    }
-
-    50% {
-      opacity:
-        1;
-    }
-
-  }
-
-
-  /* ========================================================
-     TITLE
-     ======================================================== */
-
-  .section-title {
-    max-width:
-      900px;
-
-    margin:
-      0;
-
-    color:
-      var(--color-text);
-
-    font-family:
-      var(--font-display);
-
-    font-size:
-      clamp(2rem, 5vw, 4rem);
-
-    font-weight:
-      600;
-
-    letter-spacing:
-      -0.055em;
-
-    line-height:
-      0.95;
-  }
-
-
-  .section-header-center
-    .section-title {
-
-    margin-inline:
-      auto;
-  }
-
-
-  /* ========================================================
-     DESCRIPTION
-     ======================================================== */
-
-  .section-description {
-    max-width:
-      680px;
-
-    margin:
-      1rem 0 0;
-
-    color:
-      var(--color-text-muted);
-
-    font-family:
-      var(--font-body);
-
-    font-size:
-      0.72rem;
-
-    line-height:
-      1.75;
-  }
-
-
-  .section-header-center
-    .section-description {
-
-    margin-inline:
-      auto;
-  }
-
-
-  /* ========================================================
-     BOTTOM SIGNAL
-     ======================================================== */
-
-  .section-header-bottom {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.4rem;
-
-    margin-top:
-      1.1rem;
-  }
-
-
-  .section-header-center
-    .section-header-bottom {
-
-    justify-content:
-      center;
-  }
-
-
-  .bottom-line {
-    width:
-      70px;
-
-    height:
-      1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        var(--section-accent-border),
-        transparent
-      );
-  }
-
-
-  .bottom-node {
-    width:
-      4px;
-
-    height:
-      4px;
-
-    flex-shrink:
-      0;
-
-    border:
-      1px solid var(--section-accent-border);
-
-    border-radius:
-      50%;
-
-    background:
-      var(--section-accent);
-  }
-
-
-  .bottom-code {
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.18rem;
-
-    letter-spacing:
-      0.035em;
-  }
-
-
-  /* ========================================================
-     ACCENTS
-     ======================================================== */
-
-  .section-header-cyan {
-    --section-accent:
-      #22d3ee;
-
-    --section-accent-soft:
-      rgba(34, 211, 238, 0.08);
-
-    --section-accent-border:
-      rgba(34, 211, 238, 0.16);
-  }
-
-
-  .section-header-violet {
-    --section-accent:
-      #8b5cf6;
-
-    --section-accent-soft:
-      rgba(139, 92, 246, 0.08);
-
-    --section-accent-border:
-      rgba(139, 92, 246, 0.16);
-  }
-
-
-  .section-header-blue {
-    --section-accent:
-      #3b82f6;
-
-    --section-accent-soft:
-      rgba(59, 130, 246, 0.08);
-
-    --section-accent-border:
-      rgba(59, 130, 246, 0.16);
-  }
-
-
-  .section-header-green {
-    --section-accent:
-      #4ade80;
-
-    --section-accent-soft:
-      rgba(74, 222, 128, 0.08);
-
-    --section-accent-border:
-      rgba(74, 222, 128, 0.16);
-  }
-
-
-  /* ========================================================
-     LIGHT THEME
-     ======================================================== */
-
-  :global([data-theme="light"])
+  @media (max-width: 640px) {
     .section-header {
-
-    --section-accent-soft:
-      color-mix(
-        in srgb,
-        var(--section-accent) 5%,
-        transparent
-      );
-  }
-
-
-  /* ========================================================
-     RESPONSIVE
-     ======================================================== */
-
-  @media (max-width: 700px) {
-
-    .section-header {
-      margin-bottom:
-        2rem;
+      margin-bottom: 2.25rem;
     }
 
 
-    .section-title {
+    .section-header__title {
       font-size:
-        clamp(1.8rem, 9vw, 3rem);
+        clamp(1.8rem, 10vw, 2.6rem);
     }
 
 
-    .section-description {
-      font-size:
-        0.65rem;
+    .section-header__description {
+      font-size: 0.95rem;
     }
-
-
-    .system-line {
-      width:
-        35px;
-    }
-
-
-    .system-line-short {
-      width:
-        18px;
-    }
-
-  }
-
-
-  @media (max-width: 430px) {
-
-    .section-header-system {
-      margin-bottom:
-        0.85rem;
-    }
-
-
-    .system-number {
-      font-size:
-        0.18rem;
-    }
-
-
-    .section-eyebrow {
-      font-size:
-        0.22rem;
-    }
-
-
-    .section-title {
-      font-size:
-        1.9rem;
-    }
-
-
-    .section-description {
-      margin-top:
-        0.8rem;
-
-      font-size:
-        0.61rem;
-    }
-
-
-    .bottom-code {
-      font-size:
-        0.16rem;
-    }
-
-  }
-
-
-  /* ========================================================
-     REDUCED MOTION
-     ======================================================== */
-
-  @media (prefers-reduced-motion: reduce) {
-
-    .eyebrow-indicator {
-      animation:
-        none;
-    }
-
   }
 </style>
