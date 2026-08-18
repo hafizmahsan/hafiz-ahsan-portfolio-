@@ -12,70 +12,36 @@
  */
 
 export const portfolio = {
-  person: {
-    name: "YOUR NAME",
+  seo: {
+    title:
+      "YOUR NAME — Software Engineer · Automation · AI",
 
-    role:
-      "Software Engineer · Automation · AI",
+    description:
+      "Portfolio of YOUR NAME — software engineering, automation, and AI systems.",
 
-    email:
-      "hello@example.com",
+    siteUrl:
+      "https://your-domain.com",
 
-    location:
-      "YOUR LOCATION",
+    image:
+      "/og-image.png",
 
-    availability:
-      "AVAILABLE FOR SELECTED PROJECTS"
+    imageAlt:
+      "YOUR NAME — Software Engineer · Automation · AI",
+
+    themeColor:
+      "#020617"
   },
 
+  person: {
+    ...
+  },
 
   hero: {
-    eyebrow:
-      "SOFTWARE ENGINEERING · AUTOMATION · AI",
-
-    title:
-      "YOUR NAME",
-
-    highlightedTitle:
-      "BUILDING USEFUL SYSTEMS.",
-
-    description:
-      "I design and build practical software, automation workflows, and intelligent systems that turn complex problems into reliable solutions."
+    ...
   },
 
-
-  about: {
-    number: "01",
-
-    eyebrow: "ABOUT",
-
-    title:
-      "Building useful systems.",
-
-    description:
-      "I work at the intersection of software engineering, automation, and AI. My focus is turning repetitive or complex workflows into reliable systems that are easier to operate, maintain, and scale."
-  },
-
-
-  projects: [
-    {
-      title:
-        "YOUR FEATURED PROJECT",
-
-      description:
-        "A concise description of the most important project in your portfolio. Explain the problem, what you built, and the result.",
-
-      technologies: [
-        "Python",
-        "Automation",
-        "APIs"
-      ],
-
-      href:
-        "#contact",
-
-      status:
-        "IN PROGRESS" as const,
+  // ...
+} as const;
 
       featured: true
     },
