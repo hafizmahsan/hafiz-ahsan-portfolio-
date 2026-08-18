@@ -12,27 +12,6 @@
  */
 
 export const portfolio = {
-  seo: {
-    title:
-      "YOUR NAME — Software Engineer · Automation · AI",
-
-    description:
-      "Portfolio of YOUR NAME — software engineering, automation, and AI systems.",
-
-    siteUrl:
-      "https://your-domain.com",
-
-    image:
-      "/og-image.png",
-
-    imageAlt:
-      "YOUR NAME — Software Engineer · Automation · AI",
-
-    themeColor:
-      "#020617"
-  },
-
-
   person: {
     name:
       "YOUR NAME",
@@ -69,7 +48,8 @@ export const portfolio = {
   about: {
     number: "01",
 
-    eyebrow: "ABOUT",
+    eyebrow:
+      "ABOUT",
 
     title:
       "Building useful systems.",
@@ -285,7 +265,8 @@ export const portfolio = {
 
 
   contact: {
-    number: "05",
+    number:
+      "05",
 
     eyebrow:
       "CONTACT",
@@ -304,21 +285,25 @@ export const portfolio = {
 
     links: [
       {
-        label: "GITHUB",
+        label:
+          "GITHUB",
 
         href:
           "https://github.com/your-profile",
 
-        external: true
+        external:
+          true
       },
 
       {
-        label: "LINKEDIN",
+        label:
+          "LINKEDIN",
 
         href:
           "https://www.linkedin.com/in/your-profile/",
 
-        external: true
+        external:
+          true
       }
     ]
   }
