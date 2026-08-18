@@ -4,15 +4,15 @@
  * STAT CARD
  * ============================================================
  *
- * Reusable portfolio metric / statistic card.
+ * Reusable metric / profile statistic component.
  *
- * Intended for:
- * - Experience
- * - Projects
+ * Designed for:
+ * - Years of experience
+ * - Specializations
  * - Technologies
- * - Enterprise domains
  * - Certifications
- * - Current learning
+ * - Project counts
+ * - Career highlights
  *
  * ============================================================
  */
@@ -21,69 +21,51 @@ interface Props {
   value: string;
   label: string;
   description?: string;
-  icon?: string;
   accent?: "cyan" | "violet" | "blue" | "green";
   index?: string;
-  compact?: boolean;
+  featured?: boolean;
 }
 
 const {
   value,
   label,
   description,
-  icon = "◇",
   accent = "cyan",
-  index = "01",
-  compact = false
+  index,
+  featured = false
 } = Astro.props;
 ---
 
-<article
+<div
   class:list={[
     "stat-card",
     `stat-card-${accent}`,
     {
-      "stat-card-compact": compact
+      "stat-card-featured": featured
     }
   ]}
 >
 
   <!-- ======================================================
-       TOP BAR
+       TOP SYSTEM BAR
        ====================================================== -->
 
-  <div class="stat-top">
+  <div
+    class="stat-top"
+    aria-hidden="true"
+  >
 
-    <span class="stat-index">
-      {index}
-    </span>
+    {
+      index && (
+        <span class="stat-index">
+          {index}
+        </span>
+      )
+    }
 
-    <span class="stat-system">
-      METRIC
-    </span>
+    <span class="stat-top-line"></span>
 
-    <span
-      class="stat-status"
-      aria-hidden="true"
-    >
-      <span></span>
-    </span>
-
-  </div>
-
-
-  <!-- ======================================================
-       ICON
-       ====================================================== -->
-
-  <div class="stat-icon-wrap">
-
-    <span
-      class="stat-icon"
-      aria-hidden="true"
-    >
-      {icon}
-    </span>
+    <span class="stat-top-node"></span>
 
   </div>
 
@@ -120,21 +102,23 @@ const {
 
 
   <!-- ======================================================
-       NETWORK LINE
+       BOTTOM SIGNAL
        ====================================================== -->
 
   <div
-    class="stat-network"
+    class="stat-bottom"
     aria-hidden="true"
   >
 
-    <span class="stat-network-line"></span>
+    <span class="stat-bottom-node"></span>
 
-    <span class="stat-network-node"></span>
+    <span class="stat-bottom-line"></span>
+
+    <span class="stat-bottom-node"></span>
 
   </div>
 
-</article>
+</div>
 
 
 <style>
@@ -149,17 +133,14 @@ const {
     min-width:
       0;
 
-    min-height:
-      190px;
-
     padding:
-      1rem;
+      0.9rem;
 
     border:
       1px solid var(--color-border);
 
     border-radius:
-      0.55rem;
+      0.45rem;
 
     background:
       rgba(148, 163, 184, 0.012);
@@ -169,46 +150,77 @@ const {
 
     transition:
       border-color var(--duration-normal) var(--ease-standard),
-      background var(--duration-normal) var(--ease-standard),
       transform var(--duration-normal) var(--ease-standard),
+      background var(--duration-normal) var(--ease-standard),
       box-shadow var(--duration-normal) var(--ease-standard);
   }
 
 
   .stat-card:hover {
     transform:
-      translateY(-4px);
+      translateY(-3px);
 
     border-color:
-      rgba(34, 211, 238, 0.2);
+      rgba(34, 211, 238, 0.18);
 
     background:
-      rgba(34, 211, 238, 0.018);
+      rgba(34, 211, 238, 0.012);
 
     box-shadow:
-      0 18px 55px rgba(0, 0, 0, 0.12);
+      0 15px 45px rgba(0, 0, 0, 0.08);
+  }
+
+
+  .stat-card::after {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    right:
+      -35px;
+
+    bottom:
+      -35px;
+
+    width:
+      80px;
+
+    height:
+      80px;
+
+    border-radius:
+      50%;
+
+    background:
+      radial-gradient(
+        circle,
+        rgba(34, 211, 238, 0.05),
+        transparent 68%
+      );
+
+    pointer-events:
+      none;
   }
 
 
   /* ========================================================
-     TOP BAR
+     TOP
      ======================================================== */
 
   .stat-top {
     display:
-      grid;
-
-    grid-template-columns:
-      auto 1fr auto;
+      flex;
 
     align-items:
       center;
 
     gap:
-      0.5rem;
+      0.4rem;
 
     margin-bottom:
-      1.1rem;
+      0.9rem;
   }
 
 
@@ -220,77 +232,57 @@ const {
       var(--font-mono);
 
     font-size:
-      0.3rem;
-
-    opacity:
-      0.7;
-  }
-
-
-  .stat-system {
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.27rem;
+      0.25rem;
 
     letter-spacing:
-      0.05em;
-
-    text-transform:
-      uppercase;
+      0.03em;
   }
 
 
-  .stat-status {
-    display:
-      flex;
+  .stat-top-line {
+    flex:
+      1;
 
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    width:
-      11px;
+    max-width:
+      50px;
 
     height:
-      11px;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.16);
-
-    border-radius:
-      50%;
-  }
-
-
-  .stat-status span {
-    width:
-      3px;
-
-    height:
-      3px;
-
-    border-radius:
-      50%;
+      1px;
 
     background:
-      var(--color-cyan);
-
-    box-shadow:
-      0 0 7px rgba(34, 211, 238, 0.7);
-
-    animation:
-      stat-status-pulse 2.4s ease-in-out infinite;
+      linear-gradient(
+        90deg,
+        var(--color-border),
+        transparent
+      );
   }
 
 
-  @keyframes stat-status-pulse {
+  .stat-top-node {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    flex-shrink:
+      0;
+
+    border:
+      1px solid var(--color-cyan);
+
+    border-radius:
+      50%;
+
+    box-shadow:
+      0 0 6px rgba(34, 211, 238, 0.35);
+
+    animation:
+      stat-node-pulse 2.5s ease-in-out infinite;
+  }
+
+
+  @keyframes stat-node-pulse {
 
     0%,
     100% {
@@ -307,79 +299,6 @@ const {
 
 
   /* ========================================================
-     ICON
-     ======================================================== */
-
-  .stat-icon-wrap {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      flex-start;
-
-    margin-bottom:
-      0.75rem;
-  }
-
-
-  .stat-icon {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    width:
-      30px;
-
-    height:
-      30px;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.18);
-
-    border-radius:
-      0.3rem;
-
-    color:
-      var(--color-cyan);
-
-    background:
-      rgba(34, 211, 238, 0.025);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.7rem;
-
-    box-shadow:
-      inset 0 0 20px rgba(34, 211, 238, 0.015);
-
-    transition:
-      transform var(--duration-fast) var(--ease-standard),
-      box-shadow var(--duration-fast) var(--ease-standard);
-  }
-
-
-  .stat-card:hover
-    .stat-icon {
-
-    transform:
-      rotate(6deg);
-
-    box-shadow:
-      0 0 18px rgba(34, 211, 238, 0.08);
-  }
-
-
-  /* ========================================================
      VALUE
      ======================================================== */
 
@@ -391,16 +310,16 @@ const {
       var(--font-display);
 
     font-size:
-      clamp(1.55rem, 4vw, 2.35rem);
+      clamp(1.55rem, 4vw, 2.4rem);
 
     font-weight:
-      650;
+      600;
 
     letter-spacing:
-      -0.04em;
+      -0.06em;
 
     line-height:
-      0.95;
+      1;
   }
 
 
@@ -410,22 +329,22 @@ const {
 
   .stat-label {
     margin-top:
-      0.4rem;
+      0.45rem;
 
     color:
-      var(--color-text-muted);
+      var(--color-cyan);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.37rem;
+      0.31rem;
 
     font-weight:
       500;
 
     letter-spacing:
-      0.035em;
+      0.045em;
 
     text-transform:
       uppercase;
@@ -437,11 +356,8 @@ const {
      ======================================================== */
 
   .stat-description {
-    max-width:
-      250px;
-
     margin:
-      0.6rem 0 0;
+      0.55rem 0 0;
 
     color:
       var(--color-text-subtle);
@@ -450,94 +366,59 @@ const {
       var(--font-body);
 
     font-size:
-      0.72rem;
+      0.62rem;
 
     line-height:
-      1.6;
+      1.55;
   }
 
 
   /* ========================================================
-     NETWORK
+     BOTTOM
      ======================================================== */
 
-  .stat-network {
-    position:
-      absolute;
+  .stat-bottom {
+    display:
+      flex;
 
-    right:
-      0.9rem;
+    align-items:
+      center;
 
-    bottom:
+    gap:
+      0.3rem;
+
+    margin-top:
       0.8rem;
-
-    width:
-      60px;
-
-    height:
-      22px;
-
-    opacity:
-      0.7;
   }
 
 
-  .stat-network-line {
-    position:
-      absolute;
+  .stat-bottom-node {
+    width:
+      3px;
 
-    top:
-      50%;
+    height:
+      3px;
 
-    left:
+    flex-shrink:
       0;
 
-    width:
-      100%;
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      50%;
+  }
+
+
+  .stat-bottom-line {
+    flex:
+      1;
 
     height:
       1px;
 
     background:
-      linear-gradient(
-        90deg,
-        transparent,
-        var(--color-border),
-        transparent
-      );
-  }
-
-
-  .stat-network-node {
-    position:
-      absolute;
-
-    top:
-      50%;
-
-    right:
-      0;
-
-    width:
-      5px;
-
-    height:
-      5px;
-
-    border:
-      1px solid var(--color-cyan);
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-bg);
-
-    transform:
-      translateY(-50%);
-
-    box-shadow:
-      0 0 8px rgba(34, 211, 238, 0.35);
+      var(--color-border);
   }
 
 
@@ -546,14 +427,18 @@ const {
      ======================================================== */
 
   .stat-card-cyan
-    .stat-icon {
+    .stat-label {
 
     color:
       var(--color-cyan);
+  }
+
+
+  .stat-card-cyan
+    .stat-top-node {
 
     border-color:
-      rgba(34, 211, 238, 0.18);
-
+      var(--color-cyan);
   }
 
 
@@ -562,60 +447,32 @@ const {
      ======================================================== */
 
   .stat-card-violet
-    .stat-icon {
+    .stat-label {
 
     color:
       var(--color-violet);
-
-    border-color:
-      rgba(139, 92, 246, 0.18);
-
-    background:
-      rgba(139, 92, 246, 0.025);
-
   }
 
 
   .stat-card-violet
-    .stat-status {
-
-    border-color:
-      rgba(139, 92, 246, 0.16);
-
-  }
-
-
-  .stat-card-violet
-    .stat-status span {
-
-    background:
-      var(--color-violet);
-
-    box-shadow:
-      0 0 7px rgba(139, 92, 246, 0.7);
-
-  }
-
-
-  .stat-card-violet
-    .stat-network-node {
+    .stat-top-node {
 
     border-color:
       var(--color-violet);
 
     box-shadow:
-      0 0 8px rgba(139, 92, 246, 0.35);
-
+      0 0 6px rgba(139, 92, 246, 0.35);
   }
 
 
-  .stat-card-violet:hover {
-    border-color:
-      rgba(139, 92, 246, 0.2);
+  .stat-card-violet::after {
 
     background:
-      rgba(139, 92, 246, 0.018);
-
+      radial-gradient(
+        circle,
+        rgba(139, 92, 246, 0.05),
+        transparent 68%
+      );
   }
 
 
@@ -624,60 +481,32 @@ const {
      ======================================================== */
 
   .stat-card-blue
-    .stat-icon {
+    .stat-label {
 
     color:
       var(--color-blue);
-
-    border-color:
-      rgba(59, 130, 246, 0.18);
-
-    background:
-      rgba(59, 130, 246, 0.025);
-
   }
 
 
   .stat-card-blue
-    .stat-status {
-
-    border-color:
-      rgba(59, 130, 246, 0.16);
-
-  }
-
-
-  .stat-card-blue
-    .stat-status span {
-
-    background:
-      var(--color-blue);
-
-    box-shadow:
-      0 0 7px rgba(59, 130, 246, 0.7);
-
-  }
-
-
-  .stat-card-blue
-    .stat-network-node {
+    .stat-top-node {
 
     border-color:
       var(--color-blue);
 
     box-shadow:
-      0 0 8px rgba(59, 130, 246, 0.35);
-
+      0 0 6px rgba(59, 130, 246, 0.35);
   }
 
 
-  .stat-card-blue:hover {
-    border-color:
-      rgba(59, 130, 246, 0.2);
+  .stat-card-blue::after {
 
     background:
-      rgba(59, 130, 246, 0.018);
-
+      radial-gradient(
+        circle,
+        rgba(59, 130, 246, 0.05),
+        transparent 68%
+      );
   }
 
 
@@ -686,111 +515,45 @@ const {
      ======================================================== */
 
   .stat-card-green
-    .stat-icon {
+    .stat-label {
 
     color:
       #4ade80;
-
-    border-color:
-      rgba(74, 222, 128, 0.18);
-
-    background:
-      rgba(74, 222, 128, 0.025);
-
   }
 
 
   .stat-card-green
-    .stat-status {
-
-    border-color:
-      rgba(74, 222, 128, 0.16);
-
-  }
-
-
-  .stat-card-green
-    .stat-status span {
-
-    background:
-      #4ade80;
-
-    box-shadow:
-      0 0 7px rgba(74, 222, 128, 0.7);
-
-  }
-
-
-  .stat-card-green
-    .stat-network-node {
+    .stat-top-node {
 
     border-color:
       #4ade80;
 
     box-shadow:
-      0 0 8px rgba(74, 222, 128, 0.35);
-
+      0 0 6px rgba(74, 222, 128, 0.35);
   }
 
 
-  .stat-card-green:hover {
-    border-color:
-      rgba(74, 222, 128, 0.2);
+  .stat-card-green::after {
 
     background:
-      rgba(74, 222, 128, 0.018);
-
+      radial-gradient(
+        circle,
+        rgba(74, 222, 128, 0.05),
+        transparent 68%
+      );
   }
 
 
   /* ========================================================
-     COMPACT
+     FEATURED
      ======================================================== */
 
-  .stat-card-compact {
-    min-height:
-      150px;
+  .stat-card-featured {
+    border-color:
+      rgba(34, 211, 238, 0.14);
 
-    padding:
-      0.8rem;
-  }
-
-
-  .stat-card-compact
-    .stat-top {
-
-    margin-bottom:
-      0.7rem;
-  }
-
-
-  .stat-card-compact
-    .stat-icon-wrap {
-
-    margin-bottom:
-      0.5rem;
-  }
-
-
-  .stat-card-compact
-    .stat-icon {
-
-    width:
-      25px;
-
-    height:
-      25px;
-
-    font-size:
-      0.58rem;
-  }
-
-
-  .stat-card-compact
-    .stat-value {
-
-    font-size:
-      1.5rem;
+    box-shadow:
+      inset 0 0 25px rgba(34, 211, 238, 0.012);
   }
 
 
@@ -803,7 +566,6 @@ const {
 
     background:
       rgba(15, 23, 42, 0.012);
-
   }
 
 
@@ -811,20 +573,10 @@ const {
     .stat-card:hover {
 
     background:
-      rgba(14, 116, 144, 0.018);
+      rgba(14, 116, 144, 0.015);
 
     box-shadow:
-      0 18px 55px rgba(15, 23, 42, 0.07);
-
-  }
-
-
-  :global([data-theme="light"])
-    .stat-icon {
-
-    background:
-      rgba(14, 116, 144, 0.025);
-
+      0 15px 45px rgba(15, 23, 42, 0.06);
   }
 
 
@@ -835,23 +587,26 @@ const {
   @media (max-width: 600px) {
 
     .stat-card {
-      min-height:
-        170px;
-
       padding:
-        0.85rem;
+        0.75rem;
     }
 
 
     .stat-value {
       font-size:
-        1.75rem;
+        1.6rem;
+    }
+
+
+    .stat-label {
+      font-size:
+        0.28rem;
     }
 
 
     .stat-description {
       font-size:
-        0.67rem;
+        0.58rem;
     }
 
   }
@@ -864,8 +619,7 @@ const {
   @media (prefers-reduced-motion: reduce) {
 
     .stat-card,
-    .stat-icon,
-    .stat-status span {
+    .stat-top-node {
       animation:
         none;
 
