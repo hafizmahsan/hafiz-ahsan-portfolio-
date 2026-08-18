@@ -1,0 +1,748 @@
+---
+/**
+ * ============================================================
+ * SECTION DIVIDER
+ * ============================================================
+ *
+ * Decorative technical divider used between major sections.
+ *
+ * Designed to visually connect the portfolio sections into
+ * one continuous technology / automation system.
+ *
+ * ============================================================
+ */
+
+interface Props {
+  label?: string;
+  variant?: "default" | "violet" | "minimal";
+  spacing?: "small" | "normal" | "large";
+}
+
+const {
+  label = "SYSTEM / CONTINUE",
+  variant = "default",
+  spacing = "normal"
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "section-divider",
+    `divider-${variant}`,
+    `divider-spacing-${spacing}`
+  ]}
+  aria-hidden="true"
+>
+
+  <!-- ======================================================
+       LEFT NETWORK
+       ====================================================== -->
+
+  <div class="divider-network divider-network-left">
+
+    <span class="network-line network-line-main"></span>
+
+    <span class="network-line network-line-upper"></span>
+
+    <span class="network-line network-line-lower"></span>
+
+    <span class="network-node network-node-main"></span>
+
+    <span class="network-node network-node-upper"></span>
+
+    <span class="network-node network-node-lower"></span>
+
+  </div>
+
+
+  <!-- ======================================================
+       CENTER
+       ====================================================== -->
+
+  <div class="divider-center">
+
+    <span class="center-line"></span>
+
+    <span class="center-node">
+
+      <span class="center-node-core"></span>
+
+    </span>
+
+    {
+      label && (
+        <span class="divider-label">
+          {label}
+        </span>
+      )
+    }
+
+    <span class="center-node">
+
+      <span class="center-node-core"></span>
+
+    </span>
+
+    <span class="center-line"></span>
+
+  </div>
+
+
+  <!-- ======================================================
+       RIGHT NETWORK
+       ====================================================== -->
+
+  <div class="divider-network divider-network-right">
+
+    <span class="network-line network-line-main"></span>
+
+    <span class="network-line network-line-upper"></span>
+
+    <span class="network-line network-line-lower"></span>
+
+    <span class="network-node network-node-main"></span>
+
+    <span class="network-node network-node-upper"></span>
+
+    <span class="network-node network-node-lower"></span>
+
+  </div>
+
+</div>
+
+
+<style>
+  /* ========================================================
+     BASE
+     ======================================================== */
+
+  .section-divider {
+    display:
+      grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto
+      minmax(0, 1fr);
+
+    align-items:
+      center;
+
+    width:
+      100%;
+
+    overflow:
+      hidden;
+
+    color:
+      var(--color-text-subtle);
+  }
+
+
+  /* ========================================================
+     SPACING
+     ======================================================== */
+
+  .divider-spacing-small {
+    margin:
+      2rem 0;
+  }
+
+
+  .divider-spacing-normal {
+    margin:
+      4rem 0;
+  }
+
+
+  .divider-spacing-large {
+    margin:
+      6rem 0;
+  }
+
+
+  /* ========================================================
+     NETWORK
+     ======================================================== */
+
+  .divider-network {
+    position:
+      relative;
+
+    height:
+      50px;
+  }
+
+
+  .divider-network-left {
+    margin-right:
+      0.5rem;
+  }
+
+
+  .divider-network-right {
+    margin-left:
+      0.5rem;
+  }
+
+
+  /* ========================================================
+     LINES
+     ======================================================== */
+
+  .network-line {
+    position:
+      absolute;
+
+    display:
+      block;
+
+    height:
+      1px;
+
+    background:
+      var(--color-border);
+
+    transform-origin:
+      left center;
+  }
+
+
+  .network-line-main {
+    top:
+      50%;
+
+    width:
+      100%;
+
+    transform:
+      translateY(-50%);
+  }
+
+
+  .network-line-upper {
+    top:
+      50%;
+
+    right:
+      0;
+
+    width:
+      55%;
+
+    background:
+      linear-gradient(
+        135deg,
+        transparent,
+        var(--color-border)
+      );
+
+    transform:
+      translateY(-50%)
+      rotate(-24deg);
+  }
+
+
+  .network-line-lower {
+    bottom:
+      50%;
+
+    right:
+      0;
+
+    width:
+      45%;
+
+    background:
+      linear-gradient(
+        45deg,
+        transparent,
+        var(--color-border)
+      );
+
+    transform:
+      translateY(50%)
+      rotate(24deg);
+  }
+
+
+  .divider-network-right
+    .network-line-upper {
+
+    right:
+      auto;
+
+    left:
+      0;
+
+    background:
+      linear-gradient(
+        135deg,
+        var(--color-border),
+        transparent
+      );
+
+    transform-origin:
+      right center;
+
+    transform:
+      translateY(-50%)
+      rotate(24deg);
+  }
+
+
+  .divider-network-right
+    .network-line-lower {
+
+    right:
+      auto;
+
+    left:
+      0;
+
+    background:
+      linear-gradient(
+        45deg,
+        var(--color-border),
+        transparent
+      );
+
+    transform-origin:
+      right center;
+
+    transform:
+      translateY(50%)
+      rotate(-24deg);
+  }
+
+
+  /* ========================================================
+     NODES
+     ======================================================== */
+
+  .network-node {
+    position:
+      absolute;
+
+    width:
+      5px;
+
+    height:
+      5px;
+
+    border:
+      1px solid var(--color-cyan);
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-bg);
+
+    box-shadow:
+      0 0 8px rgba(34, 211, 238, 0.3);
+
+    animation:
+      divider-node-pulse 3s ease-in-out infinite;
+  }
+
+
+  .network-node-main {
+    top:
+      50%;
+
+    right:
+      0;
+
+    transform:
+      translateY(-50%);
+  }
+
+
+  .network-node-upper {
+    top:
+      25%;
+
+    right:
+      52%;
+  }
+
+
+  .network-node-lower {
+    bottom:
+      22%;
+
+    right:
+      40%;
+
+    border-color:
+      var(--color-violet);
+
+    box-shadow:
+      0 0 8px rgba(139, 92, 246, 0.3);
+
+    animation-delay:
+      0.8s;
+  }
+
+
+  .divider-network-right
+    .network-node-main {
+
+    right:
+      auto;
+
+    left:
+      0;
+  }
+
+
+  .divider-network-right
+    .network-node-upper {
+
+    right:
+      auto;
+
+    left:
+      52%;
+  }
+
+
+  .divider-network-right
+    .network-node-lower {
+
+    right:
+      auto;
+
+    left:
+      40%;
+  }
+
+
+  @keyframes divider-node-pulse {
+
+    0%,
+    100% {
+      opacity:
+        0.45;
+
+      box-shadow:
+        0 0 5px rgba(34, 211, 238, 0.2);
+    }
+
+    50% {
+      opacity:
+        1;
+
+      box-shadow:
+        0 0 12px rgba(34, 211, 238, 0.5);
+    }
+
+  }
+
+
+  /* ========================================================
+     CENTER
+     ======================================================== */
+
+  .divider-center {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    gap:
+      0.45rem;
+
+    min-width:
+      145px;
+  }
+
+
+  .center-line {
+    width:
+      18px;
+
+    height:
+      1px;
+
+    background:
+      var(--color-border);
+  }
+
+
+  .center-node {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    width:
+      8px;
+
+    height:
+      8px;
+
+    border:
+      1px solid var(--color-cyan);
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-bg);
+
+    box-shadow:
+      0 0 10px rgba(34, 211, 238, 0.25);
+  }
+
+
+  .center-node-core {
+    width:
+      3px;
+
+    height:
+      3px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 7px rgba(34, 211, 238, 0.7);
+
+    animation:
+      divider-core-pulse 2s ease-in-out infinite;
+  }
+
+
+  @keyframes divider-core-pulse {
+
+    0%,
+    100% {
+      opacity:
+        0.45;
+
+      transform:
+        scale(0.75);
+    }
+
+    50% {
+      opacity:
+        1;
+
+      transform:
+        scale(1.25);
+    }
+
+  }
+
+
+  /* ========================================================
+     LABEL
+     ======================================================== */
+
+  .divider-label {
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.3rem;
+
+    letter-spacing:
+      0.045em;
+
+    white-space:
+      nowrap;
+
+    text-transform:
+      uppercase;
+  }
+
+
+  /* ========================================================
+     VIOLET
+     ======================================================== */
+
+  .divider-violet
+    .center-node {
+
+    border-color:
+      var(--color-violet);
+
+    box-shadow:
+      0 0 10px rgba(139, 92, 246, 0.25);
+  }
+
+
+  .divider-violet
+    .center-node-core {
+
+    background:
+      var(--color-violet);
+
+    box-shadow:
+      0 0 7px rgba(139, 92, 246, 0.7);
+  }
+
+
+  .divider-violet
+    .network-node {
+
+    border-color:
+      var(--color-violet);
+
+    box-shadow:
+      0 0 8px rgba(139, 92, 246, 0.3);
+  }
+
+
+  /* ========================================================
+     MINIMAL
+     ======================================================== */
+
+  .divider-minimal
+    .divider-network {
+
+    display:
+      none;
+  }
+
+
+  .divider-minimal
+    .divider-center {
+
+    width:
+      100%;
+  }
+
+
+  .divider-minimal
+    .center-line {
+
+    flex:
+      1;
+
+    width:
+      auto;
+
+  }
+
+
+  /* ========================================================
+     LIGHT THEME
+     ======================================================== */
+
+  :global([data-theme="light"])
+    .network-node,
+  :global([data-theme="light"])
+    .center-node {
+
+    background:
+      var(--color-bg);
+
+  }
+
+
+  /* ========================================================
+     RESPONSIVE
+     ======================================================== */
+
+  @media (max-width: 700px) {
+
+    .divider-spacing-normal {
+      margin:
+        3rem 0;
+    }
+
+
+    .divider-spacing-large {
+      margin:
+        4rem 0;
+    }
+
+
+    .divider-network {
+      height:
+        40px;
+    }
+
+
+    .divider-center {
+      min-width:
+        120px;
+    }
+
+
+    .divider-label {
+      font-size:
+        0.27rem;
+    }
+
+
+    .center-line {
+      width:
+        10px;
+    }
+
+  }
+
+
+  @media (max-width: 480px) {
+
+    .divider-network {
+      display:
+        none;
+    }
+
+
+    .section-divider {
+      display:
+        block;
+    }
+
+
+    .divider-center {
+      width:
+        100%;
+    }
+
+
+    .center-line {
+      flex:
+        1;
+
+      width:
+        auto;
+    }
+
+  }
+
+
+  /* ========================================================
+     REDUCED MOTION
+     ======================================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .network-node,
+    .center-node-core {
+      animation:
+        none;
+    }
+
+  }
+</style>
