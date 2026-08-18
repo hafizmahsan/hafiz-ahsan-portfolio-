@@ -1,577 +1,309 @@
 /**
  * ============================================================
- * PROJECT PORTFOLIO
+ * PROJECTS DATA
  * ============================================================
  *
- * This file contains all portfolio projects.
+ * This file controls everything displayed in the Projects
+ * section.
  *
- * IMPORTANT:
- * The UI, animations, filters and project pages will read
- * from this file.
+ * EDITING GUIDE
+ * ------------------------------------------------------------
  *
- * To add a new project:
+ * title
+ *   Project name displayed on the portfolio.
  *
- * 1. Copy an existing project object.
- * 2. Give it a unique ID.
- * 3. Change the title/description/details.
- * 4. Add the technologies.
- * 5. Add the project URL if one exists.
+ * category
+ *   Project classification.
  *
- * You should NOT need to modify the visual components.
+ * subtitle
+ *   Short supporting description.
+ *
+ * description
+ *   Main project explanation.
+ *
+ * highlights
+ *   Important capabilities or outcomes.
+ *
+ * technologies
+ *   Technologies / platforms used.
+ *
+ * featured
+ *   Makes the project visually prominent.
+ *
+ * status
+ *   Small status indicator.
+ *
+ * github
+ *   GitHub repository URL.
+ *
+ * demo
+ *   Live project URL.
+ *
+ * accent
+ *   Visual accent colour.
+ *
+ * code
+ *   Short visual identifier.
+ *
  * ============================================================
  */
 
-export type ProjectCategory =
-  | "rpa"
-  | "automation"
-  | "ai"
-  | "genai"
-  | "integration"
-  | "architecture"
-  | "development";
-
-export type ProjectStatus =
-  | "featured"
-  | "completed"
-  | "ongoing"
-  | "learning"
-  | "concept";
-
-export type Project = {
-  id: string;
-
+export interface Project {
   title: string;
-
-  shortTitle: string;
-
-  category: ProjectCategory[];
-
-  status: ProjectStatus;
-
-  year: string;
-
-  client?: string;
-
+  category: string;
+  subtitle?: string;
   description: string;
 
-  challenge: string;
-
-  solution: string;
-
-  outcome: string;
+  highlights: string[];
 
   technologies: string[];
 
-  capabilities: string[];
+  featured?: boolean;
 
-  /**
-   * Visual identifier.
-   *
-   * The UI will convert this into a futuristic visual scene
-   * rather than requiring a project screenshot.
-   */
-  visual: {
-    type:
-      | "automation"
-      | "workflow"
-      | "robot"
-      | "ai-network"
-      | "architecture"
-      | "data-flow";
+  status?: string;
 
-    accent: "cyan" | "blue" | "violet" | "green" | "orange";
+  github?: string;
 
-    icon: string;
-  };
+  demo?: string;
 
-  /**
-   * External links.
-   *
-   * Leave empty when the project cannot be publicly shared.
-   */
-  links: {
-    live?: string;
-    github?: string;
-    caseStudy?: string;
-  };
+  accent?: string;
 
-  /**
-   * Controls whether the project appears prominently on
-   * the homepage.
-   */
-  featured: boolean;
+  code?: string;
+}
 
-  /**
-   * Controls whether the project appears in the public
-   * portfolio.
-   */
-  visible: boolean;
-};
 
 /**
  * ============================================================
- * PROJECT DATA
+ * SELECTED PROJECTS
  * ============================================================
  *
- * The entries below are intentionally structured so that
- * actual projects from the existing portfolio/repository can
- * be inserted without changing the UI architecture.
+ * Keep the strongest / most relevant project first.
  *
- * DEMO / PLACEHOLDER NOTICE:
- * The specific project names and descriptions below should be
- * replaced with verified projects from the existing portfolio
- * once its source data is accessible.
+ * Public and personal projects can be expanded later.
+ *
+ * Client work should only be identified by name when it is
+ * publicly safe and appropriate to do so.
+ *
+ * ============================================================
  */
 
 export const projects: Project[] = [
-  /*
-   * ==========================================================
-   * PROJECT 01
-   * ==========================================================
-   */
 
   {
-    id: "enterprise-rpa-automation",
-
     title: "Enterprise RPA Automation",
+    category: "RPA / ENTERPRISE AUTOMATION",
 
-    shortTitle: "RPA Automation",
-
-    category: ["rpa", "automation"],
-
-    status: "featured",
-
-    year: "2024",
+    subtitle:
+      "Business process automation and digital workforce solutions.",
 
     description:
-      "Enterprise process automation solution designed to reduce repetitive manual work, improve processing consistency and provide scalable digital workforce capabilities.",
+      "Enterprise automation work focused on transforming repetitive, rule-based business processes into reliable automated workflows. The work spans process understanding, solution design, development, testing, deployment and operational support.",
 
-    challenge:
-      "Manual, repetitive business processes can consume significant operational effort, introduce human error and make process monitoring difficult.",
-
-    solution:
-      "Designed an RPA workflow that connects business applications, validates process data, executes predefined actions and provides controlled exception handling.",
-
-    outcome:
-      "Created a repeatable automation pattern that can be adapted to additional business processes and integrated into broader enterprise automation strategies.",
+    highlights: [
+      "Business process analysis and automation opportunity identification.",
+      "Design and development of enterprise RPA workflows.",
+      "Integration of automation with existing business applications.",
+      "Production support and continuous improvement."
+    ],
 
     technologies: [
       "RPA",
       "Process Automation",
-      "Workflow Automation",
-      "Enterprise Applications",
-      "API Integration"
+      "APIs",
+      "Enterprise Systems",
+      "Workflow Design"
     ],
-
-    capabilities: [
-      "Process discovery",
-      "Automation design",
-      "Workflow orchestration",
-      "Exception handling",
-      "Production support"
-    ],
-
-    visual: {
-      type: "robot",
-      accent: "cyan",
-      icon: "bot"
-    },
-
-    links: {},
 
     featured: true,
 
-    visible: true
-  },
+    status:
+      "ENTERPRISE",
 
-  /*
-   * ==========================================================
-   * PROJECT 02
-   * ==========================================================
-   */
+    accent:
+      "#22d3ee",
 
-  {
-    id: "intelligent-workflow-automation",
-
-    title: "Intelligent Workflow Automation",
-
-    shortTitle: "Smart Workflows",
-
-    category: ["automation", "architecture"],
-
-    status: "featured",
-
-    year: "2024",
-
-    description:
-      "Automation architecture connecting multiple process steps into an intelligent end-to-end workflow.",
-
-    challenge:
-      "Complex business processes often span several applications and teams, creating disconnected manual handoffs.",
-
-    solution:
-      "Designed an automation-oriented workflow model where process stages, system interactions and exception paths are orchestrated through a consistent automation architecture.",
-
-    outcome:
-      "Established a reusable approach for designing scalable process automation rather than treating individual bots as isolated scripts.",
-
-    technologies: [
-      "RPA",
-      "Workflow Automation",
-      "Solution Architecture",
-      "API Integration",
-      "Enterprise Systems"
-    ],
-
-    capabilities: [
-      "Process orchestration",
-      "Architecture design",
-      "System integration",
-      "Exception management",
-      "Process optimization"
-    ],
-
-    visual: {
-      type: "workflow",
-      accent: "blue",
-      icon: "workflow"
-    },
-
-    links: {},
-
-    featured: true,
-
-    visible: true
-  },
-
-  /*
-   * ==========================================================
-   * PROJECT 03
-   * ==========================================================
-   */
-
-  {
-    id: "automation-solution-architecture",
-
-    title: "Automation Solution Architecture",
-
-    shortTitle: "Automation Architecture",
-
-    category: ["architecture", "rpa", "integration"],
-
-    status: "featured",
-
-    year: "2023",
-
-    description:
-      "Solution architecture approach for enterprise automation environments involving business processes, RPA components, integrations and operational controls.",
-
-    challenge:
-      "Growing automation programs require architectural standards that support maintainability, scalability, monitoring and secure integration.",
-
-    solution:
-      "Designed reusable architectural patterns for automation components, integrations, process orchestration, exception handling and operational support.",
-
-    outcome:
-      "Created a foundation for treating automation as an enterprise technology capability rather than a collection of disconnected scripts.",
-
-    technologies: [
-      "Solution Architecture",
-      "RPA",
-      "API Integration",
-      "Enterprise Architecture",
-      "Automation"
-    ],
-
-    capabilities: [
-      "Architecture design",
-      "Technical analysis",
-      "Integration planning",
-      "Scalability planning",
-      "Automation governance"
-    ],
-
-    visual: {
-      type: "architecture",
-      accent: "violet",
-      icon: "network"
-    },
-
-    links: {},
-
-    featured: true,
-
-    visible: true
-  },
-
-  /*
-   * ==========================================================
-   * PROJECT 04
-   * ==========================================================
-   *
-   * GenAI project/learning track.
-   *
-   * This is deliberately classified as a learning/concept
-   * project rather than claiming production experience.
-   */
-
-  {
-    id: "genai-automation-lab",
-
-    title: "GenAI + Automation Lab",
-
-    shortTitle: "GenAI Automation",
-
-    category: ["genai", "ai", "automation"],
-
-    status: "learning",
-
-    year: "2026",
-
-    description:
-      "An evolving learning and experimentation track exploring how Generative AI can extend traditional RPA and intelligent automation capabilities.",
-
-    challenge:
-      "Traditional automation is strongest when processes are structured and deterministic, while modern business processes increasingly involve unstructured information and natural-language interactions.",
-
-    solution:
-      "Exploring LLM-based workflows, LangChain, retrieval techniques and AI-agent patterns that can complement deterministic RPA automation.",
-
-    outcome:
-      "Building practical knowledge around the convergence of RPA, LLM applications and intelligent automation.",
-
-    technologies: [
-      "Generative AI",
-      "LangChain",
-      "LLMs",
-      "AI Agents",
-      "RAG",
+    code:
       "RPA"
-    ],
-
-    capabilities: [
-      "LLM application development",
-      "Prompt engineering",
-      "Agent workflows",
-      "Retrieval-Augmented Generation",
-      "AI + RPA integration"
-    ],
-
-    visual: {
-      type: "ai-network",
-      accent: "violet",
-      icon: "brain"
-    },
-
-    links: {},
-
-    featured: true,
-
-    visible: true
   },
 
-  /*
-   * ==========================================================
-   * PROJECT 05
-   * ==========================================================
-   */
 
   {
-    id: "api-integration-automation",
+    title: "Automation Solution Architecture",
+    category: "SOLUTION ARCHITECTURE",
 
-    title: "API-Driven Automation",
-
-    shortTitle: "API Automation",
-
-    category: ["integration", "automation"],
-
-    status: "completed",
-
-    year: "2023",
+    subtitle:
+      "From business requirements to scalable automation architecture.",
 
     description:
-      "Automation architecture using APIs and system integrations to reduce unnecessary user-interface dependency and improve process reliability.",
+      "Solution architecture work focused on translating business requirements into technical automation solutions, defining integrations, designing workflows and establishing a foundation that can scale across enterprise processes.",
 
-    challenge:
-      "UI-only automation can become fragile when applications change or when large volumes of data need to be processed.",
+    highlights: [
+      "Requirement analysis and technical solution design.",
+      "Automation architecture and workflow modelling.",
+      "Enterprise application and API integration planning.",
+      "Collaboration between business and technical stakeholders."
+    ],
 
-    solution:
-      "Applied API and integration-oriented patterns where appropriate, allowing automation workflows to communicate with enterprise systems through structured interfaces.",
+    technologies: [
+      "Solution Architecture",
+      "RPA",
+      "APIs",
+      "Integration",
+      "Process Design"
+    ],
 
-    outcome:
-      "Improved the architectural flexibility of automation solutions and reduced unnecessary dependency on repetitive UI interactions.",
+    status:
+      "ARCHITECTURE",
+
+    accent:
+      "#3b82f6",
+
+    code:
+      "ARCH"
+  },
+
+
+  {
+    title: "Client Automation Delivery",
+    category: "CONSULTING / DELIVERY",
+
+    subtitle:
+      "Client-focused automation engineering and consulting.",
+
+    description:
+      "Consulting and delivery experience across enterprise environments, combining technical implementation with stakeholder communication and business-process understanding.",
+
+    highlights: [
+      "Worked with stakeholders to understand automation requirements.",
+      "Translated business requirements into technical solutions.",
+      "Supported implementation and production delivery.",
+      "Contributed to process optimization and automation adoption."
+    ],
+
+    technologies: [
+      "RPA",
+      "Consulting",
+      "Requirements",
+      "Automation",
+      "Solution Delivery"
+    ],
+
+    status:
+      "CLIENT DELIVERY",
+
+    accent:
+      "#8b5cf6",
+
+    code:
+      "CONS"
+  },
+
+
+  {
+    title: "Enterprise Integration Automation",
+    category: "INTEGRATION / APIs",
+
+    subtitle:
+      "Connecting automation workflows with enterprise technology.",
+
+    description:
+      "Automation solutions that combine robotic workflows with APIs, enterprise applications and data exchange mechanisms to reduce manual interaction and improve process consistency.",
+
+    highlights: [
+      "API-driven automation concepts.",
+      "Integration between automation workflows and enterprise systems.",
+      "Structured data exchange between systems.",
+      "Reusable integration-oriented automation patterns."
+    ],
 
     technologies: [
       "REST APIs",
-      "API Integration",
       "RPA",
-      "Automation",
+      "Integration",
+      "JSON",
       "Enterprise Applications"
     ],
 
-    capabilities: [
-      "API integration",
-      "Data exchange",
-      "Automation orchestration",
-      "System integration",
-      "Process optimization"
-    ],
+    status:
+      "INTEGRATION",
 
-    visual: {
-      type: "data-flow",
-      accent: "green",
-      icon: "plug"
-    },
+    accent:
+      "#06b6d4",
 
-    links: {},
-
-    featured: false,
-
-    visible: true
+    code:
+      "API"
   },
 
-  /*
-   * ==========================================================
-   * PROJECT 06
-   * ==========================================================
-   */
 
   {
-    id: "automation-process-discovery",
+    title: "Intelligent Automation Lab",
+    category: "GENAI / EXPERIMENTAL",
 
-    title: "Automation Process Discovery",
-
-    shortTitle: "Process Discovery",
-
-    category: ["automation", "rpa"],
-
-    status: "completed",
-
-    year: "2022",
+    subtitle:
+      "Exploring the convergence of RPA and Generative AI.",
 
     description:
-      "Process analysis methodology for identifying repetitive, rule-based and automation-ready business activities.",
+      "An evolving personal learning and experimentation track exploring how Generative AI, LLM applications, LangChain and agentic workflows can extend traditional automation beyond deterministic rule-based processes.",
 
-    challenge:
-      "Not every process is a good candidate for automation. Automating the wrong process can create additional complexity instead of value.",
-
-    solution:
-      "Applied process analysis to identify repetitive activities, decision points, system interactions, exception scenarios and opportunities for automation.",
-
-    outcome:
-      "Created a structured foundation for selecting automation candidates and prioritizing implementation opportunities.",
+    highlights: [
+      "Exploring LLM-powered application patterns.",
+      "Learning LangChain and modern AI application architectures.",
+      "Experimenting with intelligent workflow concepts.",
+      "Investigating how AI agents can complement enterprise automation."
+    ],
 
     technologies: [
-      "Process Analysis",
-      "RPA",
-      "Business Analysis",
-      "Process Optimization"
+      "Generative AI",
+      "LLMs",
+      "LangChain",
+      "AI Agents",
+      "Python"
     ],
 
-    capabilities: [
-      "Process discovery",
-      "Automation assessment",
-      "Requirement analysis",
-      "Process mapping",
-      "Opportunity identification"
+    status:
+      "LEARNING",
+
+    accent:
+      "#a78bfa",
+
+    code:
+      "GENAI"
+  },
+
+
+  {
+    title: "Personal Automation Toolkit",
+    category: "PERSONAL / ENGINEERING",
+
+    subtitle:
+      "Reusable ideas and utilities for automation engineering.",
+
+    description:
+      "A collection of personal engineering concepts focused on reusable automation patterns, development utilities, integrations and practical tooling that can accelerate repetitive technical tasks.",
+
+    highlights: [
+      "Reusable automation concepts.",
+      "Developer-oriented utilities and workflows.",
+      "API and integration experimentation.",
+      "Continuous experimentation with automation technologies."
     ],
 
-    visual: {
-      type: "workflow",
-      accent: "orange",
-      icon: "search"
-    },
+    technologies: [
+      "Python",
+      "APIs",
+      "Git",
+      "Automation",
+      "JavaScript"
+    ],
 
-    links: {},
+    status:
+      "EXPERIMENTAL",
 
-    featured: false,
+    accent:
+      "#38bdf8",
 
-    visible: true
+    code:
+      "LAB"
   }
+
 ];
-
-/**
- * ============================================================
- * PROJECT HELPERS
- * ============================================================
- */
-
-/**
- * Return projects marked as featured.
- */
-export function getFeaturedProjects(): Project[] {
-  return projects.filter(
-    (project) =>
-      project.visible && project.featured
-  );
-}
-
-/**
- * Return all publicly visible projects.
- */
-export function getVisibleProjects(): Project[] {
-  return projects.filter(
-    (project) => project.visible
-  );
-}
-
-/**
- * Find a project by its unique ID.
- */
-export function getProjectById(
-  id: string
-): Project | undefined {
-  return projects.find(
-    (project) => project.id === id
-  );
-}
-
-/**
- * Filter projects by category.
- */
-export function getProjectsByCategory(
-  category: ProjectCategory
-): Project[] {
-  return projects.filter(
-    (project) =>
-      project.visible &&
-      project.category.includes(category)
-  );
-}
-
-/**
- * Return all projects associated with a technology.
- */
-export function getProjectsByTechnology(
-  technology: string
-): Project[] {
-  const searchTerm = technology.toLowerCase();
-
-  return projects.filter((project) =>
-    project.visible &&
-    project.technologies.some(
-      (item) =>
-        item.toLowerCase() === searchTerm
-    )
-  );
-}
-
-/**
- * Return the categories currently used by visible projects.
- *
- * This will later allow the project filter UI to generate
- * itself automatically instead of hard-coding categories.
- */
-export function getProjectCategories(): ProjectCategory[] {
-  const categories = new Set<ProjectCategory>();
-
-  projects
-    .filter((project) => project.visible)
-    .forEach((project) => {
-      project.category.forEach((category) =>
-        categories.add(category)
-      );
-    });
-
-  return Array.from(categories);
-}
