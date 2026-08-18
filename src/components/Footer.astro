@@ -1,959 +1,321 @@
 ---
 /**
  * ============================================================
- * PORTFOLIO FOOTER
+ * FOOTER
  * ============================================================
  *
- * Content source:
+ * Reusable site footer.
  *
- *     src/data/site.ts
- *
- * This component is intentionally content-driven so that
- * frequently changed information remains centralized.
  * ============================================================
  */
 
-import { site } from "../data/site";
+import Link from "./Link.astro";
+import Logo from "./Logo.astro";
+import SocialLinks from "./SocialLinks.astro";
+
+interface FooterLink {
+  label: string;
+  href: string;
+}
+
+interface SocialLink {
+  label: string;
+
+  href: string;
+
+  icon:
+    | "github"
+    | "linkedin"
+    | "mail"
+    | "external";
+}
+
+interface Props {
+  description?: string;
+
+  links?: FooterLink[];
+
+  socialLinks?: SocialLink[];
+
+  copyrightName?: string;
+
+  class?: string;
+}
+
+const {
+  description =
+    "Software engineering, automation, and intelligent systems.",
+
+  links = [
+    {
+      label: "ABOUT",
+      href: "#about"
+    },
+    {
+      label: "PROJECTS",
+      href: "#projects"
+    },
+    {
+      label: "EXPERIENCE",
+      href: "#experience"
+    },
+    {
+      label: "CONTACT",
+      href: "#contact"
+    }
+  ],
+
+  socialLinks = [],
+
+  copyrightName = "YOUR NAME",
+
+  class: className = ""
+} = Astro.props;
+
+const year =
+  new Date().getFullYear();
 ---
 
 <footer
-  class="site-footer"
-  aria-label="Website footer"
+  class:list={[
+    "footer",
+    className
+  ]}
 >
+  <div class="footer__inner">
 
-  <!-- ======================================================
-       DECORATIVE SYSTEM BACKGROUND
-       ====================================================== -->
+    <div class="footer__main">
 
-  <div
-    class="footer-background"
-    aria-hidden="true"
-  >
+      <div class="footer__identity">
 
-    <div class="footer-grid"></div>
+        <Logo />
 
-    <div class="footer-glow"></div>
-
-    <div class="footer-orbit">
-
-      <span class="orbit-dot orbit-dot-one"></span>
-      <span class="orbit-dot orbit-dot-two"></span>
-      <span class="orbit-dot orbit-dot-three"></span>
-
-    </div>
-
-  </div>
-
-
-  <div class="container">
-
-    <!-- ====================================================
-         FOOTER TOP
-         ==================================================== -->
-
-    <div class="footer-top">
-
-      <!-- ================================================
-           BRAND
-           ================================================ -->
-
-      <div class="footer-brand">
-
-        <a
-          href="#top"
-          class="footer-logo"
-          aria-label={`${site.name} — Back to top`}
-        >
-
-          <span class="logo-mark">
-            {site.shortName}
-          </span>
-
-          <span class="logo-name">
-            {site.name}
-          </span>
-
-        </a>
-
-
-        <p class="footer-description">
-          {site.professionalTitle}
-          <span>·</span>
-          RPA &amp; Intelligent Automation
-        </p>
-
-
-        <p class="footer-tagline">
-          {site.footer.message}
+        <p class="footer__description">
+          {description}
         </p>
 
       </div>
 
 
-      <!-- ================================================
-           SYSTEM STATUS
-           ================================================ -->
-
-      <div class="footer-status">
-
-        <div class="status-header">
-
-          <span>
-            SYSTEM STATUS
-          </span>
-
-          <span>
-            2026
-          </span>
-
-        </div>
-
-
-        <div class="status-body">
-
-          <span class="status-dot"></span>
-
-          <span class="status-label">
-            {site.footer.status}
-          </span>
-
-          <span class="status-description">
-            {site.footer.statusLabel}
-          </span>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- ====================================================
-         FOOTER NAVIGATION
-         ==================================================== -->
-
-    <div class="footer-middle">
-
-      <div class="footer-navigation">
-
-        <span class="footer-section-label">
+      <nav
+        class="footer__nav"
+        aria-label="Footer navigation"
+      >
+        <span class="footer__heading">
           NAVIGATION
         </span>
 
-
-        <nav aria-label="Footer navigation">
-
+        <ul>
           {
-            site.navigation.map((item) => (
-              <a
-                href={item.href}
-              >
-                <span>{item.label}</span>
-                <span aria-hidden="true">↗</span>
-              </a>
+            links.map((link) => (
+              <li>
+                <Link
+                  href={link.href}
+                  label={link.label}
+                  icon="none"
+                  variant="muted"
+                />
+              </li>
             ))
           }
-
-        </nav>
-
-      </div>
+        </ul>
+      </nav>
 
 
-      <!-- ================================================
-           CONNECT
-           ================================================ -->
+      {
+        socialLinks.length > 0 && (
+          <div class="footer__social">
+            <span class="footer__heading">
+              CONNECT
+            </span>
 
-      <div class="footer-navigation">
-
-        <span class="footer-section-label">
-          CONNECT
-        </span>
-
-
-        <nav aria-label="Professional links">
-
-          {
-            site.socialLinks.map((link) => (
-              <a
-                href={link.href}
-                target={
-                  link.external
-                    ? "_blank"
-                    : undefined
-                }
-                rel={
-                  link.external
-                    ? "noopener noreferrer"
-                    : undefined
-                }
-              >
-                <span>{link.label}</span>
-                <span aria-hidden="true">↗</span>
-              </a>
-            ))
-          }
-
-        </nav>
-
-      </div>
-
-
-      <!-- ================================================
-           LOCATION / SPECIALIZATION
-           ================================================ -->
-
-      <div class="footer-information">
-
-        <span class="footer-section-label">
-          PROFILE
-        </span>
-
-
-        <div class="profile-item">
-
-          <span class="profile-key">
-            BASE
-          </span>
-
-          <span class="profile-value">
-            {site.location}
-          </span>
-
-        </div>
-
-
-        <div class="profile-item">
-
-          <span class="profile-key">
-            SPECIALIZATION
-          </span>
-
-          <span class="profile-value">
-            RPA / AUTOMATION
-          </span>
-
-        </div>
-
-
-        <div class="profile-item">
-
-          <span class="profile-key">
-            FOCUS
-          </span>
-
-          <span class="profile-value">
-            GEN AI / LANGCHAIN
-          </span>
-
-        </div>
-
-      </div>
+            <SocialLinks
+              links={socialLinks}
+              variant="muted"
+              size="sm"
+              showLabels={false}
+            />
+          </div>
+        )
+      }
 
     </div>
 
 
-    <!-- ====================================================
-         FOOTER BOTTOM
-         ==================================================== -->
+    <div class="footer__bottom">
 
-    <div class="footer-bottom">
-
-      <div class="footer-meta">
-
-        <span>
-          © {new Date().getFullYear()}
-          {site.copyrightName}
-        </span>
-
-        <span class="meta-separator">
-          /
-        </span>
-
-        <span>
-          ALL SYSTEMS OPERATIONAL
-        </span>
-
-      </div>
+      <span class="footer__copyright">
+        © {year} {copyrightName}
+      </span>
 
 
-      <button
-        class="back-to-top"
-        type="button"
-        aria-label="Scroll back to top"
+      <span class="footer__built">
+        BUILT WITH ASTRO
+      </span>
+
+
+      <a
+        href="#top"
+        class="footer__top"
+        aria-label="Back to top"
       >
-
-        <span>
-          BACK TO TOP
-        </span>
-
-        <span
-          class="back-to-top-icon"
-          aria-hidden="true"
-        >
-          ↑
-        </span>
-
-      </button>
+        TOP ↑
+      </a>
 
     </div>
 
   </div>
-
 </footer>
 
 
-<script>
-  /**
-   * ==========================================================
-   * BACK TO TOP
-   * ==========================================================
-   */
-
-  const backToTopButton =
-    document.querySelector<HTMLButtonElement>(
-      ".back-to-top"
-    );
-
-
-  backToTopButton?.addEventListener(
-    "click",
-    () => {
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-    }
-  );
-</script>
-
-
 <style>
-  /* ========================================================
-     FOOTER
-     ======================================================== */
+  .footer {
+    position: relative;
 
-  .site-footer {
-    position:
-      relative;
-
-    overflow:
-      hidden;
-
-    padding:
-      3rem 0 1rem;
+    margin-top: 6rem;
 
     border-top:
-      1px solid var(--color-border);
-  }
-
-
-  .footer-background {
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    z-index:
-      -1;
-
-    pointer-events:
-      none;
-  }
-
-
-  .footer-grid {
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    opacity:
-      0.15;
-
-    background-image:
-      linear-gradient(
-        rgba(148, 163, 184, 0.025) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        90deg,
-        rgba(148, 163, 184, 0.025) 1px,
-        transparent 1px
-      );
-
-    background-size:
-      70px 70px;
-
-    mask-image:
-      linear-gradient(
-        to bottom,
-        black,
-        transparent 80%
-      );
-  }
-
-
-  .footer-glow {
-    position:
-      absolute;
-
-    top:
-      -250px;
-
-    left:
-      50%;
-
-    width:
-      500px;
-
-    height:
-      500px;
-
-    border-radius:
-      50%;
+      1px solid
+      rgba(148, 163, 184, 0.1);
 
     background:
-      rgba(34, 211, 238, 0.025);
+      rgba(2, 6, 23, 0.65);
+  }
 
-    filter:
-      blur(120px);
+
+  .footer::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 50%;
+
+    width: min(80%, 60rem);
+    height: 1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(103, 232, 249, 0.3),
+        transparent
+      );
 
     transform:
       translateX(-50%);
   }
 
 
-  /* ========================================================
-     ORBIT
-     ======================================================== */
-
-  .footer-orbit {
-    position:
-      absolute;
-
-    top:
-      20px;
-
-    right:
-      12%;
-
+  .footer__inner {
     width:
-      120px;
+      min(
+        calc(100% - 2.5rem),
+        76rem
+      );
 
-    height:
-      60px;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.08);
-
-    border-radius:
-      50%;
-
-    transform:
-      rotate(-15deg);
-  }
-
-
-  .orbit-dot {
-    position:
-      absolute;
-
-    width:
-      4px;
-
-    height:
-      4px;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-cyan);
-
-    box-shadow:
-      0 0 10px var(--color-cyan);
-  }
-
-
-  .orbit-dot-one {
-    top:
-      -2px;
-
-    left:
-      50%;
-  }
-
-
-  .orbit-dot-two {
-    right:
-      12px;
-
-    bottom:
-      8px;
-
-    background:
-      var(--color-violet);
-
-    box-shadow:
-      0 0 10px var(--color-violet);
-  }
-
-
-  .orbit-dot-three {
-    bottom:
-      -2px;
-
-    left:
-      28%;
+    margin-inline: auto;
   }
 
 
   /* ========================================================
-     TOP
+     MAIN
      ======================================================== */
 
-  .footer-top {
-    display:
-      flex;
-
-    align-items:
-      flex-start;
-
-    justify-content:
-      space-between;
-
-    gap:
-      2rem;
-
-    padding-bottom:
-      2rem;
-
-    border-bottom:
-      1px solid var(--color-border);
-  }
-
-
-  .footer-brand {
-    max-width:
-      500px;
-  }
-
-
-  .footer-logo {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.7rem;
-
-    color:
-      var(--color-text);
-
-    text-decoration:
-      none;
-  }
-
-
-  .logo-mark {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    width:
-      32px;
-
-    height:
-      32px;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.25);
-
-    border-radius:
-      0.4rem;
-
-    color:
-      var(--color-cyan);
-
-    background:
-      rgba(34, 211, 238, 0.025);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.48rem;
-
-    letter-spacing:
-      -0.02em;
-  }
-
-
-  .logo-name {
-    font-family:
-      var(--font-display);
-
-    font-size:
-      0.85rem;
-
-    letter-spacing:
-      -0.03em;
-  }
-
-
-  .footer-description {
-    display:
-      flex;
-
-    gap:
-      0.4rem;
-
-    margin:
-      0.9rem 0 0;
-
-    color:
-      var(--color-text-muted);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.46rem;
-
-    letter-spacing:
-      0.03em;
-  }
-
-
-  .footer-description span {
-    color:
-      var(--color-cyan);
-  }
-
-
-  .footer-tagline {
-    max-width:
-      400px;
-
-    margin:
-      0.65rem 0 0;
-
-    color:
-      var(--color-text-subtle);
-
-    font-size:
-      0.5rem;
-
-    line-height:
-      1.7;
-  }
-
-
-  /* ========================================================
-     STATUS
-     ======================================================== */
-
-  .footer-status {
-    min-width:
-      210px;
-
-    border:
-      1px solid var(--color-border);
-
-    border-radius:
-      0.5rem;
-
-    background:
-      rgba(148, 163, 184, 0.008);
-  }
-
-
-  .status-header {
-    display:
-      flex;
-
-    justify-content:
-      space-between;
-
-    padding:
-      0.6rem 0.75rem;
-
-    border-bottom:
-      1px solid var(--color-border);
-
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.38rem;
-
-    letter-spacing:
-      0.05em;
-  }
-
-
-  .status-body {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.5rem;
-
-    padding:
-      0.75rem;
-  }
-
-
-  .status-dot {
-    width:
-      5px;
-
-    height:
-      5px;
-
-    flex-shrink:
-      0;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-cyan);
-
-    box-shadow:
-      0 0 9px var(--color-cyan);
-
-    animation:
-      footer-status-pulse 2.5s ease-in-out infinite;
-  }
-
-
-  @keyframes footer-status-pulse {
-    0%,
-    100% {
-      opacity:
-        0.45;
-    }
-
-    50% {
-      opacity:
-        1;
-    }
-  }
-
-
-  .status-label {
-    color:
-      var(--color-cyan);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.43rem;
-
-    letter-spacing:
-      0.04em;
-  }
-
-
-  .status-description {
-    margin-left:
-      auto;
-
-    color:
-      var(--color-text-subtle);
-
-    font-size:
-      0.43rem;
-  }
-
-
-  /* ========================================================
-     MIDDLE
-     ======================================================== */
-
-  .footer-middle {
-    display:
-      grid;
+  .footer__main {
+    display: grid;
 
     grid-template-columns:
-      1fr 1fr 1fr;
+      minmax(0, 1.6fr)
+      minmax(8rem, 0.7fr)
+      auto;
 
     gap:
-      2rem;
+      clamp(2rem, 5vw, 5rem);
 
     padding:
-      2rem 0;
-  }
-
-
-  .footer-section-label {
-    display:
-      block;
-
-    margin-bottom:
-      0.8rem;
-
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.39rem;
-
-    letter-spacing:
-      0.06em;
-  }
-
-
-  .footer-navigation nav {
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    align-items:
-      flex-start;
-
-    gap:
-      0.4rem;
-  }
-
-
-  .footer-navigation nav a {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.4rem;
-
-    color:
-      var(--color-text-muted);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.48rem;
-
-    text-decoration:
-      none;
-
-    transition:
-      color var(--duration-fast) var(--ease-standard),
-      transform var(--duration-fast) var(--ease-standard);
-  }
-
-
-  .footer-navigation nav a span:last-child {
-    color:
-      var(--color-text-subtle);
-
-    transition:
-      color var(--duration-fast) var(--ease-standard);
-  }
-
-
-  .footer-navigation nav a:hover {
-    color:
-      var(--color-cyan);
-
-    transform:
-      translateX(3px);
-  }
-
-
-  .footer-navigation nav a:hover span:last-child {
-    color:
-      var(--color-cyan);
+      4rem 0 3rem;
   }
 
 
   /* ========================================================
-     PROFILE
+     IDENTITY
      ======================================================== */
 
-  .footer-information {
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    gap:
-      0.65rem;
+  .footer__identity {
+    max-width: 28rem;
   }
 
 
-  .profile-item {
-    display:
-      flex;
+  .footer__description {
+    max-width: 24rem;
 
-    justify-content:
-      space-between;
+    margin:
+      1.1rem 0 0;
 
-    gap:
-      1rem;
-
-    padding-bottom:
-      0.55rem;
-
-    border-bottom:
-      1px solid rgba(148, 163, 184, 0.04);
-  }
-
-
-  .profile-key {
     color:
-      var(--color-text-subtle);
+      rgba(148, 163, 184, 0.75);
+
+    font-size: 0.8rem;
+
+    line-height: 1.7;
+  }
+
+
+  /* ========================================================
+     NAVIGATION
+     ======================================================== */
+
+  .footer__heading {
+    display: block;
+
+    margin-bottom: 0.9rem;
+
+    color:
+      rgba(148, 163, 184, 0.5);
 
     font-family:
-      var(--font-mono);
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
 
-    font-size:
-      0.38rem;
+    font-size: 0.58rem;
 
-    letter-spacing:
-      0.04em;
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    line-height: 1;
+
+    text-transform: uppercase;
   }
 
 
-  .profile-value {
-    color:
-      var(--color-text-muted);
+  .footer__nav ul {
+    display: flex;
 
-    font-family:
-      var(--font-mono);
+    flex-direction: column;
 
-    font-size:
-      0.4rem;
+    align-items: flex-start;
 
-    text-align:
-      right;
+    gap: 0.65rem;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+  }
+
+
+  /* ========================================================
+     SOCIAL
+     ======================================================== */
+
+  .footer__social {
+    min-width: 5rem;
   }
 
 
@@ -961,201 +323,114 @@ import { site } from "../data/site";
      BOTTOM
      ======================================================== */
 
-  .footer-bottom {
-    display:
-      flex;
+  .footer__bottom {
+    display: flex;
 
-    align-items:
-      center;
+    align-items: center;
 
-    justify-content:
-      space-between;
+    justify-content: space-between;
 
-    gap:
-      1rem;
+    gap: 1rem;
 
-    padding-top:
-      1rem;
+    min-height: 4rem;
 
     border-top:
-      1px solid var(--color-border);
-  }
-
-
-  .footer-meta {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    flex-wrap:
-      wrap;
-
-    gap:
-      0.5rem;
+      1px solid
+      rgba(148, 163, 184, 0.08);
 
     color:
-      var(--color-text-subtle);
+      rgba(100, 116, 139, 0.65);
 
     font-family:
-      var(--font-mono);
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
 
-    font-size:
-      0.38rem;
+    font-size: 0.55rem;
 
-    letter-spacing:
-      0.03em;
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    line-height: 1.4;
+
+    text-transform: uppercase;
   }
 
 
-  .meta-separator {
+  .footer__top {
     color:
-      var(--color-cyan);
-  }
+      rgba(148, 163, 184, 0.65);
 
-
-  .back-to-top {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.5rem;
-
-    padding:
-      0;
-
-    border:
-      0;
-
-    color:
-      var(--color-text-subtle);
-
-    background:
-      transparent;
-
-    cursor:
-      pointer;
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.4rem;
-
-    letter-spacing:
-      0.04em;
+    text-decoration: none;
 
     transition:
-      color var(--duration-fast) var(--ease-standard);
+      color 160ms ease;
   }
 
 
-  .back-to-top:hover {
+  .footer__top:hover {
     color:
-      var(--color-cyan);
+      #67e8f9;
   }
 
-
-  .back-to-top-icon {
-    font-size:
-      0.8rem;
-  }
-
-
-  /* ========================================================
-     RESPONSIVE
-     ======================================================== */
 
   @media (max-width: 700px) {
-
-    .footer-top {
-      flex-direction:
-        column;
-    }
-
-
-    .footer-status {
-      width:
-        100%;
-    }
-
-
-    .footer-middle {
+    .footer__main {
       grid-template-columns:
         1fr 1fr;
     }
 
 
-    .footer-information {
+    .footer__identity {
       grid-column:
         1 / -1;
     }
-
   }
 
 
   @media (max-width: 480px) {
-
-    .site-footer {
-      padding-top:
-        2.5rem;
+    .footer__inner {
+      width:
+        min(
+          calc(100% - 2rem),
+          76rem
+        );
     }
 
 
-    .footer-middle {
-      grid-template-columns:
-        1fr;
+    .footer__main {
+      grid-template-columns: 1fr;
+
+      padding:
+        3rem 0 2rem;
     }
 
 
-    .footer-information {
-      grid-column:
-        auto;
+    .footer__identity {
+      grid-column: auto;
     }
 
 
-    .footer-bottom {
-      align-items:
-        flex-start;
+    .footer__bottom {
+      align-items: flex-start;
 
-      flex-direction:
-        column;
+      flex-direction: column;
+
+      justify-content: center;
+
+      padding:
+        1.25rem 0;
     }
-
-
-    .footer-meta {
-      max-width:
-        280px;
-    }
-
-
-    .footer-orbit {
-      right:
-        -40px;
-    }
-
   }
 
 
-  /* ========================================================
-     REDUCED MOTION
-     ======================================================== */
-
   @media (prefers-reduced-motion: reduce) {
-
-    .status-dot {
-      animation:
-        none;
+    .footer__top {
+      transition: none;
     }
-
-    .footer-navigation nav a {
-      transition:
-        none;
-    }
-
   }
 </style>
