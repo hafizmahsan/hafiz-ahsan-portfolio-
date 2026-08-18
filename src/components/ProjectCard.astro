@@ -6,69 +6,65 @@
  *
  * Reusable project showcase component.
  *
- * Project information is passed through props so the visual
- * presentation remains completely separate from project data.
+ * Supports:
+ * - Project imagery
+ * - Project metadata
+ * - Technology chips
+ * - GitHub / live links
+ * - Featured projects
+ * - Technical network overlays
+ * - Responsive layouts
  *
  * ============================================================
  */
 
-interface Project {
+interface Technology {
+  name: string;
+  accent?: "cyan" | "violet" | "blue" | "green";
+}
+
+interface Props {
   title: string;
   description: string;
   category?: string;
   image?: string;
   imageAlt?: string;
-  technologies?: string[];
-  metrics?: {
-    label: string;
-    value: string;
-  }[];
-  status?: string;
+  technologies?: Technology[];
+  githubUrl?: string;
+  liveUrl?: string;
+  index?: string;
+  status?: "LIVE" | "ARCHIVED" | "CONCEPT" | "IN DEVELOPMENT";
   featured?: boolean;
-  github?: string;
-  demo?: string;
-  accent?: "cyan" | "violet" | "blue" | "green";
+  year?: string;
 }
-
-interface Props {
-  project: Project;
-  index: number;
-}
-
-const {
-  project,
-  index
-} = Astro.props;
 
 const {
   title,
   description,
-  category = "AUTOMATION",
+  category = "PROJECT",
   image,
-  imageAlt = `${title} project preview`,
+  imageAlt = "",
   technologies = [],
-  metrics = [],
-  status,
+  githubUrl,
+  liveUrl,
+  index = "01",
+  status = "LIVE",
   featured = false,
-  github,
-  demo,
-  accent = "cyan"
-} = project;
+  year
+} = Astro.props;
 ---
 
 <article
   class:list={[
     "project-card",
-    `project-card-${accent}`,
     {
       "project-card-featured": featured
     }
   ]}
-  data-project-card
 >
 
   <!-- ======================================================
-       VISUAL AREA
+       PROJECT VISUAL
        ====================================================== -->
 
   <div class="project-visual">
@@ -77,89 +73,113 @@ const {
       image ? (
         <img
           src={image}
-          alt={imageAlt}
+          alt={imageAlt || title}
+          class="project-image"
           loading="lazy"
           decoding="async"
-          class="project-image"
         />
       ) : (
         <div
-          class="project-placeholder"
+          class="project-image-placeholder"
           aria-hidden="true"
         >
-
-          <div class="placeholder-grid"></div>
-
-          <div class="placeholder-orbit orbit-one">
-            <span></span>
-          </div>
-
-          <div class="placeholder-orbit orbit-two">
-            <span></span>
-          </div>
-
-          <div class="placeholder-core">
-
-            <span class="core-ring"></span>
-
-            <span class="core-symbol">
-              ◇
-            </span>
-
-          </div>
-
-          <div class="placeholder-lines">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-
+          <span class="placeholder-grid"></span>
         </div>
       )
     }
 
 
     <!-- ====================================================
-         PROJECT NUMBER
+         IMAGE OVERLAY
          ==================================================== -->
 
-    <span class="project-number">
-      {(index + 1)
-        .toString()
-        .padStart(2, "0")}
-    </span>
+    <div class="visual-overlay"></div>
 
 
     <!-- ====================================================
-         CATEGORY
+         TECHNICAL GRID
          ==================================================== -->
 
-    <span class="project-category">
-      {category}
-    </span>
+    <div
+      class="visual-grid"
+      aria-hidden="true"
+    ></div>
 
 
     <!-- ====================================================
-         FEATURED
+         NETWORK
          ==================================================== -->
 
-    {
-      featured && (
-        <span class="project-featured">
-          FEATURED
-        </span>
-      )
-    }
+    <div
+      class="visual-network"
+      aria-hidden="true"
+    >
+
+      <span class="network-line network-line-1"></span>
+
+      <span class="network-line network-line-2"></span>
+
+      <span class="network-line network-line-3"></span>
+
+      <span class="network-node network-node-1"></span>
+
+      <span class="network-node network-node-2"></span>
+
+      <span class="network-node network-node-3"></span>
+
+      <span class="network-node network-node-4"></span>
+
+    </div>
 
 
     <!-- ====================================================
-         SCAN EFFECT
+         TOP META
+         ==================================================== -->
+
+    <div class="visual-top">
+
+      <span class="project-index">
+        {index}
+      </span>
+
+      <span class="project-category">
+        {category}
+      </span>
+
+      {
+        year && (
+          <span class="project-year">
+            {year}
+          </span>
+        )
+      }
+
+    </div>
+
+
+    <!-- ====================================================
+         STATUS
+         ==================================================== -->
+
+    <div class="project-status">
+
+      <span class="status-indicator"></span>
+
+      {status}
+
+    </div>
+
+
+    <!-- ====================================================
+         HOVER ARROW
          ==================================================== -->
 
     <span
-      class="project-scan"
+      class="project-arrow"
       aria-hidden="true"
-    ></span>
+    >
+      ↗
+    </span>
 
   </div>
 
@@ -171,38 +191,20 @@ const {
   <div class="project-content">
 
     <!-- ====================================================
-         HEADER
+         TITLE
          ==================================================== -->
 
-    <div class="project-header">
+    <div class="project-title-row">
 
-      <div>
-
-        <h3 class="project-title">
-          {title}
-        </h3>
-
-        {
-          status && (
-            <span class="project-status">
-              <span class="status-dot"></span>
-              {status}
-            </span>
-          )
-        }
-
-      </div>
-
-
-      <!-- ================================================
-           ARROW
-           ================================================ -->
+      <h3 class="project-title">
+        {title}
+      </h3>
 
       <span
-        class="project-arrow"
+        class="title-node"
         aria-hidden="true"
       >
-        ↗
+        ◇
       </span>
 
     </div>
@@ -218,35 +220,6 @@ const {
 
 
     <!-- ====================================================
-         METRICS
-         ==================================================== -->
-
-    {
-      metrics.length > 0 && (
-        <div class="project-metrics">
-
-          {
-            metrics.map((metric) => (
-              <div class="project-metric">
-
-                <span class="metric-value">
-                  {metric.value}
-                </span>
-
-                <span class="metric-label">
-                  {metric.label}
-                </span>
-
-              </div>
-            ))
-          }
-
-        </div>
-      )
-    }
-
-
-    <!-- ====================================================
          TECHNOLOGIES
          ==================================================== -->
 
@@ -256,8 +229,22 @@ const {
 
           {
             technologies.map((technology) => (
-              <span class="project-technology">
-                {technology}
+              <span
+                class:list={[
+                  "technology-chip",
+                  `technology-${technology.accent || "cyan"}`
+                ]}
+              >
+
+                <span
+                  class="chip-node"
+                  aria-hidden="true"
+                >
+                  •
+                </span>
+
+                {technology.name}
+
               </span>
             ))
           }
@@ -268,56 +255,67 @@ const {
 
 
     <!-- ====================================================
-         LINKS
+         FOOTER
          ==================================================== -->
 
-    {
-      (github || demo) && (
-        <div class="project-links">
+    <footer class="project-footer">
 
-          {
-            github && (
-              <a
-                href={github}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="project-link"
-                aria-label={`View ${title} source code on GitHub`}
-              >
-                <span>
-                  GITHUB
-                </span>
+      <div class="project-links">
 
-                <span aria-hidden="true">
-                  ↗
-                </span>
-              </a>
-            )
-          }
+        {
+          githubUrl && (
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-link"
+              aria-label={`View ${title} source code on GitHub`}
+            >
+              <span class="link-icon">
+                ↗
+              </span>
 
-          {
-            demo && (
-              <a
-                href={demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="project-link project-link-primary"
-                aria-label={`View ${title} live demo`}
-              >
-                <span>
-                  LIVE DEMO
-                </span>
+              <span>
+                GITHUB
+              </span>
+            </a>
+          )
+        }
 
-                <span aria-hidden="true">
-                  ↗
-                </span>
-              </a>
-            )
-          }
 
-        </div>
-      )
-    }
+        {
+          liveUrl && (
+            <a
+              href={liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-link project-link-primary"
+              aria-label={`View ${title} live project`}
+            >
+              <span class="link-icon">
+                ◉
+              </span>
+
+              <span>
+                LIVE
+              </span>
+            </a>
+          )
+        }
+
+      </div>
+
+
+      <div
+        class="project-signal"
+        aria-hidden="true"
+      >
+
+        <span></span>
+
+      </div>
+
+    </footer>
 
   </div>
 
@@ -326,18 +324,12 @@ const {
 
 <style>
   /* ========================================================
-     CARD
+     BASE
      ======================================================== */
 
   .project-card {
     position:
       relative;
-
-    display:
-      flex;
-
-    flex-direction:
-      column;
 
     min-width:
       0;
@@ -346,7 +338,7 @@ const {
       1px solid var(--color-border);
 
     border-radius:
-      0.7rem;
+      0.65rem;
 
     background:
       rgba(148, 163, 184, 0.012);
@@ -355,21 +347,25 @@ const {
       hidden;
 
     transition:
-      transform var(--duration-normal) var(--ease-standard),
       border-color var(--duration-normal) var(--ease-standard),
+      transform var(--duration-normal) var(--ease-standard),
+      background var(--duration-normal) var(--ease-standard),
       box-shadow var(--duration-normal) var(--ease-standard);
   }
 
 
   .project-card:hover {
+    transform:
+      translateY(-6px);
+
     border-color:
       rgba(34, 211, 238, 0.2);
 
-    transform:
-      translateY(-5px);
+    background:
+      rgba(34, 211, 238, 0.012);
 
     box-shadow:
-      0 25px 70px rgba(0, 0, 0, 0.18);
+      0 25px 70px rgba(0, 0, 0, 0.13);
   }
 
 
@@ -387,15 +383,22 @@ const {
     overflow:
       hidden;
 
-    border-bottom:
-      1px solid var(--color-border);
-
     background:
-      #070b12;
+      #07111d;
   }
 
 
+  /* ========================================================
+     IMAGE
+     ======================================================== */
+
   .project-image {
+    position:
+      absolute;
+
+    inset:
+      0;
+
     width:
       100%;
 
@@ -406,11 +409,14 @@ const {
       cover;
 
     opacity:
-      0.82;
+      0.72;
+
+    transform:
+      scale(1.01);
 
     filter:
-      saturate(0.7)
-      contrast(1.05);
+      saturate(0.75)
+      contrast(1.08);
 
     transition:
       transform 700ms var(--ease-standard),
@@ -422,16 +428,15 @@ const {
   .project-card:hover
     .project-image {
 
-    transform:
-      scale(1.045);
-
     opacity:
-      0.95;
+      0.88;
+
+    transform:
+      scale(1.055);
 
     filter:
-      saturate(0.95)
-      contrast(1.05);
-
+      saturate(1)
+      contrast(1.04);
   }
 
 
@@ -439,32 +444,25 @@ const {
      PLACEHOLDER
      ======================================================== */
 
-  .project-placeholder {
+  .project-image-placeholder {
     position:
       absolute;
 
     inset:
       0;
 
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    overflow:
-      hidden;
-
     background:
       radial-gradient(
-        circle at center,
+        circle at 25% 25%,
         rgba(34, 211, 238, 0.08),
-        transparent 38%
+        transparent 28%
       ),
-      #070b12;
+      radial-gradient(
+        circle at 75% 75%,
+        rgba(139, 92, 246, 0.09),
+        transparent 30%
+      ),
+      #07111d;
   }
 
 
@@ -477,12 +475,12 @@ const {
 
     background-image:
       linear-gradient(
-        rgba(34, 211, 238, 0.055) 1px,
+        rgba(148, 163, 184, 0.06) 1px,
         transparent 1px
       ),
       linear-gradient(
         90deg,
-        rgba(34, 211, 238, 0.055) 1px,
+        rgba(148, 163, 184, 0.06) 1px,
         transparent 1px
       );
 
@@ -490,150 +488,436 @@ const {
       30px 30px;
 
     mask-image:
-      radial-gradient(
-        circle,
-        black 10%,
-        transparent 75%
+      linear-gradient(
+        135deg,
+        black,
+        transparent
       );
-
-    opacity:
-      0.55;
   }
 
 
   /* ========================================================
-     ORBITS
+     OVERLAY
      ======================================================== */
 
-  .placeholder-orbit {
+  .visual-overlay {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(2, 6, 23, 0.55),
+        transparent 40%,
+        rgba(2, 6, 23, 0.88)
+      );
+
+    pointer-events:
+      none;
+  }
+
+
+  /* ========================================================
+     GRID
+     ======================================================== */
+
+  .visual-grid {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    background-image:
+      linear-gradient(
+        rgba(148, 163, 184, 0.045) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(148, 163, 184, 0.045) 1px,
+        transparent 1px
+      );
+
+    background-size:
+      32px 32px;
+
+    opacity:
+      0.35;
+
+    mask-image:
+      linear-gradient(
+        to bottom,
+        black,
+        transparent 75%
+      );
+
+    pointer-events:
+      none;
+  }
+
+
+  /* ========================================================
+     NETWORK
+     ======================================================== */
+
+  .visual-network {
+    position:
+      absolute;
+
+    inset:
+      0;
+
+    pointer-events:
+      none;
+
+    opacity:
+      0.75;
+  }
+
+
+  .network-line {
+    position:
+      absolute;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(34, 211, 238, 0.5),
+        transparent
+      );
+
+    transform-origin:
+      left center;
+  }
+
+
+  .network-line-1 {
+    top:
+      34%;
+
+    left:
+      7%;
+
+    width:
+      44%;
+
+    transform:
+      rotate(18deg);
+  }
+
+
+  .network-line-2 {
+    top:
+      67%;
+
+    left:
+      34%;
+
+    width:
+      48%;
+
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(139, 92, 246, 0.48),
+        transparent
+      );
+
+    transform:
+      rotate(-13deg);
+  }
+
+
+  .network-line-3 {
+    top:
+      45%;
+
+    right:
+      9%;
+
+    width:
+      32%;
+
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(34, 211, 238, 0.4),
+        transparent
+      );
+
+    transform:
+      rotate(38deg);
+  }
+
+
+  .network-node {
     position:
       absolute;
 
     width:
-      150px;
+      5px;
 
     height:
-      65px;
+      5px;
 
     border:
-      1px solid rgba(34, 211, 238, 0.2);
+      1px solid var(--color-cyan);
 
     border-radius:
       50%;
 
-    transform:
-      rotate(-25deg);
+    background:
+      rgba(7, 17, 29, 0.9);
+
+    box-shadow:
+      0 0 9px rgba(34, 211, 238, 0.45);
+
+    animation:
+      project-node-pulse 3s ease-in-out infinite;
   }
 
 
-  .placeholder-orbit span {
-    position:
-      absolute;
+  .network-node-1 {
+    top:
+      30%;
 
+    left:
+      8%;
+  }
+
+
+  .network-node-2 {
     top:
       50%;
 
     left:
-      -3px;
+      49%;
 
-    width:
-      6px;
-
-    height:
-      6px;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-cyan);
-
-    box-shadow:
-      0 0 15px rgba(34, 211, 238, 0.8);
-
-    transform:
-      translateY(-50%);
+    animation-delay:
+      0.7s;
   }
 
 
-  .orbit-one {
-    animation:
-      project-orbit-one 7s linear infinite;
-  }
+  .network-node-3 {
+    top:
+      68%;
 
-
-  .orbit-two {
-    width:
-      120px;
-
-    height:
-      55px;
+    right:
+      12%;
 
     border-color:
-      rgba(139, 92, 246, 0.22);
-
-    transform:
-      rotate(55deg);
-  }
-
-
-  .orbit-two span {
-    background:
       var(--color-violet);
 
     box-shadow:
-      0 0 15px rgba(139, 92, 246, 0.8);
+      0 0 9px rgba(139, 92, 246, 0.45);
+
+    animation-delay:
+      1.2s;
   }
 
 
-  .orbit-two {
-    animation:
-      project-orbit-two 9s linear infinite;
+  .network-node-4 {
+    top:
+      38%;
+
+    right:
+      34%;
+
+    animation-delay:
+      1.8s;
   }
 
 
-  @keyframes project-orbit-one {
+  @keyframes project-node-pulse {
 
-    from {
+    0%,
+    100% {
+      opacity:
+        0.35;
+
       transform:
-        rotate(-25deg)
-        translateZ(0);
+        scale(0.8);
     }
 
-    to {
+    50% {
+      opacity:
+        1;
+
       transform:
-        rotate(335deg)
-        translateZ(0);
-    }
-
-  }
-
-
-  @keyframes project-orbit-two {
-
-    from {
-      transform:
-        rotate(55deg);
-    }
-
-    to {
-      transform:
-        rotate(415deg);
+        scale(1.25);
     }
 
   }
 
 
   /* ========================================================
-     CORE
+     TOP META
      ======================================================== */
 
-  .placeholder-core {
+  .visual-top {
     position:
-      relative;
+      absolute;
 
-    z-index:
-      2;
+    top:
+      0.75rem;
+
+    left:
+      0.75rem;
+
+    right:
+      0.75rem;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.5rem;
+  }
+
+
+  .project-index,
+  .project-category,
+  .project-year {
+    padding:
+      0.25rem 0.38rem;
+
+    border:
+      1px solid rgba(148, 163, 184, 0.15);
+
+    border-radius:
+      0.2rem;
+
+    background:
+      rgba(2, 6, 23, 0.5);
+
+    backdrop-filter:
+      blur(8px);
+
+    color:
+      rgba(226, 232, 240, 0.75);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.27rem;
+
+    letter-spacing:
+      0.035em;
+
+    text-transform:
+      uppercase;
+  }
+
+
+  .project-category {
+    color:
+      var(--color-cyan);
+  }
+
+
+  .project-year {
+    margin-left:
+      auto;
+  }
+
+
+  /* ========================================================
+     STATUS
+     ======================================================== */
+
+  .project-status {
+    position:
+      absolute;
+
+    bottom:
+      0.7rem;
+
+    left:
+      0.75rem;
+
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.35rem;
+
+    padding:
+      0.28rem 0.4rem;
+
+    border:
+      1px solid rgba(148, 163, 184, 0.12);
+
+    border-radius:
+      0.2rem;
+
+    background:
+      rgba(2, 6, 23, 0.5);
+
+    backdrop-filter:
+      blur(8px);
+
+    color:
+      rgba(226, 232, 240, 0.65);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.25rem;
+
+    letter-spacing:
+      0.035em;
+  }
+
+
+  .status-indicator {
+    width:
+      4px;
+
+    height:
+      4px;
+
+    border-radius:
+      50%;
+
+    background:
+      #4ade80;
+
+    box-shadow:
+      0 0 7px rgba(74, 222, 128, 0.7);
+  }
+
+
+  /* ========================================================
+     ARROW
+     ======================================================== */
+
+  .project-arrow {
+    position:
+      absolute;
+
+    right:
+      0.75rem;
+
+    bottom:
+      0.65rem;
 
     display:
       flex;
@@ -645,260 +929,49 @@ const {
       center;
 
     width:
-      54px;
+      30px;
 
     height:
-      54px;
+      30px;
 
     border:
-      1px solid rgba(34, 211, 238, 0.35);
+      1px solid rgba(34, 211, 238, 0.18);
 
     border-radius:
       50%;
 
     background:
-      rgba(7, 11, 18, 0.7);
-
-    box-shadow:
-      0 0 35px rgba(34, 211, 238, 0.12);
-  }
-
-
-  .core-ring {
-    position:
-      absolute;
-
-    inset:
-      -8px;
-
-    border:
-      1px dashed rgba(34, 211, 238, 0.16);
-
-    border-radius:
-      50%;
-
-    animation:
-      core-spin 15s linear infinite;
-  }
-
-
-  @keyframes core-spin {
-
-    to {
-      transform:
-        rotate(360deg);
-    }
-
-  }
-
-
-  .core-symbol {
-    color:
-      var(--color-cyan);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      1rem;
-
-    text-shadow:
-      0 0 12px rgba(34, 211, 238, 0.6);
-  }
-
-
-  /* ========================================================
-     PLACEHOLDER LINES
-     ======================================================== */
-
-  .placeholder-lines {
-    position:
-      absolute;
-
-    right:
-      10%;
-
-    bottom:
-      12%;
-
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    gap:
-      5px;
-
-    width:
-      55px;
-  }
-
-
-  .placeholder-lines span {
-    display:
-      block;
-
-    height:
-      2px;
-
-    background:
-      rgba(34, 211, 238, 0.2);
-  }
-
-
-  .placeholder-lines span:nth-child(2) {
-    width:
-      70%;
-  }
-
-
-  .placeholder-lines span:nth-child(3) {
-    width:
-      45%;
-  }
-
-
-  /* ========================================================
-     META OVERLAY
-     ======================================================== */
-
-  .project-number,
-  .project-category,
-  .project-featured {
-    position:
-      absolute;
-
-    z-index:
-      5;
-
-    padding:
-      0.35rem 0.45rem;
-
-    border:
-      1px solid rgba(148, 163, 184, 0.12);
-
-    border-radius:
-      0.25rem;
-
-    background:
-      rgba(5, 8, 13, 0.72);
+      rgba(2, 6, 23, 0.45);
 
     backdrop-filter:
       blur(8px);
 
     color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
+      var(--color-cyan);
 
     font-size:
-      0.34rem;
-
-    letter-spacing:
-      0.04em;
-  }
-
-
-  .project-number {
-    top:
-      0.75rem;
-
-    left:
-      0.75rem;
-
-    color:
-      var(--color-cyan);
-  }
-
-
-  .project-category {
-    top:
-      0.75rem;
-
-    right:
-      0.75rem;
-  }
-
-
-  .project-featured {
-    right:
-      0.75rem;
-
-    bottom:
-      0.75rem;
-
-    border-color:
-      rgba(34, 211, 238, 0.2);
-
-    color:
-      var(--color-cyan);
-  }
-
-
-  /* ========================================================
-     SCAN
-     ======================================================== */
-
-  .project-scan {
-    position:
-      absolute;
-
-    z-index:
-      4;
-
-    top:
-      -30%;
-
-    left:
-      0;
-
-    width:
-      100%;
-
-    height:
-      20%;
-
-    background:
-      linear-gradient(
-        to bottom,
-        transparent,
-        rgba(34, 211, 238, 0.06),
-        transparent
-      );
+      0.8rem;
 
     opacity:
       0;
 
-    pointer-events:
-      none;
+    transform:
+      translate(-5px, 5px);
+
+    transition:
+      opacity var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard);
   }
 
 
   .project-card:hover
-    .project-scan {
+    .project-arrow {
 
     opacity:
       1;
 
-    animation:
-      project-scan 1.6s ease-in-out;
-  }
-
-
-  @keyframes project-scan {
-
-    from {
-      top:
-        -30%;
-    }
-
-    to {
-      top:
-        110%;
-    }
-
+    transform:
+      translate(0, 0);
   }
 
 
@@ -907,36 +980,27 @@ const {
      ======================================================== */
 
   .project-content {
-    display:
-      flex;
-
-    flex:
-      1;
-
-    flex-direction:
-      column;
-
     padding:
-      1.2rem;
+      1rem 1.05rem 0.9rem;
   }
 
 
   /* ========================================================
-     HEADER
+     TITLE
      ======================================================== */
 
-  .project-header {
+  .project-title-row {
     display:
       flex;
 
     align-items:
-      flex-start;
+      center;
 
     justify-content:
       space-between;
 
     gap:
-      1rem;
+      0.75rem;
   }
 
 
@@ -951,121 +1015,34 @@ const {
       var(--font-display);
 
     font-size:
-      1.25rem;
+      clamp(1rem, 2vw, 1.25rem);
 
     font-weight:
-      500;
-
-    line-height:
-      1.1;
+      600;
 
     letter-spacing:
-      -0.035em;
+      -0.025em;
+
+    line-height:
+      1.25;
   }
 
 
-  .project-arrow {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    width:
-      28px;
-
-    height:
-      28px;
-
+  .title-node {
     flex-shrink:
       0;
 
-    border:
-      1px solid var(--color-border);
-
-    border-radius:
-      50%;
-
-    color:
-      var(--color-text-subtle);
-
-    font-size:
-      0.7rem;
-
-    transition:
-      color var(--duration-fast) var(--ease-standard),
-      border-color var(--duration-fast) var(--ease-standard),
-      transform var(--duration-fast) var(--ease-standard);
-  }
-
-
-  .project-card:hover
-    .project-arrow {
-
-    border-color:
-      rgba(34, 211, 238, 0.25);
-
     color:
       var(--color-cyan);
-
-    transform:
-      translate(2px, -2px);
-
-  }
-
-
-  /* ========================================================
-     STATUS
-     ======================================================== */
-
-  .project-status {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.3rem;
-
-    margin-top:
-      0.5rem;
-
-    color:
-      var(--color-text-subtle);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.35rem;
+      0.55rem;
 
-    letter-spacing:
-      0.03em;
-
-    text-transform:
-      uppercase;
-  }
-
-
-  .status-dot {
-    width:
-      4px;
-
-    height:
-      4px;
-
-    border-radius:
-      50%;
-
-    background:
-      #4ade80;
-
-    box-shadow:
-      0 0 7px rgba(74, 222, 128, 0.6);
+    opacity:
+      0.6;
   }
 
 
@@ -1075,98 +1052,19 @@ const {
 
   .project-description {
     margin:
-      0.9rem 0 1.2rem;
+      0.55rem 0 0;
 
     color:
       var(--color-text-muted);
 
+    font-family:
+      var(--font-body);
+
     font-size:
-      0.55rem;
+      0.7rem;
 
     line-height:
-      1.75;
-  }
-
-
-  /* ========================================================
-     METRICS
-     ======================================================== */
-
-  .project-metrics {
-    display:
-      grid;
-
-    grid-template-columns:
-      repeat(
-        auto-fit,
-        minmax(
-          80px,
-          1fr
-        )
-      );
-
-    gap:
-      0.5rem;
-
-    margin-bottom:
-      1rem;
-
-    padding:
-      0.7rem 0;
-
-    border-top:
-      1px solid var(--color-border);
-
-    border-bottom:
-      1px solid var(--color-border);
-  }
-
-
-  .project-metric {
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    gap:
-      0.2rem;
-  }
-
-
-  .metric-value {
-    color:
-      var(--color-cyan);
-
-    font-family:
-      var(--font-display);
-
-    font-size:
-      1rem;
-
-    font-weight:
-      500;
-
-    line-height:
-      1;
-  }
-
-
-  .metric-label {
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.3rem;
-
-    letter-spacing:
-      0.035em;
-
-    text-transform:
-      uppercase;
+      1.7;
   }
 
 
@@ -1182,19 +1080,149 @@ const {
       wrap;
 
     gap:
-      0.3rem;
+      0.35rem;
 
     margin-top:
-      auto;
-
-    padding-top:
-      0.5rem;
+      0.8rem;
   }
 
 
-  .project-technology {
+  .technology-chip {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.25rem;
+
     padding:
-      0.32rem 0.45rem;
+      0.27rem 0.38rem;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.1);
+
+    border-radius:
+      0.18rem;
+
+    color:
+      var(--color-text-subtle);
+
+    background:
+      rgba(34, 211, 238, 0.012);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.25rem;
+  }
+
+
+  .chip-node {
+    color:
+      var(--color-cyan);
+
+    font-size:
+      0.4rem;
+  }
+
+
+  .technology-violet {
+    border-color:
+      rgba(139, 92, 246, 0.12);
+  }
+
+
+  .technology-violet
+    .chip-node {
+
+    color:
+      var(--color-violet);
+  }
+
+
+  .technology-blue {
+    border-color:
+      rgba(59, 130, 246, 0.12);
+  }
+
+
+  .technology-blue
+    .chip-node {
+
+    color:
+      var(--color-blue);
+  }
+
+
+  .technology-green {
+    border-color:
+      rgba(74, 222, 128, 0.12);
+  }
+
+
+  .technology-green
+    .chip-node {
+
+    color:
+      #4ade80;
+  }
+
+
+  /* ========================================================
+     FOOTER
+     ======================================================== */
+
+  .project-footer {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    gap:
+      0.75rem;
+
+    margin-top:
+      1rem;
+
+    padding-top:
+      0.75rem;
+
+    border-top:
+      1px solid rgba(148, 163, 184, 0.06);
+  }
+
+
+  .project-links {
+    display:
+      flex;
+
+    flex-wrap:
+      wrap;
+
+    gap:
+      0.4rem;
+  }
+
+
+  .project-link {
+    display:
+      inline-flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.3rem;
+
+    padding:
+      0.3rem 0.45rem;
 
     border:
       1px solid var(--color-border);
@@ -1209,81 +1237,7 @@ const {
       var(--font-mono);
 
     font-size:
-      0.33rem;
-
-    transition:
-      color var(--duration-fast) var(--ease-standard),
-      border-color var(--duration-fast) var(--ease-standard);
-  }
-
-
-  .project-technology:hover {
-    border-color:
-      rgba(34, 211, 238, 0.2);
-
-    color:
-      var(--color-cyan);
-  }
-
-
-  /* ========================================================
-     LINKS
-     ======================================================== */
-
-  .project-links {
-    display:
-      flex;
-
-    flex-wrap:
-      wrap;
-
-    gap:
-      0.5rem;
-
-    margin-top:
-      1rem;
-
-    padding-top:
-      1rem;
-
-    border-top:
-      1px solid var(--color-border);
-  }
-
-
-  .project-link {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      space-between;
-
-    gap:
-      0.7rem;
-
-    min-width:
-      90px;
-
-    padding:
-      0.5rem 0.65rem;
-
-    border:
-      1px solid var(--color-border);
-
-    border-radius:
-      0.3rem;
-
-    color:
-      var(--color-text-muted);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.35rem;
+      0.26rem;
 
     text-decoration:
       none;
@@ -1297,71 +1251,96 @@ const {
 
   .project-link:hover {
     border-color:
-      rgba(34, 211, 238, 0.25);
+      rgba(34, 211, 238, 0.2);
 
     color:
       var(--color-cyan);
 
     background:
-      rgba(34, 211, 238, 0.025);
+      rgba(34, 211, 238, 0.02);
   }
 
 
   .project-link-primary {
     border-color:
-      rgba(34, 211, 238, 0.18);
+      rgba(34, 211, 238, 0.14);
 
     color:
       var(--color-cyan);
   }
 
 
+  .link-icon {
+    font-size:
+      0.4rem;
+  }
+
+
+  .project-signal {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      center;
+
+    width:
+      10px;
+
+    height:
+      10px;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      50%;
+  }
+
+
+  .project-signal span {
+    width:
+      2px;
+
+    height:
+      2px;
+
+    border-radius:
+      50%;
+
+    background:
+      var(--color-cyan);
+
+    box-shadow:
+      0 0 6px rgba(34, 211, 238, 0.6);
+  }
+
+
   /* ========================================================
-     ACCENTS
+     FEATURED
      ======================================================== */
 
-  .project-card-violet:hover {
+  .project-card-featured {
     border-color:
-      rgba(139, 92, 246, 0.25);
+      rgba(34, 211, 238, 0.12);
   }
 
 
-  .project-card-violet
-    .metric-value {
+  .project-card-featured
+    .project-visual {
 
-    color:
-      var(--color-violet);
-
+    aspect-ratio:
+      16 / 9;
   }
 
 
-  .project-card-blue:hover {
-    border-color:
-      rgba(59, 130, 246, 0.25);
-  }
+  .project-card-featured
+    .project-title {
 
-
-  .project-card-blue
-    .metric-value {
-
-    color:
-      var(--color-blue);
-
-  }
-
-
-  .project-card-green:hover {
-    border-color:
-      rgba(74, 222, 128, 0.25);
-  }
-
-
-  .project-card-green
-    .metric-value {
-
-    color:
-      #4ade80;
-
+    font-size:
+      clamp(1.1rem, 2.4vw, 1.4rem);
   }
 
 
@@ -1370,37 +1349,22 @@ const {
      ======================================================== */
 
   :global([data-theme="light"])
-    .project-visual {
+    .project-card {
 
     background:
-      #eef4f7;
+      rgba(15, 23, 42, 0.012);
 
   }
 
 
   :global([data-theme="light"])
-    .project-placeholder {
+    .project-card:hover {
 
     background:
-      radial-gradient(
-        circle at center,
-        rgba(34, 211, 238, 0.08),
-        transparent 40%
-      ),
-      #eef4f7;
+      rgba(14, 116, 144, 0.012);
 
-  }
-
-
-  :global([data-theme="light"])
-    .project-number,
-  :global([data-theme="light"])
-    .project-category,
-  :global([data-theme="light"])
-    .project-featured {
-
-    background:
-      rgba(255, 255, 255, 0.78);
+    box-shadow:
+      0 25px 70px rgba(15, 23, 42, 0.07);
 
   }
 
@@ -1409,32 +1373,73 @@ const {
      RESPONSIVE
      ======================================================== */
 
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
 
     .project-content {
       padding:
-        1rem;
-    }
-
-
-    .project-title {
-      font-size:
-        1.1rem;
+        0.9rem;
     }
 
 
     .project-description {
       font-size:
-        0.52rem;
+        0.67rem;
     }
 
 
-    .project-link {
-      flex:
+    .project-arrow {
+      opacity:
         1;
 
-      min-width:
-        0;
+      transform:
+        translate(0, 0);
+
+      width:
+        26px;
+
+      height:
+        26px;
+    }
+
+  }
+
+
+  @media (max-width: 480px) {
+
+    .project-visual {
+      aspect-ratio:
+        4 / 3;
+    }
+
+
+    .project-card-featured
+      .project-visual {
+
+      aspect-ratio:
+        4 / 3;
+    }
+
+
+    .project-index,
+    .project-category,
+    .project-year {
+      font-size:
+        0.24rem;
+    }
+
+
+    .project-title {
+      font-size:
+        0.95rem;
+    }
+
+
+    .project-description {
+      font-size:
+        0.64rem;
+
+      line-height:
+        1.65;
     }
 
   }
@@ -1449,26 +1454,12 @@ const {
     .project-card,
     .project-image,
     .project-arrow,
-    .project-technology {
+    .network-node {
+      animation:
+        none;
+
       transition:
         none;
-    }
-
-
-    .orbit-one,
-    .orbit-two,
-    .core-ring {
-      animation:
-        none;
-    }
-
-
-    .project-card:hover
-      .project-scan {
-
-      animation:
-        none;
-
     }
 
   }
