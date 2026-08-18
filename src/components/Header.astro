@@ -1,117 +1,70 @@
 ---
 /**
  * ============================================================
- * GLOBAL HEADER / NAVIGATION
+ * PORTFOLIO HEADER / NAVIGATION
  * ============================================================
  *
- * Responsibilities:
+ * Content is controlled from:
  *
- * - Desktop navigation
- * - Mobile navigation
- * - Theme switcher
- * - CV button
- * - Accessible menu controls
- * - Scroll-aware header
+ *     src/data/site.ts
  *
- * Navigation content comes from:
- *
- * src/data/navigation.ts
- *
- * This means menu changes can be made without editing the
- * component itself.
+ * The header is intentionally reusable and does not contain
+ * hardcoded navigation destinations.
  * ============================================================
  */
 
-import {
-  getPrimaryNavigation
-} from "../data/navigation";
-
-import { siteConfig } from "../data/site";
-
-const navigationItems =
-  getPrimaryNavigation();
-
-/**
- * Small inline SVG icons.
- *
- * We are keeping these lightweight and dependency-free for
- * now. A larger icon system can be introduced later for the
- * rest of the application.
- */
-const icons = {
-  menu: `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  `,
-
-  close: `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M6 6l12 12M18 6L6 18" />
-    </svg>
-  `,
-
-  sun: `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-    </svg>
-  `,
-
-  moon: `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-    </svg>
-  `,
-
-  download: `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 3v12" />
-      <path d="m7 10 5 5 5-5" />
-      <path d="M5 21h14" />
-    </svg>
-  `,
-
-  arrow: `
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M5 12h14" />
-      <path d="m13 6 6 6-6 6" />
-    </svg>
-  `
-};
+import { site } from "../data/site";
 ---
 
 <header
   class="site-header"
-  id="site-header"
+  data-header
 >
-  <div class="header-shell">
+
+  <!-- ======================================================
+       DECORATIVE TECHNICAL LINE
+       ====================================================== -->
+
+  <div
+    class="header-scanline"
+    aria-hidden="true"
+  ></div>
+
+
+  <div class="header-container">
+
     <!-- ====================================================
          BRAND
          ==================================================== -->
 
     <a
-      href="#home"
+      href="#top"
       class="brand"
-      aria-label={`${siteConfig.siteName} home`}
+      aria-label={`${site.name} — Home`}
     >
+
       <span
         class="brand-mark"
         aria-hidden="true"
       >
-        <span>H</span>
-        <span>A</span>
+        <span class="brand-mark-inner">
+          {site.shortName}
+        </span>
       </span>
 
-      <span class="brand-copy">
+
+      <span class="brand-information">
+
         <span class="brand-name">
-          Hafiz Ahsan
+          {site.name}
         </span>
 
         <span class="brand-role">
-          RPA · Automation · AI
+          {site.professionalTitle}
         </span>
+
       </span>
+
     </a>
 
 
@@ -123,31 +76,33 @@ const icons = {
       class="desktop-navigation"
       aria-label="Primary navigation"
     >
-      <div class="navigation-list">
-        {
-          navigationItems.map((item) => (
-            <a
-              href={item.href}
-              class="navigation-link"
-              data-nav-link={item.id}
-              aria-label={item.ariaLabel}
-            >
-              <span class="navigation-index">
-                {String(item.order).padStart(2, "0")}
-              </span>
 
-              <span>
-                {item.label}
-              </span>
+      {
+        site.navigation.map((item, index) => (
+          <a
+            href={item.href}
+            class:list={[
+              "navigation-link",
+              {
+                "navigation-link-active": index === 0
+              }
+            ]}
+          >
 
-              <span
-                class="navigation-dot"
-                aria-hidden="true"
-              />
-            </a>
-          ))
-        }
-      </div>
+            <span class="navigation-index">
+              {(index + 1)
+                .toString()
+                .padStart(2, "0")}
+            </span>
+
+            <span class="navigation-label">
+              {item.label}
+            </span>
+
+          </a>
+        ))
+      }
+
     </nav>
 
 
@@ -156,67 +111,99 @@ const icons = {
          ==================================================== -->
 
     <div class="header-actions">
-      <!-- CV -->
 
-      <a
-        href="/resume.pdf"
-        class="cv-button"
-        download
-        aria-label="Download CV"
+      <!-- ================================================
+           SYSTEM STATUS
+           ================================================ -->
+
+      <div
+        class="header-status"
+        title="Portfolio system status"
       >
-        <span>
-          CV
+
+        <span class="status-indicator"></span>
+
+        <span class="status-text">
+          ONLINE
+        </span>
+
+      </div>
+
+
+      <!-- ================================================
+           THEME TOGGLE
+           ================================================ -->
+
+      <button
+        class="theme-toggle"
+        type="button"
+        data-theme-toggle
+        aria-label="Switch to light theme"
+        title="Toggle theme"
+      >
+
+        <span
+          class="theme-icon theme-icon-sun"
+          aria-hidden="true"
+        >
+          ☼
         </span>
 
         <span
-          class="icon"
-          set:html={icons.download}
-        />
-      </a>
-
-
-      <!-- Theme -->
-
-      <button
-        type="button"
-        class="theme-toggle"
-        id="theme-toggle"
-        aria-label="Switch theme"
-        aria-pressed="false"
-      >
-        <span
-          class="theme-icon theme-icon-sun"
-          set:html={icons.sun}
-        />
-
-        <span
           class="theme-icon theme-icon-moon"
-          set:html={icons.moon}
-        />
+          aria-hidden="true"
+        >
+          ◐
+        </span>
+
       </button>
 
 
-      <!-- Mobile menu -->
+      <!-- ================================================
+           CV BUTTON
+           ================================================ -->
+
+      {
+        site.cv.enabled && (
+          <a
+            href="#contact"
+            class="header-cv"
+          >
+            <span>
+              CV
+            </span>
+
+            <span
+              aria-hidden="true"
+            >
+              ↓
+            </span>
+          </a>
+        )
+      }
+
+
+      <!-- ================================================
+           MOBILE MENU
+           ================================================ -->
 
       <button
+        class="mobile-menu-toggle"
         type="button"
-        class="menu-toggle"
-        id="menu-toggle"
+        data-menu-toggle
         aria-label="Open navigation menu"
         aria-expanded="false"
         aria-controls="mobile-navigation"
       >
-        <span
-          class="menu-icon menu-icon-open"
-          set:html={icons.menu}
-        />
 
-        <span
-          class="menu-icon menu-icon-close"
-          set:html={icons.close}
-        />
+        <span class="menu-line menu-line-one"></span>
+        <span class="menu-line menu-line-two"></span>
+        <span class="menu-line menu-line-three"></span>
+
       </button>
+
     </div>
+
   </div>
 
 
@@ -225,58 +212,409 @@ const icons = {
        ====================================================== -->
 
   <div
-    class="mobile-navigation"
     id="mobile-navigation"
+    class="mobile-navigation"
+    data-mobile-navigation
     aria-hidden="true"
   >
+
     <div class="mobile-navigation-inner">
-      <div class="mobile-navigation-label">
-        <span class="tech-node"></span>
+
+      <div class="mobile-navigation-header">
 
         <span>
           NAVIGATION
         </span>
+
+        <span>
+          {site.shortName}
+        </span>
+
       </div>
 
-      <nav aria-label="Mobile navigation">
-        <div class="mobile-navigation-list">
-          {
-            navigationItems.map((item) => (
-              <a
-                href={item.href}
-                class="mobile-navigation-link"
-                data-mobile-nav-link={item.id}
+
+      <nav
+        aria-label="Mobile navigation"
+      >
+
+        {
+          site.navigation.map((item, index) => (
+            <a
+              href={item.href}
+              class="mobile-navigation-link"
+              data-mobile-link
+            >
+
+              <span class="mobile-navigation-number">
+                {(index + 1)
+                  .toString()
+                  .padStart(2, "0")}
+              </span>
+
+              <span class="mobile-navigation-label">
+                {item.label}
+              </span>
+
+              <span
+                class="mobile-navigation-arrow"
+                aria-hidden="true"
               >
-                <span class="mobile-navigation-number">
-                  {String(item.order).padStart(2, "0")}
-                </span>
+                ↗
+              </span>
 
-                <span class="mobile-navigation-name">
-                  {item.label}
-                </span>
+            </a>
+          ))
+        }
 
-                <span
-                  class="mobile-navigation-arrow"
-                  set:html={icons.arrow}
-                />
-              </a>
-            ))
-          }
-        </div>
       </nav>
 
+
       <div class="mobile-navigation-footer">
+
         <span>
-          RPA · AUTOMATION · AI
+          {site.location}
         </span>
 
         <span>
-          {siteConfig.location}
+          RPA / AUTOMATION
         </span>
+
       </div>
+
     </div>
+
   </div>
+
 </header>
+
+
+<script>
+  /**
+   * ==========================================================
+   * HEADER INTERACTION
+   * ==========================================================
+   */
+
+  const header =
+    document.querySelector<HTMLElement>(
+      "[data-header]"
+    );
+
+
+  const menuToggle =
+    document.querySelector<HTMLButtonElement>(
+      "[data-menu-toggle]"
+    );
+
+
+  const mobileNavigation =
+    document.querySelector<HTMLElement>(
+      "[data-mobile-navigation]"
+    );
+
+
+  const mobileLinks =
+    document.querySelectorAll<HTMLAnchorElement>(
+      "[data-mobile-link]"
+    );
+
+
+  const themeToggle =
+    document.querySelector<HTMLButtonElement>(
+      "[data-theme-toggle]"
+    );
+
+
+  /* ========================================================
+     HEADER SCROLL EFFECT
+     ======================================================== */
+
+  const updateHeader =
+    () => {
+
+      if (!header) {
+        return;
+      }
+
+
+      if (window.scrollY > 24) {
+
+        header.setAttribute(
+          "data-scrolled",
+          "true"
+        );
+
+      } else {
+
+        header.removeAttribute(
+          "data-scrolled"
+        );
+
+      }
+
+    };
+
+
+  updateHeader();
+
+
+  window.addEventListener(
+    "scroll",
+    updateHeader,
+    {
+      passive: true
+    }
+  );
+
+
+  /* ========================================================
+     MOBILE MENU
+     ======================================================== */
+
+  const closeMobileMenu =
+    () => {
+
+      if (!menuToggle || !mobileNavigation) {
+        return;
+      }
+
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+
+      menuToggle.setAttribute(
+        "aria-label",
+        "Open navigation menu"
+      );
+
+
+      mobileNavigation.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+
+      document.body.removeAttribute(
+        "data-menu-open"
+      );
+
+    };
+
+
+  const openMobileMenu =
+    () => {
+
+      if (!menuToggle || !mobileNavigation) {
+        return;
+      }
+
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+
+      menuToggle.setAttribute(
+        "aria-label",
+        "Close navigation menu"
+      );
+
+
+      mobileNavigation.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+
+      document.body.setAttribute(
+        "data-menu-open",
+        "true"
+      );
+
+    };
+
+
+  menuToggle?.addEventListener(
+    "click",
+    () => {
+
+      const isOpen =
+        menuToggle.getAttribute(
+          "aria-expanded"
+        ) === "true";
+
+
+      if (isOpen) {
+
+        closeMobileMenu();
+
+      } else {
+
+        openMobileMenu();
+
+      }
+
+    }
+  );
+
+
+  /* ========================================================
+     CLOSE MENU AFTER NAVIGATION
+     ======================================================== */
+
+  mobileLinks.forEach(
+    (link) => {
+
+      link.addEventListener(
+        "click",
+        () => {
+          closeMobileMenu();
+        }
+      );
+
+    }
+  );
+
+
+  /* ========================================================
+     CLOSE MENU WITH ESCAPE
+     ======================================================== */
+
+  document.addEventListener(
+    "keydown",
+    (event) => {
+
+      if (event.key === "Escape") {
+        closeMobileMenu();
+      }
+
+    }
+  );
+
+
+  /* ========================================================
+     CLOSE MENU WHEN RESIZING TO DESKTOP
+     ======================================================== */
+
+  window.addEventListener(
+    "resize",
+    () => {
+
+      if (
+        window.innerWidth > 900
+      ) {
+
+        closeMobileMenu();
+
+      }
+
+    }
+  );
+
+
+  /* ========================================================
+     THEME TOGGLE
+     ========================================================
+     
+     We intentionally use a tiny compatibility layer here.
+     
+     The complete theme system will be established in the
+     global theme utility later.
+     ======================================================== */
+
+  const applyTheme =
+    (theme: "dark" | "light") => {
+
+      document.documentElement.setAttribute(
+        "data-theme",
+        theme
+      );
+
+
+      localStorage.setItem(
+        "portfolio-theme",
+        theme
+      );
+
+
+      if (themeToggle) {
+
+        themeToggle.setAttribute(
+          "aria-label",
+          theme === "dark"
+            ? "Switch to light theme"
+            : "Switch to dark theme"
+        );
+
+      }
+
+    };
+
+
+  const getInitialTheme =
+    (): "dark" | "light" => {
+
+      const storedTheme =
+        localStorage.getItem(
+          "portfolio-theme"
+        );
+
+
+      if (
+        storedTheme === "dark" ||
+        storedTheme === "light"
+      ) {
+
+        return storedTheme;
+
+      }
+
+
+      const prefersLight =
+        window.matchMedia(
+          "(prefers-color-scheme: light)"
+        ).matches;
+
+
+      return prefersLight
+        ? "light"
+        : "dark";
+
+    };
+
+
+  const initialTheme =
+    getInitialTheme();
+
+
+  applyTheme(
+    initialTheme
+  );
+
+
+  themeToggle?.addEventListener(
+    "click",
+    () => {
+
+      const currentTheme =
+        document.documentElement.getAttribute(
+          "data-theme"
+        );
+
+
+      applyTheme(
+        currentTheme === "light"
+          ? "dark"
+          : "light"
+      );
+
+    }
+  );
+</script>
 
 
 <style>
@@ -285,92 +623,134 @@ const icons = {
      ======================================================== */
 
   .site-header {
-    position: fixed;
+    position:
+      fixed;
 
-    top: 0;
-    left: 0;
+    top:
+      0;
 
-    z-index: var(--z-header);
+    left:
+      0;
 
-    width: 100%;
+    right:
+      0;
 
-    padding:
-      1rem var(--content-padding);
+    z-index:
+      1000;
 
-    pointer-events: none;
+    height:
+      var(--header-height);
+
+    border-bottom:
+      1px solid transparent;
+
+    background:
+      rgba(7, 10, 15, 0.35);
+
+    backdrop-filter:
+      blur(12px);
+
+    -webkit-backdrop-filter:
+      blur(12px);
 
     transition:
-      padding var(--duration-normal) var(--ease-standard);
+      background var(--duration-normal) var(--ease-standard),
+      border-color var(--duration-normal) var(--ease-standard),
+      box-shadow var(--duration-normal) var(--ease-standard);
   }
 
 
-  .header-shell {
-    pointer-events: auto;
-
-    width:
-      min(
-        100%,
-        var(--content-width-wide)
-      );
-
-    min-height: 4.5rem;
-
-    margin-inline: auto;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 1.5rem;
-
-    padding:
-      0.7rem 0.8rem 0.7rem 1rem;
-
-    border:
-      1px solid var(--color-border);
-
-    border-radius:
-      var(--radius-xl);
+  .site-header[data-scrolled="true"] {
+    border-color:
+      var(--color-border);
 
     background:
-      color-mix(
-        in srgb,
-        var(--color-surface-solid) 72%,
+      rgba(7, 10, 15, 0.78);
+
+    box-shadow:
+      0 10px 40px rgba(0, 0, 0, 0.16);
+  }
+
+
+  /* ========================================================
+     SCANLINE
+     ======================================================== */
+
+  .header-scanline {
+    position:
+      absolute;
+
+    top:
+      0;
+
+    left:
+      0;
+
+    width:
+      100%;
+
+    height:
+      1px;
+
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        rgba(34, 211, 238, 0.5),
         transparent
       );
 
-    box-shadow:
-      var(--shadow-md);
+    opacity:
+      0.6;
 
-    backdrop-filter:
-      blur(22px);
-
-    -webkit-backdrop-filter:
-      blur(22px);
-
-    transition:
-      background-color var(--duration-normal) ease,
-      border-color var(--duration-normal) ease,
-      box-shadow var(--duration-normal) ease,
-      transform var(--duration-normal) var(--ease-standard);
+    animation:
+      header-scan 7s linear infinite;
   }
 
 
-  .site-header.scrolled {
-    padding-top: 0.65rem;
-    padding-bottom: 0.65rem;
+  @keyframes header-scan {
+
+    0% {
+      transform:
+        translateX(-100%);
+    }
+
+    100% {
+      transform:
+        translateX(100%);
+    }
+
   }
 
 
-  .site-header.scrolled .header-shell {
-    border-color:
-      var(--color-border-strong);
+  /* ========================================================
+     CONTAINER
+     ======================================================== */
 
-    box-shadow:
-      var(--shadow-lg),
-      0 0 30px rgba(34, 211, 238, 0.04);
+  .header-container {
+    width:
+      min(
+        calc(100% - 2rem),
+        var(--container-width)
+      );
+
+    height:
+      100%;
+
+    margin:
+      0 auto;
+
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    justify-content:
+      space-between;
+
+    gap:
+      1rem;
   }
 
 
@@ -379,115 +759,111 @@ const icons = {
      ======================================================== */
 
   .brand {
-    display: flex;
+    display:
+      inline-flex;
 
-    align-items: center;
+    align-items:
+      center;
 
-    gap: 0.75rem;
+    gap:
+      0.65rem;
 
-    min-width: max-content;
+    flex-shrink:
+      0;
+
+    color:
+      var(--color-text);
+
+    text-decoration:
+      none;
   }
 
 
   .brand-mark {
-    position: relative;
+    position:
+      relative;
 
-    width: 2.45rem;
-    height: 2.45rem;
+    display:
+      flex;
 
-    display: grid;
+    align-items:
+      center;
 
-    place-items: center;
+    justify-content:
+      center;
+
+    width:
+      34px;
+
+    height:
+      34px;
 
     border:
-      1px solid rgba(34, 211, 238, 0.35);
+      1px solid rgba(34, 211, 238, 0.3);
 
     border-radius:
-      0.8rem;
+      0.45rem;
 
     background:
       linear-gradient(
         135deg,
-        rgba(34, 211, 238, 0.12),
-        rgba(139, 92, 246, 0.12)
+        rgba(34, 211, 238, 0.08),
+        rgba(139, 92, 246, 0.06)
       );
 
-    box-shadow:
-      0 0 25px rgba(34, 211, 238, 0.08);
-
-    overflow: hidden;
+    overflow:
+      hidden;
   }
 
 
   .brand-mark::before {
-    content: "";
+    content:
+      "";
 
-    position: absolute;
+    position:
+      absolute;
 
-    inset: 0;
+    inset:
+      4px;
 
-    background:
-      linear-gradient(
-        135deg,
-        transparent 35%,
-        rgba(255, 255, 255, 0.08),
-        transparent 65%
-      );
+    border:
+      1px solid rgba(34, 211, 238, 0.08);
 
-    transform:
-      translateX(-100%);
-
-    transition:
-      transform 700ms var(--ease-standard);
+    border-radius:
+      0.3rem;
   }
 
 
-  .brand:hover .brand-mark::before {
-    transform:
-      translateX(100%);
-  }
+  .brand-mark-inner {
+    position:
+      relative;
 
-
-  .brand-mark span {
-    position: absolute;
-
-    font-family:
-      var(--font-display);
-
-    font-size:
-      0.65rem;
-
-    font-weight:
-      700;
-
-    line-height: 1;
-  }
-
-
-  .brand-mark span:first-child {
-    transform:
-      translate(-0.28rem, -0.18rem);
+    z-index:
+      1;
 
     color:
       var(--color-cyan);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.48rem;
+
+    letter-spacing:
+      -0.04em;
   }
 
 
-  .brand-mark span:last-child {
-    transform:
-      translate(0.28rem, 0.18rem);
+  .brand-information {
+    display:
+      flex;
 
-    color:
-      var(--color-violet-bright);
-  }
+    flex-direction:
+      column;
 
-
-  .brand-copy {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 0.05rem;
+    gap:
+      0.12rem;
   }
 
 
@@ -499,31 +875,28 @@ const icons = {
       var(--font-display);
 
     font-size:
-      0.92rem;
+      0.72rem;
 
     font-weight:
       600;
 
-    line-height:
-      1.1;
+    letter-spacing:
+      -0.025em;
   }
 
 
   .brand-role {
     color:
-      var(--color-text-muted);
+      var(--color-text-subtle);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.55rem;
+      0.37rem;
 
     letter-spacing:
-      0.05em;
-
-    line-height:
-      1.2;
+      0.025em;
 
     text-transform:
       uppercase;
@@ -535,71 +908,97 @@ const icons = {
      ======================================================== */
 
   .desktop-navigation {
-    flex: 1;
+    display:
+      flex;
 
-    display: flex;
+    align-items:
+      center;
 
-    justify-content: center;
-  }
+    gap:
+      0.15rem;
 
+    margin-left:
+      auto;
 
-  .navigation-list {
-    display: flex;
-
-    align-items: center;
-
-    gap: 0.15rem;
-
-    padding: 0.25rem;
-
-    border:
-      1px solid var(--color-border);
-
-    border-radius:
-      var(--radius-pill);
-
-    background:
-      rgba(148, 163, 184, 0.025);
+    margin-right:
+      0.8rem;
   }
 
 
   .navigation-link {
-    position: relative;
+    position:
+      relative;
 
-    display: flex;
+    display:
+      inline-flex;
 
-    align-items: center;
+    align-items:
+      center;
 
-    gap: 0.42rem;
+    gap:
+      0.3rem;
 
     padding:
-      0.55rem 0.7rem;
-
-    border-radius:
-      var(--radius-pill);
+      0.5rem 0.6rem;
 
     color:
-      var(--color-text-muted);
+      var(--color-text-subtle);
 
-    font-size:
-      0.7rem;
-
-    font-weight:
-      500;
+    text-decoration:
+      none;
 
     transition:
-      color var(--duration-fast) ease,
-      background-color var(--duration-fast) ease;
+      color var(--duration-fast) var(--ease-standard);
+  }
+
+
+  .navigation-link::after {
+    content:
+      "";
+
+    position:
+      absolute;
+
+    right:
+      0.6rem;
+
+    bottom:
+      0.15rem;
+
+    left:
+      0.6rem;
+
+    height:
+      1px;
+
+    background:
+      var(--color-cyan);
+
+    transform:
+      scaleX(0);
+
+    transform-origin:
+      right;
+
+    transition:
+      transform var(--duration-fast) var(--ease-standard);
   }
 
 
   .navigation-link:hover,
-  .navigation-link.active {
+  .navigation-link-active {
     color:
       var(--color-text);
+  }
 
-    background:
-      rgba(148, 163, 184, 0.07);
+
+  .navigation-link:hover::after,
+  .navigation-link-active::after {
+    transform:
+      scaleX(1);
+
+    transform-origin:
+      left;
   }
 
 
@@ -611,19 +1010,84 @@ const icons = {
       var(--font-mono);
 
     font-size:
-      0.52rem;
+      0.34rem;
 
     opacity:
-      0.75;
+      0.55;
   }
 
 
-  .navigation-dot {
+  .navigation-label {
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.42rem;
+
+    letter-spacing:
+      0.02em;
+
+    text-transform:
+      uppercase;
+  }
+
+
+  /* ========================================================
+     ACTIONS
+     ======================================================== */
+
+  .header-actions {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.45rem;
+
+    flex-shrink:
+      0;
+  }
+
+
+  /* ========================================================
+     STATUS
+     ======================================================== */
+
+  .header-status {
+    display:
+      flex;
+
+    align-items:
+      center;
+
+    gap:
+      0.35rem;
+
+    margin-right:
+      0.15rem;
+
+    color:
+      var(--color-text-subtle);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.35rem;
+
+    letter-spacing:
+      0.04em;
+  }
+
+
+  .status-indicator {
     width:
-      3px;
+      5px;
 
     height:
-      3px;
+      5px;
 
     border-radius:
       50%;
@@ -631,263 +1095,309 @@ const icons = {
     background:
       var(--color-cyan);
 
-    opacity:
-      0;
-
     box-shadow:
-      0 0 8px var(--color-cyan);
+      0 0 9px rgba(34, 211, 238, 0.75);
 
-    transition:
-      opacity var(--duration-fast) ease;
+    animation:
+      header-status-pulse 2.2s ease-in-out infinite;
   }
 
 
-  .navigation-link:hover .navigation-dot,
-  .navigation-link.active .navigation-dot {
-    opacity:
-      1;
+  @keyframes header-status-pulse {
+
+    0%,
+    100% {
+      opacity:
+        0.45;
+
+      transform:
+        scale(0.85);
+    }
+
+    50% {
+      opacity:
+        1;
+
+      transform:
+        scale(1);
+    }
+
   }
 
 
   /* ========================================================
-     HEADER ACTIONS
+     THEME BUTTON
      ======================================================== */
 
-  .header-actions {
-    display: flex;
+  .theme-toggle {
+    position:
+      relative;
 
-    align-items: center;
+    display:
+      flex;
 
-    gap: 0.45rem;
-  }
+    align-items:
+      center;
 
+    justify-content:
+      center;
 
-  .cv-button {
-    display: inline-flex;
+    width:
+      30px;
 
-    align-items: center;
-
-    gap: 0.4rem;
-
-    min-height: 2.65rem;
+    height:
+      30px;
 
     padding:
-      0.55rem 0.8rem;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.22);
-
-    border-radius:
-      var(--radius-pill);
-
-    background:
-      rgba(34, 211, 238, 0.06);
-
-    color:
-      var(--color-cyan-bright);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.66rem;
-
-    font-weight:
-      600;
-
-    letter-spacing:
-      0.05em;
-
-    transition:
-      transform var(--duration-normal) var(--ease-standard),
-      border-color var(--duration-normal) ease,
-      background-color var(--duration-normal) ease,
-      box-shadow var(--duration-normal) ease;
-  }
-
-
-  .cv-button:hover {
-    transform:
-      translateY(-2px);
-
-    border-color:
-      rgba(34, 211, 238, 0.5);
-
-    background:
-      rgba(34, 211, 238, 0.1);
-
-    box-shadow:
-      0 0 24px rgba(34, 211, 238, 0.12);
-  }
-
-
-  .icon,
-  .theme-icon,
-  .menu-icon,
-  .mobile-navigation-arrow {
-    display: flex;
-
-    width: 1rem;
-    height: 1rem;
-  }
-
-
-  .icon :global(svg),
-  .theme-icon :global(svg),
-  .menu-icon :global(svg),
-  .mobile-navigation-arrow :global(svg) {
-    width: 100%;
-    height: 100%;
-
-    fill: none;
-
-    stroke: currentColor;
-
-    stroke-width: 1.7;
-
-    stroke-linecap: round;
-
-    stroke-linejoin: round;
-  }
-
-
-  .theme-toggle,
-  .menu-toggle {
-    position: relative;
-
-    width: 2.65rem;
-    height: 2.65rem;
-
-    display: grid;
-
-    place-items: center;
-
-    padding: 0;
+      0;
 
     border:
       1px solid var(--color-border);
 
     border-radius:
-      50%;
-
-    background:
-      rgba(148, 163, 184, 0.04);
+      0.35rem;
 
     color:
-      var(--color-text-secondary);
+      var(--color-text-muted);
+
+    background:
+      rgba(148, 163, 184, 0.025);
+
+    cursor:
+      pointer;
+
+    overflow:
+      hidden;
 
     transition:
-      transform var(--duration-normal) var(--ease-standard),
-      color var(--duration-fast) ease,
-      border-color var(--duration-normal) ease,
-      background-color var(--duration-normal) ease;
+      color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard);
   }
 
 
-  .theme-toggle:hover,
-  .menu-toggle:hover {
-    transform:
-      translateY(-2px);
-
+  .theme-toggle:hover {
     border-color:
-      var(--color-border-strong);
-
-    background:
-      rgba(148, 163, 184, 0.08);
+      rgba(34, 211, 238, 0.3);
 
     color:
-      var(--color-text);
+      var(--color-cyan);
+
+    background:
+      rgba(34, 211, 238, 0.05);
   }
 
 
   .theme-icon {
-    position: absolute;
+    position:
+      absolute;
+
+    font-size:
+      0.8rem;
+
+    line-height:
+      1;
 
     transition:
-      opacity var(--duration-normal) ease,
-      transform var(--duration-normal) var(--ease-standard);
+      opacity var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard);
   }
 
 
-  html[data-theme="dark"] .theme-icon-sun {
-    opacity: 0;
+  .theme-icon-sun {
+    opacity:
+      0;
 
     transform:
-      rotate(-45deg)
-      scale(0.5);
+      rotate(-45deg) scale(0.7);
   }
 
 
-  html[data-theme="dark"] .theme-icon-moon {
-    opacity: 1;
+  .theme-icon-moon {
+    opacity:
+      1;
 
     transform:
-      rotate(0)
-      scale(1);
+      rotate(0) scale(1);
   }
 
 
-  html[data-theme="light"] .theme-icon-sun {
-    opacity: 1;
+  [data-theme="light"] .theme-icon-sun {
+    opacity:
+      1;
 
     transform:
-      rotate(0)
-      scale(1);
+      rotate(0) scale(1);
   }
 
 
-  html[data-theme="light"] .theme-icon-moon {
-    opacity: 0;
+  [data-theme="light"] .theme-icon-moon {
+    opacity:
+      0;
 
     transform:
-      rotate(45deg)
-      scale(0.5);
+      rotate(45deg) scale(0.7);
   }
 
 
-  .menu-toggle {
-    display: none;
-  }
+  /* ========================================================
+     CV BUTTON
+     ======================================================== */
 
+  .header-cv {
+    display:
+      inline-flex;
 
-  .menu-icon {
-    position: absolute;
+    align-items:
+      center;
+
+    gap:
+      0.3rem;
+
+    padding:
+      0.48rem 0.7rem;
+
+    border:
+      1px solid rgba(34, 211, 238, 0.2);
+
+    border-radius:
+      0.35rem;
+
+    color:
+      var(--color-cyan);
+
+    background:
+      rgba(34, 211, 238, 0.035);
+
+    font-family:
+      var(--font-mono);
+
+    font-size:
+      0.4rem;
+
+    letter-spacing:
+      0.025em;
+
+    text-decoration:
+      none;
 
     transition:
-      opacity var(--duration-normal) ease,
-      transform var(--duration-normal) var(--ease-standard);
+      border-color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-fast) var(--ease-standard);
   }
 
 
-  .menu-icon-open {
-    opacity: 1;
+  .header-cv:hover {
+    border-color:
+      rgba(34, 211, 238, 0.5);
+
+    background:
+      rgba(34, 211, 238, 0.08);
+
+    box-shadow:
+      0 0 20px rgba(34, 211, 238, 0.08);
   }
 
 
-  .menu-icon-close {
-    opacity: 0;
+  /* ========================================================
+     MOBILE MENU BUTTON
+     ======================================================== */
+
+  .mobile-menu-toggle {
+    display:
+      none;
+
+    position:
+      relative;
+
+    width:
+      34px;
+
+    height:
+      34px;
+
+    padding:
+      0;
+
+    border:
+      1px solid var(--color-border);
+
+    border-radius:
+      0.35rem;
+
+    background:
+      rgba(148, 163, 184, 0.025);
+
+    cursor:
+      pointer;
+  }
+
+
+  .menu-line {
+    position:
+      absolute;
+
+    left:
+      9px;
+
+    width:
+      14px;
+
+    height:
+      1px;
+
+    background:
+      var(--color-text-muted);
+
+    transition:
+      transform var(--duration-fast) var(--ease-standard),
+      opacity var(--duration-fast) var(--ease-standard);
+  }
+
+
+  .menu-line-one {
+    top:
+      11px;
+  }
+
+
+  .menu-line-two {
+    top:
+      16px;
+  }
+
+
+  .menu-line-three {
+    top:
+      21px;
+  }
+
+
+  .mobile-menu-toggle[aria-expanded="true"]
+    .menu-line-one {
 
     transform:
-      rotate(-45deg)
-      scale(0.5);
+      translateY(5px) rotate(45deg);
+
   }
 
 
-  .site-header.menu-open .menu-icon-open {
-    opacity: 0;
+  .mobile-menu-toggle[aria-expanded="true"]
+    .menu-line-two {
 
-    transform:
-      rotate(45deg)
-      scale(0.5);
+    opacity:
+      0;
+
   }
 
 
-  .site-header.menu-open .menu-icon-close {
-    opacity: 1;
+  .mobile-menu-toggle[aria-expanded="true"]
+    .menu-line-three {
 
     transform:
-      rotate(0)
-      scale(1);
+      translateY(-5px) rotate(-45deg);
+
   }
 
 
@@ -896,123 +1406,110 @@ const icons = {
      ======================================================== */
 
   .mobile-navigation {
-    position: fixed;
+    position:
+      fixed;
 
-    inset:
+    top:
+      var(--header-height);
+
+    right:
       0;
 
-    z-index: -1;
-
-    display: flex;
-
-    align-items: flex-start;
-
-    padding:
-      7.2rem var(--content-padding) 2rem;
-
-    background:
-      color-mix(
-        in srgb,
-        var(--color-background) 94%,
-        transparent
-      );
-
-    backdrop-filter:
-      blur(24px);
-
-    -webkit-backdrop-filter:
-      blur(24px);
-
-    opacity:
+    bottom:
       0;
+
+    left:
+      0;
+
+    z-index:
+      -1;
 
     visibility:
       hidden;
 
+    opacity:
+      0;
+
+    background:
+      rgba(7, 10, 15, 0.96);
+
+    backdrop-filter:
+      blur(20px);
+
+    -webkit-backdrop-filter:
+      blur(20px);
+
     transform:
-      translateY(-1rem);
+      translateY(-10px);
 
     transition:
-      opacity 400ms var(--ease-standard),
-      visibility 400ms var(--ease-standard),
-      transform 500ms var(--ease-standard);
+      opacity var(--duration-normal) var(--ease-standard),
+      transform var(--duration-normal) var(--ease-standard),
+      visibility var(--duration-normal);
   }
 
 
-  .site-header.menu-open .mobile-navigation {
-    opacity:
-      1;
-
+  .mobile-navigation[aria-hidden="false"] {
     visibility:
       visible;
+
+    opacity:
+      1;
 
     transform:
       translateY(0);
   }
 
 
-  .mobile-navigation::before {
-    content: "";
-
-    position: absolute;
-
-    top: 7rem;
-    left: 8%;
-    right: 8%;
-
-    height: 1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        transparent,
-        var(--color-cyan),
-        var(--color-violet),
-        transparent
-      );
-
-    opacity:
-      0.35;
-  }
-
-
   .mobile-navigation-inner {
     width:
       min(
-        100%,
-        700px
+        calc(100% - 2rem),
+        650px
       );
 
-    margin-inline:
-      auto;
+    margin:
+      0 auto;
+
+    padding:
+      1.5rem 0;
   }
 
 
-  .mobile-navigation-label {
-    display: flex;
+  .mobile-navigation-header {
+    display:
+      flex;
 
-    align-items: center;
+    justify-content:
+      space-between;
 
-    gap: 0.7rem;
+    padding-bottom:
+      0.8rem;
 
-    margin-bottom:
-      1.5rem;
+    border-bottom:
+      1px solid var(--color-border);
 
     color:
-      var(--color-text-muted);
+      var(--color-text-subtle);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.68rem;
+      0.4rem;
 
     letter-spacing:
-      0.12em;
+      0.05em;
   }
 
 
-  .mobile-navigation-list {
+  .mobile-navigation-header span:last-child {
+    color:
+      var(--color-cyan);
+  }
+
+
+  .mobile-navigation nav {
     display:
       flex;
 
@@ -1026,78 +1523,71 @@ const icons = {
       grid;
 
     grid-template-columns:
-      2.5rem 1fr auto;
+      30px 1fr auto;
 
     align-items:
       center;
 
     gap:
-      1rem;
+      0.8rem;
 
     padding:
-      1.1rem 0;
+      1rem 0;
 
     border-bottom:
       1px solid var(--color-border);
 
     color:
-      var(--color-text-secondary);
+      var(--color-text-muted);
+
+    text-decoration:
+      none;
 
     transition:
-      color var(--duration-normal) ease,
-      padding-left var(--duration-normal) var(--ease-standard);
+      color var(--duration-fast) var(--ease-standard),
+      padding-left var(--duration-fast) var(--ease-standard);
   }
 
 
   .mobile-navigation-link:hover {
     padding-left:
-      0.5rem;
+      0.4rem;
 
     color:
-      var(--color-text);
+      var(--color-cyan);
   }
 
 
   .mobile-navigation-number {
     color:
-      var(--color-cyan);
+      var(--color-text-subtle);
 
     font-family:
       var(--font-mono);
 
     font-size:
-      0.65rem;
+      0.42rem;
   }
 
 
-  .mobile-navigation-name {
+  .mobile-navigation-label {
     font-family:
       var(--font-display);
 
     font-size:
-      clamp(1.35rem, 6vw, 2rem);
+      1.1rem;
 
-    font-weight:
-      500;
+    letter-spacing:
+      -0.03em;
   }
 
 
   .mobile-navigation-arrow {
     color:
-      var(--color-text-muted);
+      var(--color-text-subtle);
 
-    transition:
-      transform var(--duration-normal) var(--ease-standard),
-      color var(--duration-normal) ease;
-  }
-
-
-  .mobile-navigation-link:hover .mobile-navigation-arrow {
-    color:
-      var(--color-cyan);
-
-    transform:
-      translateX(0.25rem);
+    font-size:
+      1rem;
   }
 
 
@@ -1111,8 +1601,8 @@ const icons = {
     gap:
       1rem;
 
-    margin-top:
-      2.5rem;
+    padding-top:
+      1rem;
 
     color:
       var(--color-text-subtle);
@@ -1121,13 +1611,48 @@ const icons = {
       var(--font-mono);
 
     font-size:
-      0.58rem;
+      0.38rem;
 
     letter-spacing:
-      0.08em;
+      0.04em;
+  }
 
-    text-transform:
-      uppercase;
+
+  /* ========================================================
+     MOBILE BODY LOCK
+     ======================================================== */
+
+  :global(body[data-menu-open]) {
+    overflow:
+      hidden;
+  }
+
+
+  /* ========================================================
+     LIGHT THEME
+     ======================================================== */
+
+  :global([data-theme="light"]) .site-header {
+    background:
+      rgba(248, 250, 252, 0.55);
+  }
+
+
+  :global([data-theme="light"])
+    .site-header[data-scrolled="true"] {
+
+    background:
+      rgba(248, 250, 252, 0.88);
+
+    box-shadow:
+      0 10px 40px rgba(15, 23, 42, 0.08);
+
+  }
+
+
+  :global([data-theme="light"]) .mobile-navigation {
+    background:
+      rgba(248, 250, 252, 0.97);
   }
 
 
@@ -1135,455 +1660,114 @@ const icons = {
      RESPONSIVE
      ======================================================== */
 
-  @media (max-width: 1080px) {
-    .navigation-link {
-      padding-inline:
-        0.5rem;
+  @media (max-width: 1100px) {
 
-      font-size:
-        0.64rem;
+    .desktop-navigation {
+      gap:
+        0;
     }
+
+
+    .navigation-link {
+      padding:
+        0.45rem;
+    }
+
 
     .navigation-index {
       display:
         none;
     }
 
-    .brand-role {
+
+    .navigation-label {
+      font-size:
+        0.38rem;
+    }
+
+
+    .header-status {
       display:
         none;
     }
+
   }
 
 
   @media (max-width: 900px) {
+
     .desktop-navigation {
       display:
         none;
     }
 
-    .menu-toggle {
+
+    .mobile-menu-toggle {
       display:
-        grid;
+        block;
     }
 
-    .cv-button {
-      padding-inline:
-        0.7rem;
-    }
-  }
 
-
-  @media (max-width: 520px) {
-    .site-header {
-      padding:
-        0.7rem 0.75rem;
-    }
-
-    .header-shell {
-      min-height:
-        4rem;
-
-      padding:
-        0.55rem 0.6rem 0.55rem 0.75rem;
-
-      border-radius:
-        var(--radius-lg);
-    }
-
-    .brand-copy {
+    .header-cv {
       display:
         none;
     }
+
+  }
+
+
+  @media (max-width: 500px) {
+
+    .header-container {
+      width:
+        calc(100% - 1.25rem);
+    }
+
+
+    .brand-role {
+      display:
+        none;
+    }
+
+
+    .brand-name {
+      font-size:
+        0.65rem;
+    }
+
 
     .brand-mark {
       width:
-        2.35rem;
+        31px;
 
       height:
-        2.35rem;
+        31px;
     }
 
-    .cv-button span:first-child {
-      display:
+  }
+
+
+  /* ========================================================
+     REDUCED MOTION
+     ======================================================== */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .header-scanline,
+    .status-indicator {
+      animation:
         none;
     }
 
-    .cv-button {
-      width:
-        2.65rem;
 
-      height:
-        2.65rem;
-
-      justify-content:
-        center;
-
-      padding:
-        0;
+    .navigation-link,
+    .header-cv,
+    .theme-toggle,
+    .mobile-navigation,
+    .mobile-navigation-link {
+      transition:
+        none;
     }
 
-    .mobile-navigation {
-      padding-top:
-        6.5rem;
-    }
-
-    .mobile-navigation::before {
-      top:
-        6.2rem;
-    }
-
-    .mobile-navigation-footer {
-      flex-direction:
-        column;
-    }
   }
 </style>
-
-
-<script>
-  /**
-   * ==========================================================
-   * HEADER INTERACTION
-   * ==========================================================
-   */
-
-  const header =
-    document.querySelector<HTMLElement>(
-      "#site-header"
-    );
-
-  const menuToggle =
-    document.querySelector<HTMLButtonElement>(
-      "#menu-toggle"
-    );
-
-  const mobileNavigation =
-    document.querySelector<HTMLElement>(
-      "#mobile-navigation"
-    );
-
-  const themeToggle =
-    document.querySelector<HTMLButtonElement>(
-      "#theme-toggle"
-    );
-
-  const mobileLinks =
-    document.querySelectorAll<HTMLAnchorElement>(
-      "[data-mobile-nav-link]"
-    );
-
-  const navigationLinks =
-    document.querySelectorAll<HTMLAnchorElement>(
-      "[data-nav-link]"
-    );
-
-
-  /* ========================================================
-     SCROLL STATE
-     ======================================================== */
-
-  const updateHeaderState = () => {
-    if (!header) {
-      return;
-    }
-
-    header.classList.toggle(
-      "scrolled",
-      window.scrollY > 24
-    );
-  };
-
-  updateHeaderState();
-
-  window.addEventListener(
-    "scroll",
-    updateHeaderState,
-    { passive: true }
-  );
-
-
-  /* ========================================================
-     MOBILE MENU
-     ======================================================== */
-
-  const closeMobileMenu = () => {
-    if (!header || !menuToggle || !mobileNavigation) {
-      return;
-    }
-
-    header.classList.remove(
-      "menu-open"
-    );
-
-    menuToggle.setAttribute(
-      "aria-expanded",
-      "false"
-    );
-
-    menuToggle.setAttribute(
-      "aria-label",
-      "Open navigation menu"
-    );
-
-    mobileNavigation.setAttribute(
-      "aria-hidden",
-      "true"
-    );
-
-    document.body.style.overflow = "";
-  };
-
-
-  const openMobileMenu = () => {
-    if (!header || !menuToggle || !mobileNavigation) {
-      return;
-    }
-
-    header.classList.add(
-      "menu-open"
-    );
-
-    menuToggle.setAttribute(
-      "aria-expanded",
-      "true"
-    );
-
-    menuToggle.setAttribute(
-      "aria-label",
-      "Close navigation menu"
-    );
-
-    mobileNavigation.setAttribute(
-      "aria-hidden",
-      "false"
-    );
-
-    document.body.style.overflow =
-      "hidden";
-  };
-
-
-  menuToggle?.addEventListener(
-    "click",
-    () => {
-      const isOpen =
-        header?.classList.contains(
-          "menu-open"
-        );
-
-      if (isOpen) {
-        closeMobileMenu();
-      } else {
-        openMobileMenu();
-      }
-    }
-  );
-
-
-  mobileLinks.forEach((link) => {
-    link.addEventListener(
-      "click",
-      () => {
-        closeMobileMenu();
-      }
-    );
-  });
-
-
-  /* ========================================================
-     ESCAPE KEY
-     ======================================================== */
-
-  document.addEventListener(
-    "keydown",
-    (event) => {
-      if (
-        event.key === "Escape" &&
-        header?.classList.contains(
-          "menu-open"
-        )
-      ) {
-        closeMobileMenu();
-
-        menuToggle?.focus();
-      }
-    }
-  );
-
-
-  /* ========================================================
-     THEME SWITCHER
-     ======================================================== */
-
-  const getCurrentTheme = () => {
-    return (
-      document.documentElement.dataset
-        .theme === "light"
-        ? "light"
-        : "dark"
-    );
-  };
-
-
-  const updateThemeButton = () => {
-    if (!themeToggle) {
-      return;
-    }
-
-    const isLight =
-      getCurrentTheme() === "light";
-
-    themeToggle.setAttribute(
-      "aria-pressed",
-      String(isLight)
-    );
-
-    themeToggle.setAttribute(
-      "aria-label",
-      isLight
-        ? "Switch to dark theme"
-        : "Switch to light theme"
-    );
-  };
-
-
-  themeToggle?.addEventListener(
-    "click",
-    () => {
-      const nextTheme =
-        getCurrentTheme() === "dark"
-          ? "light"
-          : "dark";
-
-      document.documentElement.dataset.theme =
-        nextTheme;
-
-      try {
-        localStorage.setItem(
-          "hafiz-portfolio-theme",
-          nextTheme
-        );
-      } catch {
-        // Storage may be unavailable in some browser contexts.
-      }
-
-      updateThemeButton();
-    }
-  );
-
-
-  updateThemeButton();
-
-
-  /* ========================================================
-     ACTIVE SECTION
-     ========================================================
-     *
-     * The header will eventually highlight the section the
-     * visitor is currently viewing.
-     *
-     * IntersectionObserver is used instead of continuously
-     * calculating scroll positions.
-     */
-
-  const sectionIds =
-    Array.from(
-      navigationLinks
-    )
-      .map(
-        (link) =>
-          link.getAttribute("href")
-      )
-      .filter(
-        (
-          href
-        ): href is string =>
-          Boolean(
-            href &&
-            href.startsWith("#")
-          )
-      );
-
-
-  const sections =
-    sectionIds
-      .map(
-        (id) =>
-          document.querySelector(
-            id
-          )
-      )
-      .filter(
-        (
-          section
-        ): section is Element =>
-          Boolean(section)
-      );
-
-
-  if (
-    sections.length > 0 &&
-    "IntersectionObserver" in window
-  ) {
-    const sectionObserver =
-      new IntersectionObserver(
-        (entries) => {
-          entries.forEach(
-            (entry) => {
-              if (!entry.isIntersecting) {
-                return;
-              }
-
-              const id =
-                `#${entry.target.id}`;
-
-              navigationLinks.forEach(
-                (link) => {
-                  link.classList.toggle(
-                    "active",
-                    link.getAttribute(
-                      "href"
-                    ) === id
-                  );
-                }
-              );
-            }
-          );
-        },
-        {
-          rootMargin:
-            "-35% 0px -55% 0px",
-          threshold:
-            0
-        }
-      );
-
-    sections.forEach(
-      (section) => {
-        sectionObserver.observe(
-          section
-        );
-      }
-    );
-  }
-
-
-  /* ========================================================
-     RESIZE SAFETY
-     ======================================================== */
-
-  window.addEventListener(
-    "resize",
-    () => {
-      if (
-        window.innerWidth > 900 &&
-        header?.classList.contains(
-          "menu-open"
-        )
-      ) {
-        closeMobileMenu();
-      }
-    }
-  );
-</script>
