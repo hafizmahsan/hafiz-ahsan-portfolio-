@@ -77,8 +77,7 @@ export interface SiteConfig {
  * SITE
  * ============================================================
  *
- * Replace placeholder site/SEO values with the final public
- * values once the portfolio is ready for deployment.
+ * Primary website configuration.
  *
  * ============================================================
  */
@@ -230,6 +229,37 @@ export const site: SiteConfig = {
 
 /**
  * ============================================================
+ * BACKWARD-COMPATIBLE SITE CONFIG
+ * ============================================================
+ *
+ * Existing layout/component code uses:
+ *
+ *   siteConfig.siteName
+ *   siteConfig.appearance.defaultTheme
+ *
+ * The primary configuration remains `site`.
+ *
+ * This compatibility object allows both structures to work
+ * without requiring us to rewrite existing components.
+ *
+ * ============================================================
+ */
+
+export const siteConfig = {
+  ...site,
+
+  siteName:
+    site.name,
+
+  appearance: {
+    defaultTheme:
+      site.defaultTheme
+  }
+};
+
+
+/**
+ * ============================================================
  * SEO HELPERS
  * ============================================================
  */
@@ -237,7 +267,18 @@ export const site: SiteConfig = {
 
 /**
  * Return the full page title.
+ *
+ * Example:
+ *
+ * getPageTitle()
+ * → "Hafiz Ahsan — Automation & Intelligent Systems"
+ *
+ * getPageTitle("About")
+ * → "About — Hafiz Ahsan"
+ *
+ * ============================================================
  */
+
 export function getPageTitle(
   pageTitle?: string
 ): string {
@@ -251,8 +292,15 @@ export function getPageTitle(
 
 
 /**
- * Return the canonical site URL.
+ * ============================================================
+ * CANONICAL URL HELPER
+ * ============================================================
+ *
+ * Return a normalized canonical URL.
+ *
+ * ============================================================
  */
+
 export function getCanonicalUrl(
   path = ""
 ): string {
@@ -273,9 +321,13 @@ export function getCanonicalUrl(
 
 
 /**
- * Return the current site status.
+ * ============================================================
+ * SYSTEM STATUS HELPER
+ * ============================================================
  */
+
 export function getSystemStatus(): string {
+
   return (
     site.system?.status ??
     "ONLINE"
@@ -284,9 +336,13 @@ export function getSystemStatus(): string {
 
 
 /**
- * Return the current site version.
+ * ============================================================
+ * SITE VERSION HELPER
+ * ============================================================
  */
+
 export function getSiteVersion(): string {
+
   return (
     site.footer?.version ??
     "1.0.0"
