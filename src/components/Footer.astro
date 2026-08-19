@@ -4,16 +4,14 @@
  * PORTFOLIO FOOTER
  * ============================================================
  *
- * Minimal technical footer.
- *
- * Content is controlled from:
+ * Footer information is controlled from:
  *
  *     src/data/site.ts
  *
  * ============================================================
  */
 
-import { site } from "../data/site";
+import { site, getSiteVersion } from "../data/site";
 ---
 
 <footer class="site-footer">
@@ -21,7 +19,7 @@ import { site } from "../data/site";
   <div class="site-footer__inner">
 
     <!-- ======================================================
-         FOOTER TOP
+         TOP
          ====================================================== -->
 
     <div class="site-footer__top">
@@ -39,7 +37,8 @@ import { site } from "../data/site";
           {site.shortName}
         </span>
 
-        <span class="site-footer__brand-info">
+
+        <span class="site-footer__identity">
 
           <span class="site-footer__name">
             {site.name}
@@ -71,67 +70,42 @@ import { site } from "../data/site";
 
 
     <!-- ======================================================
-         FOOTER NAVIGATION
+         DIVIDER
          ====================================================== -->
 
-    <div class="site-footer__navigation">
-
-      <span class="site-footer__label">
-        / NAVIGATION
-      </span>
-
-
-      <nav aria-label="Footer navigation">
-
-        {
-          site.navigation.map(
-            (item, index) => (
-              <a
-                href={item.href}
-                class="site-footer__link"
-              >
-
-                <span class="site-footer__link-number">
-                  {(index + 1)
-                    .toString()
-                    .padStart(2, "0")}
-                </span>
-
-                <span>
-                  {item.label}
-                </span>
-
-              </a>
-            )
-          )
-        }
-
-      </nav>
-
-    </div>
+    <div
+      class="site-footer__divider"
+      aria-hidden="true"
+    ></div>
 
 
     <!-- ======================================================
-         FOOTER BOTTOM
+         BOTTOM
          ====================================================== -->
 
     <div class="site-footer__bottom">
 
-      <span>
+      <span class="site-footer__copyright">
+
         © {new Date().getFullYear()}
-        {" "}
         {site.footer?.copyrightName ?? site.name}
+
       </span>
 
 
       <span class="site-footer__message">
+
         {site.footer?.message ??
           "ENGINEERED WITH PRECISION."}
+
       </span>
 
 
-      <span>
-        V{site.footer?.version ?? "1.0.0"}
+      <span class="site-footer__version">
+
+        SYS /
+        {getSiteVersion()}
+
       </span>
 
     </div>
@@ -142,16 +116,16 @@ import { site } from "../data/site";
 
 
 <style>
-  /* ==========================================================
+  /* ========================================================
      FOOTER
-     ========================================================== */
+     ======================================================== */
 
   .site-footer {
     position:
       relative;
 
     padding:
-      3rem 0 1.5rem;
+      2rem 0 2.5rem;
 
     border-top:
       1px solid var(--color-border);
@@ -161,38 +135,9 @@ import { site } from "../data/site";
   }
 
 
-  .site-footer::before {
-    content:
-      "";
-
-    position:
-      absolute;
-
-    top:
-      -1px;
-
-    left:
-      10%;
-
-    width:
-      80%;
-
-    height:
-      1px;
-
-    background:
-      linear-gradient(
-        90deg,
-        transparent,
-        rgba(34, 211, 238, 0.3),
-        transparent
-      );
-  }
-
-
-  /* ==========================================================
+  /* ========================================================
      INNER
-     ========================================================== */
+     ======================================================== */
 
   .site-footer__inner {
     width:
@@ -206,9 +151,9 @@ import { site } from "../data/site";
   }
 
 
-  /* ==========================================================
+  /* ========================================================
      TOP
-     ========================================================== */
+     ======================================================== */
 
   .site-footer__top {
     display:
@@ -222,18 +167,12 @@ import { site } from "../data/site";
 
     gap:
       2rem;
-
-    padding-bottom:
-      2rem;
-
-    border-bottom:
-      1px solid var(--color-border);
   }
 
 
-  /* ==========================================================
+  /* ========================================================
      BRAND
-     ========================================================== */
+     ======================================================== */
 
   .site-footer__brand {
     display:
@@ -264,16 +203,17 @@ import { site } from "../data/site";
       center;
 
     width:
-      34px;
+      30px;
 
     height:
-      34px;
+      30px;
 
     border:
-      1px solid rgba(34, 211, 238, 0.25);
+      1px solid
+      rgba(34, 211, 238, 0.22);
 
     border-radius:
-      0.4rem;
+      0.35rem;
 
     color:
       var(--color-cyan);
@@ -285,14 +225,14 @@ import { site } from "../data/site";
       var(--font-mono);
 
     font-size:
-      0.48rem;
+      0.42rem;
 
     font-weight:
       700;
   }
 
 
-  .site-footer__brand-info {
+  .site-footer__identity {
     display:
       flex;
 
@@ -330,7 +270,7 @@ import { site } from "../data/site";
       var(--font-mono);
 
     font-size:
-      0.36rem;
+      0.35rem;
 
     letter-spacing:
       0.04em;
@@ -340,9 +280,9 @@ import { site } from "../data/site";
   }
 
 
-  /* ==========================================================
+  /* ========================================================
      STATUS
-     ========================================================== */
+     ======================================================== */
 
   .site-footer__status {
     display:
@@ -352,7 +292,7 @@ import { site } from "../data/site";
       center;
 
     gap:
-      0.45rem;
+      0.4rem;
 
     color:
       var(--color-text-subtle);
@@ -367,7 +307,7 @@ import { site } from "../data/site";
       700;
 
     letter-spacing:
-      0.08em;
+      0.06em;
   }
 
 
@@ -385,115 +325,33 @@ import { site } from "../data/site";
       var(--color-cyan);
 
     box-shadow:
-      0 0 10px
-      rgba(34, 211, 238, 0.6);
+      0 0 8px
+      rgba(34, 211, 238, 0.7);
   }
 
 
-  /* ==========================================================
-     NAVIGATION
-     ========================================================== */
+  /* ========================================================
+     DIVIDER
+     ======================================================== */
 
-  .site-footer__navigation {
-    display:
-      grid;
+  .site-footer__divider {
+    width:
+      100%;
 
-    grid-template-columns:
-      9rem minmax(0, 1fr);
+    height:
+      1px;
 
-    gap:
-      2rem;
+    margin:
+      1.5rem 0;
 
-    padding:
-      2rem 0;
+    background:
+      var(--color-border);
   }
 
 
-  .site-footer__label {
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.42rem;
-
-    font-weight:
-      700;
-
-    letter-spacing:
-      0.1em;
-  }
-
-
-  .site-footer__navigation nav {
-    display:
-      flex;
-
-    flex-wrap:
-      wrap;
-
-    gap:
-      0.6rem 1.5rem;
-  }
-
-
-  .site-footer__link {
-    display:
-      inline-flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.35rem;
-
-    color:
-      var(--color-text-muted);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.45rem;
-
-    font-weight:
-      600;
-
-    letter-spacing:
-      0.04em;
-
-    text-decoration:
-      none;
-
-    text-transform:
-      uppercase;
-
-    transition:
-      color var(--duration-fast)
-      var(--ease-standard);
-  }
-
-
-  .site-footer__link:hover {
-    color:
-      var(--color-cyan);
-  }
-
-
-  .site-footer__link-number {
-    color:
-      var(--color-text-subtle);
-
-    font-size:
-      0.38rem;
-  }
-
-
-  /* ==========================================================
+  /* ========================================================
      BOTTOM
-     ========================================================== */
+     ======================================================== */
 
   .site-footer__bottom {
     display:
@@ -508,12 +366,6 @@ import { site } from "../data/site";
     gap:
       1rem;
 
-    padding-top:
-      1.25rem;
-
-    border-top:
-      1px solid var(--color-border);
-
     color:
       var(--color-text-subtle);
 
@@ -531,30 +383,54 @@ import { site } from "../data/site";
   }
 
 
+  .site-footer__copyright {
+    justify-self:
+      start;
+  }
+
+
   .site-footer__message {
-    color:
-      var(--color-text-muted);
-
-    text-align:
+    justify-self:
       center;
+
+    color:
+      rgba(34, 211, 238, 0.55);
   }
 
 
-  .site-footer__bottom > span:last-child {
-    text-align:
-      right;
+  .site-footer__version {
+    justify-self:
+      end;
+
+    color:
+      rgba(148, 163, 184, 0.45);
   }
 
 
-  /* ==========================================================
+  /* ========================================================
+     HOVER
+     ======================================================== */
+
+  .site-footer__brand:hover
+    .site-footer__mark {
+
+    border-color:
+      rgba(34, 211, 238, 0.5);
+
+    background:
+      rgba(34, 211, 238, 0.07);
+  }
+
+
+  /* ========================================================
      RESPONSIVE
-     ========================================================== */
+     ======================================================== */
 
   @media (max-width: 700px) {
 
     .site-footer {
       padding:
-        2.5rem 0 1.25rem;
+        1.75rem 0 2rem;
     }
 
 
@@ -566,43 +442,36 @@ import { site } from "../data/site";
         column;
 
       gap:
-        1.25rem;
-    }
-
-
-    .site-footer__navigation {
-      grid-template-columns:
-        1fr;
-
-      gap:
         1rem;
     }
 
 
     .site-footer__bottom {
-      grid-template-columns:
-        1fr;
+      display:
+        flex;
 
       align-items:
-        start;
+        flex-start;
+
+      flex-direction:
+        column;
 
       gap:
-        0.65rem;
+        0.6rem;
+    }
+
+
+    .site-footer__message,
+    .site-footer__version,
+    .site-footer__copyright {
+      justify-self:
+        auto;
     }
 
 
     .site-footer__message {
       order:
         -1;
-
-      text-align:
-        left;
-    }
-
-
-    .site-footer__bottom > span:last-child {
-      text-align:
-        left;
     }
 
   }
@@ -621,13 +490,14 @@ import { site } from "../data/site";
   }
 
 
-  /* ==========================================================
+  /* ========================================================
      REDUCED MOTION
-     ========================================================== */
+     ======================================================== */
 
   @media (prefers-reduced-motion: reduce) {
 
-    .site-footer__link {
+    .site-footer__brand,
+    .site-footer__mark {
       transition:
         none;
     }
