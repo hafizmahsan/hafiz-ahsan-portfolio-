@@ -39,8 +39,25 @@ export interface Skill {
 }
 
 
+/**
+ * ============================================================
+ * SKILL GROUP
+ * ============================================================
+ *
+ * Derived presentation-ready grouping of the main skill
+ * collection.
+ *
+ * `shortName` and `code` are consumed by Skills.astro.
+ *
+ * ============================================================
+ */
+
 export interface SkillGroup {
   title: string;
+
+  shortName?: string;
+
+  code?: string;
 
   description?: string;
 
@@ -394,16 +411,24 @@ export const featuredSkills =
  * SKILL GROUPS
  * ============================================================
  *
- * Derived automatically from the main skill collection.
+ * Automatically derived from the main skill collection.
  *
- * This is the structure consumed by Skills.astro.
+ * This remains a single source of truth:
+ *
+ *     skills
+ *       ↓
+ *     sortedSkills
+ *       ↓
+ *     skillGroups
+ *
+ * Skills.astro consumes `skillGroups`.
  * ============================================================
  */
 
 export const skillGroups: SkillGroup[] =
   skillCategories
     .map(
-      (category) => {
+      (category, index) => {
 
         const categorySkills =
           sortedSkills.filter(
@@ -419,15 +444,59 @@ export const skillGroups: SkillGroup[] =
         }
 
 
+        /**
+         * Short labels used by the
+         * technology map.
+         */
+        const shortNames: Record<
+          string,
+          string
+        > = {
+
+          "AUTOMATION":
+            "AUTO",
+
+          "AI & GEN AI":
+            "AI",
+
+          "SOFTWARE ENGINEERING":
+            "SOFT",
+
+          "INTEGRATION":
+            "API",
+
+          "DATABASES":
+            "DATA",
+
+          "DEVOPS & TOOLS":
+            "DEVOPS",
+
+          "ARCHITECTURE":
+            "ARCH"
+
+        };
+
+
         return {
+
           title:
             category,
+
+          shortName:
+            shortNames[category] ??
+            category,
+
+          code:
+            `SYS-${String(
+              index + 1
+            ).padStart(2, "0")}`,
 
           description:
             `Core capabilities across ${category.toLowerCase()}.`,
 
           skills:
             categorySkills
+
         };
 
       }
