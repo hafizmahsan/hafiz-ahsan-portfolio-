@@ -1,47 +1,39 @@
 ---
 /**
  * ============================================================
- * MAIN PORTFOLIO PAGE
+ * HOME PAGE
  * ============================================================
  *
- * Main entry point for the portfolio website.
+ * Main portfolio landing page.
  *
- * Sections are intentionally composed here so the page
- * structure remains easy to understand and maintain.
+ * Sections:
+ * 01 — About
+ * 02 — Projects
+ * 03 — Experience
+ * 04 — Skills
+ * 05 — Contact
+ *
  * ============================================================
  */
 
-import "../styles/global.css";
 import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-
 import Hero from "../components/Hero.astro";
 import About from "../components/About.astro";
 import Projects from "../components/Projects.astro";
 import Experience from "../components/Experience.astro";
 import Skills from "../components/Skills.astro";
 import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
 
 import { site } from "../data/site";
-
-
-/**
- * ============================================================
- * PAGE METADATA
- * ============================================================
- */
-
-const pageTitle =
-  site.title;
-
-const pageDescription =
-  site.description;
 ---
-
 
 <!doctype html>
 
-<html lang={site.language}>
+<html
+  lang={site.language}
+  data-theme={site.defaultTheme}
+>
 
   <head>
 
@@ -54,7 +46,7 @@ const pageDescription =
 
     <meta
       name="description"
-      content={pageDescription}
+      content={site.description}
     />
 
     <meta
@@ -72,25 +64,24 @@ const pageDescription =
       content="index, follow"
     />
 
-
     <title>
-      {pageTitle}
+      {site.title}
     </title>
 
 
-    <!-- ======================================================
-         KEYWORDS
-         ====================================================== -->
+    <!-- ====================================================
+         FAVICON
+         ==================================================== -->
 
-    <meta
-      name="keywords"
-      content={site.keywords.join(", ")}
+    <link
+      rel="icon"
+      href="/favicon.ico"
     />
 
 
-    <!-- ======================================================
+    <!-- ====================================================
          CANONICAL
-         ====================================================== -->
+         ==================================================== -->
 
     <link
       rel="canonical"
@@ -98,9 +89,9 @@ const pageDescription =
     />
 
 
-    <!-- ======================================================
-         SOCIAL PREVIEW
-         ====================================================== -->
+    <!-- ====================================================
+         OPEN GRAPH
+         ==================================================== -->
 
     <meta
       property="og:type"
@@ -109,12 +100,12 @@ const pageDescription =
 
     <meta
       property="og:title"
-      content={pageTitle}
+      content={site.title}
     />
 
     <meta
       property="og:description"
-      content={pageDescription}
+      content={site.description}
     />
 
     <meta
@@ -132,6 +123,10 @@ const pageDescription =
     }
 
 
+    <!-- ====================================================
+         TWITTER
+         ==================================================== -->
+
     <meta
       name="twitter:card"
       content={
@@ -142,12 +137,12 @@ const pageDescription =
 
     <meta
       name="twitter:title"
-      content={pageTitle}
+      content={site.title}
     />
 
     <meta
       name="twitter:description"
-      content={pageDescription}
+      content={site.description}
     />
 
 
@@ -160,190 +155,69 @@ const pageDescription =
       )
     }
 
-
-    <!-- ======================================================
-         THEME INITIALIZATION
-         ====================================================== -->
-
-    <script is:inline>
-      (() => {
-        try {
-          const storedTheme =
-            localStorage.getItem(
-              "portfolio-theme"
-            );
-
-          const systemPrefersLight =
-            window.matchMedia(
-              "(prefers-color-scheme: light)"
-            ).matches;
-
-          const theme =
-            storedTheme === "light" ||
-            storedTheme === "dark"
-              ? storedTheme
-              : systemPrefersLight
-                ? "light"
-                : "dark";
-
-          document.documentElement.setAttribute(
-            "data-theme",
-            theme
-          );
-
-        } catch {
-          document.documentElement.setAttribute(
-            "data-theme",
-            "dark"
-          );
-        }
-      })();
-    </script>
-
   </head>
 
 
   <body id="top">
 
-    <!-- ======================================================
+    <!-- ====================================================
          HEADER
-         ====================================================== -->
+         ==================================================== -->
 
     <Header />
 
 
-    <!-- ======================================================
-         MAIN CONTENT
-         ====================================================== -->
-
     <main>
 
-      <!-- ====================================================
+      <!-- ==================================================
            HERO
-           ==================================================== -->
+           ================================================== -->
 
       <Hero />
 
 
-      <!-- ====================================================
+      <!-- ==================================================
            ABOUT
-           ==================================================== -->
+           ================================================== -->
 
       <About />
 
 
-      <!-- ====================================================
+      <!-- ==================================================
            PROJECTS
-           ==================================================== -->
+           ================================================== -->
 
       <Projects />
 
 
-      <!-- ====================================================
+      <!-- ==================================================
            EXPERIENCE
-           ==================================================== -->
+           ================================================== -->
 
       <Experience />
 
 
-      <!-- ====================================================
+      <!-- ==================================================
            SKILLS
-           ==================================================== -->
+           ================================================== -->
 
       <Skills />
 
 
-      <!-- ====================================================
+      <!-- ==================================================
            CONTACT
-           ==================================================== -->
+           ================================================== -->
 
       <Contact />
 
     </main>
 
 
-    <!-- ======================================================
+    <!-- ====================================================
          FOOTER
-         ====================================================== -->
+         ==================================================== -->
 
     <Footer />
-
-
-    <!-- ======================================================
-         GLOBAL PAGE SCRIPT
-         ====================================================== -->
-
-    <script>
-      /**
-       * ========================================================
-       * SMOOTH ANCHOR NAVIGATION
-       * ========================================================
-       */
-
-      document
-        .querySelectorAll<HTMLAnchorElement>(
-          'a[href^="#"]'
-        )
-        .forEach(
-          (link) => {
-
-            link.addEventListener(
-              "click",
-              (event) => {
-
-                const href =
-                  link.getAttribute(
-                    "href"
-                  );
-
-                if (
-                  !href ||
-                  href === "#"
-                ) {
-                  return;
-                }
-
-                const target =
-                  document.querySelector(
-                    href
-                  );
-
-                if (!target) {
-                  return;
-                }
-
-                event.preventDefault();
-
-                target.scrollIntoView({
-                  behavior:
-                    "smooth",
-                  block:
-                    "start"
-                });
-
-              }
-            );
-
-          }
-        );
-
-
-      /**
-       * ========================================================
-       * CURRENT YEAR
-       * ========================================================
-       *
-       * Footer uses JavaScript-compatible current date
-       * rendering through Astro's server-side output.
-       * ========================================================
-       */
-
-      document.documentElement.setAttribute(
-        "data-page-ready",
-        "true"
-      );
-
-    </script>
 
   </body>
 
