@@ -12,18 +12,33 @@
  * ============================================================
  */
 
-export interface ContactItem {
+export type ContactAccent =
+  | "cyan"
+  | "violet"
+  | "blue"
+  | "green";
+
+
+export interface ContactLink {
   label: string;
 
   value: string;
 
-  href?: string;
+  href: string;
 
-  icon?: string;
+  icon:
+    | "email"
+    | "linkedin"
+    | "github"
+    | "phone"
+    | "location"
+    | "resume";
+
+  description?: string;
 
   external?: boolean;
 
-  accent?: "cyan" | "violet" | "blue" | "green";
+  accent?: ContactAccent;
 
   featured?: boolean;
 
@@ -31,16 +46,33 @@ export interface ContactItem {
 }
 
 
+export interface ContactConfig {
+  eyebrow: string;
+
+  title: string;
+
+  description: string;
+
+  availability: string;
+
+  availabilityDescription: string;
+
+  location: string;
+
+  responseTime: string;
+
+  links: ContactLink[];
+}
+
+
 /**
  * ============================================================
  * PRIMARY CONTACT INFORMATION
  * ============================================================
- *
- * These values can be imported anywhere in the portfolio.
- * ============================================================
  */
 
 export const contactInfo = {
+
   email:
     "your.email@example.com",
 
@@ -53,175 +85,210 @@ export const contactInfo = {
   availability:
     "OPEN TO OPPORTUNITIES",
 
+  availabilityDescription:
+    "Available for selected automation, software engineering and intelligent systems opportunities.",
+
+  responseTime:
+    "WITHIN 1–2 BUSINESS DAYS",
+
   linkedin:
     "https://www.linkedin.com/in/your-profile",
 
   github:
-    "https://github.com/your-profile",
+    "https://github.com/hafizmahsan",
 
   resume:
     "/resume.pdf"
+
 };
 
 
 /**
  * ============================================================
- * CONTACT CARDS
+ * CONTACT CONFIGURATION
+ * ============================================================
+ */
+
+export const contact: ContactConfig = {
+
+  eyebrow:
+    "CONTACT",
+
+  title:
+    "Let's build something useful.",
+
+  description:
+    "Have a project, workflow, or technical problem worth exploring? I'd be happy to hear about it.",
+
+  availability:
+    contactInfo.availability,
+
+  availabilityDescription:
+    contactInfo.availabilityDescription,
+
+  location:
+    contactInfo.location,
+
+  responseTime:
+    contactInfo.responseTime,
+
+  links: [
+
+    {
+      label:
+        "EMAIL",
+
+      value:
+        contactInfo.email,
+
+      href:
+        `mailto:${contactInfo.email}`,
+
+      icon:
+        "email",
+
+      description:
+        "Direct professional contact",
+
+      accent:
+        "cyan",
+
+      featured:
+        true,
+
+      enabled:
+        true
+    },
+
+
+    {
+      label:
+        "LINKEDIN",
+
+      value:
+        "Professional Profile",
+
+      href:
+        contactInfo.linkedin,
+
+      icon:
+        "linkedin",
+
+      description:
+        "Professional network",
+
+      external:
+        true,
+
+      accent:
+        "blue",
+
+      enabled:
+        true
+    },
+
+
+    {
+      label:
+        "GITHUB",
+
+      value:
+        "Projects & Open Source",
+
+      href:
+        contactInfo.github,
+
+      icon:
+        "github",
+
+      description:
+        "Code and portfolio projects",
+
+      external:
+        true,
+
+      accent:
+        "violet",
+
+      enabled:
+        true
+    },
+
+
+    {
+      label:
+        "LOCATION",
+
+      value:
+        contactInfo.location,
+
+      href:
+        "#contact",
+
+      icon:
+        "location",
+
+      accent:
+        "green",
+
+      enabled:
+        true
+    },
+
+
+    {
+      label:
+        "RESUME / CV",
+
+      value:
+        "Download Resume",
+
+      href:
+        contactInfo.resume,
+
+      icon:
+        "resume",
+
+      accent:
+        "cyan",
+
+      enabled:
+        true
+    }
+
+  ].filter(
+    (item) =>
+      item.enabled !== false
+  )
+
+};
+
+
+/**
+ * ============================================================
+ * CONTACT ITEMS
  * ============================================================
  *
- * The ContactCard component can consume this collection
- * directly.
- *
- * Set `enabled: false` if you don't want a particular
- * contact method displayed.
+ * Compatibility export for components that consume the
+ * simpler contact-item collection.
  *
  * ============================================================
  */
 
-export const contactItems: ContactItem[] = [
-  {
-    label:
-      "EMAIL",
-
-    value:
-      contactInfo.email,
-
-    href:
-      `mailto:${contactInfo.email}`,
-
-    icon:
-      "@",
-
-    accent:
-      "cyan",
-
-    featured:
-      true,
-
-    enabled:
-      true
-  },
-
-
-  {
-    label:
-      "LINKEDIN",
-
-    value:
-      "Professional Profile",
-
-    href:
-      contactInfo.linkedin,
-
-    icon:
-      "in",
-
-    external:
-      true,
-
-    accent:
-      "blue",
-
-    enabled:
-      true
-  },
-
-
-  {
-    label:
-      "GITHUB",
-
-    value:
-      "Projects & Open Source",
-
-    href:
-      contactInfo.github,
-
-    icon:
-      "⌘",
-
-    external:
-      true,
-
-    accent:
-      "violet",
-
-    enabled:
-      true
-  },
-
-
-  {
-    label:
-      "LOCATION",
-
-    value:
-      contactInfo.location,
-
-    icon:
-      "⌖",
-
-    accent:
-      "green",
-
-    enabled:
-      true
-  },
-
-
-  {
-    label:
-      "AVAILABILITY",
-
-    value:
-      contactInfo.availability,
-
-    icon:
-      "◉",
-
-    accent:
-      "green",
-
-    enabled:
-      true
-  },
-
-
-  {
-    label:
-      "RESUME / CV",
-
-    value:
-      "Download Resume",
-
-    href:
-      contactInfo.resume,
-
-    icon:
-      "↓",
-
-    accent:
-      "cyan",
-
-    enabled:
-      true
-  }
-];
+export const contactItems: ContactLink[] =
+  contact.links;
 
 
 /**
  * ============================================================
  * ENABLED CONTACT ITEMS
  * ============================================================
- *
- * Automatically removes disabled items.
- * ============================================================
  */
 
 export const enabledContactItems =
   contactItems.filter(
-    (contact) =>
-      contact.enabled !== false
+    (contactItem) =>
+      contactItem.enabled !== false
   );
 
 
@@ -236,9 +303,11 @@ export const enabledContactItems =
 
 export function getContactItem(
   label: string
-): ContactItem | undefined {
+): ContactLink | undefined {
+
   return contactItems.find(
-    (contact) =>
-      contact.label === label
+    (contactItem) =>
+      contactItem.label === label
   );
+
 }
