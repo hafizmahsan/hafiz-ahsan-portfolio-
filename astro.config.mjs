@@ -2,51 +2,62 @@ import { defineConfig } from "astro";
 
 export default defineConfig({
   /**
-   * Temporary production URL for the test repository.
+   * ============================================================
+   * SITE
+   * ============================================================
    *
-   * When this project is eventually moved to:
-   * hafizmahsan/hafizmahsan.github.io
+   * GitHub Pages project-site deployment.
    *
-   * this configuration will be updated to the root domain.
+   * Repository:
+   *
+   *   hafizmahsan/hafiz-ahsan-portfolio-
+   *
+   * Public site:
+   *
+   *   https://hafizmahsan.github.io/hafiz-ahsan-portfolio-/
+   *
+   * ============================================================
    */
-  site: "https://hafizmahsan.github.io",
+
+  site:
+    "https://hafizmahsan.github.io",
+
+  base:
+    "/hafiz-ahsan-portfolio-",
+
 
   /**
-   * Because this repository is currently:
-   *
-   * hafizmahsan/hafiz-ahsan-portfolio
-   *
-   * GitHub Pages serves it under this path.
+   * ============================================================
+   * URL BEHAVIOUR
+   * ============================================================
    */
-  base: "/hafiz-ahsan-portfolio",
+
+  trailingSlash:
+    "always",
+
 
   /**
-   * Keep generated URLs consistent:
+   * ============================================================
+   * OUTPUT
+   * ============================================================
    *
-   * /about/
-   * /experience/
-   * /projects/
+   * GitHub Pages serves static files.
    */
-  trailingSlash: "always",
+
+  output:
+    "static",
+
 
   /**
-   * Use Astro's static output.
-   *
-   * This is ideal for GitHub Pages and gives us:
-   * - fast loading
-   * - excellent SEO
-   * - CDN-friendly files
-   * - no server required
+   * ============================================================
+   * BUILD
+   * ============================================================
    */
-  output: "static",
 
-  /**
-   * Keep source maps available during development/build
-   * for easier debugging while we build the portfolio.
-   */
   vite: {
     build: {
-      sourcemap: false
+      sourcemap:
+        false
     }
   }
 });
