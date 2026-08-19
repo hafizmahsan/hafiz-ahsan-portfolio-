@@ -6,12 +6,13 @@
  *
  * Main portfolio landing page.
  *
- * Sections:
- * 01 — About
- * 02 — Projects
- * 03 — Experience
- * 04 — Skills
- * 05 — Contact
+ * Content:
+ * - Hero
+ * - About
+ * - Projects
+ * - Experience
+ * - Skills
+ * - Contact
  *
  * ============================================================
  */
@@ -26,6 +27,12 @@ import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
 
 import { site } from "../data/site";
+
+import {
+  projects,
+  experience,
+  skillGroups
+} from "../data/portfolio";
 ---
 
 <!doctype html>
@@ -41,7 +48,7 @@ import { site } from "../data/site";
 
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1"
+      content="width=device-width"
     />
 
     <meta
@@ -63,6 +70,7 @@ import { site } from "../data/site";
       name="robots"
       content="index, follow"
     />
+
 
     <title>
       {site.title}
@@ -112,6 +120,7 @@ import { site } from "../data/site";
       property="og:url"
       content={site.url}
     />
+
 
     {
       site.social?.image && (
@@ -187,21 +196,27 @@ import { site } from "../data/site";
            PROJECTS
            ================================================== -->
 
-      <Projects />
+      <Projects
+        projects={projects}
+      />
 
 
       <!-- ==================================================
            EXPERIENCE
            ================================================== -->
 
-      <Experience />
+      <Experience
+        entries={experience}
+      />
 
 
       <!-- ==================================================
            SKILLS
            ================================================== -->
 
-      <Skills />
+      <Skills
+        groups={skillGroups}
+      />
 
 
       <!-- ==================================================
