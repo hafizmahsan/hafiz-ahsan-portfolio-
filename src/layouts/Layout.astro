@@ -1,81 +1,45 @@
 ---
 /**
  * ============================================================
- * GLOBAL PORTFOLIO LAYOUT
+ * GLOBAL PAGE LAYOUT
  * ============================================================
  *
- * Shared HTML shell for the portfolio.
+ * Reusable document shell for the portfolio.
  *
- * Responsibilities:
- *
+ * Provides:
+ * - HTML document structure
  * - SEO metadata
- * - Canonical URL
- * - Open Graph metadata
- * - Twitter / X metadata
  * - Theme initialization
- * - Accessibility foundation
- * - Global document structure
- * - Structured data
- *
- * DESIGN/CSS DOES NOT BELONG HERE.
+ * - Global stylesheet
+ * - Favicon support
+ * - Slot-based page content
  *
  * ============================================================
  */
 
-import { siteConfig } from "../data/site";
-import { seoConfig } from "../data/seo";
 import "../styles/global.css";
 
+import { site } from "../data/site";
 
-type Props = {
+interface Props {
   title?: string;
 
   description?: string;
 
-  canonical?: string;
-
   image?: string;
 
-  imageAlt?: string;
-
-  ogType?: "website" | "profile";
-};
-
+  canonical?: string;
+}
 
 const {
-  title = seoConfig.title,
+  title = site.title,
 
-  description =
-    seoConfig.description,
+  description = site.description,
 
-  canonical =
-    seoConfig.canonicalUrl,
+  image = site.social?.image,
 
-  image =
-    seoConfig.openGraph.image,
-
-  imageAlt =
-    seoConfig.openGraph.imageAlt,
-
-  ogType =
-    seoConfig.openGraph.type
-
+  canonical = site.url
 } = Astro.props;
-
-
-/**
- * ============================================================
- * ABSOLUTE OPEN GRAPH IMAGE
- * ============================================================
- */
-
-const absoluteImageUrl =
-  image.startsWith("http")
-    ? image
-    : new URL(
-        image,
-        seoConfig.canonicalUrl
-      ).toString();
 
 
 /**
@@ -85,62 +49,80 @@ const absoluteImageUrl =
  */
 
 const pageTitle =
-  title === seoConfig.title
-    ? title
-    : seoConfig.titleTemplate.replace(
-        "%s",
-        title
-      );
+  title;
 
 
 /**
  * ============================================================
- * ABSOLUTE TWITTER IMAGE
+ * SOCIAL IMAGE
  * ============================================================
  */
 
-const absoluteTwitterImage =
-  seoConfig.twitter.image.startsWith(
-    "http"
-  )
-    ? seoConfig.twitter.image
-    : new URL(
-        seoConfig.twitter.image,
-        seoConfig.canonicalUrl
-      ).toString();
----
+const socialImage =
+  image;
 
+
+/**
+ * ============================================================
+ * FAVICON
+ * ============================================================
+ *
+ * The favicon remains in its existing repository location.
+ *
+ * We do not move it into a public folder.
+ *
+ * If the favicon path is changed later, update only this
+ * reference.
+ * ============================================================
+ */
+
+const faviconPath =
+  "/favicon.ico";
+---
 
 <!doctype html>
 
 <html
-  lang={seoConfig.language}
-  data-theme={
-    siteConfig.appearance.defaultTheme
-  }
+  lang={site.language}
+  data-theme={site.defaultTheme === "light" ? "light" : "dark"}
 >
 
   <head>
 
     <!-- ======================================================
-         CHARACTER ENCODING
+         BASIC DOCUMENT METADATA
          ====================================================== -->
 
     <meta charset="UTF-8" />
 
-
-    <!-- ======================================================
-         VIEWPORT
-         ====================================================== -->
-
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
+      content="width=device-width, initial-scale=1"
+    />
+
+    <meta
+      name="description"
+      content={description}
+    />
+
+    <meta
+      name="author"
+      content={site.author}
+    />
+
+    <meta
+      name="theme-color"
+      content={site.themeColor}
+    />
+
+    <meta
+      name="robots"
+      content="index, follow"
     />
 
 
     <!-- ======================================================
-         PRIMARY SEO
+         TITLE
          ====================================================== -->
 
     <title>
@@ -148,44 +130,18 @@ const absoluteTwitterImage =
     </title>
 
 
-    <meta
-      name="description"
-      content={description}
-    />
-
-
-    <meta
-      name="author"
-      content={seoConfig.author}
-    />
-
+    <!-- ======================================================
+         KEYWORDS
+         ====================================================== -->
 
     <meta
       name="keywords"
-      content={seoConfig.keywords.join(", ")}
-    />
-
-
-    <meta
-      name="robots"
-      content={seoConfig.robots}
-    />
-
-
-    <meta
-      name="theme-color"
-      content="#020617"
-    />
-
-
-    <meta
-      name="color-scheme"
-      content="dark light"
+      content={site.keywords.join(", ")}
     />
 
 
     <!-- ======================================================
-         CANONICAL URL
+         CANONICAL
          ====================================================== -->
 
     <link
@@ -195,245 +151,213 @@ const absoluteTwitterImage =
 
 
     <!-- ======================================================
+         FAVICON
+         ====================================================== -->
+
+    <link
+      rel="icon"
+      href={faviconPath}
+    />
+
+    <link
+      rel="shortcut icon"
+      href={faviconPath}
+    />
+
+
+    <!-- ======================================================
          OPEN GRAPH
          ====================================================== -->
 
     <meta
       property="og:type"
-      content={ogType}
+      content="website"
     />
-
 
     <meta
       property="og:title"
       content={pageTitle}
     />
 
-
     <meta
       property="og:description"
       content={description}
     />
-
 
     <meta
       property="og:url"
       content={canonical}
     />
 
-
-    <meta
-      property="og:site_name"
-      content={siteConfig.siteName}
-    />
-
-
-    <meta
-      property="og:image"
-      content={absoluteImageUrl}
-    />
-
-
-    <meta
-      property="og:image:alt"
-      content={imageAlt}
-    />
+    {
+      socialImage && (
+        <meta
+          property="og:image"
+          content={socialImage}
+        />
+      )
+    }
 
 
     <!-- ======================================================
-         TWITTER / X
+         TWITTER / SOCIAL CARD
          ====================================================== -->
 
     <meta
       name="twitter:card"
-      content={seoConfig.twitter.card}
+      content={
+        site.social?.twitterCard ??
+        "summary_large_image"
+      }
     />
-
 
     <meta
       name="twitter:title"
       content={pageTitle}
     />
 
-
     <meta
       name="twitter:description"
       content={description}
     />
 
-
-    <meta
-      name="twitter:image"
-      content={absoluteTwitterImage}
-    />
-
-
-    <!-- ======================================================
-         PERFORMANCE / CONNECTION HINTS
-         ====================================================== -->
-
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-    />
-
-
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin="anonymous"
-    />
-
-
-    <!-- ======================================================
-         FAVICON
-         ======================================================
-
-         IMPORTANT:
-         The existing favicon.svg remains in the repository
-         root exactly where it currently is.
-
-         We are intentionally NOT moving or duplicating it.
-
-         ====================================================== -->
-
-
-    <!-- ======================================================
-         STRUCTURED DATA
-         ====================================================== -->
-
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify({
-        "@context": "https://schema.org",
-
-        "@type": "Person",
-
-        name:
-          seoConfig
-            .structuredData
-            .personName,
-
-        jobTitle:
-          seoConfig
-            .structuredData
-            .jobTitle,
-
-        description:
-          seoConfig
-            .structuredData
-            .description,
-
-        url:
-          seoConfig
-            .structuredData
-            .url,
-
-        areaServed:
-          seoConfig
-            .structuredData
-            .areaServed,
-
-        knowsAbout:
-          seoConfig
-            .structuredData
-            .knowsAbout,
-
-        worksFor: {
-          "@type":
-            seoConfig
-              .structuredData
-              .worksFor
-              .type,
-
-          name:
-            seoConfig
-              .structuredData
-              .worksFor
-              .name
-        },
-
-        sameAs: [
-          "https://github.com/hafizmahsan"
-        ]
-      })}
-    />
+    {
+      socialImage && (
+        <meta
+          name="twitter:image"
+          content={socialImage}
+        />
+      )
+    }
 
 
     <!-- ======================================================
          THEME INITIALIZATION
+         ======================================================
+         
+         This runs before the page becomes visible so the
+         stored theme can be applied without an unnecessary
+         visual flash.
          ====================================================== -->
 
     <script is:inline>
       (() => {
+
         try {
-          const savedTheme =
+
+          const storedTheme =
             localStorage.getItem(
-              "hafiz-portfolio-theme"
+              "portfolio-theme"
             );
 
-          const systemPrefersLight =
+          if (
+            storedTheme === "light" ||
+            storedTheme === "dark"
+          ) {
+
+            document.documentElement.setAttribute(
+              "data-theme",
+              storedTheme
+            );
+
+            return;
+          }
+
+
+          const prefersLight =
             window.matchMedia(
               "(prefers-color-scheme: light)"
             ).matches;
 
-          const theme =
-            savedTheme === "light" ||
-            savedTheme === "dark"
-              ? savedTheme
-              : systemPrefersLight
-                ? "light"
-                : "dark";
 
-          document.documentElement.dataset.theme =
-            theme;
+          document.documentElement.setAttribute(
+            "data-theme",
+            prefersLight
+              ? "light"
+              : "dark"
+          );
 
         } catch {
-          document.documentElement.dataset.theme =
-            "dark";
+
+          document.documentElement.setAttribute(
+            "data-theme",
+            "dark"
+          );
+
         }
+
       })();
     </script>
-
-
-    <!-- ======================================================
-         PAGE-SPECIFIC HEAD CONTENT
-         ====================================================== -->
-
-    <slot name="head" />
 
   </head>
 
 
-  <body>
+  <body id="top">
 
     <!-- ======================================================
-         ACCESSIBILITY
+         PAGE CONTENT
          ====================================================== -->
 
-    <a
-      class="skip-link"
-      href="#main-content"
-    >
-      Skip to main content
-    </a>
+    <slot />
 
 
     <!-- ======================================================
-         GLOBAL PAGE CONTAINER
+         PAGE READY FLAG
          ====================================================== -->
 
-    <div id="site-root">
-      <slot />
-    </div>
-
-
-    <!-- ======================================================
-         GLOBAL JAVASCRIPT HOOK
-         ====================================================== -->
-
-    <slot name="scripts" />
+    <script>
+      document.documentElement.setAttribute(
+        "data-page-ready",
+        "true"
+      );
+    </script>
 
   </body>
 
 </html>
+
+
+<style>
+  /**
+   * ==========================================================
+   * LAYOUT FOUNDATION
+   * ==========================================================
+   */
+
+  :global(body) {
+    min-height:
+      100vh;
+
+    background:
+      var(--color-background);
+
+    color:
+      var(--color-text);
+  }
+
+
+  /**
+   * Prevent accidental horizontal overflow from individual
+   * components.
+   */
+
+  :global(#top) {
+    overflow-x:
+      hidden;
+  }
+
+
+  /**
+   * Ensure the main content begins beneath the fixed header
+   * without forcing every individual page section to manage
+   * the offset.
+   */
+
+  :global(main) {
+    position:
+      relative;
+
+    z-index:
+      1;
+  }
+</style>
