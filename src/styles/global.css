@@ -1,63 +1,77 @@
-/*
+/**
  * ============================================================
- * HAFIZ AHSAN PORTFOLIO
- * GLOBAL DESIGN SYSTEM
+ * GLOBAL STYLES
  * ============================================================
  *
- * This file contains:
+ * Global visual foundation for the portfolio.
  *
- * - Design tokens
- * - Dark/light themes
- * - Typography
- * - Global reset
- * - Accessibility
- * - Layout utilities
- * - Glass surfaces
- * - Buttons
- * - Animated technology effects
- * - Scroll behavior
- * - Responsive foundations
- *
- * Component-specific styles should remain inside their
- * respective component files whenever practical.
+ * Components should use the variables defined here rather
+ * than duplicating global colors, spacing, and typography.
  *
  * ============================================================
  */
 
 
 /* ============================================================
-   01. FONT IMPORTS
-   ============================================================ */
-
-/*
- * We use freely available Google Fonts.
- *
- * Space Grotesk:
- *   Modern technology-oriented headings.
- *
- * Inter:
- *   Extremely readable body/UI typography.
- *
- * JetBrains Mono:
- *   Technical labels, code-like elements and metadata.
- */
-
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap");
-
-
-/* ============================================================
-   02. ROOT DESIGN TOKENS
+   ROOT VARIABLES
    ============================================================ */
 
 :root {
-  /*
-   * ----------------------------------------------------------
-   * Typography
-   * ----------------------------------------------------------
-   */
+
+  /* ----------------------------------------------------------
+     COLORS
+     ---------------------------------------------------------- */
+
+  --color-background:
+    #05070a;
+
+  --color-surface:
+    #080c12;
+
+  --color-surface-elevated:
+    #0b1119;
+
+  --color-border:
+    rgba(148, 163, 184, 0.12);
+
+  --color-border-strong:
+    rgba(148, 163, 184, 0.2);
+
+  --color-text:
+    #f8fafc;
+
+  --color-text-muted:
+    #94a3b8;
+
+  --color-text-subtle:
+    #64748b;
+
+  --color-cyan:
+    #22d3ee;
+
+  --color-cyan-soft:
+    #67e8f9;
+
+  --color-violet:
+    #8b5cf6;
+
+  --color-success:
+    #22c55e;
+
+  --color-warning:
+    #f59e0b;
+
+  --color-danger:
+    #ef4444;
+
+
+  /* ----------------------------------------------------------
+     TYPOGRAPHY
+     ---------------------------------------------------------- */
 
   --font-display:
-    "Space Grotesk",
+    Inter,
+    ui-sans-serif,
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
@@ -65,7 +79,8 @@
     sans-serif;
 
   --font-body:
-    "Inter",
+    Inter,
+    ui-sans-serif,
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
@@ -74,299 +89,73 @@
 
   --font-mono:
     "JetBrains Mono",
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Monaco,
+    "SFMono-Regular",
     Consolas,
+    "Liberation Mono",
     monospace;
 
 
-  /*
-   * ----------------------------------------------------------
-   * Brand Colors
-   * ----------------------------------------------------------
-   *
-   * Cyan = technology / automation
-   * Blue = enterprise / trust
-   * Violet = AI / intelligence
-   * Green = successful automation / systems
-   */
+  /* ----------------------------------------------------------
+     LAYOUT
+     ---------------------------------------------------------- */
 
-  --color-cyan:
-    #22d3ee;
+  --container-width:
+    76rem;
 
-  --color-cyan-bright:
-    #67e8f9;
-
-  --color-blue:
-    #3b82f6;
-
-  --color-blue-bright:
-    #60a5fa;
-
-  --color-violet:
-    #8b5cf6;
-
-  --color-violet-bright:
-    #a78bfa;
-
-  --color-green:
-    #22c55e;
-
-  --color-orange:
-    #f59e0b;
-
-  --color-red:
-    #ef4444;
-
-  --color-white:
-    #ffffff;
+  --header-height:
+    4.5rem;
 
 
-  /*
-   * ----------------------------------------------------------
-   * Dark Theme
-   * ----------------------------------------------------------
-   */
-
-  --color-background:
-    #05070d;
-
-  --color-background-secondary:
-    #080c15;
-
-  --color-surface:
-    rgba(13, 18, 31, 0.72);
-
-  --color-surface-solid:
-    #0d121f;
-
-  --color-surface-elevated:
-    #111827;
-
-  --color-surface-hover:
-    #151e30;
-
-  --color-border:
-    rgba(148, 163, 184, 0.14);
-
-  --color-border-strong:
-    rgba(148, 163, 184, 0.25);
-
-  --color-text:
-    #f8fafc;
-
-  --color-text-secondary:
-    #cbd5e1;
-
-  --color-text-muted:
-    #94a3b8;
-
-  --color-text-subtle:
-    #64748b;
-
-
-  /*
-   * ----------------------------------------------------------
-   * Background Effects
-   * ----------------------------------------------------------
-   */
-
-  --glow-cyan:
-    rgba(34, 211, 238, 0.18);
-
-  --glow-blue:
-    rgba(59, 130, 246, 0.16);
-
-  --glow-violet:
-    rgba(139, 92, 246, 0.16);
-
-  --glow-green:
-    rgba(34, 197, 94, 0.14);
-
-
-  /*
-   * ----------------------------------------------------------
-   * Gradients
-   * ----------------------------------------------------------
-   */
-
-  --gradient-brand:
-    linear-gradient(
-      135deg,
-      var(--color-cyan),
-      var(--color-blue),
-      var(--color-violet)
-    );
-
-  --gradient-automation:
-    linear-gradient(
-      135deg,
-      #22d3ee 0%,
-      #3b82f6 50%,
-      #8b5cf6 100%
-    );
-
-  --gradient-ai:
-    linear-gradient(
-      135deg,
-      #8b5cf6,
-      #c084fc,
-      #22d3ee
-    );
-
-  --gradient-success:
-    linear-gradient(
-      135deg,
-      #22c55e,
-      #14b8a6,
-      #22d3ee
-    );
-
-
-  /*
-   * ----------------------------------------------------------
-   * Borders / Radius
-   * ----------------------------------------------------------
-   */
-
-  --radius-xs:
-    0.375rem;
+  /* ----------------------------------------------------------
+     RADIUS
+     ---------------------------------------------------------- */
 
   --radius-sm:
-    0.625rem;
+    0.3rem;
 
   --radius-md:
-    0.875rem;
+    0.45rem;
 
   --radius-lg:
-    1.25rem;
-
-  --radius-xl:
-    1.75rem;
-
-  --radius-2xl:
-    2.25rem;
-
-  --radius-pill:
-    9999px;
+    0.7rem;
 
 
-  /*
-   * ----------------------------------------------------------
-   * Shadows
-   * ----------------------------------------------------------
-   */
+  /* ----------------------------------------------------------
+     MOTION
+     ---------------------------------------------------------- */
 
-  --shadow-sm:
-    0 4px 16px rgba(0, 0, 0, 0.16);
+  --duration-fast:
+    160ms;
 
-  --shadow-md:
-    0 12px 32px rgba(0, 0, 0, 0.24);
+  --duration-normal:
+    280ms;
 
-  --shadow-lg:
-    0 24px 70px rgba(0, 0, 0, 0.36);
-
-  --shadow-glow-cyan:
-    0 0 30px rgba(34, 211, 238, 0.16);
-
-  --shadow-glow-violet:
-    0 0 30px rgba(139, 92, 246, 0.16);
-
-
-  /*
-   * ----------------------------------------------------------
-   * Layout
-   * ----------------------------------------------------------
-   */
-
-  --content-width:
-    1200px;
-
-  --content-width-wide:
-    1440px;
-
-  --content-padding:
-    clamp(1.25rem, 4vw, 4rem);
-
-  --section-padding:
-    clamp(5rem, 10vw, 9rem);
-
-
-  /*
-   * ----------------------------------------------------------
-   * Animation
-   * ----------------------------------------------------------
-   */
+  --duration-slow:
+    500ms;
 
   --ease-standard:
     cubic-bezier(0.22, 1, 0.36, 1);
 
-  --ease-smooth:
-    cubic-bezier(0.16, 1, 0.3, 1);
-
-  --duration-fast:
-    180ms;
-
-  --duration-normal:
-    300ms;
-
-  --duration-slow:
-    700ms;
-
-
-  /*
-   * ----------------------------------------------------------
-   * Z-index
-   * ----------------------------------------------------------
-   */
-
-  --z-base:
-    1;
-
-  --z-content:
-    10;
-
-  --z-header:
-    100;
-
-  --z-overlay:
-    500;
-
-  --z-modal:
-    1000;
-
-  --z-toast:
-    2000;
 }
 
 
 /* ============================================================
-   03. LIGHT THEME
+   LIGHT THEME
    ============================================================ */
 
-html[data-theme="light"] {
-  --color-background:
-    #f7f9fc;
+[data-theme="light"] {
 
-  --color-background-secondary:
-    #eef2f7;
+  --color-background:
+    #f8fafc;
 
   --color-surface:
-    rgba(255, 255, 255, 0.78);
-
-  --color-surface-solid:
     #ffffff;
 
   --color-surface-elevated:
-    #ffffff;
-
-  --color-surface-hover:
     #f1f5f9;
 
   --color-border:
-    rgba(15, 23, 42, 0.10);
+    rgba(15, 23, 42, 0.1);
 
   --color-border-strong:
     rgba(15, 23, 42, 0.18);
@@ -374,60 +163,86 @@ html[data-theme="light"] {
   --color-text:
     #0f172a;
 
-  --color-text-secondary:
-    #334155;
-
   --color-text-muted:
-    #64748b;
+    #475569;
 
   --color-text-subtle:
-    #94a3b8;
+    #64748b;
 
-  --glow-cyan:
-    rgba(6, 182, 212, 0.12);
+  --color-cyan:
+    #0891b2;
 
-  --glow-blue:
-    rgba(37, 99, 235, 0.10);
+  --color-cyan-soft:
+    #0e7490;
 
-  --glow-violet:
-    rgba(124, 58, 237, 0.10);
+  --color-violet:
+    #7c3aed;
 
-  --shadow-sm:
-    0 4px 16px rgba(15, 23, 42, 0.08);
+  --color-success:
+    #16a34a;
 
-  --shadow-md:
-    0 12px 32px rgba(15, 23, 42, 0.10);
-
-  --shadow-lg:
-    0 24px 70px rgba(15, 23, 42, 0.14);
 }
 
 
 /* ============================================================
-   04. RESET
+   BOX MODEL
    ============================================================ */
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+  box-sizing:
+    border-box;
 }
+
+
+/* ============================================================
+   HTML
+   ============================================================ */
 
 html {
-  scroll-behavior: smooth;
 
-  /*
-   * Prevents anchor links from hiding content underneath
-   * the future sticky header.
-   */
+  min-height:
+    100%;
 
-  scroll-padding-top: 6rem;
+  scroll-behavior:
+    smooth;
+
+  scroll-padding-top:
+    var(--header-height);
+
+  background:
+    var(--color-background);
+
+  color:
+    var(--color-text);
+
+  font-family:
+    var(--font-body);
+
+  font-synthesis:
+    none;
+
+  text-rendering:
+    optimizeLegibility;
+
 }
 
-body {
-  margin: 0;
 
-  min-width: 320px;
+/* ============================================================
+   BODY
+   ============================================================ */
+
+body {
+
+  min-width:
+    320px;
+
+  min-height:
+    100vh;
+
+  margin:
+    0;
 
   background:
     var(--color-background);
@@ -439,212 +254,24 @@ body {
     var(--font-body);
 
   font-size:
-    1rem;
+    16px;
 
   line-height:
-    1.7;
-
-  -webkit-font-smoothing:
-    antialiased;
-
-  text-rendering:
-    optimizeLegibility;
+    1.5;
 
   overflow-x:
     hidden;
-}
 
-img,
-picture,
-svg,
-canvas,
-video {
-  display: block;
-
-  max-width: 100%;
-}
-
-img {
-  height: auto;
-}
-
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-button {
-  border: 0;
-
-  cursor: pointer;
-}
-
-a {
-  color: inherit;
-
-  text-decoration: none;
-}
-
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-top: 0;
-}
-
-p {
-  margin-bottom: 1rem;
-}
-
-ul,
-ol {
-  margin-top: 0;
 }
 
 
 /* ============================================================
-   05. SELECTION
+   ROOT PAGE ELEMENTS
    ============================================================ */
 
-::selection {
-  color:
-    #ffffff;
-
-  background:
-    rgba(59, 130, 246, 0.65);
-}
-
-
-/* ============================================================
-   06. BODY BACKGROUND
-   ============================================================
- *
- * Very subtle radial glows provide the technology atmosphere.
- *
- * They are intentionally low contrast.
- * The actual neural-network/particle effects will be separate.
- */
-
-body {
-  background-color:
-    var(--color-background);
-
-  background-image:
-    radial-gradient(
-      circle at 10% 10%,
-      var(--glow-cyan),
-      transparent 26rem
-    ),
-    radial-gradient(
-      circle at 90% 15%,
-      var(--glow-violet),
-      transparent 28rem
-    ),
-    radial-gradient(
-      circle at 50% 100%,
-      var(--glow-blue),
-      transparent 30rem
-    );
-}
-
-
-/* ============================================================
-   07. TYPOGRAPHY
-   ============================================================ */
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family:
-    var(--font-display);
-
-  color:
-    var(--color-text);
-
-  font-weight:
-    600;
-
-  line-height:
-    1.1;
-
-  letter-spacing:
-    -0.025em;
-}
-
-h1 {
-  font-size:
-    clamp(2.75rem, 7vw, 6.5rem);
-}
-
-h2 {
-  font-size:
-    clamp(2.25rem, 5vw, 4.25rem);
-}
-
-h3 {
-  font-size:
-    clamp(1.5rem, 3vw, 2.25rem);
-}
-
-h4 {
-  font-size:
-    clamp(1.2rem, 2vw, 1.5rem);
-}
-
-.text-gradient {
-  color:
-    transparent;
-
-  background:
-    var(--gradient-brand);
-
-  background-clip:
-    text;
-
-  -webkit-background-clip:
-    text;
-}
-
-.text-muted {
-  color:
-    var(--color-text-muted);
-}
-
-.text-secondary {
-  color:
-    var(--color-text-secondary);
-}
-
-.text-mono {
-  font-family:
-    var(--font-mono);
-
-  font-size:
-    0.82em;
-
-  letter-spacing:
-    0.01em;
-}
-
-
-/* ============================================================
-   08. SITE ROOT
-   ============================================================ */
-
-#site-root {
-  position:
-    relative;
-
-  isolation:
-    isolate;
+main {
+  display:
+    block;
 
   min-height:
     100vh;
@@ -652,745 +279,412 @@ h4 {
 
 
 /* ============================================================
-   09. CONTAINERS
+   TYPOGRAPHY RESET
    ============================================================ */
 
-.container {
-  width:
-    min(
-      100% - (var(--content-padding) * 2),
-      var(--content-width)
-    );
-
-  margin-inline:
-    auto;
-}
-
-.container-wide {
-  width:
-    min(
-      100% - (var(--content-padding) * 2),
-      var(--content-width-wide)
-    );
-
-  margin-inline:
-    auto;
-}
-
-
-/* ============================================================
-   10. SECTIONS
-   ============================================================ */
-
-.section {
-  position:
-    relative;
-
-  padding-block:
-    var(--section-padding);
-}
-
-.section-header {
-  max-width:
-    780px;
-
-  margin-bottom:
-    clamp(2.5rem, 6vw, 5rem);
-}
-
-.section-label {
-  display:
-    inline-flex;
-
-  align-items:
-    center;
-
-  gap:
-    0.55rem;
-
-  margin-bottom:
-    1rem;
-
-  color:
-    var(--color-cyan);
-
-  font-family:
-    var(--font-mono);
-
-  font-size:
-    0.75rem;
-
-  font-weight:
-    600;
-
-  letter-spacing:
-    0.14em;
-
-  text-transform:
-    uppercase;
-}
-
-.section-label::before {
-  content:
-    "";
-
-  width:
-    1.5rem;
-
-  height:
-    1px;
-
-  background:
-    currentColor;
-
-  box-shadow:
-    0 0 12px currentColor;
-}
-
-
-/* ============================================================
-   11. GLASS SURFACES
-   ============================================================ */
-
-.glass {
-  background:
-    var(--color-surface);
-
-  border:
-    1px solid var(--color-border);
-
-  box-shadow:
-    var(--shadow-md);
-
-  backdrop-filter:
-    blur(18px);
-
-  -webkit-backdrop-filter:
-    blur(18px);
-}
-
-.glass-hover {
-  transition:
-    transform var(--duration-normal) var(--ease-standard),
-    border-color var(--duration-normal) ease,
-    box-shadow var(--duration-normal) ease,
-    background-color var(--duration-normal) ease;
-}
-
-.glass-hover:hover {
-  transform:
-    translateY(-4px);
-
-  border-color:
-    var(--color-border-strong);
-
-  box-shadow:
-    var(--shadow-lg),
-    var(--shadow-glow-cyan);
-
-  background:
-    var(--color-surface-hover);
-}
-
-
-/* ============================================================
-   12. TECHNOLOGY GRID
-   ============================================================
- *
- * This grid will be used behind sections and inside future
- * 3D/animated technology scenes.
- */
-
-.tech-grid {
-  background-image:
-    linear-gradient(
-      rgba(148, 163, 184, 0.055) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(148, 163, 184, 0.055) 1px,
-      transparent 1px
-    );
-
-  background-size:
-    42px 42px;
-
-  mask-image:
-    linear-gradient(
-      to bottom,
-      transparent,
-      black 15%,
-      black 85%,
-      transparent
-    );
-
-  -webkit-mask-image:
-    linear-gradient(
-      to bottom,
-      transparent,
-      black 15%,
-      black 85%,
-      transparent
-    );
-}
-
-
-/* ============================================================
-   13. TECHNOLOGY NODE
-   ============================================================ */
-
-.tech-node {
-  position:
-    relative;
-
-  width:
-    0.55rem;
-
-  height:
-    0.55rem;
-
-  border-radius:
-    50%;
-
-  background:
-    var(--color-cyan);
-
-  box-shadow:
-    0 0 0 4px rgba(34, 211, 238, 0.08),
-    0 0 20px rgba(34, 211, 238, 0.65);
-
-  animation:
-    node-pulse 2.8s ease-in-out infinite;
-}
-
-.tech-node::after {
-  content:
-    "";
-
-  position:
-    absolute;
-
-  inset:
-    -0.5rem;
-
-  border:
-    1px solid rgba(34, 211, 238, 0.25);
-
-  border-radius:
-    50%;
-
-  animation:
-    node-ring 2.8s ease-out infinite;
-}
-
-@keyframes node-pulse {
-  0%,
-  100% {
-    transform:
-      scale(0.85);
-
-    opacity:
-      0.7;
-  }
-
-  50% {
-    transform:
-      scale(1.15);
-
-    opacity:
-      1;
-  }
-}
-
-@keyframes node-ring {
-  0% {
-    transform:
-      scale(0.7);
-
-    opacity:
-      0.8;
-  }
-
-  100% {
-    transform:
-      scale(2);
-
-    opacity:
-      0;
-  }
-}
-
-
-/* ============================================================
-   14. CONNECTION LINE
-   ============================================================ */
-
-.tech-line {
-  height:
-    1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      var(--color-cyan),
-      var(--color-violet),
-      transparent
-    );
-
-  opacity:
-    0.5;
-
-  transform-origin:
-    left center;
-
-  animation:
-    line-flow 4s ease-in-out infinite;
-}
-
-@keyframes line-flow {
-  0%,
-  100% {
-    opacity:
-      0.25;
-
-    filter:
-      brightness(0.8);
-  }
-
-  50% {
-    opacity:
-      0.75;
-
-    filter:
-      brightness(1.4);
-  }
-}
-
-
-/* ============================================================
-   15. BUTTON FOUNDATION
-   ============================================================ */
-
-.button {
-  position:
-    relative;
-
-  display:
-    inline-flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  gap:
-    0.65rem;
-
-  min-height:
-    2.9rem;
-
-  padding:
-    0.75rem 1.15rem;
-
-  border:
-    1px solid var(--color-border-strong);
-
-  border-radius:
-    var(--radius-pill);
-
-  background:
-    var(--color-surface);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+  margin:
+    0;
 
   color:
     var(--color-text);
 
-  font-size:
-    0.9rem;
+  font-family:
+    var(--font-display);
 
   font-weight:
-    600;
+    700;
 
-  white-space:
-    nowrap;
-
-  transition:
-    transform var(--duration-normal) var(--ease-standard),
-    border-color var(--duration-normal) ease,
-    background-color var(--duration-normal) ease,
-    box-shadow var(--duration-normal) ease;
 }
 
-.button:hover {
-  transform:
-    translateY(-2px);
 
-  border-color:
-    rgba(34, 211, 238, 0.4);
-
-  background:
-    var(--color-surface-hover);
-
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.18),
-    0 0 25px rgba(34, 211, 238, 0.10);
+p {
+  margin:
+    0;
 }
 
-.button:active {
-  transform:
-    translateY(0);
-}
 
-.button-primary {
-  border-color:
-    transparent;
-
-  background:
-    var(--gradient-automation);
-
+a {
   color:
-    #ffffff;
-
-  box-shadow:
-    0 10px 30px rgba(37, 99, 235, 0.22);
+    inherit;
 }
 
-.button-primary:hover {
-  border-color:
-    transparent;
 
-  box-shadow:
-    0 14px 40px rgba(37, 99, 235, 0.30),
-    0 0 35px rgba(34, 211, 238, 0.16);
+button,
+input,
+textarea,
+select {
+
+  font:
+    inherit;
+
 }
 
 
 /* ============================================================
-   16. PILL / BADGE
+   IMAGE RESET
    ============================================================ */
 
-.badge {
+img,
+svg {
+
   display:
-    inline-flex;
+    block;
 
-  align-items:
-    center;
-
-  gap:
-    0.45rem;
-
-  padding:
-    0.4rem 0.75rem;
-
-  border:
-    1px solid var(--color-border);
-
-  border-radius:
-    var(--radius-pill);
-
-  background:
-    rgba(148, 163, 184, 0.05);
-
-  color:
-    var(--color-text-secondary);
-
-  font-family:
-    var(--font-mono);
-
-  font-size:
-    0.72rem;
-
-  line-height:
-    1;
-
-  white-space:
-    nowrap;
-}
-
-.badge-cyan {
-  border-color:
-    rgba(34, 211, 238, 0.25);
-
-  background:
-    rgba(34, 211, 238, 0.07);
-
-  color:
-    var(--color-cyan-bright);
-}
-
-.badge-violet {
-  border-color:
-    rgba(139, 92, 246, 0.25);
-
-  background:
-    rgba(139, 92, 246, 0.07);
-
-  color:
-    var(--color-violet-bright);
-}
-
-
-/* ============================================================
-   17. GLOW UTILITIES
-   ============================================================ */
-
-.glow-cyan {
-  box-shadow:
-    0 0 40px rgba(34, 211, 238, 0.14);
-}
-
-.glow-blue {
-  box-shadow:
-    0 0 40px rgba(59, 130, 246, 0.14);
-}
-
-.glow-violet {
-  box-shadow:
-    0 0 40px rgba(139, 92, 246, 0.14);
-}
-
-
-/* ============================================================
-   18. GRADIENT BORDER
-   ============================================================ */
-
-.gradient-border {
-  position:
-    relative;
-
-  border:
-    1px solid transparent;
-
-  background:
-    linear-gradient(
-      var(--color-surface-solid),
-      var(--color-surface-solid)
-    ) padding-box,
-    var(--gradient-brand) border-box;
-
-  border-radius:
-    var(--radius-lg);
-}
-
-
-/* ============================================================
-   19. DIVIDER
-   ============================================================ */
-
-.divider {
-  width:
+  max-width:
     100%;
 
-  height:
-    1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      var(--color-border-strong),
-      transparent
-    );
 }
 
 
 /* ============================================================
-   20. FOCUS STATES
+   BUTTON RESET
+   ============================================================ */
+
+button {
+
+  border:
+    0;
+
+  margin:
+    0;
+
+}
+
+
+/* ============================================================
+   LIST RESET
+   ============================================================ */
+
+ul,
+ol {
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+}
+
+
+/* ============================================================
+   SELECTION
+   ============================================================ */
+
+::selection {
+
+  color:
+    #020617;
+
+  background:
+    var(--color-cyan);
+
+}
+
+
+/* ============================================================
+   FOCUS
    ============================================================ */
 
 :focus-visible {
+
   outline:
     2px solid var(--color-cyan);
 
   outline-offset:
-    4px;
+    3px;
 
-  border-radius:
-    var(--radius-xs);
 }
 
 
 /* ============================================================
-   21. SKIP LINK
+   SCROLLBAR
    ============================================================ */
 
-.skip-link {
+html {
+
+  scrollbar-width:
+    thin;
+
+  scrollbar-color:
+    rgba(100, 116, 139, 0.5)
+    var(--color-background);
+
+}
+
+
+::-webkit-scrollbar {
+
+  width:
+    8px;
+
+}
+
+
+::-webkit-scrollbar-track {
+
+  background:
+    var(--color-background);
+
+}
+
+
+::-webkit-scrollbar-thumb {
+
+  border:
+    2px solid var(--color-background);
+
+  border-radius:
+    999px;
+
+  background:
+    rgba(100, 116, 139, 0.45);
+
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+  background:
+    rgba(34, 211, 238, 0.55);
+
+}
+
+
+/* ============================================================
+   CODE / MONOSPACE
+   ============================================================ */
+
+code,
+pre,
+kbd,
+samp {
+
+  font-family:
+    var(--font-mono);
+
+}
+
+
+/* ============================================================
+   CONTAINER UTILITY
+   ============================================================ */
+
+.container {
+
+  width:
+    min(
+      calc(100% - 2.5rem),
+      var(--container-width)
+    );
+
+  margin-inline:
+    auto;
+
+}
+
+
+/* ============================================================
+   SECTION ANCHOR OFFSET
+   ============================================================ */
+
+section[id] {
+
+  scroll-margin-top:
+    calc(var(--header-height) + 1rem);
+
+}
+
+
+/* ============================================================
+   PAGE BACKGROUND GRID
+   ============================================================ */
+
+body::before {
+
+  content:
+    "";
+
+  position:
+    fixed;
+
+  inset:
+    0;
+
+  z-index:
+    -2;
+
+  pointer-events:
+    none;
+
+  background-image:
+    linear-gradient(
+      rgba(148, 163, 184, 0.025)
+      1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(148, 163, 184, 0.025)
+      1px,
+      transparent 1px
+    );
+
+  background-size:
+    48px 48px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      black,
+      transparent 90%
+    );
+
+}
+
+
+[data-theme="light"] body::before {
+
+  background-image:
+    linear-gradient(
+      rgba(15, 23, 42, 0.025)
+      1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(15, 23, 42, 0.025)
+      1px,
+      transparent 1px
+    );
+
+}
+
+
+/* ============================================================
+   PAGE GLOW
+   ============================================================ */
+
+body::after {
+
+  content:
+    "";
+
   position:
     fixed;
 
   top:
-    1rem;
+    -20rem;
 
-  left:
-    1rem;
+  right:
+    -15rem;
 
   z-index:
-    var(--z-toast);
+    -1;
 
-  padding:
-    0.75rem 1rem;
+  width:
+    40rem;
+
+  height:
+    40rem;
+
+  pointer-events:
+    none;
 
   border-radius:
-    var(--radius-sm);
+    50%;
 
   background:
-    var(--color-surface-solid);
+    radial-gradient(
+      circle,
+      rgba(34, 211, 238, 0.045),
+      transparent 68%
+    );
 
-  border:
-    1px solid var(--color-border-strong);
-
-  color:
-    var(--color-text);
-
-  box-shadow:
-    var(--shadow-md);
-
-  transform:
-    translateY(-150%);
-
-  transition:
-    transform var(--duration-normal) var(--ease-standard);
 }
 
-.skip-link:focus {
-  transform:
-    translateY(0);
+
+[data-theme="light"] body::after {
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(8, 145, 178, 0.035),
+      transparent 68%
+    );
+
 }
 
 
 /* ============================================================
-   22. REDUCED MOTION
-   ============================================================
- *
- * Important for accessibility.
- *
- * Users who have requested reduced motion should not receive
- * the intense animated experience.
- */
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior:
-      auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration:
-      0.01ms !important;
-
-    animation-iteration-count:
-      1 !important;
-
-    transition-duration:
-      0.01ms !important;
-
-    scroll-behavior:
-      auto !important;
-  }
-}
-
-
-/* ============================================================
-   23. MOBILE FOUNDATION
+   ASTRO PAGE READY
    ============================================================ */
 
-@media (max-width: 767px) {
+[data-page-ready="true"] {
+
+  --page-state:
+    ready;
+
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 900px) {
+
   :root {
-    --section-padding:
-      clamp(4rem, 15vw, 6rem);
+
+    --header-height:
+      4rem;
+
   }
 
-  body {
-    font-size:
-      0.95rem;
+}
+
+
+@media (max-width: 640px) {
+
+  :root {
+
+    --header-height:
+      3.75rem;
+
   }
 
-  .container,
-  .container-wide {
+
+  .container {
+
     width:
       min(
-        100% - 2rem,
-        var(--content-width)
+        calc(100% - 2rem),
+        var(--container-width)
       );
+
   }
 
-  .glass {
-    backdrop-filter:
-      blur(12px);
-
-    -webkit-backdrop-filter:
-      blur(12px);
-  }
 }
 
 
 /* ============================================================
-   24. TABLET
+   REDUCED MOTION
    ============================================================ */
 
-@media (min-width: 768px) and (max-width: 1023px) {
-  :root {
-    --content-padding:
-      clamp(2rem, 5vw, 3rem);
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+
+    scroll-behavior:
+      auto;
+
   }
+
 }
-
-
-/* ============================================================
-   25. LARGE DISPLAYS
-   ============================================================ */
-
-@media (min-width: 1440px) {
-  body {
-    font-size:
-      1.02rem;
-  }
-}
-
-
-/* ============================================================
-   26. PRINT
-   ============================================================ */
-
-@media print {
-  *,
-  *::before,
-  *::after {
-    background:
-      transparent !important;
-
-    color:
-      #000000 !important;
-
-    box-shadow:
-      none !important;
-
-    text-shadow:
-      none !important;
-  }
-
-  body {
-    background:
-      #ffffff !important;
-  }
-
-  a,
-  a:visited {
-    text-decoration:
-      underline;
-  }
-
-  .no-print {
-    display:
-      none !important;
-  }
-}
-
-
-/* ============================================================
-   END OF GLOBAL DESIGN SYSTEM
-   ============================================================ */
