@@ -3,10 +3,7 @@
  * GLOBAL STYLES
  * ============================================================
  *
- * Global visual foundation for the portfolio.
- *
- * Components should use the variables defined here rather
- * than duplicating global colors, spacing, and typography.
+ * Shared design system for the portfolio.
  *
  * ============================================================
  */
@@ -28,20 +25,20 @@
   --color-surface:
     #080c12;
 
-  --color-surface-elevated:
-    #0b1119;
+  --color-surface-raised:
+    #0b111a;
 
   --color-border:
-    rgba(148, 163, 184, 0.12);
+    rgba(148, 163, 184, 0.11);
 
   --color-border-strong:
-    rgba(148, 163, 184, 0.2);
+    rgba(148, 163, 184, 0.18);
 
   --color-text:
     #f8fafc;
 
   --color-text-muted:
-    #94a3b8;
+    #cbd5e1;
 
   --color-text-subtle:
     #64748b;
@@ -49,20 +46,14 @@
   --color-cyan:
     #22d3ee;
 
-  --color-cyan-soft:
+  --color-cyan-bright:
     #67e8f9;
 
-  --color-violet:
+  --color-purple:
     #8b5cf6;
 
-  --color-success:
+  --color-green:
     #22c55e;
-
-  --color-warning:
-    #f59e0b;
-
-  --color-danger:
-    #ef4444;
 
 
   /* ----------------------------------------------------------
@@ -88,8 +79,10 @@
     sans-serif;
 
   --font-mono:
-    "JetBrains Mono",
-    "SFMono-Regular",
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
     Consolas,
     "Liberation Mono",
     monospace;
@@ -107,20 +100,6 @@
 
 
   /* ----------------------------------------------------------
-     RADIUS
-     ---------------------------------------------------------- */
-
-  --radius-sm:
-    0.3rem;
-
-  --radius-md:
-    0.45rem;
-
-  --radius-lg:
-    0.7rem;
-
-
-  /* ----------------------------------------------------------
      MOTION
      ---------------------------------------------------------- */
 
@@ -134,7 +113,12 @@
     500ms;
 
   --ease-standard:
-    cubic-bezier(0.22, 1, 0.36, 1);
+    cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
 
 }
 
@@ -151,7 +135,7 @@
   --color-surface:
     #ffffff;
 
-  --color-surface-elevated:
+  --color-surface-raised:
     #f1f5f9;
 
   --color-border:
@@ -164,7 +148,7 @@
     #0f172a;
 
   --color-text-muted:
-    #475569;
+    #334155;
 
   --color-text-subtle:
     #64748b;
@@ -172,20 +156,20 @@
   --color-cyan:
     #0891b2;
 
-  --color-cyan-soft:
-    #0e7490;
+  --color-cyan-bright:
+    #06b6d4;
 
-  --color-violet:
+  --color-purple:
     #7c3aed;
 
-  --color-success:
+  --color-green:
     #16a34a;
 
 }
 
 
 /* ============================================================
-   BOX MODEL
+   BOX SIZING
    ============================================================ */
 
 *,
@@ -197,13 +181,13 @@
 
 
 /* ============================================================
-   HTML
+   DOCUMENT
    ============================================================ */
 
 html {
 
-  min-height:
-    100%;
+  min-width:
+    320px;
 
   scroll-behavior:
     smooth;
@@ -214,24 +198,8 @@ html {
   background:
     var(--color-background);
 
-  color:
-    var(--color-text);
-
-  font-family:
-    var(--font-body);
-
-  font-synthesis:
-    none;
-
-  text-rendering:
-    optimizeLegibility;
-
 }
 
-
-/* ============================================================
-   BODY
-   ============================================================ */
 
 body {
 
@@ -244,132 +212,26 @@ body {
   margin:
     0;
 
-  background:
-    var(--color-background);
-
   color:
     var(--color-text);
+
+  background:
+    var(--color-background);
 
   font-family:
     var(--font-body);
 
-  font-size:
-    16px;
-
   line-height:
     1.5;
 
-  overflow-x:
-    hidden;
+  text-rendering:
+    optimizeLegibility;
 
-}
+  -webkit-font-smoothing:
+    antialiased;
 
-
-/* ============================================================
-   ROOT PAGE ELEMENTS
-   ============================================================ */
-
-main {
-  display:
-    block;
-
-  min-height:
-    100vh;
-}
-
-
-/* ============================================================
-   TYPOGRAPHY RESET
-   ============================================================ */
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-
-  margin:
-    0;
-
-  color:
-    var(--color-text);
-
-  font-family:
-    var(--font-display);
-
-  font-weight:
-    700;
-
-}
-
-
-p {
-  margin:
-    0;
-}
-
-
-a {
-  color:
-    inherit;
-}
-
-
-button,
-input,
-textarea,
-select {
-
-  font:
-    inherit;
-
-}
-
-
-/* ============================================================
-   IMAGE RESET
-   ============================================================ */
-
-img,
-svg {
-
-  display:
-    block;
-
-  max-width:
-    100%;
-
-}
-
-
-/* ============================================================
-   BUTTON RESET
-   ============================================================ */
-
-button {
-
-  border:
-    0;
-
-  margin:
-    0;
-
-}
-
-
-/* ============================================================
-   LIST RESET
-   ============================================================ */
-
-ul,
-ol {
-
-  margin:
-    0;
-
-  padding:
-    0;
+  -moz-osx-font-smoothing:
+    grayscale;
 
 }
 
@@ -390,6 +252,61 @@ ol {
 
 
 /* ============================================================
+   LINKS
+   ============================================================ */
+
+a {
+
+  color:
+    inherit;
+
+}
+
+
+/* ============================================================
+   IMAGES
+   ============================================================ */
+
+img,
+svg {
+
+  display:
+    block;
+
+  max-width:
+    100%;
+
+}
+
+
+/* ============================================================
+   BUTTONS / INPUTS
+   ============================================================ */
+
+button,
+input,
+textarea,
+select {
+
+  font:
+    inherit;
+
+}
+
+
+/* ============================================================
+   BUTTON
+   ============================================================ */
+
+button {
+
+  color:
+    inherit;
+
+}
+
+
+/* ============================================================
    FOCUS
    ============================================================ */
 
@@ -405,79 +322,47 @@ ol {
 
 
 /* ============================================================
-   SCROLLBAR
+   MAIN
    ============================================================ */
 
-html {
+main {
 
-  scrollbar-width:
-    thin;
+  position:
+    relative;
 
-  scrollbar-color:
-    rgba(100, 116, 139, 0.5)
-    var(--color-background);
-
-}
-
-
-::-webkit-scrollbar {
-
-  width:
-    8px;
-
-}
-
-
-::-webkit-scrollbar-track {
-
-  background:
-    var(--color-background);
-
-}
-
-
-::-webkit-scrollbar-thumb {
-
-  border:
-    2px solid var(--color-background);
-
-  border-radius:
-    999px;
-
-  background:
-    rgba(100, 116, 139, 0.45);
-
-}
-
-
-::-webkit-scrollbar-thumb:hover {
-
-  background:
-    rgba(34, 211, 238, 0.55);
+  overflow:
+    hidden;
 
 }
 
 
 /* ============================================================
-   CODE / MONOSPACE
+   SECTION DIVIDERS
    ============================================================ */
 
-code,
-pre,
-kbd,
-samp {
+main > section {
 
-  font-family:
-    var(--font-mono);
-
+  position:
+    relative;
 }
 
 
-/* ============================================================
-   CONTAINER UTILITY
-   ============================================================ */
+main > section::after {
 
-.container {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  right:
+    0;
+
+  bottom:
+    0;
+
+  left:
+    0;
 
   width:
     min(
@@ -485,191 +370,29 @@ samp {
       var(--container-width)
     );
 
+  height:
+    1px;
+
   margin-inline:
     auto;
 
-}
-
-
-/* ============================================================
-   SECTION ANCHOR OFFSET
-   ============================================================ */
-
-section[id] {
-
-  scroll-margin-top:
-    calc(var(--header-height) + 1rem);
+  background:
+    var(--color-border);
 
 }
 
 
 /* ============================================================
-   PAGE BACKGROUND GRID
+   LIGHT THEME BACKGROUNDS
    ============================================================ */
 
-body::before {
+[data-theme="light"] body {
 
-  content:
-    "";
-
-  position:
-    fixed;
-
-  inset:
-    0;
-
-  z-index:
-    -2;
-
-  pointer-events:
-    none;
-
-  background-image:
-    linear-gradient(
-      rgba(148, 163, 184, 0.025)
-      1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(148, 163, 184, 0.025)
-      1px,
-      transparent 1px
-    );
-
-  background-size:
-    48px 48px;
-
-  mask-image:
-    linear-gradient(
-      to bottom,
-      black,
-      transparent 90%
-    );
-
-}
-
-
-[data-theme="light"] body::before {
-
-  background-image:
-    linear-gradient(
-      rgba(15, 23, 42, 0.025)
-      1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(15, 23, 42, 0.025)
-      1px,
-      transparent 1px
-    );
-
-}
-
-
-/* ============================================================
-   PAGE GLOW
-   ============================================================ */
-
-body::after {
-
-  content:
-    "";
-
-  position:
-    fixed;
-
-  top:
-    -20rem;
-
-  right:
-    -15rem;
-
-  z-index:
-    -1;
-
-  width:
-    40rem;
-
-  height:
-    40rem;
-
-  pointer-events:
-    none;
-
-  border-radius:
-    50%;
+  color:
+    var(--color-text);
 
   background:
-    radial-gradient(
-      circle,
-      rgba(34, 211, 238, 0.045),
-      transparent 68%
-    );
-
-}
-
-
-[data-theme="light"] body::after {
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(8, 145, 178, 0.035),
-      transparent 68%
-    );
-
-}
-
-
-/* ============================================================
-   ASTRO PAGE READY
-   ============================================================ */
-
-[data-page-ready="true"] {
-
-  --page-state:
-    ready;
-
-}
-
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-
-@media (max-width: 900px) {
-
-  :root {
-
-    --header-height:
-      4rem;
-
-  }
-
-}
-
-
-@media (max-width: 640px) {
-
-  :root {
-
-    --header-height:
-      3.75rem;
-
-  }
-
-
-  .container {
-
-    width:
-      min(
-        calc(100% - 2rem),
-        var(--container-width)
-      );
-
-  }
+    var(--color-background);
 
 }
 
@@ -684,6 +407,22 @@ body::after {
 
     scroll-behavior:
       auto;
+
+  }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 640px) {
+
+  :root {
+
+    --header-height:
+      4rem;
 
   }
 
