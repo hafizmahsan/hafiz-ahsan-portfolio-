@@ -104,20 +104,12 @@ export const site: SiteConfig = {
     "Portfolio of Hafiz Ahsan, focused on automation, RPA, software engineering, intelligent systems and emerging AI technologies.",
 
 
-  /*
-   * IMPORTANT:
-   *
-   * Replace this with the real production domain before
-   * deploying the portfolio.
-   *
-   * Example:
-   *
-   * https://yourdomain.com
-   *
+  /**
+   * GitHub Pages production URL.
    */
 
   url:
-    "https://example.com",
+    "https://hafizmahsan.github.io/hafiz-ahsan-portfolio-",
 
 
   language:
@@ -205,10 +197,6 @@ export const site: SiteConfig = {
   /**
    * ==========================================================
    * CV
-   * ==========================================================
-   *
-   * Disabled until the final CV file/location is configured.
-   *
    * ==========================================================
    */
 
@@ -306,15 +294,6 @@ export function getPageTitle(
 
 /**
  * Return the canonical site URL.
- *
- * Examples:
- *
- * getCanonicalUrl()
- * → https://example.com/
- *
- * getCanonicalUrl("/projects")
- * → https://example.com/projects
- *
  */
 
 export function getCanonicalUrl(
