@@ -5,8 +5,11 @@
  *
  * Central source of truth for website-level configuration.
  *
- * This file should contain information about the website
- * itself, not detailed career/profile content.
+ * This file contains information about the website itself,
+ * navigation, social links, footer information, and system
+ * status.
+ *
+ * Detailed career/profile content belongs in portfolio.ts.
  *
  * ============================================================
  */
@@ -39,7 +42,17 @@ export interface SiteConfig {
     twitterCard?:
       | "summary"
       | "summary_large_image";
+
+    github?: string;
+
+    linkedin?: string;
   };
+
+  navigation?: {
+    label: string;
+
+    href: string;
+  }[];
 
   footer?: {
     copyrightName?: string;
@@ -64,8 +77,8 @@ export interface SiteConfig {
  * SITE
  * ============================================================
  *
- * Replace placeholder SEO/site values with the final values
- * once the portfolio's public URL and content are finalized.
+ * Replace placeholder site/SEO values with the final public
+ * values once the portfolio is ready for deployment.
  *
  * ============================================================
  */
@@ -110,7 +123,7 @@ export const site: SiteConfig = {
 
   /**
    * ==========================================================
-   * SOCIAL PREVIEW
+   * SOCIAL
    * ==========================================================
    */
 
@@ -119,8 +132,63 @@ export const site: SiteConfig = {
       "/og-image.png",
 
     twitterCard:
-      "summary_large_image"
+      "summary_large_image",
+
+    github:
+      "https://github.com/hafizmahsan",
+
+    linkedin:
+      "https://www.linkedin.com/"
   },
+
+
+  /**
+   * ==========================================================
+   * PRIMARY NAVIGATION
+   * ==========================================================
+   */
+
+  navigation: [
+    {
+      label:
+        "ABOUT",
+
+      href:
+        "#about"
+    },
+
+    {
+      label:
+        "WORK",
+
+      href:
+        "#projects"
+    },
+
+    {
+      label:
+        "EXPERIENCE",
+
+      href:
+        "#experience"
+    },
+
+    {
+      label:
+        "SKILLS",
+
+      href:
+        "#skills"
+    },
+
+    {
+      label:
+        "CONTACT",
+
+      href:
+        "#contact"
+    }
+  ],
 
 
   /**
@@ -165,6 +233,7 @@ export const site: SiteConfig = {
  * SEO HELPERS
  * ============================================================
  */
+
 
 /**
  * Return the full page title.
