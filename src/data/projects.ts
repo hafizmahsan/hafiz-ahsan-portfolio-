@@ -16,7 +16,9 @@
 
 export interface Project {
   title: string;
+
   category: string;
+
   description: string;
 
   impact?: string;
@@ -31,11 +33,19 @@ export interface Project {
 
   featured?: boolean;
 
-  status?: string;
+  status?:
+    | "LIVE"
+    | "IN PROGRESS"
+    | "ARCHIVED"
+    | "PRIVATE";
 
   year?: string;
 
-  accent?: "cyan" | "violet" | "blue" | "green";
+  accent?:
+    | "cyan"
+    | "violet"
+    | "blue"
+    | "green";
 }
 
 
@@ -47,7 +57,8 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    title: "Enterprise RPA Automation Platform",
+    title:
+      "Enterprise RPA Automation Platform",
 
     category:
       "RPA / ENTERPRISE AUTOMATION",
@@ -67,7 +78,7 @@ export const projects: Project[] = [
     ],
 
     status:
-      "DELIVERED",
+      "LIVE",
 
     year:
       "2024",
@@ -81,7 +92,8 @@ export const projects: Project[] = [
 
 
   {
-    title: "Gen AI Automation Assistant",
+    title:
+      "Gen AI Automation Assistant",
 
     category:
       "GENERATIVE AI / AUTOMATION",
@@ -101,7 +113,7 @@ export const projects: Project[] = [
     ],
 
     status:
-      "IN DEVELOPMENT",
+      "IN PROGRESS",
 
     year:
       "2026",
@@ -112,7 +124,8 @@ export const projects: Project[] = [
 
 
   {
-    title: "Automation Developer Toolkit",
+    title:
+      "Automation Developer Toolkit",
 
     category:
       "DEVELOPER TOOLS / OPEN SOURCE",
@@ -128,7 +141,7 @@ export const projects: Project[] = [
     ],
 
     status:
-      "OPEN SOURCE",
+      "LIVE",
 
     year:
       "2025",
@@ -139,7 +152,8 @@ export const projects: Project[] = [
 
 
   {
-    title: "Intelligent Document Processing",
+    title:
+      "Intelligent Document Processing",
 
     category:
       "AI / DOCUMENT AUTOMATION",
@@ -159,7 +173,7 @@ export const projects: Project[] = [
     ],
 
     status:
-      "COMPLETED",
+      "ARCHIVED",
 
     year:
       "2024",
@@ -170,7 +184,8 @@ export const projects: Project[] = [
 
 
   {
-    title: "Enterprise Workflow Integration",
+    title:
+      "Enterprise Workflow Integration",
 
     category:
       "SYSTEM INTEGRATION / AUTOMATION",
@@ -190,7 +205,7 @@ export const projects: Project[] = [
     ],
 
     status:
-      "COMPLETED",
+      "ARCHIVED",
 
     year:
       "2023",
@@ -208,8 +223,6 @@ export const projects: Project[] = [
  *
  * Automatically derived from the main project collection.
  *
- * This means you do NOT have to maintain two separate lists.
- *
  * Set `featured: true` above and the project automatically
  * appears here.
  *
@@ -218,7 +231,8 @@ export const projects: Project[] = [
 
 export const featuredProjects =
   projects.filter(
-    (project) => project.featured === true
+    (project) =>
+      project.featured === true
   );
 
 
@@ -227,6 +241,7 @@ export const featuredProjects =
  * PROJECT HELPERS
  * ============================================================
  */
+
 
 /**
  * Return projects by category.
@@ -275,19 +290,26 @@ export function getProjectByTitle(
 export function getLatestProjects(
   limit?: number
 ): Project[] {
-  const sortedProjects = [...projects].sort(
-    (a, b) => {
-      const yearA =
-        Number(a.year ?? 0);
 
-      const yearB =
-        Number(b.year ?? 0);
+  const sortedProjects =
+    [...projects].sort(
+      (a, b) => {
 
-      return yearB - yearA;
-    }
-  );
+        const yearA =
+          Number(a.year ?? 0);
+
+        const yearB =
+          Number(b.year ?? 0);
+
+        return yearB - yearA;
+      }
+    );
+
 
   return typeof limit === "number"
-    ? sortedProjects.slice(0, limit)
+    ? sortedProjects.slice(
+        0,
+        limit
+      )
     : sortedProjects;
 }
