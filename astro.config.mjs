@@ -1,35 +1,56 @@
-import { defineConfig } from "astro";
+/**
+ * ============================================================
+ * ASTRO CONFIGURATION
+ * ============================================================
+ *
+ * Configuration for the Hafiz Ahsan portfolio.
+ *
+ * Deployment target:
+ * GitHub Pages
+ *
+ * Repository:
+ * hafizmahsan/hafiz-ahsan-portfolio-
+ *
+ * ============================================================
+ */
+
+import { defineConfig } from "astro/config";
+
 
 export default defineConfig({
+
   /**
-   * ============================================================
-   * SITE
-   * ============================================================
+   * ==========================================================
+   * SITE URL
+   * ==========================================================
    *
-   * GitHub Pages project-site deployment.
+   * GitHub Pages account URL.
    *
-   * Repository:
-   *
-   *   hafizmahsan/hafiz-ahsan-portfolio-
-   *
-   * Public site:
-   *
-   *   https://hafizmahsan.github.io/hafiz-ahsan-portfolio-/
-   *
-   * ============================================================
    */
 
   site:
     "https://hafizmahsan.github.io",
+
+
+  /**
+   * ==========================================================
+   * BASE PATH
+   * ==========================================================
+   *
+   * The repository is served from:
+   *
+   * /hafiz-ahsan-portfolio-/
+   *
+   */
 
   base:
     "/hafiz-ahsan-portfolio-",
 
 
   /**
-   * ============================================================
-   * URL BEHAVIOUR
-   * ============================================================
+   * ==========================================================
+   * TRAILING SLASH
+   * ==========================================================
    */
 
   trailingSlash:
@@ -37,11 +58,12 @@ export default defineConfig({
 
 
   /**
-   * ============================================================
+   * ==========================================================
    * OUTPUT
-   * ============================================================
+   * ==========================================================
    *
-   * GitHub Pages serves static files.
+   * GitHub Pages serves static files, so use Astro's
+   * static output.
    */
 
   output:
@@ -49,15 +71,22 @@ export default defineConfig({
 
 
   /**
-   * ============================================================
-   * BUILD
-   * ============================================================
+   * ==========================================================
+   * VITE
+   * ==========================================================
+   *
+   * Keep source maps disabled for the production deployment.
    */
 
   vite: {
+
     build: {
+
       sourcemap:
         false
+
     }
+
   }
+
 });
