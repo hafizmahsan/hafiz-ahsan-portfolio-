@@ -1,294 +1,239 @@
 ---
 /**
  * ============================================================
- * EXPERIENCE TIMELINE
+ * EXPERIENCE SECTION
  * ============================================================
  *
- * Presentation layer for professional experience.
+ * Professional experience timeline.
  *
- * All employment information is stored separately in:
+ * Data source:
  *
  *     src/data/experience.ts
  *
- * This component should generally not need editing when
- * employment information changes.
+ * The component accepts the richer experience data model
+ * without requiring the data file to be simplified.
+ *
  * ============================================================
  */
 
-import SectionHeading from "./SectionHeading.astro";
-import { experience } from "../data/experience";
+import SectionHeader from "./SectionHeader.astro";
+import TimelineItem from "./TimelineItem.astro";
+
+interface Experience {
+  company: string;
+
+  role: string;
+
+  employmentType?: string;
+
+  location?: string;
+
+  startDate: string;
+
+  endDate?: string;
+
+  current?: boolean;
+
+  summary?: string;
+
+  responsibilities?: string[];
+
+  achievements?: string[];
+
+  technologies?: string[];
+
+  companyUrl?: string;
+
+  featured?: boolean;
+
+  accent?:
+    | "cyan"
+    | "violet"
+    | "blue"
+    | "green";
+
+  order?: number;
+}
+
+
+interface Props {
+  number?: string;
+
+  eyebrow?: string;
+
+  title?: string;
+
+  description?: string;
+
+  entries?: Experience[];
+
+  class?: string;
+}
+
+
+const {
+  number = "03",
+
+  eyebrow = "EXPERIENCE",
+
+  title = "Where I've worked.",
+
+  description =
+    "A chronological overview of professional experience, responsibilities, and the technologies used along the way.",
+
+  entries = [],
+
+  class: className = ""
+} = Astro.props;
+
+
+/**
+ * ============================================================
+ * DATE FORMATTER
+ * ============================================================
+ *
+ * Converts the stored date values into a compact timeline
+ * period without requiring any external library.
+ *
+ * Examples:
+ *
+ *     2024 + current
+ *     → 2024 — PRESENT
+ *
+ *     2022 + 2024
+ *     → 2022 — 2024
+ *
+ * ============================================================
+ */
+
+const getPeriod = (
+  entry: Experience
+): string => {
+
+  const start =
+    entry.startDate?.trim() ||
+    "";
+
+  const end =
+    entry.current
+      ? "PRESENT"
+      : entry.endDate?.trim() ||
+        "";
+
+  if (!start && !end) {
+    return "";
+  }
+
+  if (!end) {
+    return start;
+  }
+
+  if (!start) {
+    return end;
+  }
+
+  return `${start} — ${end}`;
+};
+
+
+/**
+ * ============================================================
+ * DESCRIPTION
+ * ============================================================
+ *
+ * Prefer the concise summary for the timeline.
+ *
+ * Responsibilities and achievements remain available in the
+ * underlying data model for future detailed presentation.
+ *
+ * ============================================================
+ */
+
+const getDescription = (
+  entry: Experience
+): string | undefined => {
+
+  if (entry.summary?.trim()) {
+    return entry.summary;
+  }
+
+  if (
+    entry.responsibilities &&
+    entry.responsibilities.length > 0
+  ) {
+    return entry.responsibilities.join(
+      " "
+    );
+  }
+
+  return undefined;
+};
 ---
 
 <section
   id="experience"
-  class="experience-section section"
-  aria-labelledby="experience-title"
+  class:list={[
+    "experience-section",
+    className
+  ]}
 >
-  <!-- ======================================================
-       BACKGROUND
-       ====================================================== -->
+  <div class="experience-section__inner">
 
-  <div
-    class="experience-background"
-    aria-hidden="true"
-  >
-    <div class="experience-grid"></div>
-
-    <div class="experience-glow experience-glow-one"></div>
-    <div class="experience-glow experience-glow-two"></div>
-  </div>
-
-
-  <div class="container">
-
-    <SectionHeading
-      eyebrow="04 / Experience"
-      title="Six+ years of engineering & automation."
-      description="A career progressing from software and automation engineering into enterprise RPA consulting and solution architecture."
+    <SectionHeader
+      number={number}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
     />
 
 
-    <!-- ====================================================
-         CAREER SUMMARY
-         ==================================================== -->
+    {
+      entries.length > 0 ? (
+        <div class="experience-section__timeline">
 
-    <div class="career-summary">
+          {
+            entries.map(
+              (entry) => (
+                <TimelineItem
+                  period={getPeriod(entry)}
 
-      <div class="career-summary-item">
+                  title={entry.role}
 
-        <span class="career-summary-value">
-          06+
-        </span>
-
-        <span class="career-summary-label">
-          YEARS IN<br />
-          IT
-        </span>
-
-      </div>
-
-
-      <div class="career-summary-divider"></div>
-
-
-      <div class="career-summary-item">
-
-        <span class="career-summary-value">
-          RPA
-        </span>
-
-        <span class="career-summary-label">
-          CORE<br />
-          SPECIALIZATION
-        </span>
-
-      </div>
-
-
-      <div class="career-summary-divider"></div>
-
-
-      <div class="career-summary-item">
-
-        <span class="career-summary-value">
-          AI
-        </span>
-
-        <span class="career-summary-label">
-          CURRENT<br />
-          DIRECTION
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <!-- ====================================================
-         TIMELINE
-         ==================================================== -->
-
-    <div class="experience-timeline">
-
-      <div
-        class="timeline-track"
-        aria-hidden="true"
-      >
-        <div class="timeline-progress"></div>
-      </div>
-
-
-      {
-        experience.map((job, index) => (
-          <article
-            class:list={[
-              "experience-item",
-              {
-                "experience-current": job.current,
-              },
-            ]}
-          >
-
-            <!-- ==============================================
-                 TIMELINE NODE
-                 ============================================== -->
-
-            <div
-              class="timeline-node"
-              aria-hidden="true"
-            >
-              <span class="node-core"></span>
-            </div>
-
-
-            <!-- ==============================================
-                 DATE
-                 ============================================== -->
-
-            <div class="experience-period">
-
-              <span class="period-year">
-                {job.period}
-              </span>
-
-              {
-                job.current && (
-                  <span class="current-indicator">
-                    CURRENT
-                  </span>
-                )
-              }
-
-            </div>
-
-
-            <!-- ==============================================
-                 EXPERIENCE CONTENT
-                 ============================================== -->
-
-            <div class="experience-card">
-
-              <div class="experience-card-header">
-
-                <div>
-
-                  <span class="experience-role">
-                    {job.role}
-                  </span>
-
-                  <h3 class="experience-company">
-                    {job.company}
-                  </h3>
-
-                  {
-                    job.client && (
-                      <p class="experience-client">
-                        <span>CLIENT / CONTEXT</span>
-                        {job.client}
-                      </p>
-                    )
+                  organization={
+                    entry.company
                   }
 
-                </div>
+                  description={
+                    getDescription(entry)
+                  }
 
+                  technologies={
+                    entry.technologies
+                  }
 
-                <span class="experience-number">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+                  current={
+                    entry.current
+                  }
+                />
+              )
+            )
+          }
 
-              </div>
+        </div>
+      ) : (
+        <div class="experience-section__empty">
 
+          <span>
+            / EXPERIENCE
+          </span>
 
-              <p class="experience-description">
-                {job.description}
-              </p>
+          <p>
+            Experience entries will appear here.
+          </p>
 
-
-              {
-                job.highlights?.length > 0 && (
-                  <ul class="experience-highlights">
-
-                    {
-                      job.highlights.map((highlight) => (
-                        <li>
-
-                          <span
-                            class="highlight-marker"
-                            aria-hidden="true"
-                          >
-                            +
-                          </span>
-
-                          <span>
-                            {highlight}
-                          </span>
-
-                        </li>
-                      ))
-                    }
-
-                  </ul>
-                )
-              }
-
-
-              {
-                job.technologies?.length > 0 && (
-                  <div class="experience-technologies">
-
-                    {
-                      job.technologies.map((technology) => (
-                        <span>
-                          {technology}
-                        </span>
-                      ))
-                    }
-
-                  </div>
-                )
-              }
-
-            </div>
-
-          </article>
-        ))
-      }
-
-    </div>
-
-
-    <!-- ====================================================
-         CAREER DIRECTION
-         ==================================================== -->
-
-    <div class="career-direction">
-
-      <div class="direction-icon">
-
-        <span class="direction-dot"></span>
-
-      </div>
-
-
-      <div class="direction-content">
-
-        <span class="direction-label">
-          NEXT HORIZON
-        </span>
-
-        <h3>
-          RPA <span>+</span> AI <span>+</span> Intelligent Automation
-        </h3>
-
-        <p>
-          Continuing to evolve from traditional process automation
-          toward intelligent systems powered by Generative AI,
-          LLM applications and agentic workflows.
-        </p>
-
-      </div>
-
-    </div>
+        </div>
+      )
+    }
 
   </div>
 </section>
@@ -300,197 +245,20 @@ import { experience } from "../data/experience";
      ======================================================== */
 
   .experience-section {
-    position:
-      relative;
-
-    overflow:
-      hidden;
-  }
-
-
-  .experience-background {
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    z-index:
-      -1;
-
-    pointer-events:
-      none;
-  }
-
-
-  .experience-grid {
-    position:
-      absolute;
-
-    inset:
-      0;
-
-    opacity:
-      0.22;
-
-    background-image:
-      linear-gradient(
-        rgba(148, 163, 184, 0.025) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        90deg,
-        rgba(148, 163, 184, 0.025) 1px,
-        transparent 1px
-      );
-
-    background-size:
-      70px 70px;
-
-    mask-image:
-      linear-gradient(
-        to bottom,
-        transparent,
-        black 15%,
-        black 80%,
-        transparent
-      );
-  }
-
-
-  .experience-glow {
-    position:
-      absolute;
-
-    width:
-      30rem;
-
-    height:
-      30rem;
-
-    border-radius:
-      50%;
-
-    filter:
-      blur(130px);
-  }
-
-
-  .experience-glow-one {
-    top:
-      15%;
-
-    left:
-      -20%;
-
-    background:
-      rgba(34, 211, 238, 0.035);
-  }
-
-
-  .experience-glow-two {
-    right:
-      -20%;
-
-    bottom:
-      10%;
-
-    background:
-      rgba(59, 130, 246, 0.03);
-  }
-
-
-  /* ========================================================
-     CAREER SUMMARY
-     ======================================================== */
-
-  .career-summary {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      space-between;
-
-    max-width:
-      650px;
-
-    margin-bottom:
-      4.5rem;
-
     padding:
-      1.4rem 1.6rem;
-
-    border:
-      1px solid var(--color-border);
-
-    border-radius:
-      var(--radius-lg);
-
-    background:
-      rgba(148, 163, 184, 0.015);
+      7rem 0;
   }
 
 
-  .career-summary-item {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    gap:
-      0.7rem;
-  }
-
-
-  .career-summary-value {
-    color:
-      var(--color-cyan);
-
-    font-family:
-      var(--font-display);
-
-    font-size:
-      1.7rem;
-
-    font-weight:
-      500;
-
-    letter-spacing:
-      -0.05em;
-  }
-
-
-  .career-summary-label {
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.44rem;
-
-    line-height:
-      1.4;
-
-    letter-spacing:
-      0.08em;
-  }
-
-
-  .career-summary-divider {
+  .experience-section__inner {
     width:
-      1px;
+      min(
+        calc(100% - 2.5rem),
+        76rem
+      );
 
-    height:
-      30px;
-
-    background:
-      var(--color-border);
+    margin-inline:
+      auto;
   }
 
 
@@ -498,104 +266,23 @@ import { experience } from "../data/experience";
      TIMELINE
      ======================================================== */
 
-  .experience-timeline {
-    position:
-      relative;
-
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    gap:
-      3.5rem;
-
-    max-width:
-      1000px;
-
-    margin:
-      0 auto;
-  }
-
-
-  .timeline-track {
-    position:
-      absolute;
-
-    top:
-      0;
-
-    bottom:
-      0;
-
-    left:
-      8px;
-
+  .experience-section__timeline {
     width:
-      1px;
-
-    background:
-      linear-gradient(
-        to bottom,
-        rgba(34, 211, 238, 0.35),
-        rgba(148, 163, 184, 0.08),
-        rgba(34, 211, 238, 0.15)
-      );
-  }
-
-
-  .timeline-progress {
-    width:
-      100%;
-
-    height:
-      25%;
-
-    background:
-      linear-gradient(
-        to bottom,
-        var(--color-cyan),
-        rgba(34, 211, 238, 0)
+      min(
+        100%,
+        52rem
       );
 
-    box-shadow:
-      0 0 12px rgba(34, 211, 238, 0.4);
-  }
-
-
-  .experience-item {
-    position:
-      relative;
-
-    display:
-      grid;
-
-    grid-template-columns:
-      120px 1fr;
-
-    gap:
-      3rem;
-
-    padding-left:
-      2.2rem;
+    margin-top:
+      4rem;
   }
 
 
   /* ========================================================
-     TIMELINE NODE
+     EMPTY STATE
      ======================================================== */
 
-  .timeline-node {
-    position:
-      absolute;
-
-    top:
-      4px;
-
-    left:
-      0;
-
+  .experience-section__empty {
     display:
       flex;
 
@@ -605,586 +292,62 @@ import { experience } from "../data/experience";
     justify-content:
       center;
 
-    width:
-      17px;
-
-    height:
-      17px;
-
-    border:
-      1px solid
-      rgba(34, 211, 238, 0.35);
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-bg);
-
-    box-shadow:
-      0 0 20px rgba(34, 211, 238, 0.08);
-  }
-
-
-  .experience-current .timeline-node {
-    border-color:
-      rgba(34, 211, 238, 0.8);
-
-    box-shadow:
-      0 0 25px rgba(34, 211, 238, 0.25);
-  }
-
-
-  .node-core {
-    width:
-      5px;
-
-    height:
-      5px;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-text-subtle);
-  }
-
-
-  .experience-current .node-core {
-    background:
-      var(--color-cyan);
-
-    box-shadow:
-      0 0 10px var(--color-cyan);
-
-    animation:
-      node-pulse 2s ease-in-out infinite;
-  }
-
-
-  @keyframes node-pulse {
-    0%,
-    100% {
-      opacity:
-        0.45;
-
-      transform:
-        scale(0.8);
-    }
-
-    50% {
-      opacity:
-        1;
-
-      transform:
-        scale(1.4);
-    }
-  }
-
-
-  /* ========================================================
-     PERIOD
-     ======================================================== */
-
-  .experience-period {
-    display:
-      flex;
-
     flex-direction:
       column;
 
-    gap:
-      0.45rem;
+    min-height:
+      14rem;
 
-    padding-top:
-      0.15rem;
-  }
-
-
-  .period-year {
-    color:
-      var(--color-text-muted);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.58rem;
-
-    line-height:
-      1.5;
-  }
-
-
-  .experience-current .period-year {
-    color:
-      var(--color-cyan);
-  }
-
-
-  .current-indicator {
-    display:
-      inline-flex;
-
-    width:
-      fit-content;
+    margin-top:
+      4rem;
 
     padding:
-      0.25rem 0.45rem;
+      2rem;
 
     border:
-      1px solid rgba(34, 211, 238, 0.2);
+      1px dashed
+      rgba(148, 163, 184, 0.14);
 
     border-radius:
-      var(--radius-pill);
-
-    color:
-      var(--color-cyan);
-
-    background:
-      rgba(34, 211, 238, 0.03);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.42rem;
-
-    letter-spacing:
-      0.07em;
-  }
-
-
-  /* ========================================================
-     EXPERIENCE CARD
-     ======================================================== */
-
-  .experience-card {
-    position:
-      relative;
-
-    padding:
-      1.5rem;
-
-    border:
-      1px solid var(--color-border);
-
-    border-radius:
-      var(--radius-lg);
-
-    background:
-      rgba(148, 163, 184, 0.012);
-
-    transition:
-      border-color var(--duration-normal) var(--ease-standard),
-      background var(--duration-normal) var(--ease-standard),
-      transform var(--duration-normal) var(--ease-standard);
-  }
-
-
-  .experience-card:hover {
-    transform:
-      translateX(4px);
-
-    border-color:
-      rgba(34, 211, 238, 0.16);
-
-    background:
-      rgba(148, 163, 184, 0.025);
-  }
-
-
-  .experience-current .experience-card {
-    border-color:
-      rgba(34, 211, 238, 0.16);
-
-    background:
-      linear-gradient(
-        135deg,
-        rgba(34, 211, 238, 0.025),
-        rgba(148, 163, 184, 0.01)
-      );
-  }
-
-
-  /* ========================================================
-     CARD HEADER
-     ======================================================== */
-
-  .experience-card-header {
-    display:
-      flex;
-
-    align-items:
-      flex-start;
-
-    justify-content:
-      space-between;
-
-    gap:
-      1rem;
-
-    padding-bottom:
-      1rem;
-
-    border-bottom:
-      1px solid var(--color-border);
-  }
-
-
-  .experience-role {
-    display:
-      block;
-
-    margin-bottom:
-      0.35rem;
-
-    color:
-      var(--color-cyan);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.52rem;
-
-    letter-spacing:
-      0.06em;
-  }
-
-
-  .experience-company {
-    margin:
-      0;
-
-    color:
-      var(--color-text);
-
-    font-family:
-      var(--font-display);
-
-    font-size:
-      clamp(1.1rem, 2vw, 1.4rem);
-
-    font-weight:
-      500;
-
-    letter-spacing:
-      -0.035em;
-  }
-
-
-  .experience-client {
-    display:
-      flex;
-
-    flex-wrap:
-      wrap;
-
-    gap:
       0.45rem;
 
-    margin:
-      0.5rem 0 0;
+    text-align:
+      center;
+  }
 
+
+  .experience-section__empty span {
     color:
-      var(--color-text-muted);
+      #67e8f9;
+
+    font-family:
+      ui-monospace,
+      SFMono-Regular,
+      Menlo,
+      Monaco,
+      Consolas,
+      monospace;
 
     font-size:
       0.6rem;
-  }
-
-
-  .experience-client span {
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.44rem;
-
-    letter-spacing:
-      0.05em;
-  }
-
-
-  .experience-number {
-    color:
-      var(--color-text-subtle);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.52rem;
-  }
-
-
-  /* ========================================================
-     DESCRIPTION
-     ======================================================== */
-
-  .experience-description {
-    margin:
-      1rem 0;
-
-    color:
-      var(--color-text-muted);
-
-    font-size:
-      0.7rem;
-
-    line-height:
-      1.75;
-  }
-
-
-  /* ========================================================
-     HIGHLIGHTS
-     ======================================================== */
-
-  .experience-highlights {
-    display:
-      grid;
-
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-
-    gap:
-      0.55rem 1.25rem;
-
-    margin:
-      0 0 1.25rem;
-
-    padding:
-      0;
-
-    list-style:
-      none;
-  }
-
-
-  .experience-highlights li {
-    display:
-      flex;
-
-    align-items:
-      flex-start;
-
-    gap:
-      0.5rem;
-
-    color:
-      var(--color-text-subtle);
-
-    font-size:
-      0.59rem;
-
-    line-height:
-      1.55;
-  }
-
-
-  .highlight-marker {
-    flex:
-      0 0 auto;
-
-    color:
-      var(--color-cyan);
-
-    font-family:
-      var(--font-mono);
-  }
-
-
-  /* ========================================================
-     TECHNOLOGIES
-     ======================================================== */
-
-  .experience-technologies {
-    display:
-      flex;
-
-    flex-wrap:
-      wrap;
-
-    gap:
-      0.4rem;
-
-    padding-top:
-      1rem;
-
-    border-top:
-      1px solid var(--color-border);
-  }
-
-
-  .experience-technologies span {
-    padding:
-      0.32rem 0.5rem;
-
-    border:
-      1px solid rgba(148, 163, 184, 0.1);
-
-    border-radius:
-      0.35rem;
-
-    color:
-      var(--color-text-subtle);
-
-    background:
-      rgba(148, 163, 184, 0.018);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.46rem;
-  }
-
-
-  /* ========================================================
-     CAREER DIRECTION
-     ======================================================== */
-
-  .career-direction {
-    display:
-      flex;
-
-    align-items:
-      flex-start;
-
-    gap:
-      1rem;
-
-    max-width:
-      1000px;
-
-    margin:
-      4rem auto 0;
-
-    padding:
-      1.5rem;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.12);
-
-    border-radius:
-      var(--radius-lg);
-
-    background:
-      linear-gradient(
-        135deg,
-        rgba(34, 211, 238, 0.025),
-        rgba(59, 130, 246, 0.012)
-      );
-  }
-
-
-  .direction-icon {
-    display:
-      flex;
-
-    align-items:
-      center;
-
-    justify-content:
-      center;
-
-    flex:
-      0 0 auto;
-
-    width:
-      28px;
-
-    height:
-      28px;
-
-    border:
-      1px solid rgba(34, 211, 238, 0.25);
-
-    border-radius:
-      50%;
-  }
-
-
-  .direction-dot {
-    width:
-      5px;
-
-    height:
-      5px;
-
-    border-radius:
-      50%;
-
-    background:
-      var(--color-cyan);
-
-    box-shadow:
-      0 0 12px var(--color-cyan);
-  }
-
-
-  .direction-label {
-    color:
-      var(--color-cyan);
-
-    font-family:
-      var(--font-mono);
-
-    font-size:
-      0.48rem;
-
-    letter-spacing:
-      0.08em;
-  }
-
-
-  .direction-content h3 {
-    margin:
-      0.4rem 0 0;
-
-    color:
-      var(--color-text);
-
-    font-family:
-      var(--font-display);
-
-    font-size:
-      1rem;
 
     font-weight:
-      500;
+      700;
 
     letter-spacing:
-      -0.025em;
+      0.12em;
   }
 
 
-  .direction-content h3 span {
-    color:
-      var(--color-cyan);
-  }
-
-
-  .direction-content p {
-    max-width:
-      700px;
-
+  .experience-section__empty p {
     margin:
-      0.5rem 0 0;
+      0.75rem 0 0;
 
     color:
-      var(--color-text-muted);
+      rgba(100, 116, 139, 0.75);
 
     font-size:
-      0.62rem;
-
-    line-height:
-      1.7;
+      0.8rem;
   }
 
 
@@ -1192,107 +355,31 @@ import { experience } from "../data/experience";
      RESPONSIVE
      ======================================================== */
 
-  @media (max-width: 750px) {
-    .career-summary {
-      justify-content:
-        space-around;
+  @media (max-width: 900px) {
 
+    .experience-section {
       padding:
-        1.1rem;
+        5rem 0;
     }
 
-    .career-summary-item {
-      gap:
-        0.4rem;
+
+    .experience-section__timeline {
+      margin-top:
+        3rem;
     }
 
-    .career-summary-value {
-      font-size:
-        1.35rem;
-    }
-
-    .experience-item {
-      grid-template-columns:
-        1fr;
-
-      gap:
-        0.7rem;
-
-      padding-left:
-        2.2rem;
-    }
-
-    .experience-period {
-      padding-top:
-        0;
-    }
-
-    .experience-period .period-year {
-      font-size:
-        0.52rem;
-    }
-
-    .experience-card {
-      padding:
-        1.2rem;
-    }
-
-    .experience-highlights {
-      grid-template-columns:
-        1fr;
-    }
   }
 
 
-  @media (max-width: 500px) {
-    .career-summary {
-      align-items:
-        flex-start;
+  @media (max-width: 640px) {
 
-      gap:
-        0.8rem;
+    .experience-section__inner {
+      width:
+        min(
+          calc(100% - 2rem),
+          76rem
+        );
     }
 
-    .career-summary-divider {
-      height:
-        24px;
-    }
-
-    .career-summary-label {
-      display:
-        none;
-    }
-
-    .experience-card-header {
-      flex-direction:
-        column;
-    }
-
-    .experience-number {
-      display:
-        none;
-    }
-
-    .career-direction {
-      padding:
-        1.1rem;
-    }
-  }
-
-
-  /* ========================================================
-     REDUCED MOTION
-     ======================================================== */
-
-  @media (prefers-reduced-motion: reduce) {
-    .experience-current .node-core {
-      animation:
-        none;
-    }
-
-    .experience-card {
-      transition:
-        none;
-    }
   }
 </style>
