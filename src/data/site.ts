@@ -36,8 +36,7 @@ export interface SiteConfig {
 
   defaultTheme:
     | "dark"
-    | "light"
-    | "system";
+    | "light";
 
   author: string;
 
@@ -104,6 +103,18 @@ export const site: SiteConfig = {
   description:
     "Portfolio of Hafiz Ahsan, focused on automation, RPA, software engineering, intelligent systems and emerging AI technologies.",
 
+
+  /*
+   * IMPORTANT:
+   *
+   * Replace this with the real production domain before
+   * deploying the portfolio.
+   *
+   * Example:
+   *
+   * https://yourdomain.com
+   *
+   */
 
   url:
     "https://example.com",
@@ -196,15 +207,17 @@ export const site: SiteConfig = {
    * CV
    * ==========================================================
    *
-   * Disabled for now because the final CV location has not
-   * been configured yet.
+   * Disabled until the final CV file/location is configured.
    *
    * ==========================================================
    */
 
   cv: {
     enabled:
-      false
+      false,
+
+    href:
+      ""
   },
 
 
@@ -287,11 +300,21 @@ export function getPageTitle(
   }
 
   return `${pageTitle} — ${site.name}`;
+
 }
 
 
 /**
  * Return the canonical site URL.
+ *
+ * Examples:
+ *
+ * getCanonicalUrl()
+ * → https://example.com/
+ *
+ * getCanonicalUrl("/projects")
+ * → https://example.com/projects
+ *
  */
 
 export function getCanonicalUrl(
@@ -305,6 +328,11 @@ export function getCanonicalUrl(
     );
 
 
+  if (!path) {
+    return `${base}/`;
+  }
+
+
   const normalizedPath =
     path.startsWith("/")
       ? path
@@ -312,6 +340,7 @@ export function getCanonicalUrl(
 
 
   return `${base}${normalizedPath}`;
+
 }
 
 
