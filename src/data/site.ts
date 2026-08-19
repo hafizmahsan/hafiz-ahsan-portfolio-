@@ -5,17 +5,22 @@
  *
  * Central source of truth for website-level configuration.
  *
- * This file contains information about the website itself,
- * navigation, social links, footer information, and system
- * status.
- *
- * Detailed career/profile content belongs in portfolio.ts.
- *
  * ============================================================
  */
 
+export interface NavigationItem {
+  label: string;
+
+  href: string;
+}
+
+
 export interface SiteConfig {
   name: string;
+
+  shortName: string;
+
+  professionalTitle: string;
 
   title: string;
 
@@ -24,6 +29,8 @@ export interface SiteConfig {
   url: string;
 
   language: string;
+
+  location: string;
 
   themeColor: string;
 
@@ -36,23 +43,21 @@ export interface SiteConfig {
 
   keywords: string[];
 
+  navigation: NavigationItem[];
+
+  cv: {
+    enabled: boolean;
+
+    href?: string;
+  };
+
   social?: {
     image?: string;
 
     twitterCard?:
       | "summary"
       | "summary_large_image";
-
-    github?: string;
-
-    linkedin?: string;
   };
-
-  navigation?: {
-    label: string;
-
-    href: string;
-  }[];
 
   footer?: {
     copyrightName?: string;
@@ -76,36 +81,53 @@ export interface SiteConfig {
  * ============================================================
  * SITE
  * ============================================================
- *
- * Primary website configuration.
- *
- * ============================================================
  */
 
 export const site: SiteConfig = {
+
   name:
     "Hafiz Ahsan",
+
+
+  shortName:
+    "HA",
+
+
+  professionalTitle:
+    "RPA / AUTOMATION ENGINEER",
+
 
   title:
     "Hafiz Ahsan — Automation & Intelligent Systems",
 
+
   description:
     "Portfolio of Hafiz Ahsan, focused on automation, RPA, software engineering, intelligent systems and emerging AI technologies.",
+
 
   url:
     "https://example.com",
 
+
   language:
     "en",
+
+
+  location:
+    "GLOBAL",
+
 
   themeColor:
     "#05070a",
 
+
   defaultTheme:
     "dark",
 
+
   author:
     "Hafiz Ahsan",
+
 
   keywords: [
     "Hafiz Ahsan",
@@ -122,35 +144,14 @@ export const site: SiteConfig = {
 
   /**
    * ==========================================================
-   * SOCIAL
-   * ==========================================================
-   */
-
-  social: {
-    image:
-      "/og-image.png",
-
-    twitterCard:
-      "summary_large_image",
-
-    github:
-      "https://github.com/hafizmahsan",
-
-    linkedin:
-      "https://www.linkedin.com/"
-  },
-
-
-  /**
-   * ==========================================================
-   * PRIMARY NAVIGATION
+   * NAVIGATION
    * ==========================================================
    */
 
   navigation: [
     {
       label:
-        "ABOUT",
+        "About",
 
       href:
         "#about"
@@ -158,7 +159,7 @@ export const site: SiteConfig = {
 
     {
       label:
-        "WORK",
+        "Projects",
 
       href:
         "#projects"
@@ -166,7 +167,7 @@ export const site: SiteConfig = {
 
     {
       label:
-        "EXPERIENCE",
+        "Experience",
 
       href:
         "#experience"
@@ -174,7 +175,7 @@ export const site: SiteConfig = {
 
     {
       label:
-        "SKILLS",
+        "Skills",
 
       href:
         "#skills"
@@ -182,7 +183,7 @@ export const site: SiteConfig = {
 
     {
       label:
-        "CONTACT",
+        "Contact",
 
       href:
         "#contact"
@@ -192,11 +193,46 @@ export const site: SiteConfig = {
 
   /**
    * ==========================================================
+   * CV
+   * ==========================================================
+   *
+   * Disabled for now because the final CV location has not
+   * been configured yet.
+   *
+   * ==========================================================
+   */
+
+  cv: {
+    enabled:
+      false
+  },
+
+
+  /**
+   * ==========================================================
+   * SOCIAL PREVIEW
+   * ==========================================================
+   */
+
+  social: {
+
+    image:
+      "/og-image.png",
+
+    twitterCard:
+      "summary_large_image"
+
+  },
+
+
+  /**
+   * ==========================================================
    * FOOTER
    * ==========================================================
    */
 
   footer: {
+
     copyrightName:
       "Hafiz Ahsan",
 
@@ -205,6 +241,7 @@ export const site: SiteConfig = {
 
     version:
       "1.0.0"
+
   },
 
 
@@ -215,6 +252,7 @@ export const site: SiteConfig = {
    */
 
   system: {
+
     status:
       "ONLINE",
 
@@ -223,38 +261,9 @@ export const site: SiteConfig = {
 
     region:
       "GLOBAL"
+
   }
-};
 
-
-/**
- * ============================================================
- * BACKWARD-COMPATIBLE SITE CONFIG
- * ============================================================
- *
- * Existing layout/component code uses:
- *
- *   siteConfig.siteName
- *   siteConfig.appearance.defaultTheme
- *
- * The primary configuration remains `site`.
- *
- * This compatibility object allows both structures to work
- * without requiring us to rewrite existing components.
- *
- * ============================================================
- */
-
-export const siteConfig = {
-  ...site,
-
-  siteName:
-    site.name,
-
-  appearance: {
-    defaultTheme:
-      site.defaultTheme
-  }
 };
 
 
@@ -267,16 +276,6 @@ export const siteConfig = {
 
 /**
  * Return the full page title.
- *
- * Example:
- *
- * getPageTitle()
- * → "Hafiz Ahsan — Automation & Intelligent Systems"
- *
- * getPageTitle("About")
- * → "About — Hafiz Ahsan"
- *
- * ============================================================
  */
 
 export function getPageTitle(
@@ -292,13 +291,7 @@ export function getPageTitle(
 
 
 /**
- * ============================================================
- * CANONICAL URL HELPER
- * ============================================================
- *
- * Return a normalized canonical URL.
- *
- * ============================================================
+ * Return the canonical site URL.
  */
 
 export function getCanonicalUrl(
@@ -311,19 +304,19 @@ export function getCanonicalUrl(
       ""
     );
 
+
   const normalizedPath =
     path.startsWith("/")
       ? path
       : `/${path}`;
+
 
   return `${base}${normalizedPath}`;
 }
 
 
 /**
- * ============================================================
- * SYSTEM STATUS HELPER
- * ============================================================
+ * Return the current site status.
  */
 
 export function getSystemStatus(): string {
@@ -332,13 +325,12 @@ export function getSystemStatus(): string {
     site.system?.status ??
     "ONLINE"
   );
+
 }
 
 
 /**
- * ============================================================
- * SITE VERSION HELPER
- * ============================================================
+ * Return the current site version.
  */
 
 export function getSiteVersion(): string {
@@ -347,4 +339,5 @@ export function getSiteVersion(): string {
     site.footer?.version ??
     "1.0.0"
   );
+
 }
