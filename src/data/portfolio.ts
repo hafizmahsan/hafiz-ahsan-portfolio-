@@ -1,310 +1,380 @@
 /**
  * ============================================================
- * PORTFOLIO DATA
+ * PORTFOLIO CONTENT
  * ============================================================
  *
- * All editable portfolio content lives here.
+ * Central source of truth for:
  *
- * Components handle presentation.
- * This file handles content.
+ * - Projects
+ * - Experience
+ * - Skills
+ *
+ * Section components should receive their content from here.
  *
  * ============================================================
  */
 
-export const portfolio = {
-  person: {
-    name:
-      "YOUR NAME",
 
-    role:
-      "Software Engineer · Automation · AI",
+/**
+ * ============================================================
+ * PROJECTS
+ * ============================================================
+ */
 
-    email:
-      "hello@example.com",
+export interface PortfolioProject {
+  title: string;
 
-    location:
-      "YOUR LOCATION",
+  description: string;
 
-    availability:
-      "AVAILABLE FOR SELECTED PROJECTS"
+  technologies: string[];
+
+  href?: string;
+
+  github?: string;
+
+  image?: string;
+
+  imageAlt?: string;
+
+  featured?: boolean;
+
+  status:
+    | "LIVE"
+    | "IN PROGRESS"
+    | "ARCHIVED"
+    | "PRIVATE";
+}
+
+
+/**
+ * ============================================================
+ * EXPERIENCE
+ * ============================================================
+ */
+
+export interface PortfolioExperience {
+  period: string;
+
+  title: string;
+
+  organization?: string;
+
+  description?: string;
+
+  technologies?: string[];
+
+  current?: boolean;
+}
+
+
+/**
+ * ============================================================
+ * SKILLS
+ * ============================================================
+ */
+
+export interface PortfolioSkill {
+  name: string;
+
+  level?: string;
+}
+
+
+export interface PortfolioSkillGroup {
+  title: string;
+
+  description?: string;
+
+  skills: PortfolioSkill[];
+}
+
+
+/**
+ * ============================================================
+ * PROJECT DATA
+ * ============================================================
+ *
+ * These are intentionally conservative starter entries.
+ *
+ * Replace the placeholder descriptions/links with your actual
+ * projects as we build the portfolio.
+ *
+ * ============================================================
+ */
+
+export const projects: PortfolioProject[] = [
+
+  {
+    title:
+      "Intelligent Automation Systems",
+
+    description:
+      "Automation workflows designed to reduce repetitive operational work and connect business processes with reliable software systems.",
+
+    technologies: [
+      "Python",
+      "RPA",
+      "APIs",
+      "Automation"
+    ],
+
+    featured:
+      true,
+
+    status:
+      "IN PROGRESS"
   },
 
 
-  hero: {
-    eyebrow:
-      "SOFTWARE ENGINEERING · AUTOMATION · AI",
-
+  {
     title:
-      "YOUR NAME",
-
-    highlightedTitle:
-      "BUILDING USEFUL SYSTEMS.",
+      "AI-Assisted Workflow Automation",
 
     description:
-      "I design and build practical software, automation workflows, and intelligent systems that turn complex problems into reliable solutions."
+      "Exploration of AI-assisted workflows that combine intelligent processing with structured automation and system integration.",
+
+    technologies: [
+      "Python",
+      "AI",
+      "APIs",
+      "Automation"
+    ],
+
+    featured:
+      false,
+
+    status:
+      "IN PROGRESS"
   },
 
 
-  about: {
-    number: "01",
-
-    eyebrow:
-      "ABOUT",
-
+  {
     title:
-      "Building useful systems.",
+      "System Integration Tools",
 
     description:
-      "I work at the intersection of software engineering, automation, and AI. My focus is turning repetitive or complex workflows into reliable systems that are easier to operate, maintain, and scale."
-  },
+      "Practical integration utilities for connecting applications, APIs, data sources, and operational workflows.",
+
+    technologies: [
+      "Python",
+      "REST APIs",
+      "Integration",
+      "Data"
+    ],
+
+    featured:
+      false,
+
+    status:
+      "IN PROGRESS"
+  }
+
+];
 
 
-  projects: [
-    {
-      title:
-        "YOUR FEATURED PROJECT",
+/**
+ * ============================================================
+ * EXPERIENCE DATA
+ * ============================================================
+ *
+ * Keep this section factual.
+ *
+ * We will replace the starter structure with your exact
+ * professional history when we enter your verified details.
+ *
+ * ============================================================
+ */
 
-      description:
-        "A concise description of the most important project in your portfolio. Explain the problem, what you built, and the result.",
+export const experience: PortfolioExperience[] = [
 
-      technologies: [
-        "Python",
-        "Automation",
-        "APIs"
-      ],
-
-      href:
-        "#contact",
-
-      status:
-        "IN PROGRESS" as const,
-
-      featured: true
-    },
-
-    {
-      title:
-        "PROJECT TWO",
-
-      description:
-        "A short description of another meaningful project.",
-
-      technologies: [
-        "TypeScript",
-        "Astro"
-      ],
-
-      status:
-        "LIVE" as const
-    },
-
-    {
-      title:
-        "PROJECT THREE",
-
-      description:
-        "A short description of another system or automation project.",
-
-      technologies: [
-        "Python",
-        "PostgreSQL"
-      ],
-
-      status:
-        "ARCHIVED" as const
-    }
-  ],
-
-
-  experience: [
-    {
-      period:
-        "2024 — PRESENT",
-
-      title:
-        "YOUR CURRENT ROLE",
-
-      organization:
-        "YOUR COMPANY",
-
-      description:
-        "Describe your current responsibilities, the systems you work on, and the impact you've had.",
-
-      technologies: [
-        "Python",
-        "Automation",
-        "AI"
-      ],
-
-      current: true
-    },
-
-    {
-      period:
-        "2022 — 2024",
-
-      title:
-        "PREVIOUS ROLE",
-
-      organization:
-        "PREVIOUS COMPANY",
-
-      description:
-        "Describe the work you did and the systems or products you contributed to.",
-
-      technologies: [
-        "Software Engineering",
-        "APIs",
-        "SQL"
-      ]
-    }
-  ],
-
-
-  skills: [
-    {
-      title:
-        "LANGUAGES",
-
-      description:
-        "Languages I use to build systems.",
-
-      skills: [
-        {
-          name: "Python",
-          level: "CORE"
-        },
-
-        {
-          name: "TypeScript",
-          level: "WORKING"
-        },
-
-        {
-          name: "SQL",
-          level: "CORE"
-        }
-      ]
-    },
-
-    {
-      title:
-        "AUTOMATION",
-
-      description:
-        "Tools and patterns for workflow automation.",
-
-      skills: [
-        {
-          name: "APIs",
-          level: "CORE"
-        },
-
-        {
-          name: "Webhooks",
-          level: "CORE"
-        },
-
-        {
-          name: "RPA",
-          level: "WORKING"
-        }
-      ]
-    },
-
-    {
-      title:
-        "AI",
-
-      description:
-        "Technologies for intelligent workflows.",
-
-      skills: [
-        {
-          name: "LLM APIs",
-          level: "CORE"
-        },
-
-        {
-          name: "AI Agents",
-          level: "WORKING"
-        },
-
-        {
-          name: "Prompt Engineering",
-          level: "CORE"
-        }
-      ]
-    },
-
-    {
-      title:
-        "INFRASTRUCTURE",
-
-      description:
-        "Tools used to ship and operate software.",
-
-      skills: [
-        {
-          name: "Git",
-          level: "CORE"
-        },
-
-        {
-          name: "Docker",
-          level: "CORE"
-        },
-
-        {
-          name: "Linux",
-          level: "WORKING"
-        }
-      ]
-    }
-  ],
-
-
-  contact: {
-    number:
-      "05",
-
-    eyebrow:
-      "CONTACT",
+  {
+    period:
+      "CURRENT",
 
     title:
-      "Let's build something useful.",
+      "Automation & Intelligent Systems",
+
+    organization:
+      "Professional Development",
 
     description:
-      "Have a project, workflow, or technical problem worth exploring? I'd be happy to hear about it.",
+      "Focused on automation, software engineering, system integration, and practical applications of intelligent technologies.",
 
-    email:
-      "hello@example.com",
+    technologies: [
+      "Automation",
+      "Python",
+      "RPA",
+      "AI"
+    ],
 
-    availability:
-      "AVAILABLE FOR SELECTED PROJECTS",
+    current:
+      true
+  }
 
-    links: [
+];
+
+
+/**
+ * ============================================================
+ * SKILLS DATA
+ * ============================================================
+ */
+
+export const skillGroups: PortfolioSkillGroup[] = [
+
+  {
+    title:
+      "Automation",
+
+    description:
+      "Building reliable workflows that reduce repetitive operational work.",
+
+    skills: [
       {
-        label:
-          "GITHUB",
+        name:
+          "RPA",
 
-        href:
-          "https://github.com/your-profile",
-
-        external:
-          true
+        level:
+          "CORE"
       },
 
       {
-        label:
-          "LINKEDIN",
+        name:
+          "Workflow Automation",
 
-        href:
-          "https://www.linkedin.com/in/your-profile/",
+        level:
+          "CORE"
+      },
 
-        external:
-          true
+      {
+        name:
+          "Process Automation",
+
+        level:
+          "CORE"
+      },
+
+      {
+        name:
+          "System Integration",
+
+        level:
+          "CORE"
+      }
+    ]
+  },
+
+
+  {
+    title:
+      "Software Engineering",
+
+    description:
+      "Developing practical software and integration solutions.",
+
+    skills: [
+      {
+        name:
+          "Python",
+
+        level:
+          "CORE"
+      },
+
+      {
+        name:
+          "REST APIs",
+
+        level:
+          "CORE"
+      },
+
+      {
+        name:
+          "Git",
+
+        level:
+          "WORKING"
+      },
+
+      {
+        name:
+          "Web Development",
+
+        level:
+          "WORKING"
+      }
+    ]
+  },
+
+
+  {
+    title:
+      "Intelligent Systems",
+
+    description:
+      "Exploring AI technologies where they can create useful outcomes.",
+
+    skills: [
+      {
+        name:
+          "Generative AI",
+
+        level:
+          "WORKING"
+      },
+
+      {
+        name:
+          "AI-Assisted Automation",
+
+        level:
+          "WORKING"
+      },
+
+      {
+        name:
+          "Intelligent Workflows",
+
+        level:
+          "WORKING"
+      }
+    ]
+  },
+
+
+  {
+    title:
+      "Data & Integration",
+
+    description:
+      "Working with information flows, APIs, and connected systems.",
+
+    skills: [
+      {
+        name:
+          "Data Processing",
+
+        level:
+          "WORKING"
+      },
+
+      {
+        name:
+          "API Integration",
+
+        level:
+          "CORE"
+      },
+
+      {
+        name:
+          "JSON",
+
+        level:
+          "CORE"
       }
     ]
   }
-} as const;
+
+];
