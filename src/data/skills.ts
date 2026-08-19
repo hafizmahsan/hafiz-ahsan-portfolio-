@@ -39,13 +39,18 @@ export interface Skill {
 }
 
 
+export interface SkillGroup {
+  title: string;
+
+  description?: string;
+
+  skills: Skill[];
+}
+
+
 /**
  * ============================================================
  * SKILL CATEGORIES
- * ============================================================
- *
- * Keep categories separate from the individual skills so that
- * the UI can build navigation/filtering dynamically later.
  * ============================================================
  */
 
@@ -63,15 +68,6 @@ export const skillCategories = [
 /**
  * ============================================================
  * SKILLS
- * ============================================================
- *
- * NOTE:
- * These are initial structured placeholders.
- *
- * As we connect the portfolio to your actual resume and
- * repository information, we'll replace them with the exact
- * technologies and experience you want to showcase.
- *
  * ============================================================
  */
 
@@ -141,7 +137,7 @@ export const skills: Skill[] = [
 
 
   /* ========================================================
-     AI
+     AI & GEN AI
      ======================================================== */
 
   {
@@ -234,6 +230,10 @@ export const skills: Skill[] = [
       5
   },
 
+
+  /* ========================================================
+     INTEGRATION
+     ======================================================== */
 
   {
     name:
@@ -366,9 +366,6 @@ export const skills: Skill[] = [
  * ============================================================
  * SORTED SKILLS
  * ============================================================
- *
- * Automatically sorts by the optional `order` property.
- * ============================================================
  */
 
 export const sortedSkills =
@@ -394,6 +391,57 @@ export const featuredSkills =
 
 /**
  * ============================================================
+ * SKILL GROUPS
+ * ============================================================
+ *
+ * Derived automatically from the main skill collection.
+ *
+ * This is the structure consumed by Skills.astro.
+ * ============================================================
+ */
+
+export const skillGroups: SkillGroup[] =
+  skillCategories
+    .map(
+      (category) => {
+
+        const categorySkills =
+          sortedSkills.filter(
+            (skill) =>
+              skill.category === category
+          );
+
+
+        if (
+          categorySkills.length === 0
+        ) {
+          return null;
+        }
+
+
+        return {
+          title:
+            category,
+
+          description:
+            `Core capabilities across ${category.toLowerCase()}.`,
+
+          skills:
+            categorySkills
+        };
+
+      }
+    )
+    .filter(
+      (
+        group
+      ): group is SkillGroup =>
+        group !== null
+    );
+
+
+/**
+ * ============================================================
  * CATEGORY HELPERS
  * ============================================================
  */
@@ -404,10 +452,12 @@ export const featuredSkills =
 export function getSkillsByCategory(
   category: string
 ): Skill[] {
+
   return sortedSkills.filter(
     (skill) =>
       skill.category === category
   );
+
 }
 
 
@@ -418,17 +468,21 @@ export function getSkillsByCategory(
 export function getSkillsByTechnology(
   technology: string
 ): Skill[] {
+
   const search =
     technology.toLowerCase();
+
 
   return sortedSkills.filter(
     (skill) =>
       skill.technologies?.some(
         (item) =>
-          item.toLowerCase()
+          item
+            .toLowerCase()
             .includes(search)
       ) ?? false
   );
+
 }
 
 
@@ -438,18 +492,22 @@ export function getSkillsByTechnology(
 export function getSkillByName(
   name: string
 ): Skill | undefined {
+
   return sortedSkills.find(
     (skill) =>
       skill.name === name
   );
+
 }
 
 
 /**
- * Return all unique categories that are actually
- * used by the current skill collection.
+ * Return all unique categories that are
+ * actually used by the current skill collection.
  */
-export function getUsedSkillCategories(): string[] {
+export function getUsedSkillCategories():
+  string[] {
+
   return [
     ...new Set(
       sortedSkills.map(
@@ -458,4 +516,5 @@ export function getUsedSkillCategories(): string[] {
       )
     )
   ];
+
 }
